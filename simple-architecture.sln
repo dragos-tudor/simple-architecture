@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Architecture.Mediato
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Architecture.Sharing", "Simple.Architecture.Sharing\Simple.Architecture.Sharing.csproj", "{057CFD9A-6478-492B-A424-BDC78AEE9F6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Architecture.Queue", "Simple.Architecture.Queue\Simple.Architecture.Queue.csproj", "{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,5 +62,9 @@ Global
 		{057CFD9A-6478-492B-A424-BDC78AEE9F6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{057CFD9A-6478-492B-A424-BDC78AEE9F6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{057CFD9A-6478-492B-A424-BDC78AEE9F6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
