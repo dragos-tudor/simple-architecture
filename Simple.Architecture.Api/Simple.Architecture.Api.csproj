@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+		<OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    <ProjectReference Include="../Simple.Architecture.Services/Simple.Architecture.Services.csproj" />
+  </ItemGroup>
+
+</Project>

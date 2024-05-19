@@ -1,0 +1,11 @@
+<Project>
+  <ItemGroup>
+    <PackageVersion Include="MailKit" Version="4.4.0" />
+    <PackageVersion Include="MsTest" Version="3.3.1" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.10.1" />
+    <PackageVersion Include="Microsoft.CodeCoverage.MSBuild" Version="17.10.1" />
+    <PackageVersion Include="Docker.Extensions" Version="1.0.0-alpha1" />
+    <PackageVersion Include="Storing.SqlServer" Version="1.0.0-alpha1" />
+    <PackageVersion Include="Storing.MongoDb" Version="1.0.0-alpha1" />
+  </ItemGroup>
+</Project>

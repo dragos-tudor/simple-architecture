@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../Directory.Testing.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="../Simple.Architecture.Domain/Simple.Architecture.Domain.csproj" />
+    <ProjectReference Include="../Simple.Architecture.Notifications/Simple.Architecture.Notifications.csproj" />
+    <ProjectReference Include="../Simple.Architecture.Mediator/Simple.Architecture.Mediator.csproj" />
+    <ProjectReference Include="../Simple.Architecture.SqlServer/Simple.Architecture.SqlServer.csproj" />
+    <ProjectReference Include="../Simple.Architecture.Sharing/Simple.Architecture.Sharing.csproj" />
+  </ItemGroup>
+
+</Project>

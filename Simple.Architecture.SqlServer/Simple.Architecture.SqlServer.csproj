@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../Directory.Testing.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="../Simple.Architecture.Models/Simple.Architecture.Models.csproj" />
+    <PackageReference Include="Storing.SqlServer" />
+    <PackageReference Include="Docker.Extensions" />
+  </ItemGroup>
+
+</Project>

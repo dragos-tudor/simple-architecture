@@ -1,0 +1,18 @@
+# IDE specific files
+.ionide/
+.vscode/
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Code coverage
+**/.coverage
+**/lcov.info
+
+# Test databases
+**/*.db
+
+# API secrets
+**/prod.json
+**/secrets.json

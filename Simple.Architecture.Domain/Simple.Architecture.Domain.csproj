@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="../Simple.Architecture.Models/Simple.Architecture.Models.csproj" />
+    <ProjectReference Include="../Simple.Architecture.Sharing/Simple.Architecture.Sharing.csproj" />
+  </ItemGroup>
+
+</Project>

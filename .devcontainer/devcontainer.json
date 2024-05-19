@@ -1,0 +1,26 @@
+{
+	"image": "ubuntu:22.04",
+  "customizations": {
+    "vscode": {
+	    "extensions": [
+        "ms-dotnettools.csharp",
+        "icsharpcode.ilspy-vscode"
+      ]
+	  }
+	},
+  "features": {
+    "ghcr.io/dragos-tudor/devcontainer-features/debian-packages:1.2": {},
+    "ghcr.io/dragos-tudor/devcontainer-features/debian-user-group:1.4": {},
+    "ghcr.io/dragos-tudor/devcontainer-features/debian-dotnet-product:1.3": {}
+  },
+  "containerEnv": {
+    "DATA_PROTECTION_KEY": "HFm8fYbLyEarjjlGBj5r9Q==",
+    "DOCKER_PORT": "${localEnv:DOCKER_PORT:2375}"
+  },
+	"runArgs": [
+		"--name=simple-architecture",
+		"--hostname=arch",
+    "--net=host"
+	],
+  "remoteUser": "vscode"
+}

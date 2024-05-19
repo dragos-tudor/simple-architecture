@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="../Simple.Architecture.Models/Simple.Architecture.Models.csproj" />
+    <PackageReference Include="MailKit" />
+  </ItemGroup>
+</Project>
