@@ -5,7 +5,7 @@
 - **simple architecture** an alternative to [clean-architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 - modules dependencies: **high-level module** --> **middle-level modules** [optional] --> **low-level modules** [modules pyramid].
 - *high-level module* **integrate** all functionalities from *low-level modules* and *mid-level modules*.
-- *middle-level modules* **relies only** on *low-level module* and have low complexity than *high-level modules*.
+- *middle-level modules* **relies only** on *low-level modules* and have low complexity than *high-level module*.
 - *low-level modules* **are independently** of each other ["parallel" modules].
 - *low-level and middle-level modules* funcs should **not have callbacks** [other dependecy form].
 - *low-level modules* should be **most of** all modules [pyramid base].
