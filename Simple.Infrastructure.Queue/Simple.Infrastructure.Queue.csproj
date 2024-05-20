@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../Directory.Testing.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="../Simple.Shared.Extensions/Simple.Shared.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>

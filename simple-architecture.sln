@@ -3,23 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Architecture.Domain", "Simple.Architecture.Domain\Simple.Architecture.Domain.csproj", "{23045814-66C6-4EE6-B698-FF02717340F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Domain.Services", "Simple.Domain.Services\Simple.Domain.Services.csproj", "{23045814-66C6-4EE6-B698-FF02717340F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Architecture.SqlServer", "Simple.Architecture.SqlServer\Simple.Architecture.SqlServer.csproj", "{4266DBD9-2FF8-40A9-99E7-4F3EBAF4A8E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.SqlServer", "Simple.Infrastructure.SqlServer\Simple.Infrastructure.SqlServer.csproj", "{4266DBD9-2FF8-40A9-99E7-4F3EBAF4A8E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Architecture.Services", "Simple.Architecture.Services\Simple.Architecture.Services.csproj", "{BC4D602E-4726-4AB3-8C8B-BCC6562218B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Web.Api", "Simple.Web.Api\Simple.Web.Api.csproj", "{5B75C02E-E552-4B1F-B945-8924AF04A902}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Architecture.Api", "Simple.Architecture.Api\Simple.Architecture.Api.csproj", "{5B75C02E-E552-4B1F-B945-8924AF04A902}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Notifications", "Simple.Infrastructure.Notifications\Simple.Infrastructure.Notifications.csproj", "{2030B230-FB17-4A8C-8FCC-9654215BA0D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Architecture.Notifications", "Simple.Architecture.Notifications\Simple.Architecture.Notifications.csproj", "{2030B230-FB17-4A8C-8FCC-9654215BA0D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Shared.Models", "Simple.Shared.Models\Simple.Shared.Models.csproj", "{CBF7229B-D119-484E-A50F-E5CC36062055}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Architecture.Models", "Simple.Architecture.Models\Simple.Architecture.Models.csproj", "{CBF7229B-D119-484E-A50F-E5CC36062055}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Mediator", "Simple.Infrastructure.Mediator\Simple.Infrastructure.Mediator.csproj", "{22D7C583-0328-418E-864E-E55C959363BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Architecture.Mediator", "Simple.Architecture.Mediator\Simple.Architecture.Mediator.csproj", "{22D7C583-0328-418E-864E-E55C959363BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Shared.Extensions", "Simple.Shared.Extensions\Simple.Shared.Extensions.csproj", "{057CFD9A-6478-492B-A424-BDC78AEE9F6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Architecture.Sharing", "Simple.Architecture.Sharing\Simple.Architecture.Sharing.csproj", "{057CFD9A-6478-492B-A424-BDC78AEE9F6F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Architecture.Queue", "Simple.Architecture.Queue\Simple.Architecture.Queue.csproj", "{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Queue", "Simple.Infrastructure.Queue\Simple.Infrastructure.Queue.csproj", "{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +36,6 @@ Global
 		{4266DBD9-2FF8-40A9-99E7-4F3EBAF4A8E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4266DBD9-2FF8-40A9-99E7-4F3EBAF4A8E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4266DBD9-2FF8-40A9-99E7-4F3EBAF4A8E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC4D602E-4726-4AB3-8C8B-BCC6562218B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC4D602E-4726-4AB3-8C8B-BCC6562218B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC4D602E-4726-4AB3-8C8B-BCC6562218B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC4D602E-4726-4AB3-8C8B-BCC6562218B9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5B75C02E-E552-4B1F-B945-8924AF04A902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5B75C02E-E552-4B1F-B945-8924AF04A902}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B75C02E-E552-4B1F-B945-8924AF04A902}.Release|Any CPU.ActiveCfg = Release|Any CPU
