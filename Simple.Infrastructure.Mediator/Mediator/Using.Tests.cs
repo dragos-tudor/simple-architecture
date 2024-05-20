@@ -1,7 +1,6 @@
 using System.Globalization;
 using static System.Threading.Tasks.Task;
 #pragma warning disable CA5394
-#pragma warning disable CA1031
 
 namespace Simple.Infrastructure.Mediator;
 

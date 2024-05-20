@@ -17,6 +17,8 @@
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
     <!-- <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild> -->
+
+    <NoWarn>CA1031</NoWarn>
   </PropertyGroup>
 
 </Project>
