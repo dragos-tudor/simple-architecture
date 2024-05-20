@@ -1,9 +1,9 @@
 
-namespace Simple.Infrastructure.Services;
+namespace Simple.Domain.Services;
 
 partial class ServicesFuncs
 {
-  public static async Task<Result<ContactCreatedEvent?, IEnumerable<string>?>> CreateContact (
+  public static async Task<Result<ContactCreatedEvent?, IEnumerable<string>?>> CreateContactService (
     Guid contactId,
     string contactName,
     string contactEmail,
@@ -15,7 +15,7 @@ partial class ServicesFuncs
     var duplicateNumbers = await FindPhoneNumbers(phoneNumbers ?? []);
     if (!IsEmptyCollection(duplicateNumbers)) return GetDuplicatePhoneNumberErrors(duplicateNumbers).ToArray();
 
-    var contact = Domain.Services.ServicesFuncs.CreateContact(contactId, contactEmail, contactName, phoneNumbers);
+    var contact = CreateContact(contactId, contactEmail, contactName, phoneNumbers);
     var contactErrors = ValidateContact(contact);
     if (!IsEmptyCollection(contactErrors)) return contactErrors.ToArray();
 
