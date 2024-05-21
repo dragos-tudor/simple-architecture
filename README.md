@@ -11,9 +11,9 @@
 - *low-level modules* should be **most of** all modules [pyramid base].
 - ex:
   - *high-level modules*: Simple.Web.Api.
-  - *low-level modules*: Simple.Domain.Services, Simple.Infrastructure.*, Simple.Shared.Models, Simple.Shares.Extensions.
+  - *low-level modules*: Simple.Domain.Services, Simple.Infrastructure.*, Simple.Shared.*.
 
-### Simple-clean architectures differences
+### Simple-clean architectures parallels
 - *the dependency rule* - dependencies simply not exists [excepting *domain services module* callback funcs].
 - *entities* - rich entities replaced with simple data bags [no behaviours].
 - *use cases* = *domain services module*.
@@ -33,4 +33,4 @@ Based idea comes somehow from:
   - [dependency rejection](https://blog.ploeh.dk/2017/01/27/from-dependency-injection-to-dependency-rejection/).
 
 
-*SIMPLE MEANS ALWAYS SIMPLE*
+*SIMPLE ALWAYS MEANS SIMPLE*
