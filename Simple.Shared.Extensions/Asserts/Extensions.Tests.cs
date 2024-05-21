@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Simple.Shared.Extensions;
 
-partial class SharingFuncs
+partial class ExtensionsFuncs
 {
   public static void AreEqual<T>(
     IEnumerable<T> expected,

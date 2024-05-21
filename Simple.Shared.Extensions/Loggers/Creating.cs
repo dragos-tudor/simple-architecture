@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Simple.Shared.Extensions;
 
-partial class SharingFuncs
+partial class ExtensionsFuncs
 {
   public static ILogger CreateLogger(ILoggerFactory? loggerFactory, string loggerCategory) =>
     (loggerFactory ?? NullLoggerFactory.Instance).CreateLogger(loggerCategory);

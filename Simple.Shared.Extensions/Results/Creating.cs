@@ -1,7 +1,7 @@
 
 namespace Simple.Shared.Extensions;
 
-partial class SharingFuncs
+partial class ExtensionsFuncs
 {
   internal static Result<TSuccess?, TFailure?> CreateFailureResult<TSuccess, TFailure> (TFailure failure) =>
     new () { Failure = failure };

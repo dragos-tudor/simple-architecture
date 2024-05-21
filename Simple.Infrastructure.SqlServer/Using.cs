@@ -1,10 +1,14 @@
 
 global using System;
+global using System.Collections.Generic;
 global using System.Linq;
+global using System.Threading;
+global using System.Threading.Tasks;
+global using Microsoft.EntityFrameworkCore;
 global using Simple.Shared.Models;
+global using static Docker.Extensions.DockerFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
-global using static Storing.SqlServer.SqlServerFuncs;
 
 namespace Simple.Infrastructure.SqlServer;
 
-public static partial class SqlServerFuncs { }
+public static partial class SqlServerFuncs;

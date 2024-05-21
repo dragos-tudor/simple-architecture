@@ -3,7 +3,7 @@ namespace Simple.Infrastructure.SqlServer;
 
 partial class SqlServerFuncs
 {
-  public static MessageDb CreateMessage<T> (
+  public static Message CreateMessage<T> (
     T messagePayload,
     Guid? messageId = default,
     DateTime? messageDate = default,

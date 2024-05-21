@@ -1,7 +1,7 @@
 
 namespace Simple.Shared.Extensions;
 
-partial class SharingFuncs
+partial class ExtensionsFuncs
 {
   public static TSuccess? FromSuccess<TSuccess, TFailure> (Result<TSuccess?, TFailure?> result) => result;
 

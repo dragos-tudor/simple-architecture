@@ -1,7 +1,7 @@
 
 namespace Simple.Shared.Extensions;
 
-partial class SharingFuncs
+partial class ExtensionsFuncs
 {
   public static bool IsFailureResult<TSuccess, TFailure> (Result<TSuccess, TFailure> result) =>  result.Failure is not null;
 
