@@ -21,7 +21,7 @@
 - *low-level modules*: Simple.Domain.Services, Simple.Infrastructure.*, Simple.Shared.*.
 
 ### Simple-clean architectures parallels
-- *the dependency rule* - dependencies simply not exists [excepting *domain services module* callback funcs].
+- *the dependency rule* - no dependencies.
 - *entities* - rich entities replaced with simple data bags [no behaviours].
 - *use cases* = *domain services module*.
 - *interface adapters* - reside into *high-level modules*.
@@ -31,14 +31,14 @@
 
 ### Simple-clean architectures dependencies
 - [clean-architecture implementation](https://github.com/ardalis/CleanArchitecture/tree/main/src):
-  - *clean.architecture.core* project depends on *mediator* [no-comments].
-  - *clean.architecture.usecases* project depends on *clean.architecture.core* project.
-  - *clean.architecture.infrastructure* project depends on *clean.architecture.usecases* project [no-commets].
-  - *clean.architecture.web* project depends on *clean.architecture.infrastructure* project.
+  - *clean.architecture.core* project depend on *mediator* [no-comments].
+  - *clean.architecture.usecases* project depend on *clean.architecture.core* project.
+  - *clean.architecture.infrastructure* project depend on *clean.architecture.usecases* project [no-commets].
+  - *clean.architecture.web* project depend on *clean.architecture.infrastructure* project.
 - [simple-architecture implementation](/):
-  - *simple.domain.services* *simple.infrastructure.** completely independent projects [share *simple.shared.models* project].
-  - *simple.webapi* project depends on all above projects.
-- *pyramid* vs *stack* => *simple* vs *complicated* => *0 stars* vs *15k stars* [no-comment].
+  - *simple.domain.services*, *simple.infrastructure.** completely independent projects [share *simple.shared.models* project].
+  - *simple.webapi* project depend on all above projects.
+- *pyramid* vs *stack* => *simple* vs *complicated* *15k stars* [no-comment].
 
 ### Remarks
 - something similar already exists how else [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
