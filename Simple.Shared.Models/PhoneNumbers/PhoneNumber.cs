@@ -1,10 +1,10 @@
 
 namespace Simple.Shared.Models;
 
-public class PhoneNumber
+public record PhoneNumber
 {
-  public string Number { get; set; } = string.Empty;
-  public string CountryCode { get; set; } = "+1";
+  public required string CountryCode { get; set; } = "+1";
+  public required string Number { get; set; } = string.Empty;
   public string? Extension { get; set; } = string.Empty;
   public PhoneNumberType NumberType { get; set; } = PhoneNumberType.Mobile;
 }

@@ -3,6 +3,9 @@ namespace Simple.Infrastructure.SqlServer;
 
 partial class SqlServerTests
 {
+  const string AdminName = "sa";
+  const string AdminPassword = "admin.P@ssw0rd";
+
   const string ContainerName = "simple-sql";
   const string ImageName = "mcr.microsoft.com/mssql/server:2019-latest";
 
