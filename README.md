@@ -38,7 +38,7 @@
 - [simple-architecture implementation](/):
   - *simple.domain.services*, *simple.infrastructure.** completely independent projects [share *simple.shared.models* project].
   - *simple.webapi* project depend on all above projects.
-- *pyramid* vs *stack* => *simple* vs *complicated* *15k stars* [no-comment].
+- *pyramid* vs *stack* => *simple* vs *complicated* [15k stars] [no-comment].
 
 ### Remarks
 - something similar already exists how else [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
