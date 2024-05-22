@@ -11,12 +11,6 @@ public partial class SqlServerTests
   public static void InitializeSqlServerTest(TestContext _)
   {
     InitializeSqlServer();
-
-    using var agendaContext = CreateAgendaContext();
-    agendaContext.Database.ExecuteSqlRaw(@"
-      DELETE FROM [PhoneNumbers];
-      DELETE FROM [Contacts];
-      DELETE FROM [Messages];
-    ");
+    CleanAgendaDatabase();
   }
 }

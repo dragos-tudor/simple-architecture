@@ -5,7 +5,7 @@ namespace Simple.Infrastructure.SqlServer;
 partial class SqlServerTests
 {
  [TestMethod]
-  public async Task phone_numbers__find_by_phone_number__filtered_phone_numers ()
+  public async Task phone_numbers__find_by_phone_number__filtered_phone_numbers ()
   {
     using var dbContext = CreateAgendaContext();
     PhoneNumber[] phoneNumbers = [
