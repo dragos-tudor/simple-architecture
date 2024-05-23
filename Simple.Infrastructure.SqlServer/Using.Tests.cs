@@ -1,6 +1,5 @@
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
-global using static Simple.Shared.Extensions.ExtensionsFuncs;
-global using static Simple.Infrastructure.SqlServer.SqlServerTests;
+global using SqlFuncs = Storing.SqlServer.SqlServerFuncs;
 
 namespace Simple.Infrastructure.SqlServer;
 
@@ -8,9 +7,26 @@ namespace Simple.Infrastructure.SqlServer;
 public partial class SqlServerTests
 {
   [AssemblyInitialize]
-  public static void InitializeSqlServerTest(TestContext _)
+  public static void InitializeSqlServer(TestContext _)
   {
-    InitializeSqlServer();
-    CleanAgendaDatabase();
+    const string adminName = "sa";
+    const string adminPassword = "admin.P@ssw0rd";
+    const string userName = "sqluser";
+    const string userPassword = "sqluser.P@ssw0rd";
+    const string imageName = "mcr.microsoft.com/mssql/server:2019-latest";
+    const string containerName = "simple-sql";
+    const string agendaDatabaseName = "agenda";
+    const int serverPort = 1433;
+
+    var serverIpAddress = StartSqlServer(serverPort, adminPassword, imageName, containerName);
+    AgendaContextFactory = SqlFuncs.CreateDbContextFactory(CreateAgendaContextOptions(serverIpAddress, agendaDatabaseName, userName, userPassword));
+
+    using var masterContext = CreateMasterContext(serverIpAddress, adminName, adminPassword);
+    CreateSqlDatabase(masterContext, agendaDatabaseName);
+    CreateSqlDatabaseUser(masterContext, agendaDatabaseName, userName, userPassword);
+    MigrateSqlDatabase(masterContext, agendaDatabaseName);
+
+    using var agendaContext = CreateAgendaContext();
+    CleanAgendaDatabase(agendaContext);
   }
 }

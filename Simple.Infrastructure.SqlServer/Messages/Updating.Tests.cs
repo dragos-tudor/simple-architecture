@@ -6,18 +6,16 @@ partial class SqlServerTests
  [TestMethod]
   public async Task message__update_message_is_active__message_updated ()
   {
-    using var dbContext1 = CreateAgendaContext();
+    using var dbContext = CreateAgendaContext();
     var message = CreateTestMessage(isActive: true);
 
-    AddMessage(dbContext1, message);
-    await dbContext1.SaveChangesAsync();
+    AddMessage(dbContext, message);
+    await SaveChangesAndClearContext(dbContext);
 
-    using var dbContext2 = CreateAgendaContext();
-    UpdateMessageIsActive(dbContext2, message, false);
-    await dbContext2.SaveChangesAsync();
+    UpdateMessageIsActive(dbContext, message, false);
+    await SaveChangesAndClearContext(dbContext);
 
-    using var dbContext3 = CreateAgendaContext();
-    var actual = await GetMessageById (dbContext3.Messages, message.MessageId).SingleAsync();
+    var actual = await FindMessageById (dbContext.Messages, message.MessageId).SingleAsync();
     Assert.AreEqual(actual.IsActive, false);
   }
 }

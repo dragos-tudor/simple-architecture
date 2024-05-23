@@ -13,7 +13,7 @@ partial class SqlServerTests
       ContactId = contactId ?? GetRandomGuid(),
       ContactName = contactName ?? GetRandomString(ContactConstraints.ContactNameMaxLength),
       ContactEmail = contactEmail ?? GetRandomString(ContactConstraints.ContactEmailMaxLength),
-      PhoneNumbers = phoneNumbers
+      PhoneNumbers = new List<PhoneNumber>(phoneNumbers)
     };
 
   public static Message CreateTestMessage (
@@ -44,7 +44,7 @@ partial class SqlServerTests
     new () {
       CountryCode = countryCode ?? GetRandomString(PhoneNumberContraints.CountryCodeMaxLength),
       Number = number ?? GetRandomString(PhoneNumberContraints.NumberLength),
-      NumberType = phoneNumberType ?? Enum.GetValues<PhoneNumberType>()[GetRandomInt(0, 2)],
+      NumberType = phoneNumberType ?? GetRandomEnum<PhoneNumberType>(),
       Extension = extension ?? GetRandomString(PhoneNumberContraints.ExtensionMaxLength)
     };
 

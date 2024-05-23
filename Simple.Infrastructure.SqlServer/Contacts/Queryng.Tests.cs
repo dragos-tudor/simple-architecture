@@ -10,9 +10,9 @@ partial class SqlServerTests
     var contact = CreateTestContact();
 
     AddContact(dbContext, contact);
-    await dbContext.SaveChangesAsync();
+    await SaveChangesAndClearContext(dbContext);
 
-    var actual = await GetContactById (dbContext.Contacts, contact.ContactId).SingleAsync();
+    var actual = await FindContactById (dbContext.Contacts, contact.ContactId).SingleAsync();
     Assert.IsNotNull(actual);
   }
 
@@ -23,9 +23,9 @@ partial class SqlServerTests
     var contact = CreateTestContact();
 
     AddContact(dbContext, contact);
-    await dbContext.SaveChangesAsync();
+    await SaveChangesAndClearContext(dbContext);
 
-    var actual = await GetContactByName (dbContext.Contacts, contact.ContactName).SingleAsync();
+    var actual = await FindContactByName (dbContext.Contacts, contact.ContactName).SingleAsync();
     Assert.IsNotNull(actual);
   }
 }

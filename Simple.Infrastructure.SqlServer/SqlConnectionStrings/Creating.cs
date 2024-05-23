@@ -1,16 +1,15 @@
-using SqlFuncs = Storing.SqlServer.SqlServerFuncs;
 
 namespace Simple.Infrastructure.SqlServer;
 
 partial class SqlServerFuncs
 {
-  public static string CreateDbConnectionString (
+  public static string CreateSqlConnectionString (
     string dbName,
     string serverName,
     string userName,
     string password)
   =>
-    SqlFuncs.CreateSqlConnection(
+    SqlFuncs.CreateSqlConnectionString (
       dbName, userName, password, serverName,
       builder => {
         builder.ConnectTimeout = 60;

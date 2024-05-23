@@ -12,12 +12,12 @@ partial class SqlServerTests
       CreateTestPhoneNumber("+2", "123"),
       CreateTestPhoneNumber("+1", "789")
     ];
-    var contact = CreateTestContact();
-    AddContact(dbContext, contact, phoneNumbers);
-    await dbContext.SaveChangesAsync();
+    var contact = CreateTestContact(phoneNumbers: phoneNumbers);
 
-    var actual = await GetPhoneNumberByCountryCodeAndNumber(dbContext.PhoneNumbers, "+1", "123").FirstAsync();
-    AreEqual(actual.CountryCode, "+1");
-    AreEqual(actual.Number, "123");
+    AddContact(dbContext, contact);
+    await SaveChangesAndClearContext(dbContext);
+
+    var actual = await FindPhoneNumberByCountryCodeAndNumber(dbContext.PhoneNumbers, "+1", "123").SingleAsync();
+    Assert.AreEqual(actual, phoneNumbers[0]);
   }
 }

@@ -3,11 +3,11 @@ using Docker.DotNet.Models;
 
 namespace Simple.Infrastructure.SqlServer;
 
-partial class SqlServerTests
+partial class SqlServerFuncs
 {
   static Action<CreateContainerParameters> SetCreateContainerParameters (int serverPort, string adminPassword) => (CreateContainerParameters @params) =>
   {
-    @params.Env = ["ACCEPT_EULA=Y", $"MSSQL_SA_PASSWORD={adminPassword}"];
+    @params.Env = ["ACCEPT_EULA=Y", $"SA_PASSWORD={adminPassword}"];
     @params.ExposedPorts = new Dictionary<string, EmptyStruct>() { { $"14330:{serverPort}", new EmptyStruct() } };
   };
 }

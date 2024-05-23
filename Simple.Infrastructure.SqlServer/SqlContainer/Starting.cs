@@ -2,9 +2,9 @@ using Docker.DotNet.Models;
 
 namespace Simple.Infrastructure.SqlServer;
 
-partial class SqlServerTests
+partial class SqlServerFuncs
 {
-  static async Task<NetworkSettings> StartSqlContainerAsync (
+  public static async Task<NetworkSettings> StartSqlContainerAsync (
     int serverPort,
     string adminPassword,
     string imageName,
@@ -21,7 +21,7 @@ partial class SqlServerTests
     return container!.NetworkSettings;
   }
 
-  static NetworkSettings StartSqlContainer (
+  public static NetworkSettings StartSqlContainer (
     int serverPort,
     string adminPassword,
     string imageName,

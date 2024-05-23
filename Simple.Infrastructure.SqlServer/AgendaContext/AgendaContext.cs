@@ -7,7 +7,7 @@ public partial class AgendaContext: DbContext
   public DbSet<PhoneNumber> PhoneNumbers => Set<PhoneNumber>();
   public DbSet<Message> Messages => Set<Message>();
 
-  public AgendaContext(DbContextOptions<AgendaContext> options): base(options) { }
+  public AgendaContext(DbContextOptions<AgendaContext> options) : base(options) { }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {

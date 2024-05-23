@@ -4,16 +4,15 @@ namespace Simple.Infrastructure.SqlServer;
 partial class SqlServerTests
 {
  [TestMethod]
-  public async Task message__add_message__message_stored ()
+  public async Task new_message__add_message__message_stored ()
   {
-    using var dbContext1 = CreateAgendaContext();
+    using var dbContext = CreateAgendaContext();
     var message = CreateTestMessage();
 
-    AddMessage(dbContext1, message);
-    await dbContext1.SaveChangesAsync();
+    AddMessage(dbContext, message);
+    await SaveChangesAndClearContext(dbContext);
 
-    using var dbContext2 = CreateAgendaContext();
-    var actual = await GetMessageById (dbContext2.Messages, message.MessageId).SingleAsync();
+    var actual = await FindMessageById (dbContext.Messages, message.MessageId).SingleAsync();
     Assert.AreEqual(actual, message);
   }
 }

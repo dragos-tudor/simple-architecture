@@ -3,7 +3,7 @@ namespace Simple.Infrastructure.SqlServer;
 
 partial class SqlServerFuncs
 {
-  public static IQueryable<PhoneNumber> GetPhoneNumberByCountryCodeAndNumber (
+  public static IQueryable<PhoneNumber> FindPhoneNumberByCountryCodeAndNumber (
     IQueryable<PhoneNumber> query,
     string countryCode,
     string number)
