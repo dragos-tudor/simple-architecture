@@ -1,5 +1,5 @@
 
-namespace Simple.Web.Api;
+namespace Simple.Infrastructure.SqlServer;
 
 public partial record SqlServerOptions(
   string AdminName,

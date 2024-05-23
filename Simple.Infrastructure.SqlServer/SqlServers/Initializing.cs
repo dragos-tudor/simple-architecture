@@ -1,9 +1,9 @@
 
-namespace Simple.Web.Api;
+namespace Simple.Infrastructure.SqlServer;
 
-partial class ApiFuncs
+partial class SqlServerFuncs
 {
-  static void InitializeSqlServer (SqlServerOptions options)
+  public static IEnumerable<string> InitializeSqlServer (SqlServerOptions options)
   {
     var (adminName, adminPassword, userName, userPassword, imageName, containerName, databaseName, serverPort) = options;
     var serverIpAddress = StartSqlServer(serverPort, adminPassword, imageName, containerName);
@@ -12,6 +12,6 @@ partial class ApiFuncs
     using var masterContext = CreateMasterContext(serverIpAddress, adminName, adminPassword);
     CreateSqlDatabase(masterContext, databaseName);
     CreateSqlDatabaseUser(masterContext, databaseName, userName, userPassword);
-    MigrateSqlDatabase(masterContext, databaseName);
+    return MigrateSqlDatabase(masterContext, databaseName);
   }
 }
