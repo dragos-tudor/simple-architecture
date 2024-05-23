@@ -33,12 +33,12 @@
 - [clean-architecture implementation](https://github.com/ardalis/CleanArchitecture/tree/main/src):
   - *clean.architecture.core* project depend on *mediator* [no-comments].
   - *clean.architecture.usecases* project depend on *clean.architecture.core* project.
-  - *clean.architecture.infrastructure* project depend on *clean.architecture.usecases* project [no-commets].
+  - *clean.architecture.infrastructure* project depend on *clean.architecture.usecases* project [no-comments].
   - *clean.architecture.web* project depend on *clean.architecture.infrastructure* project.
 - [simple-architecture implementation](/):
   - *simple.domain.services*, *simple.infrastructure.** completely independent projects [share *simple.shared.models* project].
   - *simple.webapi* project depend on all above projects.
-- *pyramid* vs *stack* => *simple* vs *complicated* [15k stars] [no-comment].
+- *pyramid* vs *stack* => *simple* vs *complicated* -> *unknown* vs *highly-appreciated* [no-comments].
 
 ### Remarks
 - something similar already exists how else [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
