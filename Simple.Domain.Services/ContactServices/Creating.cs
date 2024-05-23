@@ -7,7 +7,7 @@ partial class ServicesFuncs
     Guid contactId,
     string contactName,
     string contactEmail,
-    IEnumerable<PhoneNumber>? phoneNumbers,
+    IList<PhoneNumber>? phoneNumbers,
     Func<IEnumerable<PhoneNumber>, Task<IEnumerable<string>>> FindPhoneNumbers,
     Func<Contact, Message<ContactCreatedEvent>, Task> SaveContactAndMessage,
     Func<Message<ContactCreatedEvent>, Task> PublishMessage)

@@ -10,6 +10,7 @@ partial class MediatorFuncs
   =>
     new () {
       MessageId = messageId ?? Guid.Empty,
+      MessageContent = Empty,
       MessageType = GetTypeName(typeof(TPayload)),
       MessagePayload = messagePayload,
       TraceId = traceId

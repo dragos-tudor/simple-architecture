@@ -7,12 +7,12 @@ partial class ServicesFuncs
     Guid contactId,
     string contactName,
     string contactEmail,
-    IEnumerable<PhoneNumber>? phoneNumbers = default)
+    IList<PhoneNumber>? phoneNumbers = default)
   =>
     new () {
       ContactId = contactId,
       ContactEmail = contactEmail,
       ContactName = contactName,
-      PhoneNumbers = phoneNumbers
+      PhoneNumbers = phoneNumbers ?? []
     };
 }

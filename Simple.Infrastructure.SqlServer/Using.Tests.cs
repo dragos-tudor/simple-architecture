@@ -15,16 +15,16 @@ public partial class SqlServerTests
     const string userPassword = "sqluser.P@ssw0rd";
     const string imageName = "mcr.microsoft.com/mssql/server:2019-latest";
     const string containerName = "simple-sql";
-    const string agendaDatabaseName = "agenda";
+    const string databaseName = "agenda";
     const int serverPort = 1433;
 
     var serverIpAddress = StartSqlServer(serverPort, adminPassword, imageName, containerName);
-    AgendaContextFactory = SqlFuncs.CreateDbContextFactory(CreateAgendaContextOptions(serverIpAddress, agendaDatabaseName, userName, userPassword));
+    SetAgendaContextFactory(SqlFuncs.CreateDbContextFactory(CreateAgendaContextOptions(serverIpAddress, databaseName, userName, userPassword)));
 
     using var masterContext = CreateMasterContext(serverIpAddress, adminName, adminPassword);
-    CreateSqlDatabase(masterContext, agendaDatabaseName);
-    CreateSqlDatabaseUser(masterContext, agendaDatabaseName, userName, userPassword);
-    MigrateSqlDatabase(masterContext, agendaDatabaseName);
+    CreateSqlDatabase(masterContext, databaseName);
+    CreateSqlDatabaseUser(masterContext, databaseName, userName, userPassword);
+    MigrateSqlDatabase(masterContext, databaseName);
 
     using var agendaContext = CreateAgendaContext();
     CleanAgendaDatabase(agendaContext);
