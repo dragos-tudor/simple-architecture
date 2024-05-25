@@ -2,7 +2,7 @@
 ## Simple architecture [wip]
 
 ### Simple architecture design
-- **simple architecture** an alternative to [clean-architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
+- **simple architecture**: an alternative to [clean-architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 - modules dependencies: **high-level modules** --> **middle-level modules** [optional] --> **low-level modules** [modules pyramid].
 - *high-level modules* **integrate** all *low-level modules* and *mid-level modules*.
 - *middle-level modules* **relies** on *low-level modules* having lower complexity than *high-level modules*.
@@ -15,12 +15,13 @@
   - front-end modules [react-like library](https://github.com/dragos-tudor/frontend-rendering).
   - front-end pages [security sample project](https://github.com/dragos-tudor/backend-security/tree/main/Security.Sample/frontend-components).
   - functions [aspnet-like security library](https://github.com/dragos-tudor/backend-security).
+- **simple architecture** aka **pyramid architecture**.
 
 ### Simple architecture implementation
 - *high-level modules*: Simple.Web.Api.
 - *low-level modules*: Simple.Domain.Services, Simple.Infrastructure.*, Simple.Shared.*.
 
-### Simple-clean architectures parallels
+### Simple vs clean architectures parallels
 - *the dependency rule* - no dependencies.
 - *entities* - rich entities replaced with simple data bags [no behaviours].
 - *use cases* = *domain services module*.
@@ -29,7 +30,7 @@
   - *low-level modules* [databases drivers].
   - *high-level modules* [web frameworks].
 
-### Simple-clean architectures dependencies
+### Simple vs clean architectures dependencies
 - [clean-architecture implementation](https://github.com/ardalis/CleanArchitecture/tree/main/src):
   - *clean.architecture.core* project depend on *mediator* [no-comments].
   - *clean.architecture.usecases* project depend on *clean.architecture.core* project.
@@ -44,11 +45,11 @@
 - something similar already exists how else [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
 
 ### Credits
-Based idea comes somehow from:
+Based idea comes from:
 - F# team top-bottom [dependency order](https://fsharpforfunandprofit.com/posts/recipe-part3/#how-not-to-do-it).
 - Mark Seemann's mindset changing hidden gems:
   - [impureim sandwitch](https://blog.ploeh.dk/2020/03/02/impureim-sandwich/).
   - [dependency rejection](https://blog.ploeh.dk/2017/01/27/from-dependency-injection-to-dependency-rejection/).
-
+- Dragos Tudor: one functionality == one *high-level* function.
 
 *SIMPLE ALWAYS MEANS SIMPLE*
