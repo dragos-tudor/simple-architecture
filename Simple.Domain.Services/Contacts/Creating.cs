@@ -4,22 +4,18 @@ namespace Simple.Domain.Services;
 partial class ServicesFuncs
 {
   public static async Task<Result<ContactCreatedEvent?, IEnumerable<string>?>> CreateContactService (
-    Guid contactId,
-    string contactName,
-    string contactEmail,
-    IList<PhoneNumber>? phoneNumbers,
-    Func<IEnumerable<PhoneNumber>, Task<IEnumerable<string>>> FindPhoneNumbers,
-    Func<Contact, Message<ContactCreatedEvent>, Task> SaveContactAndMessage,
-    Func<Message<ContactCreatedEvent>, Task> PublishMessage)
+    Contact contact,
+    FindPhoneNumbers FindPhoneNumbers,
+    SaveModelAndMessage<Contact, ContactCreatedEvent> SaveContactAndMessage,
+    PublishMessage<ContactCreatedEvent> PublishMessage)
   {
-    var duplicateNumbers = await FindPhoneNumbers(phoneNumbers ?? []);
+    var duplicateNumbers = await FindPhoneNumbers(contact.PhoneNumbers ?? []);
     if (ExistsPhoneNumbers(duplicateNumbers)) return GetDuplicatePhoneNumberErrors(duplicateNumbers).ToArray();
 
-    var contact = CreateContact(contactId, contactEmail, contactName, phoneNumbers);
     var contactErrors = ValidateContact(contact);
     if (ExistValidationErrors(contactErrors)) return contactErrors.ToArray();
 
-    var contactCreated = CreateContactCreatedEvent(contact.ContactId, contactEmail);
+    var contactCreated = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     var message = CreateMessage(contactCreated);
 
     await SaveContactAndMessage(contact, message);

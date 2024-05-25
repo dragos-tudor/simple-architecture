@@ -5,10 +5,10 @@ global using System.Collections.Generic;
 global using System.Threading.Tasks;
 global using Simple.Shared.Models;
 global using Simple.Shared.Extensions;
-global using static System.String;
 global using static Simple.Shared.Models.ModelsFuncs;
 global using static Simple.Shared.Extensions.ExtensionsFuncs;
+global using static Simple.Domain.Services.ServicesFuncs;
 
 namespace Simple.Domain.Services;
 
-public static partial class ServicesFuncs { }
+public static partial class ServicesFuncs;
