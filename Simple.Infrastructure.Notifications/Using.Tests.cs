@@ -14,7 +14,7 @@ public partial class NotificationsTests
   {
     SmtpClientOptions = CreateSmtpClientOptions("localhost", 9025);
     SmtpServer = CreateSmtpServer<SmtpServerStore>(SmtpClientOptions.ServerName, SmtpClientOptions.SewrverPort);
-    SmtpServer.StartAsync(CancellationToken.None); // WaitingForActivation state
+    SmtpServer.StartAsync(CancellationToken.None); // WaitingForActivation status!
   }
 
   [AssemblyCleanup]
