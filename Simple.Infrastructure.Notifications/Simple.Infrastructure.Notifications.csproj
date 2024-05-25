@@ -1,7 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+   <Import Project="../Directory.Testing.props" />
+
   <ItemGroup>
     <ProjectReference Include="../Simple.Shared.Models/Simple.Shared.Models.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="MailKit" />
+    <PackageReference Include="SmtpServer"/>
   </ItemGroup>
 </Project>
