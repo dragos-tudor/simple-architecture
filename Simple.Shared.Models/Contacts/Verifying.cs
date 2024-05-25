@@ -5,7 +5,7 @@ namespace Simple.Shared.Models;
 
 partial class ModelsFuncs
 {
-  [GeneratedRegex("[a-zA-Z]+\\w*@[a-zA-Z]+(\\w|\\-)*\\.[a-zA-Z]+\\w+/g")]
+  [GeneratedRegex("[a-zA-Z]+\\w*@[a-zA-Z]+(\\w|\\-)*\\.[a-zA-Z]+\\w+")]
   internal static partial Regex RegExEmail();
 
   static bool IsMissingContactName (string contactName) => string.IsNullOrEmpty(contactName);

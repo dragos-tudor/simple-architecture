@@ -1,4 +1,5 @@
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
+global using static Simple.Shared.Models.ModelsTests;
 global using SqlFuncs = Storing.SqlServer.SqlServerFuncs;
 
 namespace Simple.Infrastructure.SqlServer;
