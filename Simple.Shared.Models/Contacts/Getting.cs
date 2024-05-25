@@ -1,7 +1,7 @@
 
-namespace Simple.Domain.Services;
+namespace Simple.Shared.Models;
 
-partial class ServicesFuncs
+partial class ModelsFuncs
 {
   static string GetInvalidContactEmailError (string contactEmail) => $"Invalid contact email '{contactEmail}'.";
 

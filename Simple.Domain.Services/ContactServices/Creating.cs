@@ -13,11 +13,11 @@ partial class ServicesFuncs
     Func<Message<ContactCreatedEvent>, Task> PublishMessage)
   {
     var duplicateNumbers = await FindPhoneNumbers(phoneNumbers ?? []);
-    if (!IsEmptyCollection(duplicateNumbers)) return GetDuplicatePhoneNumberErrors(duplicateNumbers).ToArray();
+    if (ExistsPhoneNumbers(duplicateNumbers)) return GetDuplicatePhoneNumberErrors(duplicateNumbers).ToArray();
 
     var contact = CreateContact(contactId, contactEmail, contactName, phoneNumbers);
     var contactErrors = ValidateContact(contact);
-    if (!IsEmptyCollection(contactErrors)) return contactErrors.ToArray();
+    if (ExistValidationErrors(contactErrors)) return contactErrors.ToArray();
 
     var contactCreated = CreateContactCreatedEvent(contact.ContactId, contactEmail);
     var message = CreateMessage(contactCreated);

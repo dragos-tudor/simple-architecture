@@ -6,7 +6,7 @@ global using System.Threading.Tasks;
 global using Simple.Shared.Models;
 global using Simple.Shared.Extensions;
 global using static System.String;
-global using static Simple.Domain.Services.ServicesFuncs;
+global using static Simple.Shared.Models.ModelsFuncs;
 global using static Simple.Shared.Extensions.ExtensionsFuncs;
 
 namespace Simple.Domain.Services;

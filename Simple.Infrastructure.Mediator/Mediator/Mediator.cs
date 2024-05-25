@@ -8,7 +8,7 @@ public class Mediator
   public virtual IEnumerable<Task<string>> Publish<TPayload> (Message<TPayload> message, CancellationToken cancellationToken = default)
   {
     var result = PublishMessage(message, Subscribers, cancellationToken);
-    LogPublishedMessage(Logger, GetTypeName(typeof(TPayload)));
+    LogPublishedMessage(Logger, GetTypeName<TPayload>());
     return result;
   }
 

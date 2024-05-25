@@ -14,5 +14,6 @@ partial class MediatorFuncs
     string subscriberId,
     Func<Message<TPayload>, CancellationToken, Task<string>> messageHandler)
   =>
-    CreateSubscriber<Message> (subscriberId, GetTypeName(typeof(TPayload)), (message, cancellationToken) => messageHandler((Message<TPayload>)message, cancellationToken));
+    CreateSubscriber<Message> (subscriberId, GetTypeName<TPayload>(),
+      (message, cancellationToken) => messageHandler((Message<TPayload>)message, cancellationToken));
 }

@@ -18,5 +18,5 @@ partial class MediatorFuncs
     IEnumerable<Subscriber<Message>> subscribers,
     CancellationToken cancellationToken = default)
   =>
-    PublishMessage(message, GetTypeName(typeof(TPayload)), subscribers, cancellationToken);
+    PublishMessage(message, GetTypeName<TPayload>(), subscribers, cancellationToken);
 }

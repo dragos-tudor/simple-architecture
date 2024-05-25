@@ -4,13 +4,13 @@ namespace Simple.Infrastructure.Mediator;
 partial class MediatorFuncs
 {
   static string? ValidateSubscriberDuplicate<TMessage> (IEnumerable<Subscriber<TMessage>> subscribers, Subscriber<TMessage> subscriber) =>
-    !IsDuplicateSubscriber(subscribers, subscriber)? default: GetDuplicateSubscriberError(subscriber);
+    IsDuplicateSubscriber(subscribers, subscriber)? GetDuplicateSubscriberError(subscriber): default;
 
   static string? ValidateSubscriberMessageType (string messageType) =>
-    IsMissingSubscriberMessageType(messageType)? default: GetMissingSubscriberMessageTypeError();
+    IsMissingSubscriberMessageType(messageType)? GetMissingSubscriberMessageTypeError(): default;
 
   static string? ValidateSubscriberId (string subscriberId) =>
-    IsMissingSubscriberId(subscriberId)? default: GetMissingSubscriberIdError();
+    IsMissingSubscriberId(subscriberId)? GetMissingSubscriberIdError(): default;
 
   static IEnumerable<string> ValidateSubscriber<TMessage> (Subscriber<TMessage> subscriber) =>
     GetValidationErrors([

@@ -1,19 +1,20 @@
 
-namespace Simple.Infrastructure.SqlServer;
+namespace Simple.Shared.Models;
 
-partial class SqlServerFuncs
+partial class ModelsFuncs
 {
-  public static Message CreateMessage<T> (
+  public static Message<T> CreateMessage<T> (
     T messagePayload,
     Guid? messageId = default,
     DateTime? messageDate = default,
     Guid? parentId = default,
-    string? traceId = default) where T: class
+    string? traceId = default)
   =>
     new () {
       MessageId = messageId ?? Guid.Empty,
       MessageType = typeof(T).Name,
       MessageDate = messageDate ?? DateTime.UtcNow,
+      MessagePayload = messagePayload,
       MessageContent = SerializeObject(messagePayload),
       MessageVersion = 1,
       ParentId = parentId,
