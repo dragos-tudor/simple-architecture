@@ -3,9 +3,9 @@ namespace Simple.Shared.Models;
 
 partial class ModelsFuncs
 {
-  static string GetInvalidCountryCodeError (short countryCode) => $"Invalid phone number country code {countryCode}.";
+  public static string GetInvalidCountryCodeError (short countryCode) => $"Invalid phone number country code {countryCode}.";
 
-  static string GetInvalidPhoneNumberError (long number) => $"Invalid phone number {number}.";
+  public static string GetInvalidPhoneNumberError (long number) => $"Invalid phone number {number}.";
 
   public static string GetDuplicatePhoneNumberError (long number) => $"Duplicate phone number {number}.";
 
