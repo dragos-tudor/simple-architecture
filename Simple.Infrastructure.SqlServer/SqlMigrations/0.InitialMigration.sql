@@ -37,8 +37,8 @@ END;
 IF OBJECT_ID(N'[PhoneNumbers]') IS NULL
 BEGIN
 CREATE TABLE [PhoneNumbers] (
-    [Number] nvarchar(9) NOT NULL,
-    [CountryCode] nvarchar(4) NOT NULL,
+    [Number] BIGINT NOT NULL,
+    [CountryCode] nvarchar(3) NOT NULL,
     [Extension] nvarchar(5) NULL,
     [NumberType] tinyint NOT NULL,
     [ContactId] uniqueidentifier NULL,

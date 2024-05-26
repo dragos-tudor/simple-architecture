@@ -6,7 +6,7 @@ partial class SqlServerFuncs
   public static IQueryable<PhoneNumber> FindPhoneNumberByCountryCodeAndNumber (
     IQueryable<PhoneNumber> query,
     string countryCode,
-    string number)
+    long number)
   =>
     query.Where(phoneNumber =>
       phoneNumber.CountryCode == countryCode &&

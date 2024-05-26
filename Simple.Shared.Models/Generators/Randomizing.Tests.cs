@@ -27,6 +27,8 @@ partial class ModelsTests
 
   public static int GetRandomInt (int inclusiveMin = 0, int inclusiveMax = 10000) => Random.Shared.Next(inclusiveMin, inclusiveMax + 1);
 
+  public static long GetRandomLong (long inclusiveMin = 0, long inclusiveMax = 10000) => Random.Shared.NextInt64(inclusiveMin, inclusiveMax + 1);
+
   public static string GetRandomString (int length) => new (Range(0, length).Select(GetRandomPrintableChar).ToArray());
 
   public static string GetRandomLetters (int length) => new (Range(0, length).Select(GetRandomLetter).ToArray());

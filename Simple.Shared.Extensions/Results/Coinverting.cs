@@ -1,4 +1,7 @@
 
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Simple.Shared.Extensions;
 
 partial class ExtensionsFuncs
@@ -17,4 +20,9 @@ public partial record Result<TSuccess, TFailure>
   public Result<TSuccess?, TFailure?> ToResult(TFailure failure) => CreateFailureResult<TSuccess, TFailure>(failure);
 
   public Result<TSuccess?, TFailure?> ToResult(TSuccess success) => CreateSuccessResult<TSuccess, TFailure>(success);
+}
+
+partial class ExtensionsFuncs
+{
+  public static T[] AsArray<T> (IEnumerable<T> values) => values.ToArray();
 }

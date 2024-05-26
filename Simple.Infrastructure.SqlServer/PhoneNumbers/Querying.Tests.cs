@@ -8,16 +8,16 @@ partial class SqlServerTests
   {
     using var dbContext = CreateAgendaContext();
     PhoneNumber[] phoneNumbers = [
-      CreateTestPhoneNumber("+1", "123"),
-      CreateTestPhoneNumber("+2", "123"),
-      CreateTestPhoneNumber("+1", "789")
+      CreateTestPhoneNumber("+1", 123),
+      CreateTestPhoneNumber("+2", 123),
+      CreateTestPhoneNumber("+1", 789)
     ];
     var contact = CreateTestContact(phoneNumbers: phoneNumbers);
 
     AddContact(dbContext, contact);
     await SaveChangesAndClearContext(dbContext);
 
-    var actual = await FindPhoneNumberByCountryCodeAndNumber(dbContext.PhoneNumbers, "+1", "123").SingleAsync();
+    var actual = await FindPhoneNumberByCountryCodeAndNumber(dbContext.PhoneNumbers, "+1", 123).SingleAsync();
     Assert.AreEqual(actual, phoneNumbers[0]);
   }
 }

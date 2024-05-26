@@ -6,6 +6,6 @@ partial class SqlServerFuncs
   static PhoneNumber? GetPhoneNumber (IEnumerable<PhoneNumber> phoneNumbers, PhoneNumber phoneNumber) =>
     phoneNumbers.Where(item => GetPhoneNumberKey(phoneNumber) == GetPhoneNumberKey(item)).FirstOrDefault();
 
-  public static (string CountryCode, string Number) GetPhoneNumberKey (PhoneNumber phoneNumber) =>
+  public static (string CountryCode, long Number) GetPhoneNumberKey (PhoneNumber phoneNumber) =>
     (phoneNumber.CountryCode, phoneNumber.Number);
 }
