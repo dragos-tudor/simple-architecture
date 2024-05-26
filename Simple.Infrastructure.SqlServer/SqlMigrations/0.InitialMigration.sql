@@ -38,7 +38,7 @@ IF OBJECT_ID(N'[PhoneNumbers]') IS NULL
 BEGIN
 CREATE TABLE [PhoneNumbers] (
     [Number] BIGINT NOT NULL,
-    [CountryCode] nvarchar(3) NOT NULL,
+    [CountryCode] SMALLINT NOT NULL,
     [Extension] nvarchar(5) NULL,
     [NumberType] tinyint NOT NULL,
     [ContactId] uniqueidentifier NULL,
@@ -48,3 +48,5 @@ CREATE TABLE [PhoneNumbers] (
 
 CREATE INDEX [IX_PhoneNumbers_ContactId] ON [PhoneNumbers] ([ContactId]);
 END;
+
+-- TODO add migration record.

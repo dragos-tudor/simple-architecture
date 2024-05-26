@@ -21,7 +21,7 @@ public partial class AgendaContext: DbContext
 
     modelBuilder.Entity<PhoneNumber>().HasKey(e => new { e.CountryCode, e.Number });
     modelBuilder.Entity<PhoneNumber>().Property(e => e.Number);
-    modelBuilder.Entity<PhoneNumber>().Property(e => e.CountryCode).HasMaxLength(PhoneNumberContraints.CountryCodeMaxLength);
+    modelBuilder.Entity<PhoneNumber>().Property(e => e.CountryCode);
     modelBuilder.Entity<PhoneNumber>().Property(e => e.Extension).HasMaxLength(PhoneNumberContraints.ExtensionMaxLength);
   }
 }
