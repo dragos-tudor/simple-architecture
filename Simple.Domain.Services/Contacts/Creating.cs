@@ -3,17 +3,17 @@ namespace Simple.Domain.Services;
 
 partial class ServicesFuncs
 {
-  public static async Task<Result<ContactCreatedEvent?, IEnumerable<string>?>> CreateContactService (
+  public static async Task<Result<ContactCreatedEvent?, string[]?>> CreateContactService (
     Contact contact,
-    FindPhoneNumbers FindPhoneNumbers,
+    FindModels<PhoneNumber, long> FindPhoneNumbers,
     SaveModelAndEvent<Contact, ContactCreatedEvent> SaveContactAndEvent,
     PublishEvent<ContactCreatedEvent> PublishEvent)
   {
     var duplicateNumbers = await FindPhoneNumbers(contact.PhoneNumbers ?? []);
-    if (ExistsPhoneNumbers(duplicateNumbers)) return GetDuplicatePhoneNumberErrors(duplicateNumbers).ToArray();
+    if (ExistsPhoneNumbers(duplicateNumbers)) return AsArray(GetDuplicatePhoneNumberErrors(duplicateNumbers));
 
     var contactErrors = ValidateContact(contact);
-    if (ExistValidationErrors(contactErrors)) return contactErrors.ToArray();
+    if (ExistValidationErrors(contactErrors)) return AsArray(contactErrors);
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
 
