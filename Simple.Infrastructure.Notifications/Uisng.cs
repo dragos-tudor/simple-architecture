@@ -5,6 +5,7 @@ global using System.Linq;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using MimeKit;
+global using static Simple.Shared.Extensions.ExtensionsFuncs;
 global using static Simple.Infrastructure.Notifications.NotificationsFuncs;
 
 namespace Simple.Infrastructure.Notifications;

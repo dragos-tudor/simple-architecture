@@ -4,6 +4,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../Simple.Shared.Models/Simple.Shared.Models.csproj" />
+    <ProjectReference Include="../Simple.Shared.Extensions/Simple.Shared.Extensions.csproj" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="MailKit" />
     <PackageReference Include="SmtpServer"/>
