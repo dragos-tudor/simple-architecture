@@ -10,7 +10,7 @@ partial class NotificationsTests
   {
     using var mailMessage = BuildMailMessage("a@test.com", "b@test.com", "subject1", "body1");
     using var smtpClient = CreateSmtpClient();
-    await SendMailMessage(smtpClient, mailMessage, SmtpClientOptions);
+    await SendMailMessage(smtpClient, mailMessage, SmtpServerOptions);
 
     Assert.IsNotNull(GetMailMessage(mailMessage.Subject));
     StringAssert.Contains(GetMailMessage(mailMessage.Subject)!.TextBody, "body1", System.StringComparison.InvariantCulture);

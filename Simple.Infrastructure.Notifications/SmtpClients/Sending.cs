@@ -8,10 +8,10 @@ partial class NotificationsFuncs
   public static async Task SendMailMessage (
     SmtpClient smtpClient,
     MimeMessage mailMessage,
-    SmtpClientOptions clientOptions,
+    SmtpServerOptions serverOptions,
     CancellationToken cancellationToken = default)
   {
-    await smtpClient.ConnectAsync (clientOptions.ServerName, clientOptions.SewrverPort, false, cancellationToken);
+    await smtpClient.ConnectAsync (serverOptions.ServerName, serverOptions.SewrverPort, false, cancellationToken);
     await smtpClient.SendAsync (mailMessage, cancellationToken);
     await smtpClient.DisconnectAsync (true, cancellationToken);
   }
