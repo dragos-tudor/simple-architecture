@@ -38,8 +38,8 @@ partial class MediatorTests
     var random = Random.Shared;
 
     Func<Task>[] funcs = [
-      () => FromResult(mediator.Subscribe<int>(ToString(random.Next(randomMax)), (msg, _) => FromResult(Empty) )),
-      () => FromResult(mediator.Unsubscribe<int>(ToString(random.Next(randomMax)))),
+      () => FromResult(mediator.Subscribe<int>(ToString(random.Next(randomMax))!, (msg, _) => FromResult(default(string)) )),
+      () => FromResult(mediator.Unsubscribe<int>(ToString(random.Next(randomMax))!)),
       () => WhenAll(mediator.Publish(CreateMessage(random.Next(randomMax))))
     ];
 
@@ -49,5 +49,5 @@ partial class MediatorTests
     });
   }
 
-  static string ToString(int number) => number.ToString(CultureInfo.InvariantCulture);
+  static string? ToString(int number) => number.ToString(CultureInfo.InvariantCulture);
 }

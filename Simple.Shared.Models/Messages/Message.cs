@@ -12,7 +12,7 @@ public record Message
   public string? TraceId { get; set; }
   public bool IsActive { get; set; } = true;
 
-  public override string ToString() => $"{MessageType} - {MessageId}";
+  public override string ToString() => MessageType;
 }
 
 public record Message<TPayload>: Message

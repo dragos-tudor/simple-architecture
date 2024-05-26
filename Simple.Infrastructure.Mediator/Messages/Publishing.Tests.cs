@@ -8,7 +8,7 @@ partial class MediatorTests
   [TestMethod]
   public async Task subscriber_with_message_handler__publish_message__handler_result()
   {
-    var sub = CreateSubscriber<int>("sub", (msg, _) => FromResult(msg.MessagePayload == 1? "one": "not one"));
+    var sub = CreateSubscriber<int>("sub", (msg, _) => FromResult((string?)(msg.MessagePayload == 1? "one": "not one")));
     var subs = RegisterSubscriber(sub, []);
 
     var results = PublishMessage(CreateMessage(1), FromSuccess(subs)!);
@@ -18,10 +18,10 @@ partial class MediatorTests
   [TestMethod]
   public async Task subscribers_with_message_handlers__publish_message__handlers_results()
   {
-    var sub1 = CreateSubscriber<int>("sub1", (msg, _) => FromResult(msg.MessagePayload == 1? "one": "not one"));
+    var sub1 = CreateSubscriber<int>("sub1", (msg, _) => FromResult((string?)(msg.MessagePayload == 1? "one": "not one")));
     var subs1 = RegisterSubscriber(sub1, []);
 
-    var sub2 = CreateSubscriber<int>("sub2", (msg, _) => FromResult(msg.MessagePayload == 2? "two": "not two"));
+    var sub2 = CreateSubscriber<int>("sub2", (msg, _) => FromResult((string?)(msg.MessagePayload == 2? "two": "not two")));
     var subs2 = RegisterSubscriber(sub2, FromSuccess(subs1)!);
 
     var results = PublishMessage(CreateMessage(1), FromSuccess(subs2)!);
@@ -36,7 +36,7 @@ partial class MediatorTests
     var sub1 = CreateSubscriber<int>("sub1", async (_, _) => { await cts.CancelAsync(); return "ran"; });
     var subs1 = RegisterSubscriber(sub1, []);
 
-    var sub2 = CreateSubscriber<int>("sub2", (_, token) => token.IsCancellationRequested? FromResult("not ran"): FromResult("ran"));
+    var sub2 = CreateSubscriber<int>("sub2", (_, token) => token.IsCancellationRequested? FromResult((string?)"not ran"): FromResult((string?)"ran"));
     var subs2 = RegisterSubscriber(sub2, FromSuccess(subs1)!);
 
     var results = PublishMessage(CreateMessage(1), FromSuccess(subs2)!, cts.Token);

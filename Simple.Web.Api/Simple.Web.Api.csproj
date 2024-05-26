@@ -6,11 +6,7 @@
 
   <ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App"/>
-    <ProjectReference Include="../Simple.Domain.Services/Simple.Domain.Services.csproj" />
-    <ProjectReference Include="../Simple.Infrastructure.Mediator/Simple.Infrastructure.Mediator.csproj" />
-    <ProjectReference Include="../Simple.Infrastructure.Queue/Simple.Infrastructure.Queue.csproj" />
-    <ProjectReference Include="../Simple.Infrastructure.Notifications/Simple.Infrastructure.Notifications.csproj" />
-    <ProjectReference Include="../Simple.Infrastructure.SqlServer/Simple.Infrastructure.SqlServer.csproj" />
+    <ProjectReference Include="../Simple.Web.Endpoints/Simple.Web.Endpoints.csproj" />
   </ItemGroup>
 
 </Project>

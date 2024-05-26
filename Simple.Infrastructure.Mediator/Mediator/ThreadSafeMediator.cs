@@ -5,14 +5,14 @@ public sealed class ThreadSafeMediator: Mediator, IDisposable
 {
   readonly ReaderWriterLockSlim SubscribersLock = new ();
 
-  public override IEnumerable<Task<string>> Publish<TPayload> (Message<TPayload> message, CancellationToken cancellationToken = default)
+  public override IEnumerable<Task<string?>> Publish<TPayload> (Message<TPayload> message, CancellationToken cancellationToken = default)
   {
     SubscribersLock.EnterReadLock();
     try { return base.Publish(message, cancellationToken); }
     finally { SubscribersLock.ExitReadLock(); }
   }
 
-  public override string[]? Subscribe<TPayload> (string subscriberId, Func<Message<TPayload>, CancellationToken, Task<string>> messageHandler)
+  public override string[]? Subscribe<TPayload> (string subscriberId, Func<Message<TPayload>, CancellationToken, Task<string?>> messageHandler)
   {
     SubscribersLock.EnterWriteLock();
     try { return base.Subscribe(subscriberId, messageHandler); }

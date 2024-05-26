@@ -1,6 +1,4 @@
 
-using static System.String;
-using static System.Threading.Tasks.Task;
 #pragma warning disable CS4014
 
 namespace Simple.Infrastructure.Queue;
@@ -16,7 +14,7 @@ partial class QueueTests
   {
     var queue = CreateMessageQueue<int>(noOfMessages);
     using var cts = new CancellationTokenSource();
-    MessageHandler<int> handleMessage = (msg, _) => FromResult(Empty);
+    MessageHandler<int> handleMessage = (msg, _) => Task.FromResult(true);
     Func<int, CancellationToken, ValueTask> enqueueMessage = async (index, _) => {
       EnqueueMessage(index, queue);
       if(index == noOfMessages) await cts.CancelAsync();

@@ -18,12 +18,12 @@
 - **simple architecture** aka **pyramid architecture**.
 
 ### Simple architecture implementation
-- *high-level modules*: Simple.Web.Api.
-- *low-level modules*: Simple.Domain.Services, Simple.Infrastructure.*, Simple.Shared.*.
+- *high-level modules*: simple.web.endpoints.
+- *low-level modules*: simple.domain.services, simple.infrastructure.\*, simple.shared.\*.
 
 ### Simple vs clean architectures parallels
 - *the dependency rule* - no dependencies.
-- *entities* - rich entities replaced with simple data bags [no behaviours].
+- *entities* - rich entities replaced with simple data bags [no behaviours] in *low-level module* simple.shared.models.
 - *use cases* = *domain services module*.
 - *interface adapters* - reside into *high-level modules*.
 - *frameworks and drivers* - reside into:
@@ -39,7 +39,7 @@
 - [simple-architecture implementation](/):
   - *simple.domain.services*, *simple.infrastructure.** completely independent projects [share *simple.shared.models* project].
   - *simple.webapi* project depend on all above projects.
-- *pyramid* vs *stack* => *simple* vs *complicated* -> *unknown* vs *highly-appreciated* [no-comments].
+- *pyramid* vs *stack* => *simple* vs *complicated* -> *unknown* [yet] vs *highly-appreciated* [no-comments].
 
 ### Remarks
 - something similar already exists how else [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
@@ -50,6 +50,6 @@ Based idea comes from:
 - Mark Seemann's mindset changing hidden gems:
   - [impureim sandwitch](https://blog.ploeh.dk/2020/03/02/impureim-sandwich/).
   - [dependency rejection](https://blog.ploeh.dk/2017/01/27/from-dependency-injection-to-dependency-rejection/).
-- Dragos Tudor: one functionality == one *high-level* function.
+- Dragos Tudor: each functionality == one *high-level* integration function [aka functionality controller].
 
 *SIMPLE ALWAYS MEANS SIMPLE*

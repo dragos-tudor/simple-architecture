@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Shared.Extensions", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Queue", "Simple.Infrastructure.Queue\Simple.Infrastructure.Queue.csproj", "{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Web.Endpoints", "Simple.Web.Endpoints\Simple.Web.Endpoints.csproj", "{B6EAD819-697E-4D4C-AEFD-4C443455F395}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,5 +62,9 @@ Global
 		{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6EAD819-697E-4D4C-AEFD-4C443455F395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6EAD819-697E-4D4C-AEFD-4C443455F395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6EAD819-697E-4D4C-AEFD-4C443455F395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6EAD819-697E-4D4C-AEFD-4C443455F395}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

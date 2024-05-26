@@ -14,7 +14,7 @@ partial class MediatorFuncs
 
   public static Result<Subscriber<Message>[]?, string[]?> RegisterSubscriber<TPayload> (
     string subscriberId,
-    Func<Message<TPayload>, CancellationToken, Task<string>> messageHandler,
+    Func<Message<TPayload>, CancellationToken, Task<string?>> messageHandler,
     Subscriber<Message>[] subscribers)
   =>
     RegisterSubscriber(CreateSubscriber(subscriberId, messageHandler), subscribers);
