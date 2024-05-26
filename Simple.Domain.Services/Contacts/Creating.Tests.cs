@@ -7,15 +7,15 @@ namespace Simple.Domain.Services;
 partial class ServicesTests
 {
   readonly FindPhoneNumbers FindPhoneNumbers = Substitute.For<FindPhoneNumbers>();
-  readonly SaveModelAndMessage<Contact, ContactCreatedEvent> SaveContactAndMessage = Substitute.For<SaveModelAndMessage<Contact, ContactCreatedEvent>>();
-  readonly PublishMessage<ContactCreatedEvent> PublishMessage = Substitute.For<PublishMessage<ContactCreatedEvent>>();
+  readonly SaveModelAndEvent<Contact, ContactCreatedEvent> SaveContactAndEvent = Substitute.For<SaveModelAndEvent<Contact, ContactCreatedEvent>>();
+  readonly PublishEvent<ContactCreatedEvent> PublishEvent = Substitute.For<PublishEvent<ContactCreatedEvent>>();
 
   [TestMethod]
   public async Task new_contact__create_contact__result_contact_created_event ()
   {
     var contact = CreateTestContact();
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
-    var result = await CreateContactService(contact, FindPhoneNumbers, SaveContactAndMessage, PublishMessage);
+    var result = await CreateContactService(contact, FindPhoneNumbers, SaveContactAndEvent, PublishEvent);
 
     Assert.AreEqual(FromSuccess(result), contactCreatedEvent);
   }
@@ -25,34 +25,34 @@ partial class ServicesTests
   {
     var contact = CreateTestContact();
 
-    var saveContactAndMessage = Substitute.For<SaveModelAndMessage<Contact, ContactCreatedEvent>>();
-    var result = await CreateContactService(contact, FindPhoneNumbers, saveContactAndMessage, PublishMessage);
+    var saveContactAndEvent = Substitute.For<SaveModelAndEvent<Contact, ContactCreatedEvent>>();
+    var result = await CreateContactService(contact, FindPhoneNumbers, saveContactAndEvent, PublishEvent);
 
-    await saveContactAndMessage.Received().Invoke(Arg.Is<Contact>(x => x.ContactId == contact.ContactId), Arg.Any<Message<ContactCreatedEvent>>());
+    await saveContactAndEvent.Received().Invoke(Arg.Is<Contact>(x => x.ContactId == contact.ContactId), Arg.Any<ContactCreatedEvent>());
   }
 
   [TestMethod]
-  public async Task new_contact__create_contact__message_with_contact_created_event_is_saved ()
+  public async Task new_contact__create_contact__contact_created_event_is_saved ()
   {
     var contact = CreateTestContact();
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
 
-    var saveContactAndMessage = Substitute.For<SaveModelAndMessage<Contact, ContactCreatedEvent>>();
-    var result = await CreateContactService(contact, FindPhoneNumbers, saveContactAndMessage, PublishMessage);
+    var saveContactAndEvent = Substitute.For<SaveModelAndEvent<Contact, ContactCreatedEvent>>();
+    var result = await CreateContactService(contact, FindPhoneNumbers, saveContactAndEvent, PublishEvent);
 
-    await saveContactAndMessage.Received().Invoke(Arg.Any<Contact>(), Arg.Is<Message<ContactCreatedEvent>>(x => x.MessagePayload == contactCreatedEvent));
+    await saveContactAndEvent.Received().Invoke(Arg.Any<Contact>(), Arg.Is<ContactCreatedEvent>(@event => @event == contactCreatedEvent));
   }
 
   [TestMethod]
-  public async Task new_contact__create_contact__publish_contact_created_event_message ()
+  public async Task new_contact__create_contact__publish_contact_created_event ()
   {
     var contact = CreateTestContact();
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
 
-    var publishMessage = Substitute.For<PublishMessage<ContactCreatedEvent>>();
-    var result = await CreateContactService(contact, FindPhoneNumbers, SaveContactAndMessage, publishMessage);
+    var publishEvent = Substitute.For<PublishEvent<ContactCreatedEvent>>();
+    var result = await CreateContactService(contact, FindPhoneNumbers, SaveContactAndEvent, publishEvent);
 
-    await publishMessage.Received().Invoke(Arg.Is<Message<ContactCreatedEvent>>(x => x.MessagePayload == contactCreatedEvent));
+    await publishEvent.Received().Invoke(Arg.Is<ContactCreatedEvent>(@event => @event == contactCreatedEvent));
   }
 
   [TestMethod]
@@ -63,7 +63,7 @@ partial class ServicesTests
     var findPhoneNumbers = Substitute.For<FindPhoneNumbers>();
 
     findPhoneNumbers(contact.PhoneNumbers).Returns((_) => FromResult<IEnumerable<string>>([phoneNumber.Number]));
-    var result = await CreateContactService(contact, findPhoneNumbers, SaveContactAndMessage, PublishMessage);
+    var result = await CreateContactService(contact, findPhoneNumbers, SaveContactAndEvent, PublishEvent);
 
     AreEqual(FromFailure(result)!, [GetDuplicatePhoneNumberError(phoneNumber.Number)]);
   }
@@ -72,7 +72,7 @@ partial class ServicesTests
   public async Task new_contact_with_invalid_contact_email__create_contact__invalid_contact_email_error ()
   {
     var contact = CreateTestContact(contactEmail: "wrong email");
-    var result = await CreateContactService(contact, FindPhoneNumbers, SaveContactAndMessage, PublishMessage);
+    var result = await CreateContactService(contact, FindPhoneNumbers, SaveContactAndEvent, PublishEvent);
 
     AreEqual(FromFailure(result)!, [GetInvalidContactEmailError(contact.ContactEmail)]);
   }
