@@ -12,7 +12,7 @@ partial class NotificationsFuncs
     CancellationToken cancellationToken = default)
   {
     await smtpClient.ConnectAsync (serverOptions.ServerName, serverOptions.SewrverPort, false, cancellationToken);
-    LogSendingMessageError(Logger, mailMessage.Subject, ConcatMailAdresses(GetMailAddresses(mailMessage.To)));
+    LogSendingMessage(Logger, mailMessage.Subject, ConcatMailAdresses(GetMailAddresses(mailMessage.To)));
     await smtpClient.SendAsync (mailMessage, cancellationToken);
     await smtpClient.DisconnectAsync (true, cancellationToken);
   }
