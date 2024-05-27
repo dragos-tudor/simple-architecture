@@ -14,26 +14,22 @@ partial class MediatorTests
   }
 
   [TestMethod]
-  public void registered_subscribers_on_same_message_type__unregister_subscriber__only_subscriber_unregistered()
+  public void registered_subscribers_on_same_message_type__unregister_one_subscriber__that_subscriber_unregistered()
   {
     var sub1 = CreateSubscriber<string>("sub1", (_, _) => Task.FromResult(default(string)));
-    var subs1 = RegisterSubscriber(sub1, []);
-
     var sub2 = CreateSubscriber<string>("sub2", (_, _) => Task.FromResult(default(string)));
-    var subs2 = RegisterSubscriber(sub2, FromSuccess(subs1)!);
+    var subs2 = RegisterSubscriber(sub2, [sub1]);
 
     var actual = UnregisterSubscriber("sub1", FromSuccess(subs2)!);
     AreEqual(actual, [sub2]);
   }
 
   [TestMethod]
-  public void registered_subscribers_on_different_message_type__unregister_subscriber__only_subscriber_unregistered()
+  public void registered_subscribers_with_different_message_type__unregister_one_subscriber_with_one_message_type__that_subscriber_unregistered()
   {
-    var sub1 = CreateSubscriber<string>("sub1", (_, _) => Task.FromResult(default(string)));
-    var subs1 = RegisterSubscriber(sub1, []);
-
-    var sub2 = CreateSubscriber<int>("sub2", (_, _) => Task.FromResult(default(string)));
-    var subs2 = RegisterSubscriber(sub2, FromSuccess(subs1)!);
+    var sub1 = CreateSubscriber<string, string>("sub1", (_, _) => Task.FromResult(default(string)));
+    var sub2 = CreateSubscriber<string, int>("sub2", (_, _) => Task.FromResult(default(string)));
+    var subs2 = RegisterSubscriber(sub2, [sub1]);
 
     var actual = UnregisterSubscriber("sub1", FromSuccess(subs2)!);
     AreEqual(actual, [sub2]);

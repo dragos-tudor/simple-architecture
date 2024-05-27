@@ -3,7 +3,6 @@
   <Import Project="../Directory.Testing.props" />
 
   <ItemGroup>
-    <ProjectReference Include="../Simple.Shared.Models/Simple.Shared.Models.csproj" />
     <ProjectReference Include="../Simple.Shared.Extensions/Simple.Shared.Extensions.csproj" />
   </ItemGroup>
 

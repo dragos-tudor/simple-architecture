@@ -3,9 +3,6 @@ namespace Simple.Infrastructure.Mediator;
 
 partial class MediatorFuncs
 {
-  public static Subscriber<TMessage>[] UnregisterSubscriber<TMessage>(
-    string subscriberId,
-    Subscriber<TMessage>[] subscribers)
-  =>
+  public static Subscriber<TMessage>[] UnregisterSubscriber<TMessage> (string subscriberId, Subscriber<TMessage>[] subscribers) =>
     subscribers.Where(subscriber => subscriber.SubscriberId != subscriberId).ToArray();
 }
