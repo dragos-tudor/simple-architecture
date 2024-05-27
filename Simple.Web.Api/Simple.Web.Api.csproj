@@ -6,7 +6,7 @@
 
   <ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App"/>
-    <ProjectReference Include="../Simple.Web.Endpoints/Simple.Web.Endpoints.csproj" />
+    <ProjectReference Include="../Simple.App.Services/Simple.App.Services.csproj" />
   </ItemGroup>
 
 </Project>

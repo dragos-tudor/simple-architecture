@@ -7,7 +7,7 @@
 - *high-level modules* **integrate** all *low-level modules* and *mid-level modules*.
 - *middle-level modules* **relies** on *low-level modules* having lower complexity than *high-level modules*.
 - *low-level modules* **completely independent** ["parallel" modules].
-- *low-level modules* **could share** some *low-level modules* [ex. *simple.shared.models* project].
+- *low-level modules* **could share** some *low-level modules* [ex. *simple.domain.models*].
 - *low-level modules* should be **most of** all modules [pyramid base].
 - *low-level modules* could be seen as **lego pieces** and *high-level modules* as **lego structures**.
 - **fractals design** could be applied at any level:
@@ -18,13 +18,13 @@
 - **simple architecture** aka **pyramid architecture**.
 
 ### Simple architecture implementation
-- *high-level modules*: simple.web.endpoints.
-- *low-level modules*: simple.domain.services, simple.infrastructure.\*, simple.shared.\*.
+- *high-level modules*: simple.web.api, simple.app.services.
+- *low-level modules*: simple.domain.*, simple.infrastructure.\*, simple.shared.extensions.
 
 ### Simple vs clean architectures parallels
 - *the dependency rule* - no dependencies.
-- *entities* - rich entities replaced with simple data bags [no behaviours] in *low-level module* simple.shared.models.
-- *use cases* = *domain services module*.
+- *entities* - rich entities replaced with simple data bags [no behaviours] in *low-level module* simple.domain.models.
+- *use cases* = *simple.app.services*.
 - *interface adapters* - reside into *high-level modules*.
 - *frameworks and drivers* - reside into:
   - *low-level modules* [databases drivers].

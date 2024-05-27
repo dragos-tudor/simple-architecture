@@ -3,8 +3,9 @@
   <Import Project="../Directory.Testing.props" />
 
   <ItemGroup>
-    <ProjectReference Include="../Simple.Shared.Models/Simple.Shared.Models.csproj" />
+    <ProjectReference Include="../Simple.Domain.Models/Simple.Domain.Models.csproj" />
     <ProjectReference Include="../Simple.Shared.Extensions/Simple.Shared.Extensions.csproj" />
+    <PackageReference Include="FluentValidation" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'!='Release'">

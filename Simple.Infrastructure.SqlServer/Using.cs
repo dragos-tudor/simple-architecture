@@ -5,7 +5,7 @@ global using System.Linq;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using Microsoft.EntityFrameworkCore;
-global using Simple.Shared.Models;
+global using Simple.Domain.Models;
 global using static Docker.Extensions.DockerFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
 

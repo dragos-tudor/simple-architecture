@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Web.Api", "Simple.We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Notifications", "Simple.Infrastructure.Notifications\Simple.Infrastructure.Notifications.csproj", "{2030B230-FB17-4A8C-8FCC-9654215BA0D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Shared.Models", "Simple.Shared.Models\Simple.Shared.Models.csproj", "{CBF7229B-D119-484E-A50F-E5CC36062055}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Domain.Models", "Simple.Domain.Models\Simple.Domain.Models.csproj", "{CBF7229B-D119-484E-A50F-E5CC36062055}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Mediator", "Simple.Infrastructure.Mediator\Simple.Infrastructure.Mediator.csproj", "{22D7C583-0328-418E-864E-E55C959363BC}"
 EndProject
@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Shared.Extensions", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Queue", "Simple.Infrastructure.Queue\Simple.Infrastructure.Queue.csproj", "{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Web.Endpoints", "Simple.Web.Endpoints\Simple.Web.Endpoints.csproj", "{B6EAD819-697E-4D4C-AEFD-4C443455F395}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.App.EServices", "Simple.App.Services\Simple.App.Services.csproj", "{B6EAD819-697E-4D4C-AEFD-4C443455F395}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
