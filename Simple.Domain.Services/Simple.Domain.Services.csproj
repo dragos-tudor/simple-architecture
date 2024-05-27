@@ -5,6 +5,9 @@
   <ItemGroup>
     <ProjectReference Include="../Simple.Shared.Models/Simple.Shared.Models.csproj" />
     <ProjectReference Include="../Simple.Shared.Extensions/Simple.Shared.Extensions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'!='Release'">
     <PackageReference Include="NSubstitute" />
   </ItemGroup>
 
