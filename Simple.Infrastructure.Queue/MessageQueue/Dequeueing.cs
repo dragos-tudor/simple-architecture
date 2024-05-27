@@ -11,17 +11,18 @@ partial class QueueFuncs
   public static async Task DequeueMessages<TMessage> (
     Channel<TMessage> queue,
     MessageHandler<TMessage> messageHandler,
-    Func<Exception, string> logError,
+    Action<TMessage?, Exception> logError,
     CancellationToken cancellationToken= default)
   {
     while(!cancellationToken.IsCancellationRequested)
     {
+      TMessage? message = default;
       try {
-        var message = await DequeueMessage(queue, cancellationToken);
+        message = await DequeueMessage(queue, cancellationToken);
         await messageHandler(message, cancellationToken);
       }
-      catch (OperationCanceledException ex) { logError(ex); return; }
-      catch (Exception ex) { logError(ex); }
+      catch (OperationCanceledException ex) { logError(message, ex); return; }
+      catch (Exception ex) { logError(message, ex); }
     }
   }
 }

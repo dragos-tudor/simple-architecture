@@ -1,5 +1,6 @@
 
 #pragma warning disable CS4014
+#pragma warning disable CA2201
 
 using NSubstitute;
 
@@ -17,7 +18,7 @@ partial class QueueTests
     var queue = CreateMessageQueue<int>(queueCapacity);
     using var counter = new CountdownEvent(queueCapacity);
 
-    DequeueMessages(queue, (index, _) => { counter.Signal(); return Task.FromResult(true); }, (_) => default!, CancellationToken.None);
+    DequeueMessages(queue, (index, _) => { counter.Signal(); return Task.FromResult(true); }, (_, _) => {}, CancellationToken.None);
     Parallel.For(0, queueCapacity, (index, _) => { EnqueueMessage(index, queue); });
 
     counter.Wait();
@@ -27,13 +28,13 @@ partial class QueueTests
   public async Task error_throwing_message_handler__enqueue_messages__errors_handled()
   {
     var queue = CreateMessageQueue<string>(1);
-    var logger = Substitute.For<Func<Exception, string>>();
+    var logger = Substitute.For<Action<string?, Exception>>();
     using var cts = new CancellationTokenSource();
 
-    DequeueMessages(queue, (message, _) => { throw new ArgumentException(message); }, logger, cts.Token);
+    DequeueMessages(queue, (_, _) => { throw new Exception("error"); }, logger, cts.Token);
     EnqueueMessage("abc", queue);
 
     await cts.CancelAsync();
-    logger.Received().Invoke(Arg.Is<ArgumentException>(ex => ex.Message == "abc"));
+    logger.Received().Invoke(Arg.Is("abc"), Arg.Is<Exception>(ex => ex.Message == "error"));
   }
 }

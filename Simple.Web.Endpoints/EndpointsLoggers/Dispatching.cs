@@ -5,6 +5,6 @@ namespace Simple.Web.Endpoints;
 
 partial class EndpointsFuncs
 {
-  [LoggerMessage(1, LogLevel.Error, "Dispatcher: dispatched message {MessageType} error {Error}.", EventName = "LogDispatchMessageError")]
-  public static partial void LogDispatchMessageError (ILogger logger, string messageType, string error);
+  [LoggerMessage(2, LogLevel.Error, "Dispatcher: Dispatched message {MessageType} error {Error}. [{TraceId}]", EventName = "LogDispatchedMessageError")]
+  public static partial void LogDispatchedMessageError (ILogger logger, string? messageType, string? traceId, string error);
 }
