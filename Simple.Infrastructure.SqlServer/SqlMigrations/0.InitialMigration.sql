@@ -41,7 +41,7 @@ CREATE TABLE [PhoneNumbers] (
     [CountryCode] SMALLINT NOT NULL,
     [Extension] nvarchar(5) NULL,
     [NumberType] tinyint NOT NULL,
-    [ContactId] uniqueidentifier NULL,
+    [ContactId] uniqueidentifier NOT NULL,
     CONSTRAINT [PK_PhoneNumbers] PRIMARY KEY ([CountryCode], [Number]),
     CONSTRAINT [FK_PhoneNumbers_Contacts_ContactId] FOREIGN KEY ([ContactId]) REFERENCES [Contacts] ([ContactId])
 );
