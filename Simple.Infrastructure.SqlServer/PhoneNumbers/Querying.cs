@@ -12,7 +12,8 @@ partial class SqlServerFuncs
   public static IQueryable<PhoneNumber> FindPhoneNumbersWithNumbers (IQueryable<PhoneNumber> query, IEnumerable<long> numbers) =>
     query.Where(phoneNumber => numbers.Contains(phoneNumber.Number));
 
+  // https://github.com/dotnet/EntityFramework.Docs/issues/2607
   public static async Task<IEnumerable<PhoneNumber>> FindPhoneNumbersWithPhoneNumbers (IQueryable<PhoneNumber> query, IEnumerable<PhoneNumber> phoneNumbers, CancellationToken cancellationToken = default) =>
-    (await FindPhoneNumbersWithNumbers(query, phoneNumbers.Select(e => e.Number)).ToListAsync(cancellationToken))
+    (await FindPhoneNumbersWithNumbers(query, phoneNumbers.Select(e => e.Number)).ToListAsync(cancellationToken)) // workaround: filter locally few phone numbers
       .Where(outer => phoneNumbers.Any(inner => outer == inner));
 }
