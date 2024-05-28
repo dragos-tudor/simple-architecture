@@ -5,15 +5,19 @@ partial class ServicesFuncs
 {
   public static async Task<Result<ContactCreatedEvent?, string[]?>> CreateContactService (
     Contact contact,
+    IEnumerable<PhoneNumber> phoneNumbers,
     FindModels<PhoneNumber, long> findPhoneNumbers,
     SaveModels<Contact, Message> saveModels,
     ProduceMessage<Message> produceMessage,
     CancellationToken cancellationToken = default)
   {
-    var valErrors = ValidateModel(contact, ContactValidator);
-    if(ExistsValidationErrors(valErrors)) return AsArray(valErrors);
+    var contactErrors = ValidateModel(contact, ContactValidator);
+    if(ExistsValidationErrors(contactErrors)) return AsArray(contactErrors);
 
-    var result = await DomainFuncs.CreateContactService(contact, findPhoneNumbers, cancellationToken);
+    var phoneNumberErrors = ValidateModels(phoneNumbers, PhoneNumberValidator);
+    if(ExistsValidationErrors(phoneNumberErrors)) return AsArray(phoneNumberErrors);
+
+    var result = await DomainFuncs.CreateContactService(contact, phoneNumbers, findPhoneNumbers, cancellationToken);
     if(IsFailureResult(result)) return AsArray(FromFailure(result)!);
 
     var @event = FromSuccess(result);

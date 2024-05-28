@@ -7,13 +7,15 @@ partial class ServicesFuncs
 {
   public static async Task<Result<ContactCreatedEvent?, string[]?>> CreateContactService (
     Contact contact,
+    IEnumerable<PhoneNumber> phoneNumbers,
     FindModels<PhoneNumber, long> findPhoneNumbers,
     CancellationToken cancellationToken = default)
   {
-    SetContactId(contact, GenerateContactId());
-
-    var duplicateNumbers = await findPhoneNumbers(contact.PhoneNumbers ?? [], cancellationToken);
+    var duplicateNumbers = await findPhoneNumbers(phoneNumbers ?? [], cancellationToken);
     if (ExistsPhoneNumbers(duplicateNumbers)) return AsArray(GetDuplicatePhoneNumberErrors(duplicateNumbers));
+
+    SetContactId(contact, GenerateContactId());
+    SetContactPhoneNumbers(contact, phoneNumbers!);
 
     var contactErrors = ValidateContact(contact);
     if (ExistsValidationErrors(contactErrors)) return AsArray(contactErrors);
