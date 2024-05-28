@@ -9,4 +9,11 @@ partial class SqlServerFuncs
     AddPhoneNumbers(dbContext, contact.PhoneNumbers);
     return contact;
   }
+
+  public static Task AddAndStoreContactAndMessage (AgendaContext dbContext, Contact contact, Message message, CancellationToken cancellationToken = default)
+  {
+    AddContact(dbContext, contact);
+    AddMessage(dbContext, message);
+    return SaveChanges(dbContext, cancellationToken);
+  }
 }

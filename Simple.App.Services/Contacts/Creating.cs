@@ -6,7 +6,7 @@ partial class ServicesFuncs
   public static async Task<Result<Contact?, string[]?>> CreateContactService (
     Contact contact,
     IEnumerable<PhoneNumber> phoneNumbers,
-    FindModels<PhoneNumber, long> findPhoneNumbers,
+    FindModels<PhoneNumber, PhoneNumber> findPhoneNumbers,
     SaveModels<Contact, Message> saveModels,
     ProduceMessage<Message> produceMessage,
     string? traceId = default,

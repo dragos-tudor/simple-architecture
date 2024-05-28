@@ -7,7 +7,7 @@ namespace Simple.App.Services;
 
 partial class ServicesTests
 {
-  readonly FindModels<PhoneNumber, long> FindPhoneNumbers = Substitute.For<FindModels<PhoneNumber, long>>();
+  readonly FindModels<PhoneNumber, PhoneNumber> FindPhoneNumbers = Substitute.For<FindModels<PhoneNumber, PhoneNumber>>();
   readonly SaveModels<Contact, Message> SaveContactAndMessage = Substitute.For<SaveModels<Contact, Message>>();
   readonly ProduceMessage<Message> ProduceMessage = Substitute.For<ProduceMessage<Message>>();
 
@@ -48,12 +48,12 @@ partial class ServicesTests
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
     PhoneNumber[] phoneNumbers = [CreateTestPhoneNumber()];
-    var findPhoneNumbers = Substitute.For<FindModels<PhoneNumber, long>>();
+    var findPhoneNumbers = Substitute.For<FindModels<PhoneNumber, PhoneNumber>>();
 
-    findPhoneNumbers(phoneNumbers).Returns((_) => FromResult(phoneNumbers.Select(e => e.Number)));
+    findPhoneNumbers(phoneNumbers).Returns((_) => FromResult(phoneNumbers.AsEnumerable()));
     var result = await CreateContactService(contact, phoneNumbers, findPhoneNumbers, SaveContactAndMessage, ProduceMessage);
 
-    AreEqual(FromFailure(result)!, [GetDuplicatePhoneNumberError(phoneNumbers[0].Number)]);
+    AreEqual(FromFailure(result)!, [GetDuplicatePhoneNumberError(phoneNumbers[0])]);
   }
 
   [TestMethod]

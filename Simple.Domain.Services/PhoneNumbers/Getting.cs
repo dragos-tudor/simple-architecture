@@ -7,7 +7,7 @@ partial class ServicesFuncs
 
   public static string GetInvalidPhoneNumberError (long number) => $"Invalid phone number {number}. Should be between 0-{PhoneNumberContraints.MaxNumber}";
 
-  public static string GetDuplicatePhoneNumberError (long number) => $"Duplicate phone number {number}.";
+  public static string GetDuplicatePhoneNumberError (PhoneNumber phoneNumber) => $"Duplicate phone number with country code {phoneNumber.CountryCode} and number {phoneNumber.Number}.";
 
-  public static IEnumerable<string> GetDuplicatePhoneNumberErrors (IEnumerable<long> phoneNumbers) => phoneNumbers.Select(GetDuplicatePhoneNumberError);
+  public static IEnumerable<string> GetDuplicatePhoneNumberErrors (IEnumerable<PhoneNumber> phoneNumbers) => phoneNumbers.Select(GetDuplicatePhoneNumberError);
 }

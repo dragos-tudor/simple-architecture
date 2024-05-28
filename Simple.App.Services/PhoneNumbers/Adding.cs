@@ -6,7 +6,7 @@ partial class ServicesFuncs
   public static async Task<Result<Contact?, string[]?>> AddPhoneNumberService (
     Guid contactId,
     PhoneNumber phoneNumber,
-    FindModel<PhoneNumber, long?> findPhoneNumber,
+    FindModel<PhoneNumber, PhoneNumber?> findPhoneNumber,
     FindModel<Guid, Contact?> findContact,
     SaveModels<Contact, PhoneNumber> saveModels,
     string? traceId = default,

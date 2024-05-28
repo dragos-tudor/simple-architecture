@@ -1,12 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+  <Import Project="../Directory.Testing.props" />
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
 		<OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App"/>
     <ProjectReference Include="../Simple.App.Services/Simple.App.Services.csproj" />
+    <ProjectReference Include="../Simple.Infrastructure.Mediator/Simple.Infrastructure.Mediator.csproj" />
+    <ProjectReference Include="../Simple.Infrastructure.Notifications/Simple.Infrastructure.Notifications.csproj" />
+    <ProjectReference Include="../Simple.Infrastructure.Queue/Simple.Infrastructure.Queue.csproj" />
+    <ProjectReference Include="../Simple.Infrastructure.SqlServer/Simple.Infrastructure.SqlServer.csproj" />
   </ItemGroup>
 
 </Project>
