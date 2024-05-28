@@ -1,5 +1,5 @@
 
-## Simple architecture [wip]
+# Simple architecture
 
 ### Simple architecture design
 - **simple architecture**: an alternative to [clean-architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
