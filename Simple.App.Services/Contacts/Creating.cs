@@ -3,7 +3,7 @@ namespace Simple.App.Services;
 
 partial class ServicesFuncs
 {
-  public static async Task<Result<ContactCreatedEvent?, string[]?>> CreateContactAppService (
+  public static async Task<Result<ContactCreatedEvent?, string[]?>> CreateContactService (
     Contact contact,
     FindModels<PhoneNumber, long> findPhoneNumbers,
     SaveModels<Contact, Message> saveModels,
@@ -13,7 +13,7 @@ partial class ServicesFuncs
     var valErrors = ValidateModel(contact, ContactValidator);
     if(ExistsValidationErrors(valErrors)) return AsArray(valErrors);
 
-    var result = await CreateContactService(contact, findPhoneNumbers, cancellationToken);
+    var result = await DomainFuncs.CreateContactService(contact, findPhoneNumbers, cancellationToken);
     if(IsFailureResult(result)) return AsArray(FromFailure(result)!);
 
     var @event = FromSuccess(result);

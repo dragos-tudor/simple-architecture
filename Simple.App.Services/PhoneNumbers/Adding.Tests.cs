@@ -16,7 +16,7 @@ partial class ServicesTests
     var phoneNumber = CreateTestPhoneNumber();
 
     var saveContactAndPhoneNumber = Substitute.For<SaveModels<Contact, PhoneNumber>>();
-    var result = await AddPhoneNumberAppService(contact, phoneNumber, FindPhoneNumber, saveContactAndPhoneNumber);
+    var result = await AddPhoneNumberService(contact, phoneNumber, FindPhoneNumber, saveContactAndPhoneNumber);
 
     await saveContactAndPhoneNumber.Received().Invoke(
       Arg.Is<Contact>(ct => ct.ContactId == contact.ContactId),
@@ -32,7 +32,7 @@ partial class ServicesTests
     var findPhoneNumber = Substitute.For<FindModel<PhoneNumber, long?>>();
 
     findPhoneNumber(phoneNumber).Returns((_) => FromResult((long?)phoneNumber.Number));
-    var result = await AddPhoneNumberAppService(contact, phoneNumber, findPhoneNumber, SaveContactAndPhoneNumber);
+    var result = await AddPhoneNumberService(contact, phoneNumber, findPhoneNumber, SaveContactAndPhoneNumber);
 
     AreEqual(FromFailure(result)!, [GetDuplicatePhoneNumberError(phoneNumber.Number)]);
   }
@@ -42,7 +42,7 @@ partial class ServicesTests
   {
     var contact = CreateTestContact();
     var phoneNumber = CreateTestPhoneNumber(number: 100_000_000_000);
-    var result = await AddPhoneNumberAppService(contact, phoneNumber, FindPhoneNumber, SaveContactAndPhoneNumber);
+    var result = await AddPhoneNumberService(contact, phoneNumber, FindPhoneNumber, SaveContactAndPhoneNumber);
 
     AreEqual(FromFailure(result)!, [GetInvalidPhoneNumberError(phoneNumber.Number)]);
   }

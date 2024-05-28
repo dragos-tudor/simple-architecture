@@ -16,7 +16,7 @@ partial class ServicesTests
   {
     var contact = CreateTestContact();
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
-    var result = await CreateContactAppService(contact, FindPhoneNumbers, SaveContactAndMessage, PublishMessage);
+    var result = await CreateContactService(contact, FindPhoneNumbers, SaveContactAndMessage, PublishMessage);
 
     Assert.AreEqual(FromSuccess(result), contactCreatedEvent);
   }
@@ -27,7 +27,7 @@ partial class ServicesTests
     var contact = CreateTestContact();
 
     var saveModels = Substitute.For<SaveModels<Contact, Message>>();
-    var result = await CreateContactAppService(contact, FindPhoneNumbers, saveModels, PublishMessage);
+    var result = await CreateContactService(contact, FindPhoneNumbers, saveModels, PublishMessage);
 
     await saveModels.Received().Invoke(Arg.Is<Contact>(x => x.ContactId == contact.ContactId), Arg.Any<Message<ContactCreatedEvent>>());
   }
@@ -39,7 +39,7 @@ partial class ServicesTests
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
 
     var saveModels = Substitute.For<SaveModels<Contact, Message>>();
-    var result = await CreateContactAppService(contact, FindPhoneNumbers, saveModels, PublishMessage);
+    var result = await CreateContactService(contact, FindPhoneNumbers, saveModels, PublishMessage);
 
     await saveModels.Received().Invoke(Arg.Any<Contact>(), Arg.Is<Message<ContactCreatedEvent>>(message => message.MessagePayload == contactCreatedEvent));
   }
@@ -51,7 +51,7 @@ partial class ServicesTests
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
 
     var publishMessage = Substitute.For<PublishModel<Message>>();
-    var result = await CreateContactAppService(contact, FindPhoneNumbers, SaveContactAndMessage, publishMessage);
+    var result = await CreateContactService(contact, FindPhoneNumbers, SaveContactAndMessage, publishMessage);
 
     await publishMessage.Received().Invoke(Arg.Is<Message<ContactCreatedEvent>>(message => message.MessagePayload == contactCreatedEvent));
   }
@@ -64,7 +64,7 @@ partial class ServicesTests
     var findPhoneNumbers = Substitute.For<FindModels<PhoneNumber, long>>();
 
     findPhoneNumbers(contact.PhoneNumbers).Returns((_) => FromResult<IEnumerable<long>>([phoneNumber.Number]));
-    var result = await CreateContactAppService(contact, findPhoneNumbers, SaveContactAndMessage, PublishMessage);
+    var result = await CreateContactService(contact, findPhoneNumbers, SaveContactAndMessage, PublishMessage);
 
     AreEqual(FromFailure(result)!, [GetDuplicatePhoneNumberError(phoneNumber.Number)]);
   }
@@ -73,7 +73,7 @@ partial class ServicesTests
   public async Task new_contact_with_invalid_contact_email__create_contact__invalid_contact_email_error ()
   {
     var contact = CreateTestContact(contactEmail: "wrong email");
-    var result = await CreateContactAppService(contact, FindPhoneNumbers, SaveContactAndMessage, PublishMessage);
+    var result = await CreateContactService(contact, FindPhoneNumbers, SaveContactAndMessage, PublishMessage);
 
     AreEqual(FromFailure(result)!, [GetInvalidContactEmailError(contact.ContactEmail)]);
   }
