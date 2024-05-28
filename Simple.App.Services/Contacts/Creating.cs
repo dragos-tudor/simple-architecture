@@ -7,7 +7,7 @@ partial class ServicesFuncs
     Contact contact,
     FindModels<PhoneNumber, long> findPhoneNumbers,
     SaveModels<Contact, Message> saveModels,
-    PublishModel<Message> publishMessage,
+    ProduceMessage<Message> produceMessage,
     CancellationToken cancellationToken = default)
   {
     var valErrors = ValidateModel(contact, ContactValidator);
@@ -20,7 +20,7 @@ partial class ServicesFuncs
     var message = CreateMessage(@event);
 
     await saveModels(contact, message, cancellationToken);
-    await publishMessage(message);
+    await produceMessage(message);
 
     return @event;
   }

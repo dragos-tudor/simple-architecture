@@ -1,7 +1,7 @@
 
 namespace Simple.App.Services;
 
-public delegate Task PublishModel<TModel> (TModel model);
+public delegate Task ProduceMessage<TMessage> (TMessage message);
 
 public delegate Task SaveModel<TModel> (TModel model, CancellationToken cancellationToken = default);
 
