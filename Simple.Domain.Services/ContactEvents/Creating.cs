@@ -1,7 +1,7 @@
 
-namespace Simple.Domain.Models;
+namespace Simple.Domain.Services;
 
-partial class ModelsFuncs
+partial class ServicesFuncs
 {
   public static ContactCreatedEvent CreateContactCreatedEvent (Guid contactId, string contactEmail) =>
     new (contactId, contactEmail);
