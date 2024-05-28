@@ -16,7 +16,7 @@ partial class ServicesTests
     var phoneNumber = CreateTestPhoneNumber();
 
     var saveContactAndPhoneNumber = Substitute.For<SaveModels<Contact, PhoneNumber>>();
-    var result = await AddPhoneNumberService(contact, phoneNumber, FindPhoneNumber, saveContactAndPhoneNumber);
+    await AddPhoneNumberService(contact, phoneNumber, FindPhoneNumber, saveContactAndPhoneNumber);
 
     await saveContactAndPhoneNumber.Received().Invoke(
       Arg.Is<Contact>(ct => ct.ContactId == contact.ContactId),

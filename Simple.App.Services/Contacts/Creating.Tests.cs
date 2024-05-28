@@ -12,21 +12,11 @@ partial class ServicesTests
   readonly ProduceMessage<Message> ProduceMessage = Substitute.For<ProduceMessage<Message>>();
 
   [TestMethod]
-  public async Task new_contact__create_contact__result_contact_created_event ()
-  {
-    var contact = CreateTestContact(contactId: Guid.Empty);
-    var result = await CreateContactService(contact, [], FindPhoneNumbers, SaveContactAndMessage, ProduceMessage);
-
-    var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
-    Assert.AreEqual(FromSuccess(result), contactCreatedEvent);
-  }
-
-  [TestMethod]
   public async Task new_contact__create_contact__contact_saved ()
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
     var saveModels = Substitute.For<SaveModels<Contact, Message>>();
-    var result = await CreateContactService(contact, [], FindPhoneNumbers, saveModels, ProduceMessage);
+    await CreateContactService(contact, [], FindPhoneNumbers, saveModels, ProduceMessage);
 
     await saveModels.Received().Invoke(Arg.Is<Contact>(x => x.ContactId == contact.ContactId), Arg.Any<Message<ContactCreatedEvent>>());
   }
@@ -36,7 +26,7 @@ partial class ServicesTests
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
     var saveModels = Substitute.For<SaveModels<Contact, Message>>();
-    var result = await CreateContactService(contact, [], FindPhoneNumbers, saveModels, ProduceMessage);
+    await CreateContactService(contact, [], FindPhoneNumbers, saveModels, ProduceMessage);
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     await saveModels.Received().Invoke(Arg.Any<Contact>(), Arg.Is<Message<ContactCreatedEvent>>(message => message.MessagePayload == contactCreatedEvent));
@@ -47,7 +37,7 @@ partial class ServicesTests
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
     var producehMessage = Substitute.For<ProduceMessage<Message>>();
-    var result = await CreateContactService(contact, [], FindPhoneNumbers, SaveContactAndMessage, producehMessage);
+    await CreateContactService(contact, [], FindPhoneNumbers, SaveContactAndMessage, producehMessage);
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     await producehMessage.Received().Invoke(Arg.Is<Message<ContactCreatedEvent>>(message => message.MessagePayload == contactCreatedEvent));

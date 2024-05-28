@@ -3,7 +3,7 @@ namespace Simple.App.Services;
 
 partial class ServicesFuncs
 {
-  public static async Task<Result<ContactCreatedEvent?, string[]?>> CreateContactService (
+  public static async Task<Result<Contact?, string[]?>> CreateContactService (
     Contact contact,
     IEnumerable<PhoneNumber> phoneNumbers,
     FindModels<PhoneNumber, long> findPhoneNumbers,
@@ -26,6 +26,6 @@ partial class ServicesFuncs
     await saveModels(contact, message, cancellationToken);
     await produceMessage(message);
 
-    return @event;
+    return contact;
   }
 }
