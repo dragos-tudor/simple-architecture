@@ -9,6 +9,7 @@ partial class ServicesFuncs
     FindModels<PhoneNumber, long> findPhoneNumbers,
     SaveModels<Contact, Message> saveModels,
     ProduceMessage<Message> produceMessage,
+    string? traceId = default,
     CancellationToken cancellationToken = default)
   {
     var contactErrors = ValidateModel(contact, ContactValidator);
@@ -21,11 +22,12 @@ partial class ServicesFuncs
     if(IsFailureResult(result)) return AsArray(FromFailure(result)!);
 
     var @event = FromSuccess(result);
-    var message = CreateMessage(@event);
+    var message = CreateMessage(@event, traceId: traceId);
 
     await saveModels(contact, message, cancellationToken);
     await produceMessage(message);
 
+    LogContactCreated(Logger, contact.ContactId, traceId);
     return contact;
   }
 }

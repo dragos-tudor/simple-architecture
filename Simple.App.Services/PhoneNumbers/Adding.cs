@@ -8,6 +8,7 @@ partial class ServicesFuncs
     PhoneNumber phoneNumber,
     FindModel<PhoneNumber, long?> findPhoneNumber,
     SaveModels<Contact, PhoneNumber> saveModels,
+    string? traceId = default,
     CancellationToken cancellationToken = default)
   {
     var contactErrors = ValidateModel(contact, ContactValidator);
@@ -20,6 +21,8 @@ partial class ServicesFuncs
     if(IsFailureResult(result)) return AsArray(FromFailure(result)!);
 
     await saveModels(contact, phoneNumber, cancellationToken);
+
+    LogPhoneNumberAdded(Logger, phoneNumber.Number, contact.ContactId, traceId);
     return contact;
   }
 }
