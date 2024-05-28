@@ -4,13 +4,17 @@ namespace Simple.App.Services;
 partial class ServicesFuncs
 {
   public static async Task<Result<Contact?, string[]?>> AddPhoneNumberService (
-    Contact contact,
+    Guid contactId,
     PhoneNumber phoneNumber,
     FindModel<PhoneNumber, long?> findPhoneNumber,
+    FindModel<Guid, Contact?> findContact,
     SaveModels<Contact, PhoneNumber> saveModels,
     string? traceId = default,
     CancellationToken cancellationToken = default)
   {
+    var contact = await findContact(contactId, cancellationToken);
+    if (contact is null) return AsArray([GetMissingContactError(contactId)]);
+
     var contactErrors = ValidateModel(contact, ContactValidator);
     if(ExistsValidationErrors(contactErrors)) return AsArray(contactErrors);
 
