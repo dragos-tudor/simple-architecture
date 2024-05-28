@@ -7,7 +7,6 @@ global using Simple.Domain.Models;
 global using Simple.Shared.Extensions;
 global using static Simple.Domain.Models.ModelsFuncs;
 global using static Simple.Shared.Extensions.ExtensionsFuncs;
-global using static Simple.Domain.Services.ServicesFuncs;
 
 namespace Simple.Domain.Services;
 
