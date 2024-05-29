@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../Directory.Testing.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="../Simple.Domain.Models/Simple.Domain.Models.csproj" />
+    <PackageReference Include="Storing.MongoDb" />
+  </ItemGroup>
+
+</Project>
