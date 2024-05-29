@@ -1,4 +1,6 @@
 
+using Microsoft.EntityFrameworkCore;
+
 namespace Simple.Web.Api;
 
 partial class ApiFuncs
@@ -6,17 +8,17 @@ partial class ApiFuncs
   public static async Task<Results<Ok, BadRequest<string[]>>> AddPhoneNumberEndpoint (
     Guid contactId,
     PhoneNumber phoneNumber,
-    FindModel<PhoneNumber, PhoneNumber?> findPhoneNumber,
-    FindModel<Guid, Contact?> findContact,
-    SaveModels<Contact, PhoneNumber> saveModels,
+    Func<AgendaContext> createAgendaContext,
+    ProduceMessage<Message> produceMessage,
     HttpContext httpContext)
   {
+    using var agendaContext = createAgendaContext();
     var result = await AddPhoneNumberService (
       contactId,
       phoneNumber,
-      findPhoneNumber,
-      findContact,
-      saveModels,
+      (phoneNumber, cancellationToken) => FindPhoneNumber(agendaContext.PhoneNumbers, phoneNumber).FirstOrDefaultAsync(cancellationToken),
+      (contactId, cancellationToken) => FindContactById(agendaContext.Contacts, contactId).FirstOrDefaultAsync(cancellationToken),
+      (contact, phoneNumber, cancellationToken) => InsertContactAndPhoneNumber(agendaContext, contact, phoneNumber, cancellationToken),
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);
 

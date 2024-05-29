@@ -10,9 +10,9 @@ public partial record Contact
   public IList<PhoneNumber> PhoneNumbers { get; init; } = [];
 }
 
-sealed partial record Contact
+partial record Contact
 {
-  public bool Equals (Contact? contact) =>
+  public virtual bool Equals (Contact? contact) =>
     GetType() == contact?.GetType() &&
     ContactId == contact.ContactId &&
     ContactEmail ==  contact.ContactEmail &&

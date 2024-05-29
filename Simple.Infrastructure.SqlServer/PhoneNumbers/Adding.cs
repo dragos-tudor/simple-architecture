@@ -15,10 +15,4 @@ partial class SqlServerFuncs
   public static Contact AddPhoneNumber (AgendaContext dbContext, Contact contact, PhoneNumber phoneNumber) =>
     SqlFuncs.UpdateEntity(dbContext, contact,
       (contact) => AddPhoneNumber(contact, phoneNumber));
-
-  public static Task AddAndStorePhoneNumber (AgendaContext dbContext, Contact contact, PhoneNumber phoneNumber, CancellationToken cancellationToken = default)
-  {
-    AddPhoneNumber(dbContext, contact, phoneNumber);
-    return SaveChanges(dbContext, cancellationToken);
-  }
 }
