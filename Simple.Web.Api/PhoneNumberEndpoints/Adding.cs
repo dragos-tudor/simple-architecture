@@ -18,7 +18,7 @@ partial class ApiFuncs
       phoneNumber,
       (phoneNumber, cancellationToken) => FindPhoneNumber(agendaContext.PhoneNumbers, phoneNumber).FirstOrDefaultAsync(cancellationToken),
       (contactId, cancellationToken) => FindContactById(agendaContext.Contacts, contactId).FirstOrDefaultAsync(cancellationToken),
-      (contact, phoneNumber, cancellationToken) => InsertContactAndPhoneNumber(agendaContext, contact, phoneNumber, cancellationToken),
+      (contact, phoneNumber, cancellationToken) => UpdateContactWithPhoneNumber(agendaContext, contact, phoneNumber, cancellationToken),
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);
 
