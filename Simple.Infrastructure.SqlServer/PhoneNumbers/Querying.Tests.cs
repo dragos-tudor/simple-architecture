@@ -4,32 +4,32 @@ namespace Simple.Infrastructure.SqlServer;
 partial class SqlServerTests
 {
  [TestMethod]
-  public async Task phone_numbers__find_phone_number_by_country_code_and_number__stored_phone_number_with_filter ()
+  public async Task phone_numbers__find_phone_number__filtered_phone_number ()
   {
     using var dbContext = CreateAgendaContext();
     PhoneNumber[] phoneNumbers = [
-      CreateTestPhoneNumber(1, 123),
-      CreateTestPhoneNumber(2, 123),
-      CreateTestPhoneNumber(1, 789)
+      CreateTestPhoneNumber(),
+      CreateTestPhoneNumber(),
+      CreateTestPhoneNumber()
     ];
     var contact = CreateTestContact(phoneNumbers: phoneNumbers);
 
     AddContact(dbContext, contact);
     await SaveChangesAndClearContext(dbContext);
 
-    var actual = await FindPhoneNumberByKey(dbContext.PhoneNumbers, 1, 123).SingleAsync();
+    var actual = await FindPhoneNumber(dbContext.PhoneNumbers, phoneNumbers[0]).SingleAsync();
     Assert.AreEqual(actual, phoneNumbers[0]);
   }
 
  [TestMethod]
-  public async Task phone_numbers__find_phone_numbers_with_phone_numbers__stored_phone_numbers_with_filter ()
+  public async Task phone_numbers__find_phone_numbers_with_phone_numbers__filtered_phone_numbers ()
   {
     using var dbContext = CreateAgendaContext();
-    PhoneNumber[] phoneNumbers = [
-      CreateTestPhoneNumber(3, 123),
-      CreateTestPhoneNumber(4, 123),
-      CreateTestPhoneNumber(3, 789)
-    ];
+    var phoneNumbers = new PhoneNumber[] {
+      CreateTestPhoneNumber(),
+      CreateTestPhoneNumber(),
+      CreateTestPhoneNumber()
+     }.OrderBy(e => e.CountryCode).ToArray();
     var contact = CreateTestContact(phoneNumbers: phoneNumbers);
 
     AddContact(dbContext, contact);

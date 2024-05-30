@@ -3,6 +3,6 @@ namespace Simple.Infrastructure.SqlServer;
 
 partial class SqlServerFuncs
 {
-  public static int CreateSqlDatabase<TContext> (TContext context, string databaseName) where TContext: DbContext =>
-    context.Database.ExecuteSqlRaw(GetCreateSqlDatabaseScript(databaseName));
+  public static Task<int> CreateSqlDatabaseAsync<TContext> (TContext context, string databaseName, CancellationToken cancellationToken = default) where TContext: DbContext =>
+    context.Database.ExecuteSqlRawAsync (GetCreateSqlDatabaseScript(databaseName), cancellationToken);
 }

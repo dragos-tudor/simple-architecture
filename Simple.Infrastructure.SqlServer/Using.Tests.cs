@@ -1,3 +1,4 @@
+
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using static Simple.Domain.Models.ModelsTests;
 global using SqlFuncs = Storing.SqlServer.SqlServerFuncs;
@@ -8,14 +9,18 @@ namespace Simple.Infrastructure.SqlServer;
 public partial class SqlServerTests
 {
   [AssemblyInitialize]
-  public static void InitializeSqlServer(TestContext _)
+  public static void InitializeSqlServer (TestContext _)
   {
-    SqlServerFuncs.InitializeSqlServer(new SqlServerOptions(
+    using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+    var cancellationToken = cancellationTokenSource.Token;
+    var sqlServerOptions = new SqlServerOptions(
       "sa", "admin.P@ssw0rd",
       "sqluser", "sqluser.P@ssw0rd",
       "mcr.microsoft.com/mssql/server:2019-latest", "simple-sql",
-      "agenda", 1433
-    ));
+      "agenda", 1433, "simple-network"
+    );
+
+    RunSynchronously(() => InitializeSqlServerAsync (sqlServerOptions, cancellationToken));
 
     using var agendaContext = CreateAgendaContext();
     CleanAgendaDatabase(agendaContext);

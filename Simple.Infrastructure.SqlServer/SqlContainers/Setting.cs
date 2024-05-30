@@ -5,9 +5,10 @@ namespace Simple.Infrastructure.SqlServer;
 
 partial class SqlServerFuncs
 {
-  static Action<CreateContainerParameters> SetCreateContainerParameters (int serverPort, string adminPassword) => (CreateContainerParameters @params) =>
+  static Action<CreateContainerParameters> SetSqlCreateContainerParameters (string adminPassword, string containerName, string networkName) => (CreateContainerParameters @params) =>
   {
+    @params.Hostname = containerName;
+    @params.HostConfig = new HostConfig() { NetworkMode = networkName };
     @params.Env = ["ACCEPT_EULA=Y", $"SA_PASSWORD={adminPassword}"];
-    @params.ExposedPorts = new Dictionary<string, EmptyStruct>() { { $"{serverPort}:{serverPort}", new EmptyStruct() } };
   };
 }

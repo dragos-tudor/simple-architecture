@@ -1,11 +1,21 @@
 
+using Docker.DotNet;
+
 namespace Simple.Infrastructure.SqlServer;
 
 partial class SqlServerFuncs
 {
-  public static string StartSqlServer (int serverPort, string adminPassword, string imageName, string containerName)
+  public static async Task<string> StartSqlServerAsync (
+    IDockerClient client, string adminPassword,
+    string imageName, string containerName,
+    int serverPort, string networkName,
+    CancellationToken cancellationToken = default)
   {
-    var networkSettings = StartSqlContainer(serverPort, adminPassword, imageName, containerName);
-    return GetServerIpAddress(networkSettings);
+    await UseNetworkAsync(client.Networks, networkName, cancellationToken);
+    var container = await UseContainerAsync(client, imageName, containerName, SetSqlCreateContainerParameters(adminPassword, containerName, networkName), cancellationToken);
+
+    await WaitForOpenPortWtihBash(client.Exec, container.ID, serverPort, cancellationToken);
+    var endpointSettings = GetNetworkEndpoints(container.NetworkSettings, networkName);
+    return GetEdpointIpAddress(endpointSettings);
   }
 }
