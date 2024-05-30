@@ -18,8 +18,8 @@
 - **simple architecture** aka **pyramid architecture**.
 
 ### Simple architecture implementation
-- *high-level modules*: simple.web.api, simple.app.services.
-- *low-level modules*: simple.domain.*, simple.infrastructure.\*, simple.shared.extensions.
+- *high-level modules*: simple.web.api.
+- *low-level modules*: simple.app.services, simple.domain.\*, simple.infrastructure.\*.
 
 ### Simple vs clean architectures parallels
 - *the dependency rule* - no dependencies.
@@ -37,8 +37,8 @@
   - *clean.architecture.infrastructure* project depend on *clean.architecture.usecases* project [no-comments].
   - *clean.architecture.web* project depend on *clean.architecture.infrastructure* project.
 - [simple-architecture implementation](/):
-  - *simple.domain.services*, *simple.infrastructure.** completely independent projects [share *simple.shared.models* project].
-  - *simple.webapi* project depend on all above projects.
+  - *simple.domain.services*, *simple.infrastructure.** completely independent projects [share *simple.domain.models* project].
+  - *simple.web.api* project depend on all above projects.
 - *pyramid* vs *stack* => *simple* vs *complicated* -> *unknown* [yet] vs *highly-appreciated* [no-comments].
 
 ### Remarks
