@@ -4,13 +4,13 @@ namespace Simple.Infrastructure.MongoDb;
 partial class MongoDbTests
 {
   [TestMethod]
-  public async Task new_contact_and_new_message__insert_contact_and_message_transactionally__contact_and_message_stored ()
+  public async Task new_contact_and_message__insert_contact_and_message_transactionally__contact_and_message_stored ()
   {
     var phoneNumber = CreateTestPhoneNumber();
     var contact = CreateTestContact(phoneNumbers: [ phoneNumber ]);
     var message = CreateTestMessage() with { MessageContent = default! };
 
-    var db = GetMongoDatabase(MongoDatabaseName);
+    var db = GetMongoDatabase();
     var contactColl = GetContactCollection(db);
     var messageColl = GetMessageCollection(db);
     await InsertContactAndMessage(contactColl, messageColl, contact, message);

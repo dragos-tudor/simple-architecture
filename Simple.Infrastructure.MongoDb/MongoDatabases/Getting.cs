@@ -3,7 +3,7 @@ namespace Simple.Infrastructure.MongoDb;
 
 partial class MongoDbFuncs
 {
-  public static string GetMongoConnectionString (string ipAddress, int serverPort) => $"mongodb://{ipAddress}:{serverPort}";
+  internal const string DatabaseName = "agenda";
 
-  public static IMongoDatabase GetMongoDatabase (string dbName, IMongoClient? mongoClient = default) => (mongoClient ?? MongoDbClient).GetDatabase(dbName);
+  public static IMongoDatabase GetMongoDatabase (IMongoClient? mongoClient = default, string dbName = DatabaseName) => (mongoClient ?? MongoDbClient).GetDatabase(dbName);
 }

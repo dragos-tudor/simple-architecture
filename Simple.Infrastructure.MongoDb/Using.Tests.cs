@@ -8,23 +8,21 @@ namespace Simple.Infrastructure.MongoDb;
 [TestClass]
 public partial class MongoDbTests
 {
-  const string MongoDatabaseName = "agenda";
-
   [AssemblyInitialize]
-  public static void InitializeMongeServer(TestContext _)
+  public static void InitializeMongeServer (TestContext _)
   {
-    const string imageName = "mongo:4.2.24";
-    const string networkName = "simple-network";
-    const string replicaSet = "rs0";
-    const int serverPort = 27017;
+    using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(3));
+    var cancellationToken = cancellationTokenSource.Token;
+    var replicaSetOptions = new MongoReplicaSetOptions (
+      "mongo:4.2.24", ["simple-mongo1", "simple-mongo2", "simple-mongo3"],
+      "simple-network", "rs0", 27017,
+      [ContactCollectionName, MessageCollectionName]
+    );
 
-    using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(3));
-    MongoDbClient = RunSynchronously(() => StartMongoServer(imageName, ["simple-mongo1", "simple-mongo2"], serverPort, networkName, replicaSet, cts.Token));
-    var database = GetMongoDatabase(MongoDatabaseName, MongoDbClient);
+    RunSynchronously(() => InitializeMongeReplicaSetAsync (replicaSetOptions, cancellationToken));
 
-    if(!ExistsMongoCollections(database)) CreateMongoCollections(database, ["contacts", "messages"]);
-    CleanMongoCollections(database, ["contacts", "messages"]);
-
-    MapModelClassTypes();
+    // var mongoClient = CreateMongoClient(connectionString);
+    // var database = GetMongoDatabase(mongoClient, DatabaseName);
+    // CleanMongoCollections(database, [ContactCollectionName, MessageCollectionName]);
   }
 }
