@@ -1,11 +1,12 @@
 
 using Docker.DotNet;
+using Docker.DotNet.Models;
 
 namespace Simple.Infrastructure.MongoDb;
 
 partial class MongoDbFuncs
 {
-  public static async Task<string> StartMongoReplicaSetAsync (
+  public static async Task<IEnumerable<ContainerInspectResponse>> StartMongoReplicaSetAsync (
     IDockerClient client,
     string imageName, string[] containerNames,
     int serverPort, string networkName,
@@ -15,7 +16,6 @@ partial class MongoDbFuncs
     var containers = await Task.WhenAll(UseMongoServersAsync(client, imageName, containerNames, serverPort, networkName, replicaSet, cancellationToken).ToList());
 
     await WaitForMongoReplicaSet(client.Exec, GetMasterContainerId(containers), serverPort, replicaSet, containerNames, cancellationToken);
-    var endpointSettings = GetNetworkEndpoints(containers.First().NetworkSettings, networkName);
-    return GetEdpointIpAddress(endpointSettings);
+    return containers;
   }
 }

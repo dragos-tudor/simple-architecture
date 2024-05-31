@@ -4,7 +4,7 @@ namespace Simple.Infrastructure.SqlServer;
 partial class SqlServerTests
 {
  [TestMethod]
-  public async Task contacts__find_contact_by_id__stored_contact_with_id ()
+  public async Task contacts__find_contact_by_key__stored_contact_with_id ()
   {
     using var dbContext = CreateAgendaContext();
     var contact = CreateTestContact();
