@@ -8,6 +8,7 @@ partial class ApiFuncs
   {
     LogHandleMessage(Logger, GetMessageType(message), GetMessageTraceId(message));
 
+    // parallel message dispatching strategy [no serial one]
     var dispatchResult = DispatchMessage(message, GetMessageType(message)!, subscribers, cancellationToken);
     await Task.WhenAll(dispatchResult);
 
