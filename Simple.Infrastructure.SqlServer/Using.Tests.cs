@@ -11,7 +11,7 @@ public partial class SqlServerTests
   [AssemblyInitialize]
   public static void InitializeSqlServer (TestContext _)
   {
-    using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+    using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(10));
     var cancellationToken = cancellationTokenSource.Token;
     var sqlServerOptions = new SqlServerOptions(
       "sa", "admin.P@ssw0rd",
