@@ -15,12 +15,13 @@
   },
   "containerEnv": {
     "DATA_PROTECTION_KEY": "HFm8fYbLyEarjjlGBj5r9Q==",
-    "DOCKER_PORT": "${localEnv:DOCKER_PORT:2375}"
-  },
+    "DOCKER_HOST_PORT": "${localEnv:DOCKER_HOST_PORT:2375}",
+    "DOCKER_HOST_GATEWAY": "${localEnv:DOCKER_HOST_GATEWAY:172.17.0.1}" // host.docker.internal [MAC & WINDOWS]
+   },
 	"runArgs": [
 		"--name=simple-architecture",
 		"--hostname=arch",
-    "--net=host"
+    "--net=simple-network"
 	],
   "remoteUser": "vscode"
 }
