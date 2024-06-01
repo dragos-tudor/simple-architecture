@@ -6,7 +6,7 @@ partial class SqlServerFuncs
   public static DbContextOptions<TContext> CreateDbContextOptions<TContext> (string serverAddress, string dbName, string userName, string password)
     where TContext: DbContext
   =>
-    SqlFuncs.CreateSqlContextOptions<TContext>(
+    CreateSqlContextOptions<TContext>(
       CreateSqlConnectionString(dbName, serverAddress, userName, password));
 
   public static DbContextOptions<AgendaContext> CreateAgendaContextOptions (string serverAddress, string databaseName, string userName, string password) =>

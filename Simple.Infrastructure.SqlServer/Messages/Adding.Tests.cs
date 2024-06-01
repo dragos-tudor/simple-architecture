@@ -12,7 +12,7 @@ partial class SqlServerTests
     AddMessage(dbContext, message);
     await SaveChangesAndClearContext(dbContext);
 
-    var actual = await FindMessageById (dbContext.Messages, message.MessageId).SingleAsync();
+    var actual = await FindMessageByKey (dbContext.Messages, message.MessageId).SingleAsync();
     Assert.AreEqual(actual, message);
   }
 }

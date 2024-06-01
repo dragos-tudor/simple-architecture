@@ -7,12 +7,11 @@ partial class SqlServerFuncs
     contact.PhoneNumbers!.Add(phoneNumber);
 
   static PhoneNumber AddPhoneNumber (AgendaContext dbContext, PhoneNumber phoneNumber) =>
-    SqlFuncs.AddEntity(dbContext, phoneNumber);
+    AddEntity(dbContext, phoneNumber);
 
   static List<PhoneNumber> AddPhoneNumbers (AgendaContext dbContext, IEnumerable<PhoneNumber> phoneNumbers) =>
     phoneNumbers.Select(phoneNumber => AddPhoneNumber(dbContext, phoneNumber)).ToList();
 
   public static Contact AddPhoneNumber (AgendaContext dbContext, Contact contact, PhoneNumber phoneNumber) =>
-    SqlFuncs.UpdateEntity(dbContext, contact,
-      (contact) => AddPhoneNumber(contact, phoneNumber));
+    UpdateEntity(dbContext, contact, (contact) => AddPhoneNumber(contact, phoneNumber));
 }

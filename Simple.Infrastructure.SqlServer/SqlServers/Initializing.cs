@@ -9,7 +9,7 @@ partial class SqlServerFuncs
 
     using var dockerClient = CreateDockerClient(new Uri("http://172.17.0.1:2375"));
     var container = await StartSqlServerAsync (dockerClient, adminPassword, imageName, containerName, serverPort, networkName, cancellationToken);
-    SetAgendaContextFactory(SqlFuncs.CreateDbContextFactory(CreateAgendaContextOptions(containerName, databaseName, userName, userPassword)));
+    SetAgendaContextFactory(CreateDbContextFactory(CreateAgendaContextOptions(containerName, databaseName, userName, userPassword)));
 
     using var masterContext = CreateMasterContext(containerName, adminName, adminPassword);
     await CreateSqlDatabaseAsync(masterContext, databaseName, cancellationToken);

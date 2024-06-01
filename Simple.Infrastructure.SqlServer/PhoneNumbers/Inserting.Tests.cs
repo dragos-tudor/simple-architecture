@@ -4,7 +4,7 @@ namespace Simple.Infrastructure.SqlServer;
 partial class SqlServerTests
 {
  [TestMethod]
-  public async Task contact_without_phone_numbers__add_phone_number__phone_number_added_on_contact ()
+  public async Task contact_without_phone_numbers__insert_phone_number__phone_number_added_on_contact ()
   {
     using var dbContext = CreateAgendaContext();
     var contact = CreateTestContact();
@@ -12,7 +12,7 @@ partial class SqlServerTests
     AddContact(dbContext, contact);
     await SaveChangesAndClearContext(dbContext);
 
-    AddPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
+    await InsertPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
     await SaveChangesAndClearContext(dbContext);
 
     var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
@@ -20,7 +20,7 @@ partial class SqlServerTests
   }
 
  [TestMethod]
-  public async Task contact_with_phone_numbers__add_phone_number__phone_number_added_on_contact ()
+  public async Task contact_with_phone_numbers__insert_phone_number__phone_number_added_on_contact ()
   {
     using var dbContext = CreateAgendaContext();
     var phoneNumber = CreateTestPhoneNumber();
@@ -29,7 +29,7 @@ partial class SqlServerTests
     AddContact(dbContext, contact);
     await SaveChangesAndClearContext(dbContext);
 
-    AddPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
+    await InsertPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
     await SaveChangesAndClearContext(dbContext);
 
     var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
