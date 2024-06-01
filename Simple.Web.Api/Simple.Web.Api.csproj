@@ -12,6 +12,7 @@
     <ProjectReference Include="../Simple.Infrastructure.Mediator/Simple.Infrastructure.Mediator.csproj" />
     <ProjectReference Include="../Simple.Infrastructure.Notifications/Simple.Infrastructure.Notifications.csproj" />
     <ProjectReference Include="../Simple.Infrastructure.Queue/Simple.Infrastructure.Queue.csproj" />
+    <ProjectReference Include="../Simple.Infrastructure.MongoDb/Simple.Infrastructure.MongoDb.csproj" />
     <ProjectReference Include="../Simple.Infrastructure.SqlServer/Simple.Infrastructure.SqlServer.csproj" />
   </ItemGroup>
 
