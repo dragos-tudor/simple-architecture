@@ -4,19 +4,26 @@ namespace Simple.Infrastructure.MongoDb;
 partial class MongoDbFuncs
 {
   public static async Task InsertContactAndMessage (
-    IMongoCollection<Contact> contactColl,
-    IMongoCollection<Message> messageColl,
+    IMongoClient client,
     Contact contact,
     Message message,
     TransactionOptions? transactionOptions = default,
     CancellationToken cancellationToken = default)
   {
-    using var session = await GetMongoClient(contactColl).StartSessionAsync(default, cancellationToken);
-    await session.WithTransactionAsync (
-      async (session, cancellationToken) => {
-        await InsertContact(session, contactColl, contact, cancellationToken);
-        await InsertMessage(session, messageColl, message, cancellationToken);
-        return true;
-      }, transactionOptions, cancellationToken);
+    var db = GetMongoDatabase(client);
+    var contacts = GetContactCollection(db);
+    var messages = GetMessageCollection(db);
+
+    using var session = await client.StartSessionAsync(default, cancellationToken);
+    try {
+      session.StartTransaction(transactionOptions);
+      await InsertContact(session, contacts, contact, cancellationToken);
+      await InsertMessage(session, messages, message, cancellationToken);
+    }
+    catch(Exception) {
+      await session.AbortTransactionAsync(cancellationToken);
+      throw;
+    }
+    await session.CommitTransactionAsync(cancellationToken);
   }
 }
