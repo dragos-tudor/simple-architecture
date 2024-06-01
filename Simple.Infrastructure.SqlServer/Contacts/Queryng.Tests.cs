@@ -12,7 +12,7 @@ partial class SqlServerTests
     AddContact(dbContext, contact);
     await SaveChangesAndClearContext(dbContext);
 
-    var actual = await FindContactById (dbContext.Contacts, contact.ContactId).SingleAsync();
+    var actual = await FindContactByKey (dbContext.Contacts, contact.ContactId).SingleAsync();
     Assert.IsNotNull(actual);
   }
 

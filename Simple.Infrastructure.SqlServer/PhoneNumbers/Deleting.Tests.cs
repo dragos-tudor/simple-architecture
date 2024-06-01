@@ -16,7 +16,7 @@ partial class SqlServerTests
     DeletePhoneNumber(dbContext, ClonePhoneNumber(phoneNumber));
     await SaveChangesAndClearContext(dbContext);
 
-    var actual = await FindContactById (dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
+    var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
     AreEqual(actual.PhoneNumbers, []);
   }
 }

@@ -15,7 +15,7 @@ partial class SqlServerTests
     AddPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
     await SaveChangesAndClearContext(dbContext);
 
-    var actual = await FindContactById (dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
+    var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
     Assert.AreEqual(actual.PhoneNumbers[0], contact.PhoneNumbers[0]);
   }
 
@@ -32,7 +32,7 @@ partial class SqlServerTests
     AddPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
     await SaveChangesAndClearContext(dbContext);
 
-    var actual = await FindContactById (dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
+    var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
     AreEqual(actual.PhoneNumbers.OrderBy(e => e.Number), contact.PhoneNumbers.OrderBy(e => e.Number));
   }
 }

@@ -35,7 +35,7 @@ partial class SqlServerTests
     AddContact(dbContext, contact);
     await SaveChangesAndClearContext(dbContext);
 
-    var actual = await FindPhoneNumbersWithPhoneNumbers(dbContext.PhoneNumbers, [phoneNumbers[0], phoneNumbers[2]]);
+    var actual = await FindPhoneNumbers(dbContext.PhoneNumbers, [phoneNumbers[0], phoneNumbers[2]]);
     AreEqual(actual.ToArray(), [phoneNumbers[0], phoneNumbers[2]]);
   }
 }
