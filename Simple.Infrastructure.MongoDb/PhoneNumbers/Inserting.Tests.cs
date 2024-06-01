@@ -4,7 +4,7 @@ namespace Simple.Infrastructure.MongoDb;
 partial class MongoDbTests
 {
  [TestMethod]
-  public async Task contact_without_phone_numbers__add_phone_number__phone_number_added_on_contact ()
+  public async Task contact_without_phone_numbers__insert_phone_number__phone_number_added_on_contact ()
   {
     var client = GetMongoClient();
     var db = GetMongoDatabase(client);
@@ -18,7 +18,7 @@ partial class MongoDbTests
   }
 
  [TestMethod]
-  public async Task contact_with_phone_numbers__add_phone_number__phone_number_added_on_contact ()
+  public async Task contact_with_phone_numbers__insert_phone_number__phone_number_added_on_contact ()
   {
     var client = GetMongoClient();
     var db = GetMongoDatabase(client);

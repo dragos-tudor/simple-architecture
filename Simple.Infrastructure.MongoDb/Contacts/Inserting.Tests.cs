@@ -14,7 +14,7 @@ partial class MongoDbTests
     var phoneNumber = CreateTestPhoneNumber();
     var contact = CreateTestContact(phoneNumbers: [ phoneNumber ]);
     var message = CreateTestMessage() with { MessageContent = default! };
-    await InsertContactAndMessage(client, contact, message);
+    await InsertContactAndMessage(contacts, messages, contact, message);
 
     Assert.IsNotNull(await FindContactByKey(contacts.AsQueryable(), contact.ContactId).FirstOrDefaultAsync());
     Assert.IsNotNull(await FindMessageByKey(messages.AsQueryable(), message.MessageId).FirstOrDefaultAsync());
