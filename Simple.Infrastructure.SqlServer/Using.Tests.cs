@@ -22,9 +22,7 @@ public partial class SqlServerTests
       1433
     );
 
-    RunSynchronously(() => InitializeSqlServerAsync (sqlServerOptions, cancellationToken));
-
-    using var agendaContext = CreateAgendaContext(AgendaConnString);
-    CleanAgendaDatabase(agendaContext);
+    RunSynchronously(() =>
+      InitializeSqlServerAsync (sqlServerOptions, cancellationToken));
   }
 }

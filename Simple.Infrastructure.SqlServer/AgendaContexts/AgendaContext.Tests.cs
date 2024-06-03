@@ -5,5 +5,5 @@ partial class AgendaContext
 {
   // support dotnet-ef script command
   // TODO: dotnet-ef migrations support
-  public AgendaContext(): base(CreateSqlContextOptions<AgendaContext>(CreateSqlConnectionString("", "", "", ""))) { }
+  public AgendaContext(): base(CreateSqlContextOptions<AgendaContext>("")) { }
 }
