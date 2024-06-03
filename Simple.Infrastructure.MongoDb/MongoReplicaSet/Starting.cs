@@ -14,8 +14,9 @@ partial class MongoDbFuncs
   {
     await UseNetworkAsync(client.Networks, networkName, cancellationToken);
     var containers = await Task.WhenAll(UseMongoServersAsync(client, imageName, containerNames, serverPort, networkName, replicaSet, cancellationToken).ToList());
+    var containerId = containers.First().ID;
 
-    await WaitForMongoReplicaSet(client.Exec, GetFirstContainerId(containers), serverPort, replicaSet, containerNames, cancellationToken);
+    await WaitForMongoReplicaSet(client.Exec, containerId, serverPort, replicaSet, containerNames, cancellationToken);
     return containers;
   }
 }

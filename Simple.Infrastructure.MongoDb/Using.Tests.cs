@@ -22,6 +22,7 @@ public partial class MongoDbTests
       27017
     );
 
-    RunSynchronously(() => InitializeMongeReplicaSetAsync (replicaSetOptions, cancellationToken));
+    RunSynchronously(() =>
+      InitializeMongeReplicaSetAsync (replicaSetOptions, cancellationToken));
   }
 }

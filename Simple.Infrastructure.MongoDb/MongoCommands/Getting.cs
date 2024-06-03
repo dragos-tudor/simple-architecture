@@ -10,7 +10,7 @@ partial class MongoDbFuncs
   static IEnumerable<string> GetReplicaSetMembers (int serverPort, string[] containerNames) =>
     containerNames.Select((containerName, index) => GetReplicaSetMember(serverPort, containerName, index));
 
-  public static string[] GetVerifyReplicaSetStatusCommand (int serverPort, string replicaSet, string[] containerNames) => [
+  public static string[] GetInitiateReplicaSetCommand (int serverPort, string replicaSet, string[] containerNames) => [
     "/bin/sh",
     "-c",
     "mongo --eval \"if(rs.status().ok != 1) { rs.initiate({_id:\'#replicaSet\', members:[#replicaMembers] }); exit; }\""
