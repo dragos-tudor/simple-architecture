@@ -8,9 +8,9 @@ public partial record SqlServerOptions(
   string UserPassword,
   string ImageName,
   string ContainerName,
-  string DatabaseName,
-  int ServerPort,
-  string NetworkName
+  string DbName,
+  string NetworkName,
+  int ServerPort
 );
 
 partial record SqlServerOptions
@@ -22,9 +22,9 @@ partial record SqlServerOptions
     out string userPassword,
     out string imageName,
     out string containerName,
-    out string databaseName,
-    out int serverPort,
-    out string networkName)
+    out string dbName,
+    out string networkName,
+    out int serverPort)
   {
     adminName = AdminName;
     adminPassword = AdminPassword;
@@ -32,8 +32,8 @@ partial record SqlServerOptions
     userPassword = UserPassword;
     imageName = ImageName;
     containerName = ContainerName;
-    databaseName = DatabaseName;
-    serverPort = ServerPort;
+    dbName = DbName;
     networkName = NetworkName;
+    serverPort = ServerPort;
   }
 }

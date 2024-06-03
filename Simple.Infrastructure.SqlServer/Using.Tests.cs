@@ -7,6 +7,8 @@ namespace Simple.Infrastructure.SqlServer;
 [TestClass]
 public partial class SqlServerTests
 {
+  static readonly string AgendaConnString = CreateSqlConnectionString("agenda", "sqluser", "sqluser.P@ssw0rd", "simple-sql");
+
   [AssemblyInitialize]
   public static void InitializeSqlServer (TestContext _)
   {
@@ -16,12 +18,13 @@ public partial class SqlServerTests
       "sa", "admin.P@ssw0rd",
       "sqluser", "sqluser.P@ssw0rd",
       "mcr.microsoft.com/mssql/server:2019-latest", "simple-sql",
-      "agenda", 1433, "simple-network"
+      "agenda", "simple-network",
+      1433
     );
 
     RunSynchronously(() => InitializeSqlServerAsync (sqlServerOptions, cancellationToken));
 
-    using var agendaContext = CreateAgendaContext();
+    using var agendaContext = CreateAgendaContext(AgendaConnString);
     CleanAgendaDatabase(agendaContext);
   }
 }
