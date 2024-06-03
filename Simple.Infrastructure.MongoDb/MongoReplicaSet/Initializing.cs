@@ -7,7 +7,7 @@ partial class MongoDbFuncs
 {
   public static async Task<IEnumerable<ContainerInspectResponse>> InitializeMongeReplicaSetAsync (MongoReplicaSetOptions options, CancellationToken cancellationToken = default)
   {
-    var (imageName, containerNames, networkName, replicaSet, serverPort, collNames) = options;
+    var (imageName, containerNames, networkName, replicaSet, dbName, collNames, serverPort) = options;
     using var dockerClient = CreateDockerClient();
 
     var containers = await StartMongoReplicaSetAsync(dockerClient, imageName, containerNames, serverPort, networkName, replicaSet, cancellationToken);
@@ -15,13 +15,12 @@ partial class MongoDbFuncs
 
     var connectionString = GetMongoConnectionString(replicaSetNetworkAddresses, replicaSet);
     var mongoClient = CreateMongoClient(connectionString);
-    var database = GetMongoDatabase(mongoClient, DatabaseName);
+    var mongoDb = GetMongoDatabase(mongoClient, dbName);
 
-    if(!ExistsMongoCollections(database))
-      CreateMongoCollections(database, collNames);
+    if(!ExistsMongoCollections(mongoDb))
+      CreateMongoCollections(mongoDb, collNames);
     MapModelClassTypes();
 
-    MongoDbClient = mongoClient;
     return containers;
   }
 }

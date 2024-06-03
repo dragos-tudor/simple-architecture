@@ -6,9 +6,7 @@ partial class MongoDbTests
   [TestMethod]
   public async Task phone_numbers__find_phone_number__stored_phone_number ()
   {
-    var client = GetMongoClient();
-    var db = GetMongoDatabase(client);
-    var contacts = GetContactCollection(db);
+    var contacts = GetContactCollection(Database);
 
     var contact1 = CreateTestContact(phoneNumbers: [ CreateTestPhoneNumber() ]);
     var contact2 = CreateTestContact(phoneNumbers: [ CreateTestPhoneNumber() ]);
@@ -23,9 +21,7 @@ partial class MongoDbTests
   [TestMethod]
   public async Task phone_numbers__find_phone_numbers__stored_phone_numbers ()
   {
-    var client = GetMongoClient();
-    var db = GetMongoDatabase(client);
-    var contacts = GetContactCollection(db);
+    var contacts = GetContactCollection(Database);
 
     var contact1 = CreateTestContact(phoneNumbers: [ CreateTestPhoneNumber() ]);
     var contact2 = CreateTestContact(phoneNumbers: [ CreateTestPhoneNumber() ]);

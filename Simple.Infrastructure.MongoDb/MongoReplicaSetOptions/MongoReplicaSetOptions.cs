@@ -7,8 +7,9 @@ public partial record MongoReplicaSetOptions(
   string[] ContainerNames,
   string NetworkName,
   string ReplicaSet,
-  int ServerPort,
-  string[] CollNames
+  string DbName,
+  string[] CollNames,
+  int ServerPort
 );
 
 partial record MongoReplicaSetOptions
@@ -18,14 +19,16 @@ partial record MongoReplicaSetOptions
     out string[] containerNames,
     out string networkName,
     out string replicaSet,
-    out int serverPort,
-    out string[] collNames)
+    out string dbName,
+    out string[] collNames,
+    out int serverPort)
   {
     imageName = ImageName;
     containerNames = ContainerNames;
     networkName = NetworkName;
     replicaSet = ReplicaSet;
-    serverPort = ServerPort;
+    dbName = DbName;
     collNames = CollNames;
+    serverPort = ServerPort;
   }
 }

@@ -6,10 +6,8 @@ partial class MongoDbTests
   [TestMethod]
   public async Task new_contact_and_message__insert_contact_and_message_transactionally__contact_and_message_stored ()
   {
-    var client = GetMongoClient();
-    var db = GetMongoDatabase(client);
-    var contacts = GetContactCollection(db);
-    var messages = GetMessageCollection(db);
+    var contacts = GetContactCollection(Database);
+    var messages = GetMessageCollection(Database);
 
     var phoneNumber = CreateTestPhoneNumber();
     var contact = CreateTestContact(phoneNumbers: [ phoneNumber ]);
