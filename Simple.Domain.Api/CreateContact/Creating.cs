@@ -7,8 +7,8 @@ partial class ApiFuncs
     Contact contact,
     IEnumerable<PhoneNumber> phoneNumbers,
     FindModels<PhoneNumber, PhoneNumber> findPhoneNumbers,
-    SaveModels<Contact, Message> saveModels,
-    ProduceMessage<Message> produceMessage,
+    SaveModelAndMessage<Contact, ContactCreatedEvent> saveContactAndMessage,
+    ProduceMessage<ContactCreatedEvent> produceMessage,
     string? traceId = default,
     CancellationToken cancellationToken = default)
   {
@@ -21,10 +21,10 @@ partial class ApiFuncs
     var result = await CreateContactService(contact, phoneNumbers, findPhoneNumbers, cancellationToken);
     if(IsFailureResult(result)) return AsArray(FromFailure(result)!);
 
-    var @event = FromSuccess(result);
+    var @event = FromSuccess(result)!;
     var message = CreateMessage(@event, traceId: traceId);
 
-    await saveModels(contact, message, cancellationToken);
+    await saveContactAndMessage(contact, message, cancellationToken);
     await produceMessage(message);
 
     LogContactCreated(Logger, contact.ContactId, traceId);

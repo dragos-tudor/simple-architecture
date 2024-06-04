@@ -7,7 +7,7 @@ partial class ServicesFuncs
 
   static bool IsValidPhoneNumber (long phoneNumber) => phoneNumber <= PhoneNumberContraints.MaxNumber;
 
-  public static bool ExistsPhoneNumber (PhoneNumber? phoneNumber) => phoneNumber is not null;
+  public static bool ExistPhoneNumber (PhoneNumber? phoneNumber) => phoneNumber is not null;
 
   public static bool ExistsPhoneNumbers (IEnumerable<PhoneNumber> phoneNumbers) => phoneNumbers.Any();
 }

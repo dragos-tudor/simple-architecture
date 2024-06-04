@@ -12,7 +12,7 @@ partial class ApiTests
   [TestMethod]
   public async Task contact_and_new_phone_number__add_phone_number_to_contact__contact_and_phone_number_saved ()
   {
-    Contact contact = CreateTestContact();
+    var contact = CreateTestContact();
     var phoneNumber = CreateTestPhoneNumber();
     var saveContactAndPhoneNumber = Substitute.For<SaveModels<Contact, PhoneNumber>>();
     var findContact = Substitute.For<FindModel<Guid, Contact?>>();

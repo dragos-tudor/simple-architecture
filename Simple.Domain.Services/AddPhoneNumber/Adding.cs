@@ -15,7 +15,7 @@ partial class ServicesFuncs
     if (ExistsValidationErrors(phoneNumberErrors)) return AsArray(phoneNumberErrors)!;
 
     var duplicateNumber = await findPhoneNumber(phoneNumber, cancellationToken);
-    if (ExistsPhoneNumber(duplicateNumber)) return AsArray([GetDuplicatePhoneNumberError(duplicateNumber!)]);
+    if (ExistPhoneNumber(duplicateNumber)) return AsArray([GetDuplicatePhoneNumberError(duplicateNumber!)]);
 
     SetContactPhoneNumber(contact, phoneNumber);
 

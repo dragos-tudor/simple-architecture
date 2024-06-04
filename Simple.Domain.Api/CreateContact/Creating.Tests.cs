@@ -7,39 +7,44 @@ namespace Simple.Domain.Api;
 partial class ApiTests
 {
   readonly FindModels<PhoneNumber, PhoneNumber> FindPhoneNumbers = Substitute.For<FindModels<PhoneNumber, PhoneNumber>>();
-  readonly SaveModels<Contact, Message> SaveContactAndMessage = Substitute.For<SaveModels<Contact, Message>>();
-  readonly ProduceMessage<Message> ProduceMessage = Substitute.For<ProduceMessage<Message>>();
+  readonly SaveModelAndMessage<Contact, ContactCreatedEvent> SaveContactAndMessage = Substitute.For<SaveModelAndMessage<Contact, ContactCreatedEvent>>();
+  readonly ProduceMessage<ContactCreatedEvent> ProduceMessage = Substitute.For<ProduceMessage<ContactCreatedEvent>>();
 
   [TestMethod]
   public async Task new_contact__create_contact__contact_saved ()
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
-    var saveModels = Substitute.For<SaveModels<Contact, Message>>();
+    var saveModels = Substitute.For<SaveModelAndMessage<Contact, ContactCreatedEvent>>();
     await CreateContactApi(contact, [], FindPhoneNumbers, saveModels, ProduceMessage);
 
-    await saveModels.Received().Invoke(Arg.Is<Contact>(x => x.ContactId == contact.ContactId), Arg.Any<Message<ContactCreatedEvent>>());
+    await saveModels.Received().Invoke(
+      Arg.Is<Contact>(x => x.ContactId == contact.ContactId),
+      Arg.Any<Message<ContactCreatedEvent>>());
   }
 
   [TestMethod]
   public async Task new_contact__create_contact__contact_created_event_saved ()
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
-    var saveModels = Substitute.For<SaveModels<Contact, Message>>();
+    var saveModels = Substitute.For<SaveModelAndMessage<Contact, ContactCreatedEvent>>();
     await CreateContactApi(contact, [], FindPhoneNumbers, saveModels, ProduceMessage);
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
-    await saveModels.Received().Invoke(Arg.Any<Contact>(), Arg.Is<Message<ContactCreatedEvent>>(message => message.MessagePayload == contactCreatedEvent));
+    await saveModels.Received().Invoke(
+      Arg.Any<Contact>(),
+      Arg.Is<Message<ContactCreatedEvent>>(message => message.MessagePayload == contactCreatedEvent));
   }
 
   [TestMethod]
   public async Task new_contact__create_contact__produce_contact_created_event_message ()
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
-    var producehMessage = Substitute.For<ProduceMessage<Message>>();
+    var producehMessage = Substitute.For<ProduceMessage<ContactCreatedEvent>>();
     await CreateContactApi(contact, [], FindPhoneNumbers, SaveContactAndMessage, producehMessage);
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
-    await producehMessage.Received().Invoke(Arg.Is<Message<ContactCreatedEvent>>(message => message.MessagePayload == contactCreatedEvent));
+    await producehMessage.Received().Invoke(
+      Arg.Is<Message<ContactCreatedEvent>>(message => message.MessagePayload == contactCreatedEvent));
   }
 
   [TestMethod]

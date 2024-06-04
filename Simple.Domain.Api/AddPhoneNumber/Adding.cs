@@ -8,7 +8,7 @@ partial class ApiFuncs
     PhoneNumber phoneNumber,
     FindModel<PhoneNumber, PhoneNumber?> findPhoneNumber,
     FindModel<Guid, Contact?> findContact,
-    SaveModels<Contact, PhoneNumber> saveModels,
+    SaveModels<Contact, PhoneNumber> savePhoneNumber,
     string? traceId = default,
     CancellationToken cancellationToken = default)
   {
@@ -24,7 +24,7 @@ partial class ApiFuncs
     var result = await AddPhoneNumberService(contact, phoneNumber, findPhoneNumber, cancellationToken);
     if(IsFailureResult(result)) return AsArray(FromFailure(result)!);
 
-    await saveModels(contact, phoneNumber, cancellationToken);
+    await savePhoneNumber(contact, phoneNumber, cancellationToken);
 
     LogPhoneNumberAdded(Logger, phoneNumber.Number, contact.ContactId, traceId);
     return contact;
