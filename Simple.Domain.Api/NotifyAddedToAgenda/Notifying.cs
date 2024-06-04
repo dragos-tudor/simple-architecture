@@ -3,7 +3,7 @@ namespace Simple.Domain.Api;
 
 partial class ApiFuncs
 {
-  public static async Task<AddedToAgendaNotification?> SendAddedToAgendaApi (
+  public static async Task<AddedToAgendaNotification?> NotifyAddedToAgendaApi (
     Message<ContactCreatedEvent> message,
     string agendaOwner,
     FindModel<Message, Message?> findParentMessage,
