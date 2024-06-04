@@ -7,8 +7,8 @@ partial class ApiFuncs
     Contact contact,
     IEnumerable<PhoneNumber> phoneNumbers,
     FindModels<PhoneNumber, PhoneNumber> findPhoneNumbers,
-    SaveModelAndMessage<Contact, ContactCreatedEvent> saveContactAndMessage,
-    ProduceMessage<ContactCreatedEvent> produceMessage,
+    SaveModels<Contact, Message<ContactCreatedEvent>> saveContactAndMessage,
+    ProduceMessage<Message<ContactCreatedEvent>> produceMessage,
     string? traceId = default,
     CancellationToken cancellationToken = default)
   {

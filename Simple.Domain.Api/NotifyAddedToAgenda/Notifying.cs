@@ -8,7 +8,7 @@ partial class ApiFuncs
     string agendaOwner,
     FindModel<Message, Message?> findParentMessage,
     SendNotification<AddedToAgendaNotification> sendNotification,
-    SaveMessage<AddedToAgendaNotification> saveMessage,
+    SaveModel<Message<AddedToAgendaNotification>> saveMessage,
     CancellationToken cancellationToken = default)
   {
     var parentMessage = await findParentMessage(message, cancellationToken); // idempotency [partial]
