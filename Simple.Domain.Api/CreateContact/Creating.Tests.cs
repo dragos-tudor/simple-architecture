@@ -43,7 +43,7 @@ partial class ApiTests
     await CreateContactApi(contact, [], FindPhoneNumbers, SaveContactAndMessage, producehMessage);
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
-    await producehMessage.Received().Invoke(
+    producehMessage.Received().Invoke(
       Arg.Is<Message<ContactCreatedEvent>>(message => message.MessagePayload == contactCreatedEvent));
   }
 

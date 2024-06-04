@@ -25,7 +25,7 @@ partial class ApiFuncs
     var message = CreateMessage(@event, traceId: traceId);
 
     await saveContactAndMessage(contact, message, cancellationToken);
-    await produceMessage(message);
+    produceMessage(message);
 
     LogContactCreated(Logger, contact.ContactId, traceId);
     return contact;

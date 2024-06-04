@@ -1,7 +1,7 @@
 
 namespace Simple.Domain.Api;
 
-public delegate Task ProduceMessage<TModel> (Message<TModel> message);
+public delegate bool ProduceMessage<TModel> (Message<TModel> message);
 
 public delegate Task SaveModel<TModel> (TModel model, CancellationToken cancellationToken = default);
 
