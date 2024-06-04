@@ -4,6 +4,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../Simple.Domain.Services/Simple.Domain.Services.csproj" />
+    <PackageReference Include="FluentValidation" />
   </ItemGroup>
 
 </Project>

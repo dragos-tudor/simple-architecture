@@ -33,6 +33,6 @@ partial class SqlServerTests
     await SaveTestChanges(dbContext);
 
     var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
-    AreEqual(actual.PhoneNumbers.OrderBy(e => e.Number), contact.PhoneNumbers.OrderBy(e => e.Number));
+    CollectionAssert.AreEqual(actual.PhoneNumbers.OrderBy(e => e.Number).ToArray(), contact.PhoneNumbers.OrderBy(e => e.Number).ToArray());
   }
 }

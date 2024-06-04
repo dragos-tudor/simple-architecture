@@ -1,4 +1,5 @@
-namespace Simple.App.Services;
+
+namespace Simple.Domain.Api;
 
 using FluentValidation;
 
@@ -12,7 +13,7 @@ sealed class ContactValidator : AbstractValidator<Contact>
   }
 }
 
-partial class ServicesFuncs
+partial class ApiFuncs
 {
   static readonly ContactValidator ContactValidator =  new ();
 }

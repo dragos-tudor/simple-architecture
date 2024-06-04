@@ -1,5 +1,5 @@
 
-namespace Simple.App.Services;
+namespace Simple.Domain.Api;
 
 public delegate Task ProduceMessage<TMessage> (TMessage message);
 

@@ -14,7 +14,7 @@ partial class ApiFuncs
     HttpContext httpContext)
   {
     using var agendaContext = createAgendaContext();
-    var result = await AddPhoneNumberService (
+    var result = await AddPhoneNumberApi (
       contactId,
       phoneNumber,
       (phoneNumber, cancellationToken) => FindPhoneNumber(agendaContext.PhoneNumbers, phoneNumber).FirstOrDefaultAsync(cancellationToken),
@@ -35,7 +35,7 @@ partial class ApiFuncs
     ProduceMessage<Message> produceMessage,
     HttpContext httpContext)
   {
-    var result = await AddPhoneNumberService (
+    var result = await AddPhoneNumberApi (
       contactId,
       phoneNumber,
       (phoneNumber, cancellationToken) => FindPhoneNumber(contacts.AsQueryable(), phoneNumber, cancellationToken),

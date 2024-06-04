@@ -32,7 +32,7 @@ partial class MongoDbTests
     await InsertContact(contacts, contact3);
 
     var actual = await FindPhoneNumbers(contacts.AsQueryable(), [contact1.PhoneNumbers[0], contact3.PhoneNumbers[0]]);
-    AreEqual(actual, [contact1.PhoneNumbers[0], contact3.PhoneNumbers[0]]);
+    CollectionAssert.AreEqual(actual.ToArray(), (PhoneNumber[])[contact1.PhoneNumbers[0], contact3.PhoneNumbers[0]]);
   }
 
 }

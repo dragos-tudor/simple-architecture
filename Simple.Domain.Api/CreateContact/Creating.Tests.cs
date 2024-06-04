@@ -2,10 +2,9 @@
 using static System.Threading.Tasks.Task;
 using NSubstitute;
 
+namespace Simple.Domain.Api;
 
-namespace Simple.App.Services;
-
-partial class ServicesTests
+partial class ApiTests
 {
   readonly FindModels<PhoneNumber, PhoneNumber> FindPhoneNumbers = Substitute.For<FindModels<PhoneNumber, PhoneNumber>>();
   readonly SaveModels<Contact, Message> SaveContactAndMessage = Substitute.For<SaveModels<Contact, Message>>();
@@ -16,7 +15,7 @@ partial class ServicesTests
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
     var saveModels = Substitute.For<SaveModels<Contact, Message>>();
-    await CreateContactService(contact, [], FindPhoneNumbers, saveModels, ProduceMessage);
+    await CreateContactApi(contact, [], FindPhoneNumbers, saveModels, ProduceMessage);
 
     await saveModels.Received().Invoke(Arg.Is<Contact>(x => x.ContactId == contact.ContactId), Arg.Any<Message<ContactCreatedEvent>>());
   }
@@ -26,7 +25,7 @@ partial class ServicesTests
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
     var saveModels = Substitute.For<SaveModels<Contact, Message>>();
-    await CreateContactService(contact, [], FindPhoneNumbers, saveModels, ProduceMessage);
+    await CreateContactApi(contact, [], FindPhoneNumbers, saveModels, ProduceMessage);
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     await saveModels.Received().Invoke(Arg.Any<Contact>(), Arg.Is<Message<ContactCreatedEvent>>(message => message.MessagePayload == contactCreatedEvent));
@@ -37,7 +36,7 @@ partial class ServicesTests
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
     var producehMessage = Substitute.For<ProduceMessage<Message>>();
-    await CreateContactService(contact, [], FindPhoneNumbers, SaveContactAndMessage, producehMessage);
+    await CreateContactApi(contact, [], FindPhoneNumbers, SaveContactAndMessage, producehMessage);
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     await producehMessage.Received().Invoke(Arg.Is<Message<ContactCreatedEvent>>(message => message.MessagePayload == contactCreatedEvent));
@@ -51,17 +50,17 @@ partial class ServicesTests
     var findPhoneNumbers = Substitute.For<FindModels<PhoneNumber, PhoneNumber>>();
 
     findPhoneNumbers(phoneNumbers).Returns((_) => FromResult(phoneNumbers.AsEnumerable()));
-    var result = await CreateContactService(contact, phoneNumbers, findPhoneNumbers, SaveContactAndMessage, ProduceMessage);
+    var result = await CreateContactApi(contact, phoneNumbers, findPhoneNumbers, SaveContactAndMessage, ProduceMessage);
 
-    AreEqual(FromFailure(result)!, [GetDuplicatePhoneNumberError(phoneNumbers[0])]);
+    CollectionAssert.AreEqual(FromFailure(result)!, AsArray([GetDuplicatePhoneNumberError(phoneNumbers[0])]));
   }
 
   [TestMethod]
   public async Task new_contact_with_invalid_contact_email__create_contact__invalid_contact_email_error ()
   {
     var contact = CreateTestContact(contactEmail: "wrong email");
-    var result = await CreateContactService(contact, [], FindPhoneNumbers, SaveContactAndMessage, ProduceMessage);
+    var result = await CreateContactApi(contact, [], FindPhoneNumbers, SaveContactAndMessage, ProduceMessage);
 
-    AreEqual(FromFailure(result)!, [GetInvalidContactEmailError(contact.ContactEmail)]);
+    CollectionAssert.AreEqual(FromFailure(result)!, AsArray([GetInvalidContactEmailError(contact.ContactEmail)]));
   }
 }

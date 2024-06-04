@@ -2,9 +2,9 @@
 using static System.Threading.Tasks.Task;
 using NSubstitute;
 
-namespace Simple.App.Services;
+namespace Simple.Domain.Api;
 
-partial class ServicesTests
+partial class ApiTests
 {
   readonly FindModel<PhoneNumber, PhoneNumber?> FindPhoneNumber = Substitute.For<FindModel<PhoneNumber, PhoneNumber?>>();
   readonly SaveModels<Contact, PhoneNumber> SaveContactAndPhoneNumber = Substitute.For<SaveModels<Contact, PhoneNumber>>();
@@ -18,7 +18,7 @@ partial class ServicesTests
     var findContact = Substitute.For<FindModel<Guid, Contact?>>();
 
     findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
-    await AddPhoneNumberService(contact.ContactId, phoneNumber, FindPhoneNumber, findContact, saveContactAndPhoneNumber);
+    await AddPhoneNumberApi(contact.ContactId, phoneNumber, FindPhoneNumber, findContact, saveContactAndPhoneNumber);
 
     await saveContactAndPhoneNumber.Received().Invoke(
       Arg.Is<Contact>(ct => ct.ContactId == contact.ContactId),
@@ -36,9 +36,9 @@ partial class ServicesTests
 
     findPhoneNumber(phoneNumber).Returns((_) => FromResult(phoneNumber) as Task<PhoneNumber?>);
     findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
-    var result = await AddPhoneNumberService(contact.ContactId, phoneNumber, findPhoneNumber, findContact, SaveContactAndPhoneNumber);
+    var result = await AddPhoneNumberApi(contact.ContactId, phoneNumber, findPhoneNumber, findContact, SaveContactAndPhoneNumber);
 
-    AreEqual(FromFailure(result)!, [GetDuplicatePhoneNumberError(phoneNumber)]);
+    CollectionAssert.AreEqual(FromFailure(result)!, AsArray([GetDuplicatePhoneNumberError(phoneNumber)]));
   }
 
   [TestMethod]
@@ -49,8 +49,8 @@ partial class ServicesTests
     var findContact = Substitute.For<FindModel<Guid, Contact?>>();
 
     findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
-    var result = await AddPhoneNumberService(contact.ContactId, phoneNumber, FindPhoneNumber, findContact, SaveContactAndPhoneNumber);
+    var result = await AddPhoneNumberApi(contact.ContactId, phoneNumber, FindPhoneNumber, findContact, SaveContactAndPhoneNumber);
 
-    AreEqual(FromFailure(result)!, [GetInvalidPhoneNumberError(phoneNumber.Number)]);
+    CollectionAssert.AreEqual(FromFailure(result)!, AsArray([GetInvalidPhoneNumberError(phoneNumber.Number)]));
   }
 }

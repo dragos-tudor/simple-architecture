@@ -1,9 +1,9 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace Simple.App.Services;
+namespace Simple.Domain.Api;
 
-partial class ServicesFuncs
+partial class ApiFuncs
 {
   [LoggerMessage(1, LogLevel.Information, "Contact: Contact created {ContactId}. [{TraceId}]", EventName = "LogContactCreated")]
   public static partial void LogContactCreated (ILogger logger, Guid contactId, string? traceId);

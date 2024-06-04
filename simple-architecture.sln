@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Shared.Extensions", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Queue", "Simple.Infrastructure.Queue\Simple.Infrastructure.Queue.csproj", "{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.App.EServices", "Simple.App.Services\Simple.App.Services.csproj", "{B6EAD819-697E-4D4C-AEFD-4C443455F395}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Domain.Api", "Simple.Domain.Api\Simple.Domain.Api.csproj", "{B6EAD819-697E-4D4C-AEFD-4C443455F395}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.MongoDb", "Simple.Infrastructure.MongoDb\Simple.Infrastructure.MongoDb.csproj", "{CD1B9023-65DE-4D62-A382-126CBB9A35EE}"
 EndProject

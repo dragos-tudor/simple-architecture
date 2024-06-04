@@ -1,5 +1,7 @@
-
+﻿
 namespace Simple.Domain.Services;
+
+public record ContactCreatedEvent(Guid ContactId, string ContactEmail);
 
 partial class ServicesFuncs
 {

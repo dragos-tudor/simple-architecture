@@ -1,9 +1,9 @@
 
-namespace Simple.App.Services;
+namespace Simple.Domain.Api;
 
-partial class ServicesFuncs
+partial class ApiFuncs
 {
-  public static async Task<Result<Contact?, string[]?>> CreateContactService (
+  public static async Task<Result<Contact?, string[]?>> CreateContactApi (
     Contact contact,
     IEnumerable<PhoneNumber> phoneNumbers,
     FindModels<PhoneNumber, PhoneNumber> findPhoneNumbers,
@@ -12,13 +12,13 @@ partial class ServicesFuncs
     string? traceId = default,
     CancellationToken cancellationToken = default)
   {
-    var contactErrors = ValidateModel(contact, ContactValidator);
+    var contactErrors = ValidateObject(contact, ContactValidator);
     if(ExistsValidationErrors(contactErrors)) return AsArray(contactErrors);
 
-    var phoneNumberErrors = ValidateModels(phoneNumbers, PhoneNumberValidator);
+    var phoneNumberErrors = ValidateObjects(phoneNumbers, PhoneNumberValidator);
     if(ExistsValidationErrors(phoneNumberErrors)) return AsArray(phoneNumberErrors);
 
-    var result = await DomainFuncs.CreateContactService(contact, phoneNumbers, findPhoneNumbers, cancellationToken);
+    var result = await CreateContactService(contact, phoneNumbers, findPhoneNumbers, cancellationToken);
     if(IsFailureResult(result)) return AsArray(FromFailure(result)!);
 
     var @event = FromSuccess(result);

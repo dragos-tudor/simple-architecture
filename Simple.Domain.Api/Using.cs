@@ -6,12 +6,10 @@ global using System.Threading.Tasks;
 global using Simple.Domain.Models;
 global using Simple.Domain.Services;
 global using Simple.Shared.Extensions;
-global using static Simple.App.Services.ServicesFuncs;
-global using static Simple.Domain.Models.ModelsFuncs;
+global using static Simple.Domain.Api.ApiFuncs;
 global using static Simple.Domain.Services.ServicesFuncs;
 global using static Simple.Shared.Extensions.ExtensionsFuncs;
-global using DomainFuncs = Simple.Domain.Services.ServicesFuncs;
 
-namespace Simple.App.Services;
+namespace Simple.Domain.Api;
 
-public static partial class ServicesFuncs;
+public static partial class ApiFuncs;

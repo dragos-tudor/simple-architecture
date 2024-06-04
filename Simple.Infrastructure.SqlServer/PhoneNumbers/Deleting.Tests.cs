@@ -17,6 +17,6 @@ partial class SqlServerTests
     await SaveTestChanges(dbContext);
 
     var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
-    AreEqual(actual.PhoneNumbers, []);
+    CollectionAssert.AreEqual(actual.PhoneNumbers.ToArray(), (PhoneNumber[])[]);
   }
 }

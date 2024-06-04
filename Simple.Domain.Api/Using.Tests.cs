@@ -2,7 +2,7 @@
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using static Simple.Domain.Models.ModelsTests;
 
-namespace Simple.App.Services;
+namespace Simple.Domain.Api;
 
 [TestClass]
-public partial class ServicesTests;
+public partial class ApiTests;

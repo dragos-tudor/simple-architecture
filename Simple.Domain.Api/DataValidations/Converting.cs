@@ -1,9 +1,9 @@
 
 using FluentValidation.Results;
 
-namespace Simple.Domain.Services;
+namespace Simple.Domain.Api;
 
-partial class ServicesFuncs
+partial class ApiFuncs
 {
   static string ToStringValidationError (ValidationFailure failure) => $"${failure.PropertyName}: {failure.ErrorMessage}";
 }

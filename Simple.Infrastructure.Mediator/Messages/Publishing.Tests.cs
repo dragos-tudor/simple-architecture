@@ -11,7 +11,7 @@ partial class MediatorTests
     var sub = CreateSubscriber<string>("sub", (msg, _) => FromResult((string?)(msg == "1"? "one": "not one")));
 
     var results = PublishMessage("1", [sub]);
-    AreEqual(await WhenAll(results), ["one"]);
+    CollectionAssert.AreEqual(await WhenAll(results), AsArray(["one"]));
   }
 
   [TestMethod]
@@ -21,7 +21,7 @@ partial class MediatorTests
     var sub2 = CreateSubscriber<string>("sub2", (msg, _) => FromResult((string?)(msg == "2"? "two": "not two")));
 
     var results = PublishMessage("1", [sub1, sub2]);
-    AreEqual(await WhenAll(results), ["one", "not two"]);
+    CollectionAssert.AreEqual(await WhenAll(results), AsArray(["one", "not two"]));
   }
 
   [TestMethod]
@@ -32,7 +32,7 @@ partial class MediatorTests
     var sub2 = CreateSubscriber<int>("sub2", (_, token) => token.IsCancellationRequested? FromResult((string?)"not ran"): FromResult((string?)"ran"));
 
     var results = PublishMessage(1, [sub1, sub2], cts.Token);
-    AreEqual(await WhenAll(results), ["ran", "not ran"]);
+    CollectionAssert.AreEqual(await WhenAll(results), AsArray(["ran", "not ran"]));
   }
 
   [TestMethod]

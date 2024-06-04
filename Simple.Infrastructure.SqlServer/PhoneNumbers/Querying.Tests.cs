@@ -36,6 +36,6 @@ partial class SqlServerTests
     await SaveTestChanges(dbContext);
 
     var actual = await FindPhoneNumbers(dbContext.PhoneNumbers, [phoneNumbers[0], phoneNumbers[2]]);
-    AreEqual(actual.ToArray(), [phoneNumbers[0], phoneNumbers[2]]);
+    CollectionAssert.AreEqual(actual.ToArray(), (PhoneNumber[])[phoneNumbers[0], phoneNumbers[2]]);
   }
 }

@@ -19,12 +19,12 @@
 
 ### Simple architecture implementation
 - *high-level modules*: simple.web.api.
-- *low-level modules*: simple.app.services, simple.domain.\*, simple.infrastructure.\*.
+- *low-level modules*: simple.domain.\*, simple.infrastructure.\*.
 
 ### Simple vs clean architectures parallels
 - *the dependency rule* - no dependencies.
 - *entities* - rich entities replaced with simple data bags [no behaviours] in *low-level module* simple.domain.models.
-- *use cases* = *simple.app.services*.
+- *use cases* = *simple.domain.api*.
 - *interface adapters* - reside into *high-level modules*.
 - *frameworks and drivers* - reside into:
   - *low-level modules* [databases drivers].
