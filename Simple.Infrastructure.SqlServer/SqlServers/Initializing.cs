@@ -1,4 +1,6 @@
 
+using System.Reflection;
+
 namespace Simple.Infrastructure.SqlServer;
 
 partial class SqlServerFuncs
@@ -15,6 +17,6 @@ partial class SqlServerFuncs
     await CreateSqlDatabaseAsync(masterContext, dbName, cancellationToken);
     await CreateSqlDatabaseUserAsync(masterContext, dbName, userName, userPassword, cancellationToken);
 
-    return MigrateSqlDatabase(masterContext, dbName);
+    return MigrateSqlDatabase(masterContext, dbName, Assembly.GetExecutingAssembly());
   }
 }

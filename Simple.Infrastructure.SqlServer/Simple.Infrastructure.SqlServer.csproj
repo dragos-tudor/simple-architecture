@@ -6,7 +6,7 @@
     <ProjectReference Include="../Simple.Domain.Models/Simple.Domain.Models.csproj" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
     <PackageReference Include="Storing.SqlServer" />
-    <None Include="SqlMigrations/*.sql" CopyToOutputDirectory="PreserveNewest"/>
+    <EmbeddedResource Include="SqlMigrations/0.InitialMigration.sql" />
   </ItemGroup>
 
 </Project>
