@@ -1,4 +1,5 @@
 
+
 using MongoDB.Driver;
 
 namespace Simple.Web.Api;
@@ -8,17 +9,17 @@ partial class ApiFuncs
   public static async Task<Results<Created, BadRequest<string[]>>> CreateContactSqlEndpoint (
     Contact contact,
     IEnumerable<PhoneNumber> phoneNumbers,
-    Func<AgendaContext> createAgendaContext,
-    ProduceMessage<Message> produceMessage,
+    AgendaContextFactory agendaContextFactory,
+    Channel<Message> messageQueue,
     HttpContext httpContext)
   {
-    using var agendaContext = createAgendaContext();
+    using var agendaContext = await agendaContextFactory.CreateDbContextAsync();
     var result = await CreateContactApi (
       contact,
       phoneNumbers,
       (phoneNumbers, cancellationToken) => FindPhoneNumbers(agendaContext.PhoneNumbers, phoneNumbers, cancellationToken),
       (contact, message, cancellationToken) => InsertContactAndMessage(agendaContext, contact, message, cancellationToken),
-      produceMessage,
+      (message) => ProduceMessage(messageQueue, message),
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);
 
@@ -30,17 +31,18 @@ partial class ApiFuncs
   public static async Task<Results<Created, BadRequest<string[]>>> CreateContactMongoEndpoint (
     Contact contact,
     IEnumerable<PhoneNumber> phoneNumbers,
-    IMongoCollection<Contact> contacts,
-    IMongoCollection<Message> messages,
-    ProduceMessage<Message> produceMessage,
+    IMongoDatabase agendaDb,
+    Channel<Message> messageQueue,
     HttpContext httpContext)
   {
+    var contacts = GetContactCollection(agendaDb);
+    var messages = GetMessageCollection(agendaDb);
     var result = await CreateContactApi (
       contact,
       phoneNumbers,
       (phoneNumbers, cancellationToken) => FindPhoneNumbers(contacts.AsQueryable(), phoneNumbers, cancellationToken),
       (contact, message, cancellationToken) => InsertContactAndMessage(contacts, messages, contact, message, default, cancellationToken),
-      produceMessage,
+      (message) => ProduceMessage(messageQueue, message),
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);
 

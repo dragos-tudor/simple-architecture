@@ -1,11 +1,13 @@
 
-using System.Threading.Channels;
-
 namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  public static Func<CancellationToken, Task> ConsumeMessages<TMessage> (Channel<TMessage> queue, IEnumerable<Subscriber<TMessage>> subscribers, Func<TMessage, CancellationToken, Task<bool>> finalizeMessage) => (CancellationToken cancellationToken) =>
+  public static Func<CancellationToken, Task> ConsumeMessages<TMessage> (
+    Channel<TMessage> queue,
+    IEnumerable<Subscriber<TMessage>> subscribers,
+    Func<TMessage, CancellationToken, Task<bool>> finalizeMessage) => (CancellationToken cancellationToken)
+  =>
     DequeueMessages (
       queue,
       async (message, cancellationToken) =>

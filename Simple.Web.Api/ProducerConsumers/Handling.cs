@@ -15,6 +15,6 @@ partial class ApiFuncs
     var dispatchErrors = GetDispatchErrors(dispatchResult)!;
     foreach(var error in dispatchErrors) LogDispatchedMessageError(Logger, GetMessageType(message), GetMessageTraceId(message), error);
 
-    return dispatchErrors.Any();
+    return !dispatchErrors.Any();
   }
 }

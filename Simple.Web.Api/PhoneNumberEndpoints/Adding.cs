@@ -9,11 +9,10 @@ partial class ApiFuncs
   public static async Task<Results<Ok, BadRequest<string[]>>> AddPhoneNumberSqlEndpoint (
     Guid contactId,
     PhoneNumber phoneNumber,
-    Func<AgendaContext> createAgendaContext,
-    ProduceMessage<Message> produceMessage,
+    AgendaContextFactory agendaContextFactory,
     HttpContext httpContext)
   {
-    using var agendaContext = createAgendaContext();
+    using var agendaContext = await agendaContextFactory.CreateDbContextAsync();
     var result = await AddPhoneNumberApi (
       contactId,
       phoneNumber,
@@ -31,10 +30,10 @@ partial class ApiFuncs
   public static async Task<Results<Ok, BadRequest<string[]>>> AddPhoneNumberMongoEndpoint (
     Guid contactId,
     PhoneNumber phoneNumber,
-    IMongoCollection<Contact> contacts,
-    ProduceMessage<Message> produceMessage,
+    IMongoDatabase agendaDb,
     HttpContext httpContext)
   {
+    var contacts = GetContactCollection(agendaDb);
     var result = await AddPhoneNumberApi (
       contactId,
       phoneNumber,
