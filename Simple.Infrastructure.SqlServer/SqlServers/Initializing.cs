@@ -10,7 +10,7 @@ partial class SqlServerFuncs
     using var dockerClient = CreateDockerClient();
     var container = await StartSqlServerAsync (dockerClient, adminPassword, imageName, containerName, serverPort, networkName, cancellationToken);
 
-    var masterConnString = CreateSqlConnectionString(dbName, adminName, adminPassword, containerName);
+    var masterConnString = CreateSqlConnectionString("master", adminName, adminPassword, containerName);
     using var masterContext = CreateDbContext(CreateSqlContextOptions<DbContext>(masterConnString));
     await CreateSqlDatabaseAsync(masterContext, dbName, cancellationToken);
     await CreateSqlDatabaseUserAsync(masterContext, dbName, userName, userPassword, cancellationToken);

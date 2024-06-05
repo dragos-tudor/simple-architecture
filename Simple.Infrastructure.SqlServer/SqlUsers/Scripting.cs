@@ -11,8 +11,8 @@ partial class SqlServerFuncs
     END
   ";
 
-  static string GetCreateSqlDatabaseUserScript (string databaseName, string userName, string password) => $@"
-    USE {databaseName};
+  static string GetCreateSqlDatabaseUserScript (string databaseName, string userName) => $@"
+    USE [{databaseName}];
     IF NOT EXISTS (SELECT name FROM sys.database_principals WHERE name = N'{userName}')
     BEGIN
         CREATE USER [{userName}] FOR LOGIN [{userName}]
