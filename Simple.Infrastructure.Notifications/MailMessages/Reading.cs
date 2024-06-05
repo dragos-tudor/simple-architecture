@@ -5,7 +5,7 @@ partial class NotificationsFuncs
 {
   public static async Task<MimeMessage> ReadMailMessage (ReadOnlySequence<byte> buffer, CancellationToken cancellationToken)
   {
-    var stream = new MemoryStream();
+    using var stream = new MemoryStream();
     var position = buffer.GetPosition(0);
 
     while (buffer.TryGet(ref position, out var memory))
