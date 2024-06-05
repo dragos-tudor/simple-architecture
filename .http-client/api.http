@@ -1,0 +1,12 @@
+@sqlUrl = http://localhost:5000/sql
+@mongoUrl = http://localhost:5000/mongo
+
+# @name create contact
+POST {{sqlUrl}}/contacts HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+contactName=contact1
+&contactEmail=contact1@test.com
+
+###
+

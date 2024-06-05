@@ -1,7 +1,6 @@
 
 using System.Collections.Concurrent;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -55,6 +54,6 @@ ConsumeMessages(mongoMessageQueue, mongoSubscribers, async (message, cancellatio
   return true;
 });
 
-
+app.UseRouting();
 await app.RunAsync();
 shutdownServer();

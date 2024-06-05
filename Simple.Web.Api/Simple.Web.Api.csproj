@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="../Directory.Testing.props" />
-
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+  <PropertyGroup>
 		<OutputType>Exe</OutputType>
+    <IsTestProject>false</IsTestProject>
+    <NoWarn>CS7022</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
