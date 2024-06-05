@@ -16,10 +16,10 @@ partial class ApiTests
     var message = CreateMessage(CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail));
     var sendNotification = Substitute.For<SendNotification<AddedToAgendaNotification>>();
 
-    await NotifyAddedToAgendaApi(message, "agenda owner", FindParentMessage, sendNotification, SaveMessage);
+    await NotifyAddedToAgendaApi(message, "from", DateTime.MinValue, FindParentMessage, sendNotification, SaveMessage);
 
     await sendNotification.Received().Invoke(Arg.Is<AddedToAgendaNotification>(notification =>
-      notification == CreateAddedToAgendaNotification("agenda owner", contact.ContactEmail)));
+      notification == CreateAddedToAgendaNotification("from", contact.ContactEmail, DateTime.MinValue)));
   }
 
   [TestMethod]
@@ -29,10 +29,10 @@ partial class ApiTests
     var message = CreateMessage(CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail));
     var saveMessage = Substitute.For<SaveModel<Message<AddedToAgendaNotification>>>();
 
-    await NotifyAddedToAgendaApi(message, "agenda owner", FindParentMessage, SendNotification, saveMessage);
+    await NotifyAddedToAgendaApi(message, "from", DateTime.MinValue, FindParentMessage, SendNotification, saveMessage);
 
     await saveMessage.Received().Invoke(Arg.Is<Message<AddedToAgendaNotification>>(message =>
-      message.MessagePayload == CreateAddedToAgendaNotification("agenda owner", contact.ContactEmail)));
+      message.MessagePayload == CreateAddedToAgendaNotification("from", contact.ContactEmail, DateTime.MinValue)));
   }
 
   [TestMethod]
@@ -44,7 +44,7 @@ partial class ApiTests
     var sendNotification = Substitute.For<SendNotification<AddedToAgendaNotification>>();
 
     findParentMessage(message).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
-    await NotifyAddedToAgendaApi(message, "agenda owner", findParentMessage, sendNotification, SaveMessage);
+    await NotifyAddedToAgendaApi(message, "from", DateTime.MinValue, findParentMessage, sendNotification, SaveMessage);
 
     await sendNotification.DidNotReceive().Invoke(Arg.Any<AddedToAgendaNotification>());
   }
@@ -58,7 +58,7 @@ partial class ApiTests
     var saveMessage = Substitute.For<SaveModel<Message<AddedToAgendaNotification>>>();
 
     findParentMessage(message).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
-    await NotifyAddedToAgendaApi(message, "agenda owner", findParentMessage, SendNotification, saveMessage);
+    await NotifyAddedToAgendaApi(message, "from", DateTime.MinValue, findParentMessage, SendNotification, saveMessage);
 
     await saveMessage.DidNotReceive().Invoke(Arg.Any<Message<AddedToAgendaNotification>>());
   }

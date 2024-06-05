@@ -3,13 +3,16 @@ namespace Simple.Infrastructure.Notifications;
 
 partial class NotificationsFuncs
 {
-  public static MimeMessage BuildMailMessage (string to, string from, string subject, string body)
+  public static MimeMessage BuildMailMessage (string from, string to, string subject, string body, DateTimeOffset date)
   {
-    var mailMessage = CreateMailMessage();
+    var mailMessage = new MimeMessage();
+
     SetMessageFrom(mailMessage, new MailboxAddress(from, from));
     SetMessageTo(mailMessage, new MailboxAddress(to, to));
     SetMessageSubject(mailMessage, subject);
     SetMessageBody(mailMessage, body);
+    SetMessageDate(mailMessage, date);
+
     return mailMessage;
   }
 }

@@ -5,7 +5,7 @@ using SmtpServer.Storage;
 
 namespace Simple.Infrastructure.Notifications;
 
-public sealed class SmtpServerStore(ICollection<MimeMessage> MailMessages) : MessageStore
+public sealed class SmtpServerStore<TNotification> (IProducerConsumerCollection<TNotification> Notifications, Func<MimeMessage, TNotification> mapMessage) : MessageStore
 {
   public override async Task<SmtpResponse> SaveAsync (
     ISessionContext context,
@@ -14,7 +14,9 @@ public sealed class SmtpServerStore(ICollection<MimeMessage> MailMessages) : Mes
     CancellationToken cancellationToken)
   {
     var mailMessage = await ReadMailMessage(buffer, cancellationToken);
-    AddMailMessage(MailMessages, mailMessage);
+    var notification = mapMessage(mailMessage);
+
+    AddNotification(Notifications, notification);
     return SmtpResponse.Ok;
   }
 }

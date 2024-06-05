@@ -5,7 +5,8 @@ partial class ApiFuncs
 {
   public static async Task<AddedToAgendaNotification?> NotifyAddedToAgendaApi (
     Message<ContactCreatedEvent> message,
-    string agendaOwner,
+    string from,
+    DateTimeOffset date,
     FindModel<Message, Message?> findParentMessage,
     SendNotification<AddedToAgendaNotification> sendNotification,
     SaveModel<Message<AddedToAgendaNotification>> saveMessage,
@@ -15,12 +16,12 @@ partial class ApiFuncs
     if(ExistMessage(parentMessage)) return default;
 
     var contactEmail = message.MessagePayload.ContactEmail;
-    var @event = CreateAddedToAgendaNotification(agendaOwner, contactEmail);
+    var notification = CreateAddedToAgendaNotification(from, contactEmail, date);
 
-    await sendNotification(@event, cancellationToken);
-    await saveMessage(CreateFromMessage(@event, message, isActive: false), cancellationToken);
+    await sendNotification(notification, cancellationToken);
+    await saveMessage(CreateFromMessage(notification, message, isActive: false), cancellationToken);
 
-    LogAddedToAgendaNotification(Logger, @event.AddressTo, message.TraceId);
-    return @event;
+    LogAddedToAgendaNotification(Logger, notification.From, notification.To, message.TraceId);
+    return notification;
   }
 }
