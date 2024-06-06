@@ -1,6 +1,7 @@
 
-using System.Collections.Concurrent;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -25,35 +26,29 @@ await Task.WhenAll(
   InitializeMongeReplicaSetAsync (replicaSetOptions, cancellationToken)
 );
 
-var app = builder.Build();
 
-var notifications = new ConcurrentBag<Notification>();
-var shutdownServer = StartNotificationServer("localhost", 9025, notifications);
-var sendNotification = CreateNotificationSender("localhost", 9025);
+builder.Services.AddProblemDetails();
+var app = builder.Build();
+SetLoggerFactory(app.Services.GetRequiredService<ILoggerFactory>());
+
+var notificationServerOptions = new NotificationServerOptions("localhost", 9025);
+var shutdownNotificationServer = StartNotificationServer(notificationServerOptions, (notification) => LogSentNotification(Logger, notification.From, notification.To, notification.Title));
+var sendNotification = CreateNotificationSender(notificationServerOptions);
 
 var sqlMessageQueue = CreateMessageQueue<Message>(1000);
 var sqlConnString = CreateSqlConnectionString("agenda-api", "sqluser", "sqluser.P@ssw0rd", "simple-sql");
 var sqlDbContextFactory = new AgendaContextFactory(CreateSqlContextOptions<AgendaContext>(sqlConnString));
 var sqlSubscribers = RegisterSqlSubscribers(TimeProvider.System, sqlDbContextFactory, sendNotification, sqlMessageQueue);
 MapSqlEndpoints(app, sqlDbContextFactory, sqlMessageQueue);
-ConsumeMessages(sqlMessageQueue, sqlSubscribers, async (message, cancellationToken) => {
-  using var agendaContext = await sqlDbContextFactory.CreateDbContextAsync(cancellationToken);
-  UpdateMessageIsActive(agendaContext, message, false);
-  await SaveChanges(agendaContext, cancellationToken);
-  return true;
-});
+_ = ConsumeSqlMessages(sqlMessageQueue, sqlSubscribers, sqlDbContextFactory);
 
 var mongoMessageQueue = CreateMessageQueue<Message>(1000);
 var mongoConnString = GetMongoConnectionString("simple-mongo1,simple-mongo2,simple-mongo3", "rs0");
 var mongoDb = GetMongoDatabase(CreateMongoClient(mongoConnString), "agenda-api");
-var mongoSubscribers = RegisterSqlSubscribers(TimeProvider.System, sqlDbContextFactory, sendNotification, sqlMessageQueue);
+var mongoSubscribers = RegisterMongoSubscribers(TimeProvider.System, mongoDb, sendNotification, mongoMessageQueue);
 MapMongoEndpoints(app, mongoDb, mongoMessageQueue);
-ConsumeMessages(mongoMessageQueue, mongoSubscribers, async (message, cancellationToken) => {
-  var messages = GetMessageCollection(mongoDb);
-  await UpdateMessageIsActive(messages, message, false, cancellationToken);
-  return true;
-});
+_ = ConsumeMongoMessages(mongoMessageQueue, mongoSubscribers, mongoDb);
 
-app.UseRouting();
+app.UseExceptionHandler();
 await app.RunAsync();
-shutdownServer();
+shutdownNotificationServer();

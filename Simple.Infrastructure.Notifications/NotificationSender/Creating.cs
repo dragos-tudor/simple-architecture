@@ -4,24 +4,23 @@ namespace Simple.Infrastructure.Notifications;
 
 partial class NotificationsFuncs
 {
-  public static SendNotification<Notification> CreateNotificationSender (string serverName, int serverPort)
+  public static SendNotification<Notification> CreateNotificationSender (NotificationServerOptions options)
   {
     var smtpClient = CreateSmtpClient();
 
     return async (notification, cancellationToken) => {
       using var message = MapNotification(notification);
-      await SendMailMessage(smtpClient, message, serverName, serverPort, cancellationToken);
+      await SendMailMessage(smtpClient, message, options.ServerName, options.ServerPort, cancellationToken);
     };
   }
 
-  public static Func<TNotification, CancellationToken, Task> CreateNotificationSender<TNotification> (
-    string serverName, int serverPort, Func<TNotification, MimeMessage> mapNotification)
+  public static Func<TNotification, CancellationToken, Task> CreateNotificationSender<TNotification> (NotificationServerOptions options, Func<TNotification, MimeMessage> mapNotification)
   {
     var smtpClient = CreateSmtpClient();
 
     return async (notification, cancellationToken) => {
       using var message = mapNotification(notification);
-      await SendMailMessage(smtpClient, message, serverName, serverPort, cancellationToken);
+      await SendMailMessage(smtpClient, message, options.ServerName, options.ServerPort, cancellationToken);
     };
   }
 }

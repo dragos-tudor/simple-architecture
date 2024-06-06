@@ -19,9 +19,9 @@ partial class ApiFuncs
     var notification = CreateAddedToAgendaNotification(from, contactEmail, date);
 
     await sendNotification(notification, cancellationToken);
-    await saveMessage(CreateFromMessage(notification, message, isActive: false), cancellationToken);
+    LogNotifiedAddedToAgenda(Logger, notification.From, notification.To, message.TraceId);
 
-    LogAddedToAgendaNotification(Logger, notification.From, notification.To, message.TraceId);
+    await saveMessage(CreateFromMessage(notification, message, isActive: false), cancellationToken);
     return notification;
   }
 }

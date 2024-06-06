@@ -4,5 +4,5 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  static readonly ILogger Logger = CreateLogger(GetLoggerFactory(), typeof(ApiFuncs).Namespace!);
+  internal static readonly ILogger Logger = CreateLogger(GetLoggerFactory(), typeof(ApiFuncs).Namespace!);
 }

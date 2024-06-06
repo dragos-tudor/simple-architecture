@@ -18,7 +18,7 @@ partial class QueueTests
     var queue = CreateMessageQueue<int>(queueCapacity);
     using var counter = new CountdownEvent(queueCapacity);
 
-    DequeueMessages(queue, (index, _) => { counter.Signal(); return Task.FromResult(true); }, (_, _) => {}, CancellationToken.None);
+    DequeueMessages(queue, (index, _) => { counter.Signal(); return Task.CompletedTask; }, (_, _) => {}, CancellationToken.None);
     Parallel.For(0, queueCapacity, (index, _) => { EnqueueMessage(index, queue); });
 
     counter.Wait();

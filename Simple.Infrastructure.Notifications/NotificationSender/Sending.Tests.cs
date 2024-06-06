@@ -8,15 +8,15 @@ partial class NotificationsTests
   [TestMethod]
   public async Task notification__send_notification__notification_server_receive_notification()
   {
-    var notifications = new ConcurrentBag<Notification>();
-    var shutdownServer = StartNotificationServer("localhost", 9025, notifications);
+    var options = new NotificationServerOptions("localhost", 9025);
+    var notifications = new List<Notification>();
+    var shutdownServer = StartNotificationServer(options, notifications.Add);
 
-    var notification = CreateNotification("a@test.com", "b@test.com", "title1", "content1", DateTimeOffset.Now);
-    var sendNotification = CreateNotificationSender("localhost", 9025);
+    var notification = CreateNotification("a@test.com", "b@test.com", "title1", "content1", new DateTime(2024, 1, 1));
+    var sendNotification = CreateNotificationSender(options);
     await sendNotification(notification, CancellationToken.None);
     shutdownServer();
 
-    var actual = FindNotificationByTitle(notifications, notification.Title);
-    StringAssert.Contains(actual.First().Content, "content1", StringComparison.InvariantCulture);
+    Assert.AreEqual(notifications[0], notification);
   }
 }

@@ -7,12 +7,12 @@ partial class ModelsTests
     Guid? contactId = default,
     string? contactName = default,
     string? contactEmail = default,
-    params PhoneNumber[] phoneNumbers)
+    PhoneNumber[]? phoneNumbers = default)
   =>
     new () {
       ContactId = contactId ?? GetRandomGuid(),
       ContactName = contactName ?? GetRandomString(ContactConstraints.ContactNameMaxLength),
       ContactEmail = contactEmail ?? GetRandomEmail(ContactConstraints.ContactEmailMaxLength),
-      PhoneNumbers = new List<PhoneNumber>(phoneNumbers)
+      PhoneNumbers = new List<PhoneNumber>(phoneNumbers ?? [])
     };
 }

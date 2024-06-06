@@ -15,7 +15,7 @@ partial class ApiTests
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
     var saveModels = Substitute.For<SaveModels<Contact, Message<ContactCreatedEvent>>>();
-    await CreateContactApi(contact, [], FindPhoneNumbers, saveModels, ProduceMessage);
+    await CreateContactApi(contact, FindPhoneNumbers, saveModels, ProduceMessage);
 
     await saveModels.Received().Invoke(
       Arg.Is<Contact>(x => x.ContactId == contact.ContactId),
@@ -27,7 +27,7 @@ partial class ApiTests
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
     var saveModels = Substitute.For<SaveModels<Contact, Message<ContactCreatedEvent>>>();
-    await CreateContactApi(contact, [], FindPhoneNumbers, saveModels, ProduceMessage);
+    await CreateContactApi(contact, FindPhoneNumbers, saveModels, ProduceMessage);
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     await saveModels.Received().Invoke(
@@ -40,7 +40,7 @@ partial class ApiTests
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
     var producehMessage = Substitute.For<ProduceMessage<Message<ContactCreatedEvent>>>();
-    await CreateContactApi(contact, [], FindPhoneNumbers, SaveModels, producehMessage);
+    await CreateContactApi(contact, FindPhoneNumbers, SaveModels, producehMessage);
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     producehMessage.Received().Invoke(
@@ -50,21 +50,20 @@ partial class ApiTests
   [TestMethod]
   public async Task new_contact_with_existing_phone_number__create_contact__duplicate_phone_number_error ()
   {
-    var contact = CreateTestContact(contactId: Guid.Empty);
-    PhoneNumber[] phoneNumbers = [CreateTestPhoneNumber()];
+    var contact = CreateTestContact(contactId: Guid.Empty, phoneNumbers: [CreateTestPhoneNumber()]);
     var findPhoneNumbers = Substitute.For<FindModels<PhoneNumber, PhoneNumber>>();
 
-    findPhoneNumbers(phoneNumbers).Returns((_) => FromResult(phoneNumbers.AsEnumerable()));
-    var result = await CreateContactApi(contact, phoneNumbers, findPhoneNumbers, SaveModels, ProduceMessage);
+    findPhoneNumbers(contact.PhoneNumbers).Returns((_) => FromResult(contact.PhoneNumbers.AsEnumerable()));
+    var result = await CreateContactApi(contact, findPhoneNumbers, SaveModels, ProduceMessage);
 
-    CollectionAssert.AreEqual(FromFailure(result)!, AsArray([GetDuplicatePhoneNumberError(phoneNumbers[0])]));
+    CollectionAssert.AreEqual(FromFailure(result)!, AsArray([GetDuplicatePhoneNumberError(contact.PhoneNumbers[0])]));
   }
 
   [TestMethod]
   public async Task new_contact_with_invalid_contact_email__create_contact__invalid_contact_email_error ()
   {
     var contact = CreateTestContact(contactEmail: "wrong email");
-    var result = await CreateContactApi(contact, [], FindPhoneNumbers, SaveModels, ProduceMessage);
+    var result = await CreateContactApi(contact, FindPhoneNumbers, SaveModels, ProduceMessage);
 
     CollectionAssert.AreEqual(FromFailure(result)!, AsArray([GetInvalidContactEmailError(contact.ContactEmail)]));
   }

@@ -3,7 +3,7 @@ namespace Simple.Infrastructure.Mediator;
 
 partial class MediatorFuncs
 {
-  public static IEnumerable<Task<string?>> DispatchMessage<TMessage> (
+  public static IEnumerable<Task<string?>> HandleMessage<TMessage> (
     TMessage message,
     string messageType,
     IEnumerable<Subscriber<TMessage>> subscribers,

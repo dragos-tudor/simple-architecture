@@ -1,4 +1,4 @@
 
 namespace Simple.Infrastructure.Queue;
 
-public delegate Task<bool> MessageHandler<TMessage>(TMessage message, CancellationToken cancellationToken);
+public delegate Task MessageHandler<TMessage>(TMessage message, CancellationToken cancellationToken);
