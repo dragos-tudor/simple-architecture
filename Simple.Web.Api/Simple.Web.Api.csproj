@@ -8,7 +8,7 @@
 
   <ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App"/>
-    <ProjectReference Include="../Simple.Domain.Api/Simple.Domain.Api.csproj" />
+    <ProjectReference Include="../Simple.Domain.Services/Simple.Domain.Services.csproj" />
     <ProjectReference Include="../Simple.Infrastructure.Mediator/Simple.Infrastructure.Mediator.csproj" />
     <ProjectReference Include="../Simple.Infrastructure.Notifications/Simple.Infrastructure.Notifications.csproj" />
     <ProjectReference Include="../Simple.Infrastructure.Queue/Simple.Infrastructure.Queue.csproj" />

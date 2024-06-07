@@ -14,7 +14,7 @@ partial class ApiFuncs
     CancellationToken cancellationToken = default)
   {
     var messages = GetMessageCollection(agendaDdb);
-    await NotifyAddedToAgendaApi (
+    await NotifyAddedToAgendaService (
       message,
       "dragos.tudor@gmail.com",
       timeProvider.GetUtcNow(),

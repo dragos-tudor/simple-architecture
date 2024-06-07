@@ -12,7 +12,7 @@ partial class ApiFuncs
     HttpContext httpContext)
   {
     var contacts = GetContactCollection(agendaDb);
-    var result = await AddPhoneNumberApi (
+    var result = await AddPhoneNumberService (
       contactId,
       phoneNumber,
       (phoneNumber, cancellationToken) => FindPhoneNumber(contacts.AsQueryable(), phoneNumber, cancellationToken),

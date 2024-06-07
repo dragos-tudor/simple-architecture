@@ -10,7 +10,7 @@ partial class MediatorTests
     var subs = RegisterSubscriber(sub, []);
 
     var actual = FindSubscribers(FromSuccess(subs)!, typeof(string).Name);
-    CollectionAssert.AreEqual(actual.ToArray(), AsArray([sub]));
+    CollectionAssert.AreEqual(actual.ToArray(), ToArray([sub]));
   }
 
   [TestMethod]
@@ -21,7 +21,7 @@ partial class MediatorTests
     var subs2 = RegisterSubscriber(sub2, [sub1]);
 
     var actual = FindSubscribers(FromSuccess(subs2)!, typeof(string).Name);
-    CollectionAssert.AreEqual(actual.ToArray(), AsArray([sub1, sub2]));
+    CollectionAssert.AreEqual(actual.ToArray(), ToArray([sub1, sub2]));
   }
 
   [TestMethod]
@@ -32,7 +32,7 @@ partial class MediatorTests
     var subs2 = RegisterSubscriber(sub2, [sub1]);
 
     var actual = FindSubscribers(FromSuccess(subs2)!, typeof(int).Name);
-    CollectionAssert.AreEqual(actual.ToArray(), AsArray([sub2]));
+    CollectionAssert.AreEqual(actual.ToArray(), ToArray([sub2]));
   }
 
   [TestMethod]
@@ -42,21 +42,21 @@ partial class MediatorTests
     var sub2 = CreateSubscriber<string>("sub1", (_, _) => Task.FromResult(default(string)));
     var actual = RegisterSubscriber(sub2, [sub1]);
 
-    CollectionAssert.AreEqual(FromFailure(actual)!, AsArray(["Duplicate subscriber sub1."]));
+    CollectionAssert.AreEqual(FromFailure(actual)!, ToArray(["Duplicate subscriber sub1."]));
   }
 
   [TestMethod]
   public void new_subscriber_wihout_id__register_subscriber__missing_subscriber_id_error()
   {
     var actual = RegisterSubscriber(new Subscriber<string>(default!, "some type", default!), []);
-    CollectionAssert.AreEqual(FromFailure(actual)!, AsArray(["Missing subscriber id."]));
+    CollectionAssert.AreEqual(FromFailure(actual)!, ToArray(["Missing subscriber id."]));
   }
 
   [TestMethod]
   public void new_subscriber_wihout_message_type__register_subscriber__missing_message_type_error()
   {
     var actual = RegisterSubscriber(new Subscriber<string>("sub1", default!, default!), []);
-    CollectionAssert.AreEqual(FromFailure(actual)!, AsArray(["Missing subscriber message type."]));
+    CollectionAssert.AreEqual(FromFailure(actual)!, ToArray(["Missing subscriber message type."]));
   }
 
 }

@@ -10,7 +10,7 @@ partial class MediatorTests
     var subs = RegisterSubscriber(sub, []);
 
     var actual = UnregisterSubscriber("sub", FromSuccess(subs)!);
-    CollectionAssert.AreEqual(actual, AsArray<string>([]));
+    CollectionAssert.AreEqual(actual, ToArray<string>([]));
   }
 
   [TestMethod]
@@ -21,7 +21,7 @@ partial class MediatorTests
     var subs2 = RegisterSubscriber(sub2, [sub1]);
 
     var actual = UnregisterSubscriber("sub1", FromSuccess(subs2)!);
-    CollectionAssert.AreEqual(actual, AsArray([sub2]));
+    CollectionAssert.AreEqual(actual, ToArray([sub2]));
   }
 
   [TestMethod]
@@ -32,7 +32,7 @@ partial class MediatorTests
     var subs2 = RegisterSubscriber(sub2, [sub1]);
 
     var actual = UnregisterSubscriber("sub1", FromSuccess(subs2)!);
-    CollectionAssert.AreEqual(actual, AsArray([sub2]));
+    CollectionAssert.AreEqual(actual, ToArray([sub2]));
   }
 
 

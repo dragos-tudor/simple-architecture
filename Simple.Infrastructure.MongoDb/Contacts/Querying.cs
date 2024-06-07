@@ -3,6 +3,9 @@ namespace Simple.Infrastructure.MongoDb;
 
 partial class MongoDbFuncs
 {
+  public static IMongoQueryable<Contact> FindContactByEmail (IMongoQueryable<Contact> query, string contactEmail) =>
+    query.Where(contact => contact.ContactEmail == contactEmail);
+
   public static IMongoQueryable<Contact> FindContactByKey (IMongoQueryable<Contact> query, Guid contactId) =>
     query.Where(contact => contact.ContactId == contactId);
 

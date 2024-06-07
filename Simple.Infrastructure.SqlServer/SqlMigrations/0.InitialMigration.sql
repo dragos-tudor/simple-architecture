@@ -39,7 +39,7 @@ BEGIN
 CREATE TABLE [PhoneNumbers] (
     [Number] BIGINT NOT NULL,
     [CountryCode] SMALLINT NOT NULL,
-    [Extension] nvarchar(5) NULL,
+    [Extension] SMALLINT NULL,
     [NumberType] tinyint NOT NULL,
     [ContactId] uniqueidentifier NOT NULL,
     CONSTRAINT [PK_PhoneNumbers] PRIMARY KEY ([CountryCode], [Number]),

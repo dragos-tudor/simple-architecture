@@ -23,8 +23,8 @@
 
 ### Simple vs clean architectures parallels
 - *the dependency rule* - no dependencies.
-- *entities* - rich entities replaced with simple data bags [no behaviours] in *low-level module* simple.domain.models.
-- *use cases* = *simple.domain.api*.
+- *entities* - rich entities replaced with simple data bags in *low-level module* simple.domain.models.
+- *use cases* = *simple.domain.services*.
 - *interface adapters* - reside into *high-level modules*.
 - *frameworks and drivers* - reside into:
   - *low-level modules* [databases drivers].
@@ -32,17 +32,22 @@
 
 ### Simple vs clean architectures dependencies
 - [clean-architecture implementation](https://github.com/ardalis/CleanArchitecture/tree/main/src):
-  - *clean.architecture.core* project depend on *mediator* [no-comments].
-  - *clean.architecture.usecases* project depend on *clean.architecture.core* project.
-  - *clean.architecture.infrastructure* project depend on *clean.architecture.usecases* project [no-comments].
-  - *clean.architecture.web* project depend on *clean.architecture.infrastructure* project.
+  - *clean.architecture.core* project depend on *Mediatr* package [?!].
+  - *clean.architecture.usecases* project depend on *clean.architecture.core* project and *EntityFrameworkCore* package [?!].
+  - *clean.architecture.infrastructure* project depend on *clean.architecture.usecases* project [?!].
+  - *clean.architecture.web* project depend on *clean.architecture.infrastructure* project [ok].
+- [other clean-architecture implementation](https://github.com/jasontaylordev/CleanArchitecture/tree/main/src):
+  - *domain* project depend on *Mediatr* package [?!].
+  - *application* project depend on *domain* project and *EntityFrameworkCore* package [?!].
+  - *infrastructure* project depend on *application* project [?!].
+  - *web* project depend on *infrastructure* project [ok].
 - [simple-architecture implementation](/):
   - *simple.domain.services*, *simple.infrastructure.** completely independent projects [share *simple.domain.models* project].
-  - *simple.web.api* project depend on all above projects.
-- *pyramid* vs *stack* => *simple* vs *complicated* -> *unknown* [yet] vs *highly-appreciated* [no-comments].
+  - *simple.web.api* project depend on all above projects [top of the pyramid].
+- *pyramid* vs *stack* => *simple* vs *complex* -> *unknown* [yet] vs *highly-appreciated* [no-comments].
 
 ### Remarks
-- something similar already exists how else [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
+- similar architecture already exists [how else :)] [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
 
 ### Credits
 Based idea comes from:

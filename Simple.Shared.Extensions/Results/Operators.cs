@@ -1,3 +1,4 @@
+#pragma warning disable CA2225
 
 namespace Simple.Shared.Extensions;
 

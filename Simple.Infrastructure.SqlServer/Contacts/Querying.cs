@@ -3,6 +3,9 @@ namespace Simple.Infrastructure.SqlServer;
 
 partial class SqlServerFuncs
 {
+  public static IQueryable<Contact> FindContactByEmail (IQueryable<Contact> query, string contactEmail) =>
+    query.Where(contact => contact.ContactEmail == contactEmail);
+
   public static IQueryable<Contact> FindContactByKey (IQueryable<Contact> query, Guid contactId) =>
     query.Where(contact => contact.ContactId == contactId);
 

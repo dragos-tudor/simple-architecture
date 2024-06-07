@@ -17,14 +17,17 @@ contactName=contact1
 
 # @name create mongo contact
 POST {{mongoUrl}}/contacts HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 
-contactName=contact1
-&contactEmail=contact1@test.com
-&phoneNumbers[0].countryCode=121
-&phoneNumbers[0].number=123456789
-&phoneNumbers[0].phoneNumberType=0
-&phoneNumbers[0].extension=
+{
+  "contactName": "contact1",
+  "contactEmail": "contact1@test.com",
+  "phoneNumbers": [{
+.   "countryCode": 121,
+    "number": 123456789,
+    "phoneNumberType": 0
+  }]
+}
 
 ###
 

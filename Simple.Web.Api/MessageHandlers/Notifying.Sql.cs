@@ -14,7 +14,7 @@ partial class ApiFuncs
     CancellationToken cancellationToken = default)
   {
     using var agendaContext = await agendaContextFactory.CreateDbContextAsync(cancellationToken);
-    await NotifyAddedToAgendaApi (
+    await NotifyAddedToAgendaService (
       message,
       "dragos.tudor@gmail.com",
       timeProvider.GetUtcNow(),
