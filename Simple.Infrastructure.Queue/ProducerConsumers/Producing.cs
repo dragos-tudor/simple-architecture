@@ -1,7 +1,9 @@
 
-namespace Simple.Web.Api;
+using System.Threading.Channels;
 
-partial class ApiFuncs
+namespace Simple.Infrastructure.Queue;
+
+partial class QueueFuncs
 {
   public static bool ProduceMessage<TMessage> (Channel<TMessage> queue, TMessage message) => EnqueueMessage(message, queue);
 }

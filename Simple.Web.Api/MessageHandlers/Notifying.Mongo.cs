@@ -5,12 +5,11 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  internal static async Task<string?> NotifyAddedToAgendaMongoHandler (
+  internal static async Task<Exception?> NotifyAddedToAgendaMongoHandler (
     Message<ContactCreatedEvent> message,
     TimeProvider timeProvider,
     IMongoDatabase agendaDdb,
     SendNotification<Notification> sendNotification,
-    Channel<Message> messageQueue,
     CancellationToken cancellationToken = default)
   {
     var messages = GetMessageCollection(agendaDdb);

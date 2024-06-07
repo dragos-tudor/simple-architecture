@@ -14,6 +14,8 @@ partial class ApiFuncs
   {
     var contacts = GetContactCollection(agendaDb);
     var messages = GetMessageCollection(agendaDb);
+    SetContactId(contact, GenerateSequentialGuid());
+
     var result = await CreateContactService (
       contact,
       (phoneNumbers, cancellationToken) => FindPhoneNumbers(contacts.AsQueryable(), phoneNumbers, cancellationToken),

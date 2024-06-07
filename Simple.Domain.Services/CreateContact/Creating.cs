@@ -24,14 +24,14 @@ partial class ServicesFuncs
     var contactDomainErrors = ValidateContact(contact);
     if (ExistsErrors(contactDomainErrors)) return ToArray(GetErrors(contactDomainErrors));
 
-    var duplicateNumbers = await findPhoneNumbers(contact.PhoneNumbers ?? [], cancellationToken);
-    if (ExistsPhoneNumbers(duplicateNumbers)) return ToArray(GetDuplicatePhoneNumberErrors(duplicateNumbers));
-
     var duplicateContactName = await findContactByName(contact.ContactName, cancellationToken);
     if (ExistContact(duplicateContactName)) return ToArray([GetDuplicateContactNameError(contact.ContactName)]);
 
     var duplicateContactEmail = await findContactByEmail(contact.ContactEmail, cancellationToken);
     if (ExistContact(duplicateContactEmail)) return ToArray([GetDuplicateContactEmailError(contact.ContactEmail)]);
+
+    var duplicateNumbers = await findPhoneNumbers(contact.PhoneNumbers ?? [], cancellationToken);
+    if (ExistsPhoneNumbers(duplicateNumbers)) return ToArray(GetDuplicatePhoneNumberErrors(duplicateNumbers));
 
     var @event = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     var message = CreateMessage(@event, traceId: traceId);

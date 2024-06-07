@@ -5,12 +5,11 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  internal static async Task<string?> NotifyAddedToAgendaSqlHandler (
+  internal static async Task<Exception?> NotifyAddedToAgendaSqlHandler (
     Message<ContactCreatedEvent> message,
     TimeProvider timeProvider,
     AgendaContextFactory agendaContextFactory,
     SendNotification<Notification> sendNotification,
-    Channel<Message> messageQueue,
     CancellationToken cancellationToken = default)
   {
     using var agendaContext = await agendaContextFactory.CreateDbContextAsync(cancellationToken);

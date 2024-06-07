@@ -13,6 +13,8 @@ partial class ApiFuncs
     HttpContext httpContext)
   {
     using var agendaContext = await agendaContextFactory.CreateDbContextAsync();
+    SetContactId(contact, GenerateSequentialGuid(agendaContext, contact));
+
     var result = await CreateContactService (
       contact,
       (phoneNumbers, cancellationToken) => FindPhoneNumbers(agendaContext.PhoneNumbers, phoneNumbers, cancellationToken),

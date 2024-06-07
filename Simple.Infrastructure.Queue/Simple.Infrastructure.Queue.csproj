@@ -2,6 +2,11 @@
 
   <Import Project="../Directory.Testing.props" />
 
+  <ItemGroup>
+    <ProjectReference Include="../Simple.Domain.Models/Simple.Domain.Models.csproj" />
+    <ProjectReference Include="../Simple.Shared.Extensions/Simple.Shared.Extensions.csproj" />
+  </ItemGroup>
+
   <ItemGroup Condition="'$(Configuration)'!='Release'">
     <PackageReference Include="NSubstitute" />
   </ItemGroup>

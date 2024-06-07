@@ -5,7 +5,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  internal static async Task<Results<Ok, BadRequest<string[]>>> AddPhoneNumberMongoEndpoint (
+  internal static async Task<Results<Ok, ProblemHttpResult>> AddPhoneNumberMongoEndpoint (
     Guid contactId,
     PhoneNumber phoneNumber,
     IMongoDatabase agendaDb,
@@ -23,6 +23,6 @@ partial class ApiFuncs
 
     return IsSuccessResult(result)?
       TypedResults.Ok():
-      TypedResults.BadRequest(FromFailure(result)!);
+      TypedResults.Problem(JoinErrors(FromFailure(result)!));
   }
 }

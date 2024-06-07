@@ -6,7 +6,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  internal static async Task<Results<Ok, BadRequest<string>>> AddPhoneNumberSqlEndpoint (
+  internal static async Task<Results<Ok, ProblemHttpResult>> AddPhoneNumberSqlEndpoint (
     Guid contactId,
     PhoneNumber phoneNumber,
     AgendaContextFactory agendaContextFactory,
@@ -24,6 +24,6 @@ partial class ApiFuncs
 
     return IsSuccessResult(result)?
       TypedResults.Ok():
-      TypedResults.BadRequest(JoinValidationErrors(FromFailure(result)!));
+      TypedResults.Problem(JoinErrors(FromFailure(result)!));
   }
 }

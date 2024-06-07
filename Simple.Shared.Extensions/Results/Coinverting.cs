@@ -7,8 +7,3 @@ partial class ExtensionsFuncs
 
   public static TFailure? FromFailure<TSuccess, TFailure> (Result<TSuccess?, TFailure?> result) => result;
 }
-
-partial class ExtensionsFuncs
-{
-  public static Exception[] ToArray<T> (IEnumerable<T> values) where T: Exception => values.ToArray();
-}
