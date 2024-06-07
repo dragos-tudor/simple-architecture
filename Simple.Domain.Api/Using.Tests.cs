@@ -1,6 +1,6 @@
 
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
-global using static Simple.Domain.Models.ModelsTests;
+global using static Simple.Shared.Testing.TestingFuncs;
 
 namespace Simple.Domain.Api;
 

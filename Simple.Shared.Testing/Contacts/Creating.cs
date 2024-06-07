@@ -1,7 +1,7 @@
 
-namespace Simple.Domain.Models;
+namespace Simple.Shared.Testing;
 
-partial class ModelsTests
+partial class TestingFuncs
 {
   public static Contact CreateTestContact (
     Guid? contactId = default,

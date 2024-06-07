@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(Configuration)'!='Release'">
+    <ProjectReference Include="../Simple.Shared.Testing/Simple.Shared.Testing.csproj" />
     <PackageReference Include="MsTest" />
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
     <PackageReference Include="Microsoft.CodeCoverage.MSBuild" />

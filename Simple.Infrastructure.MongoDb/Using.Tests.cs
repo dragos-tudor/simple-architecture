@@ -1,7 +1,7 @@
 
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using static Docker.Extensions.DockerFuncs;
-global using static Simple.Domain.Models.ModelsTests;
+global using static Simple.Shared.Testing.TestingFuncs;
 
 namespace Simple.Infrastructure.MongoDb;
 

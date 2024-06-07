@@ -1,7 +1,7 @@
 
-namespace Simple.Domain.Models;
+namespace Simple.Shared.Testing;
 
-partial class ModelsTests
+partial class TestingFuncs
 {
   public static Message CreateTestMessage (
     Guid? messageId = default,
