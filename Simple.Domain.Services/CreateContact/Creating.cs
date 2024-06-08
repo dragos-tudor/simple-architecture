@@ -5,7 +5,7 @@ partial class ServicesFuncs
 {
   public static readonly ContactValidator ContactValidator =  new ();
 
-  public static async Task<Result<Contact?, Exception[]?>> CreateContactService (
+  public static async Task<Result<Contact?, Failure[]?>> CreateContactService (
     Contact contact,
     FindModels<PhoneNumber, PhoneNumber> findPhoneNumbers,
     FindModel<string, Contact?> findContactByName,
@@ -15,23 +15,23 @@ partial class ServicesFuncs
     string? traceId = default,
     CancellationToken cancellationToken = default)
   {
-    var contactErrors = ValidateData(contact, ContactValidator);
-    if(ExistsErrors(contactErrors)) return ToArray(contactErrors);
+    var contactFailures = ValidateData(contact, ContactValidator);
+    if(ExistsFailures(contactFailures)) return ToArray(contactFailures);
 
-    var phoneNumberErrors = ValidateData(contact.PhoneNumbers ?? [], PhoneNumberValidator);
-    if(ExistsErrors(phoneNumberErrors)) return ToArray(phoneNumberErrors);
+    var phoneNumberFailures = ValidateData(contact.PhoneNumbers ?? [], PhoneNumberValidator);
+    if(ExistsFailures(phoneNumberFailures)) return ToArray(phoneNumberFailures);
 
-    var contactDomainErrors = ValidateContact(contact);
-    if (ExistsErrors(contactDomainErrors)) return ToArray(GetErrors(contactDomainErrors));
+    var contactDomainFailures = ValidateContact(contact);
+    if (ExistsFailures(contactDomainFailures)) return ToArray(GetFailures(contactDomainFailures));
 
     var duplicateContactName = await findContactByName(contact.ContactName, cancellationToken);
-    if (ExistContact(duplicateContactName)) return ToArray([GetDuplicateContactNameError(contact.ContactName)]);
+    if (ExistContact(duplicateContactName)) return ToArray([GetDuplicateContactNameFailure(contact.ContactName)]);
 
     var duplicateContactEmail = await findContactByEmail(contact.ContactEmail, cancellationToken);
-    if (ExistContact(duplicateContactEmail)) return ToArray([GetDuplicateContactEmailError(contact.ContactEmail)]);
+    if (ExistContact(duplicateContactEmail)) return ToArray([GetDuplicateContactEmailFailure(contact.ContactEmail)]);
 
     var duplicateNumbers = await findPhoneNumbers(contact.PhoneNumbers ?? [], cancellationToken);
-    if (ExistsPhoneNumbers(duplicateNumbers)) return ToArray(GetDuplicatePhoneNumberErrors(duplicateNumbers));
+    if (ExistsPhoneNumbers(duplicateNumbers)) return ToArray(GetDuplicatePhoneNumberFailures(duplicateNumbers));
 
     var @event = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     var message = CreateMessage(@event, traceId: traceId);

@@ -24,6 +24,6 @@ partial class ApiFuncs
 
     return IsSuccessResult(result)?
       TypedResults.Ok():
-      TypedResults.Problem(JoinErrors(FromFailure(result)!));
+      TypedResults.Problem(JoinFailures(FromFailure(result)!));
   }
 }

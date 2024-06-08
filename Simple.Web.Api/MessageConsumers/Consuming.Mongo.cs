@@ -5,7 +5,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  internal static Task ConsumeMongoMessages (Channel<Message> messageQueue, Subscriber<Message>[] subscribers, IMongoDatabase agendaDb) =>
+  internal static Task ConsumeMongoMessages (Channel<Message> messageQueue, Subscriber<Message, Failure>[] subscribers, IMongoDatabase agendaDb) =>
     ConsumeMessages(messageQueue,
       (message, cancellationToken) =>
         ConsumeMessage(

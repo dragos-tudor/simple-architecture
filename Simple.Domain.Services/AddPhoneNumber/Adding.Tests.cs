@@ -38,7 +38,7 @@ partial class ServicesTests
     findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
     var result = await AddPhoneNumberService(contact.ContactId, phoneNumber, findPhoneNumber, findContact, SaveContactAndPhoneNumber);
 
-    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetDuplicatePhoneNumberError(phoneNumber)]), new ExceptionComparer());
+    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetDuplicatePhoneNumberFailure(phoneNumber)]), new FailureComparer());
   }
 
   [TestMethod]
@@ -51,6 +51,6 @@ partial class ServicesTests
     findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
     var result = await AddPhoneNumberService(contact.ContactId, phoneNumber, FindPhoneNumber, findContact, SaveContactAndPhoneNumber);
 
-    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetInvalidPhoneNumberError(phoneNumber.Number)]), new ExceptionComparer());
+    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetInvalidPhoneNumberFailure(phoneNumber.Number)]), new FailureComparer());
   }
 }

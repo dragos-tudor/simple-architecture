@@ -1,9 +1,9 @@
 
 using System.Collections;
 
-namespace Simple.Shared.Extensions;
+namespace Simple.Domain.Models;
 
-public sealed class ExceptionComparer : IComparer
+public sealed class FailureComparer : IComparer
 {
   public int Compare(object? x, object? y) =>
     (x, y) switch {

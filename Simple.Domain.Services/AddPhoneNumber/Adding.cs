@@ -5,7 +5,7 @@ partial class ServicesFuncs
 {
   public static readonly PhoneNumberValidator PhoneNumberValidator =  new ();
 
-  public static async Task<Result<Contact?, Exception[]?>> AddPhoneNumberService (
+  public static async Task<Result<Contact?, Failure[]?>> AddPhoneNumberService (
     Guid contactId,
     PhoneNumber phoneNumber,
     FindModel<PhoneNumber, PhoneNumber?> findDuplicatePhoneNumber,
@@ -14,17 +14,17 @@ partial class ServicesFuncs
     string? traceId = default,
     CancellationToken cancellationToken = default)
   {
-    var dataErrors = ValidateData(phoneNumber, PhoneNumberValidator);
-    if(ExistsErrors(dataErrors)) return ToArray(dataErrors);
+    var dataFailures = ValidateData(phoneNumber, PhoneNumberValidator);
+    if(ExistsFailures(dataFailures)) return ToArray(dataFailures);
 
-    var domainErrors = ValidatePhoneNumber(phoneNumber);
-    if(ExistsErrors(domainErrors)) return ToArray(GetErrors(domainErrors));
+    var domainFailures = ValidatePhoneNumber(phoneNumber);
+    if(ExistsFailures(domainFailures)) return ToArray(GetFailures(domainFailures));
 
     var contact = await findContact(contactId, cancellationToken);
-    if (contact is null) return ToArray([GetMissingContactError(contactId)]);
+    if (contact is null) return ToArray([GetMissingContactFailure(contactId)]);
 
     var duplicateNumber = await findDuplicatePhoneNumber(phoneNumber, cancellationToken);
-    if (ExistPhoneNumber(duplicateNumber)) return ToArray([GetDuplicatePhoneNumberError(duplicateNumber!)]);
+    if (ExistPhoneNumber(duplicateNumber)) return ToArray([GetDuplicatePhoneNumberFailure(duplicateNumber!)]);
 
     SetContactPhoneNumber(contact, phoneNumber);
     await savePhoneNumber(contact, phoneNumber, cancellationToken);

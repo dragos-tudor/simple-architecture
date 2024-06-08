@@ -3,7 +3,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  internal static Task ConsumeSqlMessages (Channel<Message> messageQueue, Subscriber<Message>[] subscribers, AgendaContextFactory agendaContextFactory) =>
+  internal static Task ConsumeSqlMessages (Channel<Message> messageQueue, Subscriber<Message, Failure>[] subscribers, AgendaContextFactory agendaContextFactory) =>
     ConsumeMessages(messageQueue,
       (message, cancellationToken) =>
         ConsumeMessage(

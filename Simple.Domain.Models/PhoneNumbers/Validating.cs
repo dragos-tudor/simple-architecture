@@ -3,18 +3,18 @@ namespace Simple.Domain.Models;
 
 partial class ModelsFuncs
 {
-  static PhoneNumberValidationException? ValidateCountryCode (short countryCode) => !IsValidCountryCode(countryCode)? GetInvalidCountryCodeError(countryCode): default;
+  static PhoneNumberValidationFailure? ValidateCountryCode (short countryCode) => !IsValidCountryCode(countryCode)? GetInvalidCountryCodeFailure(countryCode): default;
 
-  static PhoneNumberValidationException? ValidateExtension (short? extension) => !IsValidExtension(extension)? GetInvalidExtensionError(extension!.Value): default;
+  static PhoneNumberValidationFailure? ValidateExtension (short? extension) => !IsValidExtension(extension)? GetInvalidExtensionFailure(extension!.Value): default;
 
-  static PhoneNumberValidationException? ValidatePhoneNumber (long phoneNumber) => !IsValidPhoneNumber(phoneNumber)? GetInvalidPhoneNumberError(phoneNumber): default;
+  static PhoneNumberValidationFailure? ValidatePhoneNumber (long phoneNumber) => !IsValidPhoneNumber(phoneNumber)? GetInvalidPhoneNumberFailure(phoneNumber): default;
 
-  public static IEnumerable<PhoneNumberValidationException?> ValidatePhoneNumber (PhoneNumber phoneNumber) => [
+  public static IEnumerable<PhoneNumberValidationFailure?> ValidatePhoneNumber (PhoneNumber phoneNumber) => [
     ValidateCountryCode(phoneNumber.CountryCode),
     ValidatePhoneNumber(phoneNumber.Number),
     ValidateExtension(phoneNumber.Extension)
   ];
 
-  public static IEnumerable<PhoneNumberValidationException?> ValidatePhoneNumbers (IEnumerable<PhoneNumber> phoneNumbers) =>
+  public static IEnumerable<PhoneNumberValidationFailure?> ValidatePhoneNumbers (IEnumerable<PhoneNumber> phoneNumbers) =>
     phoneNumbers.SelectMany(ValidatePhoneNumber);
 }

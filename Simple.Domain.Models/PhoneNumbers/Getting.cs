@@ -5,13 +5,13 @@ namespace Simple.Domain.Models;
 
 partial class ModelsFuncs
 {
-  static PhoneNumberValidationException GetInvalidCountryCodeError (short countryCode) => new ($"Invalid phone number country code {countryCode}. Should be between 0-{PhoneNumberContraints.MaxCountryCode}");
+  static PhoneNumberValidationFailure GetInvalidCountryCodeFailure (short countryCode) => new ($"Invalid phone number country code {countryCode}. Should be between 0-{PhoneNumberContraints.MaxCountryCode}");
 
-  static PhoneNumberValidationException GetInvalidExtensionError (short extension) => new ($"Invalid phone number extension {extension}. Should be between 0-{PhoneNumberContraints.MaxExtension}");
+  static PhoneNumberValidationFailure GetInvalidExtensionFailure (short extension) => new ($"Invalid phone number extension {extension}. Should be between 0-{PhoneNumberContraints.MaxExtension}");
 
-  public static PhoneNumberValidationException GetInvalidPhoneNumberError (long number) => new ($"Invalid phone number {number}. Should be between 0-{PhoneNumberContraints.MaxNumber}");
+  public static PhoneNumberValidationFailure GetInvalidPhoneNumberFailure (long number) => new ($"Invalid phone number {number}. Should be between 0-{PhoneNumberContraints.MaxNumber}");
 
-  public static PhoneNumberDuplicateException GetDuplicatePhoneNumberError (PhoneNumber phoneNumber) => new ($"Duplicate phone number with country code {phoneNumber.CountryCode} and number {phoneNumber.Number}.");
+  public static PhoneNumberDuplicateFailure GetDuplicatePhoneNumberFailure (PhoneNumber phoneNumber) => new ($"Duplicate phone number with country code {phoneNumber.CountryCode} and number {phoneNumber.Number}.");
 
-  public static IEnumerable<PhoneNumberDuplicateException> GetDuplicatePhoneNumberErrors (IEnumerable<PhoneNumber> phoneNumbers) => phoneNumbers.Select(GetDuplicatePhoneNumberError);
+  public static IEnumerable<PhoneNumberDuplicateFailure> GetDuplicatePhoneNumberFailures (IEnumerable<PhoneNumber> phoneNumbers) => phoneNumbers.Select(GetDuplicatePhoneNumberFailure);
 }

@@ -1,9 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <NoWarn>CA1032</NoWarn>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="FluentValidation" />
   </ItemGroup>

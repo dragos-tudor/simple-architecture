@@ -2,10 +2,4 @@
 
 namespace Simple.Domain.Models;
 
-public enum PhoneNumberType: byte
-{
-  Mobile = 0,
-  Home = 1,
-  Work = 2
-}
-
+public enum PhoneNumberType: byte { Mobile = 0, Home = 1, Work = 2 }

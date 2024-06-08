@@ -5,9 +5,9 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  public static Subscriber<Message>[] RegisterMongoSubscribers (TimeProvider timeProvider, IMongoDatabase agendaDb, SendNotification<Notification> sendNotification, Channel<Message> queue) =>
+  public static Subscriber<Message, Failure>[] RegisterMongoSubscribers (TimeProvider timeProvider, IMongoDatabase agendaDb, SendNotification<Notification> sendNotification, Channel<Message> queue) =>
   [
-    CreateSubscriber<Message, ContactCreatedEvent>("notify_added_to_agenda_mongo", (message, cancellationToken) =>
+    CreateSubscriber<Message, ContactCreatedEvent, Failure>("notify_added_to_agenda_mongo", (message, cancellationToken) =>
       NotifyAddedToAgendaMongoHandler ((Message<ContactCreatedEvent>)message, timeProvider, agendaDb, sendNotification, cancellationToken)),
   ];
 }

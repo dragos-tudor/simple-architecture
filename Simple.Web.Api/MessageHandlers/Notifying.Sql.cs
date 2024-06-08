@@ -1,11 +1,12 @@
 
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  internal static async Task<Exception?> NotifyAddedToAgendaSqlHandler (
+  internal static async Task<Failure?> NotifyAddedToAgendaSqlHandler (
     Message<ContactCreatedEvent> message,
     TimeProvider timeProvider,
     AgendaContextFactory agendaContextFactory,

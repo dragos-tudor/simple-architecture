@@ -23,16 +23,16 @@ partial class QueueFuncs
       cancellationToken
     );
 
-  public static async Task<bool> ConsumeMessage<TMessage> (
+  public static async Task<bool> ConsumeMessage<TMessage, TFailure> (
     TMessage message,
-    Func<TMessage, CancellationToken, Task<IEnumerable<Exception>>> handleMessage,
+    Func<TMessage, CancellationToken, Task<IEnumerable<TFailure>>> handleMessage,
     CancellationToken cancellationToken)
   {
     LogHandlingMessage(Logger, GetMessageType(message), GetMessageTraceId(message));
-    var handleErrors = handleMessage(message, cancellationToken);
+    var handleFailures = handleMessage(message, cancellationToken);
 
-    return !(await handleErrors)
-      .Select(error => { LogHandledMessageError(Logger, GetMessageType(message), GetMessageTraceId(message), error.ToString()!); return error; })
+    return !(await handleFailures)
+      .Select(failure => { LogHandledMessageError(Logger, GetMessageType(message), GetMessageTraceId(message), failure!.ToString()!); return failure; })
       .Any();
   }
 }

@@ -28,6 +28,6 @@ partial class ApiFuncs
 
     return IsSuccessResult(result)?
       TypedResults.Created(GetContactCreatedUri(httpContext.Request, FromSuccess(result)!)):
-      TypedResults.Problem(JoinErrors(FromFailure(result)!), statusCode: 400);
+      TypedResults.Problem(JoinFailures(FromFailure(result)!), statusCode: 400);
   }
 }

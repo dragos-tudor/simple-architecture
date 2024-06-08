@@ -5,7 +5,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  internal static async Task<Exception?> NotifyAddedToAgendaMongoHandler (
+  internal static async Task<Failure?> NotifyAddedToAgendaMongoHandler (
     Message<ContactCreatedEvent> message,
     TimeProvider timeProvider,
     IMongoDatabase agendaDdb,

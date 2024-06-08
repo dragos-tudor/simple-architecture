@@ -3,11 +3,11 @@ namespace Simple.Domain.Models;
 
 partial class ModelsFuncs
 {
-  static ContactValidationException? ValidateContactEmail (string contactEmail) => !IsValidContactEmail(contactEmail)? GetInvalidContactEmailError(contactEmail): default;
+  static ContactValidationFailure? ValidateContactEmail (string contactEmail) => !IsValidContactEmail(contactEmail)? GetInvalidContactEmailFailure(contactEmail): default;
 
-  static ContactValidationException? ValidateContactName (string contactName) => IsMissingContactName(contactName)? GetMissingContactNameError(): default;
+  static ContactValidationFailure? ValidateContactName (string contactName) => IsMissingContactName(contactName)? GetMissingContactNameFailure(): default;
 
-  public static IEnumerable<ContactValidationException?> ValidateContact (Contact contact) => [
+  public static IEnumerable<ContactValidationFailure?> ValidateContact (Contact contact) => [
     ValidateContactEmail(contact.ContactEmail),
     ValidateContactName(contact.ContactName),
   ];

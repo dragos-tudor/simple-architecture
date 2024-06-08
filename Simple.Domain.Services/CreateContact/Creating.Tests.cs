@@ -58,7 +58,7 @@ partial class ServicesTests
     findPhoneNumbers(contact.PhoneNumbers).Returns((_) => FromResult(contact.PhoneNumbers.AsEnumerable()));
     var result = await CreateContactService(contact, findPhoneNumbers, FindContactByName, FindContactByEmail, SaveModels, ProduceMessage);
 
-    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetDuplicatePhoneNumberError(contact.PhoneNumbers[0])]), new ExceptionComparer());
+    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetDuplicatePhoneNumberFailure(contact.PhoneNumbers[0])]), new FailureComparer());
   }
 
   [TestMethod]
@@ -70,7 +70,7 @@ partial class ServicesTests
     findContactByName(contact.ContactName).Returns((_) => FromResult(contact) as Task<Contact?>);
     var result = await CreateContactService(contact, FindPhoneNumbers, findContactByName, FindContactByEmail, SaveModels, ProduceMessage);
 
-    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetDuplicateContactNameError(contact.ContactName)]), new ExceptionComparer());
+    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetDuplicateContactNameFailure(contact.ContactName)]), new FailureComparer());
   }
 
   [TestMethod]
@@ -82,7 +82,7 @@ partial class ServicesTests
     findContactByEmail(contact.ContactEmail).Returns((_) => FromResult(contact) as Task<Contact?>);
     var result = await CreateContactService(contact, FindPhoneNumbers, FindContactByName, findContactByEmail, SaveModels, ProduceMessage);
 
-    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetDuplicateContactEmailError(contact.ContactEmail)]), new ExceptionComparer());
+    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetDuplicateContactEmailFailure(contact.ContactEmail)]), new FailureComparer());
   }
 
   [TestMethod]
@@ -91,6 +91,6 @@ partial class ServicesTests
     var contact = CreateTestContact(contactEmail: "wrong email");
     var result = await CreateContactService(contact, FindPhoneNumbers, FindContactByName, FindContactByEmail, SaveModels, ProduceMessage);
 
-    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetInvalidContactEmailError(contact.ContactEmail)]), new ExceptionComparer());
+    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetInvalidContactEmailFailure(contact.ContactEmail)]), new FailureComparer());
   }
 }
