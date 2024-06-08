@@ -11,6 +11,7 @@ partial class ApiFuncs
     TimeProvider timeProvider,
     AgendaContextFactory agendaContextFactory,
     SendNotification<Notification> sendNotification,
+    ILogger logger,
     CancellationToken cancellationToken = default)
   {
     using var agendaContext = await agendaContextFactory.CreateDbContextAsync(cancellationToken);
@@ -21,6 +22,7 @@ partial class ApiFuncs
       (message, cancellationToken) => FindMessageByParent(agendaContext.Messages, message.MessageId).FirstOrDefaultAsync(cancellationToken),
       (notification, cancellationToken) => sendNotification(notification, cancellationToken),
       (message, cancellationToken) => InsertMessage(agendaContext, message, cancellationToken),
+      logger,
       cancellationToken
     );
     return default;

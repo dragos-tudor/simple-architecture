@@ -1,4 +1,6 @@
 
+using Microsoft.Extensions.Logging;
+
 namespace Simple.Domain.Services;
 
 partial class ServicesFuncs
@@ -12,6 +14,7 @@ partial class ServicesFuncs
     FindModel<string, Contact?> findContactByEmail,
     SaveModels<Contact, Message<ContactCreatedEvent>> saveContactAndMessage,
     ProduceMessage<Message<ContactCreatedEvent>> produceMessage,
+    ILogger logger,
     string? traceId = default,
     CancellationToken cancellationToken = default)
   {
@@ -37,7 +40,7 @@ partial class ServicesFuncs
     var message = CreateMessage(@event, traceId: traceId);
 
     await saveContactAndMessage(contact, message, cancellationToken);
-    LogContactCreated(Logger, contact.ContactId, traceId);
+    LogContactCreated(logger, contact.ContactId, traceId);
 
     produceMessage(message);
     return contact;

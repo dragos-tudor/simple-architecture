@@ -10,7 +10,8 @@ partial class ApiFuncs
     Guid contactId,
     PhoneNumber phoneNumber,
     AgendaContextFactory agendaContextFactory,
-    HttpContext httpContext)
+    HttpContext httpContext,
+    ILogger logger)
   {
     using var agendaContext = await agendaContextFactory.CreateDbContextAsync();
     var result = await AddPhoneNumberService (
@@ -19,6 +20,7 @@ partial class ApiFuncs
       (phoneNumber, cancellationToken) => FindPhoneNumber(agendaContext.PhoneNumbers, phoneNumber).FirstOrDefaultAsync(cancellationToken),
       (contactId, cancellationToken) => FindContactByKey(agendaContext.Contacts, contactId).FirstOrDefaultAsync(cancellationToken),
       (contact, phoneNumber, cancellationToken) => InsertPhoneNumber(agendaContext, contact, phoneNumber, cancellationToken),
+      logger,
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);
 

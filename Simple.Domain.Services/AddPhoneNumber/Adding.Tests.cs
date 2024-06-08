@@ -1,6 +1,7 @@
 
 using static System.Threading.Tasks.Task;
 using NSubstitute;
+using Microsoft.Extensions.Logging;
 
 namespace Simple.Domain.Services;
 
@@ -8,6 +9,7 @@ partial class ServicesTests
 {
   readonly FindModel<PhoneNumber, PhoneNumber?> FindPhoneNumber = Substitute.For<FindModel<PhoneNumber, PhoneNumber?>>();
   readonly SaveModels<Contact, PhoneNumber> SaveContactAndPhoneNumber = Substitute.For<SaveModels<Contact, PhoneNumber>>();
+  readonly ILogger Logger = Substitute.For<ILogger>();
 
   [TestMethod]
   public async Task contact_and_new_phone_number__add_phone_number_to_contact__contact_and_phone_number_saved ()
@@ -18,7 +20,7 @@ partial class ServicesTests
     var findContact = Substitute.For<FindModel<Guid, Contact?>>();
 
     findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
-    var result= await AddPhoneNumberService(contact.ContactId, phoneNumber, FindPhoneNumber, findContact, saveContactAndPhoneNumber);
+    var result= await AddPhoneNumberService(contact.ContactId, phoneNumber, FindPhoneNumber, findContact, saveContactAndPhoneNumber, Logger);
 
     await saveContactAndPhoneNumber.Received().Invoke(
       Arg.Is<Contact>(ct => ct.ContactId == contact.ContactId),
@@ -36,7 +38,7 @@ partial class ServicesTests
 
     findPhoneNumber(phoneNumber).Returns((_) => FromResult(phoneNumber) as Task<PhoneNumber?>);
     findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
-    var result = await AddPhoneNumberService(contact.ContactId, phoneNumber, findPhoneNumber, findContact, SaveContactAndPhoneNumber);
+    var result = await AddPhoneNumberService(contact.ContactId, phoneNumber, findPhoneNumber, findContact, SaveContactAndPhoneNumber, Logger);
 
     CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetDuplicatePhoneNumberFailure(phoneNumber)]), new FailureComparer());
   }
@@ -49,7 +51,7 @@ partial class ServicesTests
     var findContact = Substitute.For<FindModel<Guid, Contact?>>();
 
     findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
-    var result = await AddPhoneNumberService(contact.ContactId, phoneNumber, FindPhoneNumber, findContact, SaveContactAndPhoneNumber);
+    var result = await AddPhoneNumberService(contact.ContactId, phoneNumber, FindPhoneNumber, findContact, SaveContactAndPhoneNumber, Logger);
 
     CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetInvalidPhoneNumberFailure(phoneNumber.Number)]), new FailureComparer());
   }

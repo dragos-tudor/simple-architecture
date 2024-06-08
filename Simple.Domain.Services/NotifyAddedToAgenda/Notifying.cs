@@ -1,4 +1,6 @@
 
+using Microsoft.Extensions.Logging;
+
 namespace Simple.Domain.Services;
 
 partial class ServicesFuncs
@@ -10,6 +12,7 @@ partial class ServicesFuncs
     FindModel<Message, Message?> findParentMessage,
     SendNotification<AddedToAgendaNotification> sendNotification,
     SaveModel<Message<AddedToAgendaNotification>> saveMessage,
+    ILogger logger,
     CancellationToken cancellationToken = default)
   {
     var parentMessage = await findParentMessage(message, cancellationToken); // idempotency [partial]
@@ -19,7 +22,7 @@ partial class ServicesFuncs
     var notification = CreateAddedToAgendaNotification(from, contactEmail, date);
 
     await sendNotification(notification, cancellationToken);
-    LogNotifiedAddedToAgenda(Logger, notification.From, notification.To, message.TraceId);
+    LogNotifiedAddedToAgenda(logger, notification.From, notification.To, message.TraceId);
 
     await saveMessage(CreateFromMessage(notification, message, isActive: false), cancellationToken);
     return notification;

@@ -16,7 +16,7 @@ partial class ServicesTests
     var message = CreateMessage(CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail));
     var sendNotification = Substitute.For<SendNotification<AddedToAgendaNotification>>();
 
-    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, FindParentMessage, sendNotification, SaveMessage);
+    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, FindParentMessage, sendNotification, SaveMessage, Logger);
 
     await sendNotification.Received().Invoke(Arg.Is<AddedToAgendaNotification>(notification =>
       notification == CreateAddedToAgendaNotification("from", contact.ContactEmail, DateTime.MinValue)));
@@ -29,7 +29,7 @@ partial class ServicesTests
     var message = CreateMessage(CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail));
     var saveMessage = Substitute.For<SaveModel<Message<AddedToAgendaNotification>>>();
 
-    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, FindParentMessage, SendNotification, saveMessage);
+    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, FindParentMessage, SendNotification, saveMessage, Logger);
 
     await saveMessage.Received().Invoke(Arg.Is<Message<AddedToAgendaNotification>>(message =>
       message.MessagePayload == CreateAddedToAgendaNotification("from", contact.ContactEmail, DateTime.MinValue)));
@@ -44,7 +44,7 @@ partial class ServicesTests
     var sendNotification = Substitute.For<SendNotification<AddedToAgendaNotification>>();
 
     findParentMessage(message).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
-    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, findParentMessage, sendNotification, SaveMessage);
+    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, findParentMessage, sendNotification, SaveMessage, Logger);
 
     await sendNotification.DidNotReceive().Invoke(Arg.Any<AddedToAgendaNotification>());
   }
@@ -58,7 +58,7 @@ partial class ServicesTests
     var saveMessage = Substitute.For<SaveModel<Message<AddedToAgendaNotification>>>();
 
     findParentMessage(message).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
-    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, findParentMessage, SendNotification, saveMessage);
+    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, findParentMessage, SendNotification, saveMessage, Logger);
 
     await saveMessage.DidNotReceive().Invoke(Arg.Any<Message<AddedToAgendaNotification>>());
   }

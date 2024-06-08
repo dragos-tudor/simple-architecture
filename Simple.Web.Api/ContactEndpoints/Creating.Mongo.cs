@@ -10,7 +10,8 @@ partial class ApiFuncs
     Contact contact,
     IMongoDatabase agendaDb,
     Channel<Message> messageQueue,
-    HttpContext httpContext)
+    HttpContext httpContext,
+    ILogger logger)
   {
     var contacts = GetContactCollection(agendaDb);
     var messages = GetMessageCollection(agendaDb);
@@ -23,6 +24,7 @@ partial class ApiFuncs
       (contactEmail, cancellationToken) => FindContactByEmail(contacts.AsQueryable(), contactEmail).FirstOrDefaultAsync(cancellationToken) as Task<Contact?>,
       (contact, message, cancellationToken) => InsertContactAndMessage(contacts, messages, contact, message, default, cancellationToken),
       (message) => ProduceMessage(messageQueue, message),
+      logger,
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);
 

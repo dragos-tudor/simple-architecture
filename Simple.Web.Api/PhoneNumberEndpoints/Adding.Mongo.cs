@@ -9,7 +9,8 @@ partial class ApiFuncs
     Guid contactId,
     PhoneNumber phoneNumber,
     IMongoDatabase agendaDb,
-    HttpContext httpContext)
+    HttpContext httpContext,
+    ILogger logger)
   {
     var contacts = GetContactCollection(agendaDb);
     var result = await AddPhoneNumberService (
@@ -18,6 +19,7 @@ partial class ApiFuncs
       (phoneNumber, cancellationToken) => FindPhoneNumber(contacts.AsQueryable(), phoneNumber, cancellationToken),
       (contactId, cancellationToken) => FindContactByKey(contacts.AsQueryable(), contactId).FirstOrDefaultAsync(cancellationToken) as Task<Contact?>,
       (contact, phoneNumber, cancellationToken) => InsertPhoneNumber(contacts, contact, phoneNumber, cancellationToken),
+      logger,
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);
 

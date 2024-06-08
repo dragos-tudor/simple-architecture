@@ -1,4 +1,6 @@
 
+using Microsoft.Extensions.Logging;
+
 namespace Simple.Domain.Services;
 
 partial class ServicesFuncs
@@ -11,6 +13,7 @@ partial class ServicesFuncs
     FindModel<PhoneNumber, PhoneNumber?> findDuplicatePhoneNumber,
     FindModel<Guid, Contact?> findContact,
     SaveModels<Contact, PhoneNumber> savePhoneNumber,
+    ILogger logger,
     string? traceId = default,
     CancellationToken cancellationToken = default)
   {
@@ -29,7 +32,7 @@ partial class ServicesFuncs
     SetContactPhoneNumber(contact, phoneNumber);
     await savePhoneNumber(contact, phoneNumber, cancellationToken);
 
-    LogPhoneNumberAdded(Logger, phoneNumber.Number, contact.ContactId, traceId);
+    LogPhoneNumberAdded(logger, phoneNumber.Number, contact.ContactId, traceId);
     return contact;
   }
 }

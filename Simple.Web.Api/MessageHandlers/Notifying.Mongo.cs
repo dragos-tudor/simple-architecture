@@ -10,6 +10,7 @@ partial class ApiFuncs
     TimeProvider timeProvider,
     IMongoDatabase agendaDdb,
     SendNotification<Notification> sendNotification,
+    ILogger logger,
     CancellationToken cancellationToken = default)
   {
     var messages = GetMessageCollection(agendaDdb);
@@ -20,6 +21,7 @@ partial class ApiFuncs
       (message, cancellationToken) => FindMessageByParent(messages.AsQueryable(), message.MessageId).FirstOrDefaultAsync(cancellationToken) as Task<Message?>,
       (notification, cancellationToken) => sendNotification(notification, cancellationToken),
       (message, cancellationToken) => InsertMessage(messages, message, cancellationToken),
+      logger,
       cancellationToken
     );
     return default;

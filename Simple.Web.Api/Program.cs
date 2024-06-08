@@ -29,27 +29,28 @@ await Task.WhenAll(
 
 builder.Services.AddProblemDetails();
 var app = builder.Build();
-app.UseExceptionHandler().UseRouting();
-
-SetLoggerFactory(app.Services.GetRequiredService<ILoggerFactory>());
+var loggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
+var logger = loggerFactory.CreateLogger(nameof(Simple.Web));
 
 var notificationServerOptions = new NotificationServerOptions("localhost", 9025);
-var shutdownNotificationServer = StartNotificationServer(notificationServerOptions, (notification) => LogSentNotification(Logger, notification.From, notification.To, notification.Title));
+var shutdownNotificationServer = StartNotificationServer(notificationServerOptions, (notification) => LogSentNotification(logger, notification.From, notification.To, notification.Title));
 var sendNotification = CreateNotificationSender(notificationServerOptions);
+
+app.UseExceptionHandler().UseRouting();
 
 var sqlMessageQueue = CreateMessageQueue<Message>(1000);
 var sqlConnString = CreateSqlConnectionString("agenda-api", "sqluser", "sqluser.P@ssw0rd", "simple-sql");
 var sqlDbContextFactory = new AgendaContextFactory(CreateSqlContextOptions<AgendaContext>(sqlConnString));
-var sqlSubscribers = RegisterSqlSubscribers(TimeProvider.System, sqlDbContextFactory, sendNotification, sqlMessageQueue);
-_ = ConsumeSqlMessages(sqlMessageQueue, sqlSubscribers, sqlDbContextFactory);
-MapSqlEndpoints(app, sqlDbContextFactory, sqlMessageQueue);
+var sqlSubscribers = RegisterSqlSubscribers(TimeProvider.System, sqlDbContextFactory, sendNotification, sqlMessageQueue, logger);
+_ = ConsumeSqlMessages(sqlMessageQueue, sqlSubscribers, sqlDbContextFactory, logger);
+MapSqlEndpoints(app, sqlDbContextFactory, sqlMessageQueue, logger);
 
 var mongoMessageQueue = CreateMessageQueue<Message>(1000);
 var mongoConnString = GetMongoConnectionString("simple-mongo1,simple-mongo2,simple-mongo3", "rs0");
 var mongoDb = GetMongoDatabase(CreateMongoClient(mongoConnString), "agenda-api");
-var mongoSubscribers = RegisterMongoSubscribers(TimeProvider.System, mongoDb, sendNotification, mongoMessageQueue);
-_ = ConsumeMongoMessages(mongoMessageQueue, mongoSubscribers, mongoDb);
-MapMongoEndpoints(app, mongoDb, mongoMessageQueue);
+var mongoSubscribers = RegisterMongoSubscribers(TimeProvider.System, mongoDb, sendNotification, mongoMessageQueue, logger);
+_ = ConsumeMongoMessages(mongoMessageQueue, mongoSubscribers, mongoDb, logger);
+MapMongoEndpoints(app, mongoDb, mongoMessageQueue, logger);
 
 await app.RunAsync();
 shutdownNotificationServer();

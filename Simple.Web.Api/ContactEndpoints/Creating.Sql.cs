@@ -10,7 +10,8 @@ partial class ApiFuncs
     Contact contact,
     AgendaContextFactory agendaContextFactory,
     Channel<Message> messageQueue,
-    HttpContext httpContext)
+    HttpContext httpContext,
+    ILogger logger)
   {
     using var agendaContext = await agendaContextFactory.CreateDbContextAsync();
     SetContactId(contact, GenerateSequentialGuid(agendaContext, contact));
@@ -22,6 +23,7 @@ partial class ApiFuncs
       (contactEmail, cancellationToken) => FindContactByEmail(agendaContext.Contacts, contactEmail).FirstOrDefaultAsync(cancellationToken),
       (contact, message, cancellationToken) => InsertContactAndMessage(agendaContext, contact, message, cancellationToken),
       (message) => ProduceMessage(messageQueue, message),
+      logger,
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);
 
