@@ -1,5 +1,5 @@
 
-namespace Simple.Domain.Models;
+namespace Simple.Domain.Services;
 
 using FluentValidation;
 
