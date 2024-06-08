@@ -4,7 +4,7 @@
 ### Simple architecture design
 - **simple architecture**: an alternative to [clean-architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 - modules dependencies: **high-level modules** --> **middle-level modules** [optional] --> **low-level modules** [modules pyramid].
-- *high-level modules* **integrate** all *low-level modules* and *mid-level modules*.
+- *high-level modules* **integrate** all *low-level modules* and *mid-level modules* [integration here](/Simple.Web.Api/Program.cs).
 - *middle-level modules* **relies** on *low-level modules* having lower complexity than *high-level modules*.
 - *low-level modules* **completely independent** ["parallel" modules].
 - *low-level modules* **could share** some *low-level modules* [ex. *simple.domain.models*].
