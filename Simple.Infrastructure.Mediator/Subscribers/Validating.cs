@@ -12,10 +12,9 @@ partial class MediatorFuncs
   static string? ValidateSubscriberId (string subscriberId) =>
     IsMissingSubscriberId(subscriberId)? GetMissingSubscriberIdError(): default;
 
-  static IEnumerable<string?> ValidateSubscriber<TMessage, TFailure> (IEnumerable<Subscriber<TMessage, TFailure>> subscribers, Subscriber<TMessage, TFailure> subscriber) => [
+  public static IEnumerable<string?> ValidateSubscriber<TMessage, TFailure> (IEnumerable<Subscriber<TMessage, TFailure>> subscribers, Subscriber<TMessage, TFailure> subscriber) => [
     ValidateSubscriberDuplicate(subscribers, subscriber),
     ValidateSubscriberId(subscriber.SubscriberId),
     ValidateSubscriberMessageType(subscriber.MessageType)
   ];
-
 }
