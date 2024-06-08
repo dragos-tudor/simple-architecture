@@ -13,7 +13,7 @@ partial class QueueTests
   [DataRow(100)]
   [DataRow(1000)]
   [DataRow(10000)]
-  public void enqueue_messages_from_different_threads__consume_messages__messages_consumed(int queueCapacity)
+  public void enqueue_messages_from_different_threads__dequeue_messages__messages_dequeueded(int queueCapacity)
   {
     var queue = CreateMessageQueue<int>(queueCapacity);
     using var counter = new CountdownEvent(queueCapacity);
@@ -25,7 +25,7 @@ partial class QueueTests
   }
 
   [TestMethod]
-  public async Task error_throwing_message_handler__enqueue_messages__errors_handled()
+  public async Task enqueue_error_throwing_message__dequeue_messages__errors_handled()
   {
     var queue = CreateMessageQueue<string>(1);
     var logger = Substitute.For<Action<string?, Exception>>();

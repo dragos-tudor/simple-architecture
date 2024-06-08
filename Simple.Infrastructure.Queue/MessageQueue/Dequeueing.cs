@@ -5,14 +5,12 @@ namespace Simple.Infrastructure.Queue;
 
 partial class QueueFuncs
 {
-  public static ValueTask<TMessage> DequeueMessage<TMessage> (
-    Channel<TMessage> queue,
-    CancellationToken cancellationToken = default) =>
-      queue.Reader.ReadAsync(cancellationToken);
+  public static ValueTask<TMessage> DequeueMessage<TMessage> (Channel<TMessage> queue, CancellationToken cancellationToken = default) =>
+    queue.Reader.ReadAsync(cancellationToken);
 
   public static async Task DequeueMessages<TMessage> (
     Channel<TMessage> queue,
-    MessageHandler<TMessage> messageHandler,
+    HandleMessage<TMessage> handleMessage,
     Action<TMessage?, Exception> logError,
     CancellationToken cancellationToken= default)
   {
@@ -21,7 +19,7 @@ partial class QueueFuncs
       TMessage? message = default;
       try {
         message = await DequeueMessage(queue, cancellationToken);
-        await messageHandler(message, cancellationToken);
+        await handleMessage(message, cancellationToken);
       }
       catch (OperationCanceledException ex) { logError(message, ex); return; }
       catch (Exception ex) { logError(message, ex); }

@@ -1,38 +1,31 @@
 
 using System.Threading.Channels;
+using Microsoft.Extensions.Logging;
 
 namespace Simple.Infrastructure.Queue;
 
 partial class QueueFuncs
 {
-  public static Task ConsumeMessages<TMessage> (
+  public static Task ConsumeMessages<TMessage, TFailure> (
     Channel<TMessage> queue,
-    Func<TMessage, CancellationToken, Task<bool>> handleMessage,
-    Func<TMessage, CancellationToken, Task> finalizeMessage,
+    HandleMessage<TMessage, TFailure> handleMessage,
+    FinalizeMessage<TMessage> finalizeMessage,
+    ILogger logger,
     CancellationToken cancellationToken = default)
   =>
     DequeueMessages (
       queue,
       async (message, cancellationToken) => {
-        if(!await handleMessage(message, cancellationToken)) return;
+        LogHandlingMessage(logger, GetMessageType(message), GetMessageTraceId(message));
+        var failures = await handleMessage(message, cancellationToken);
 
-        LogFinalizingMessage(Logger, GetMessageType(message), GetMessageTraceId(message));
+        if(ExistsFailures(failures)) LogHandledMessageError(logger, GetMessageType(message), GetMessageTraceId(message), JoinFailures(failures));
+        if(ExistsFailures(failures)) return;
+
+        LogFinalizingMessage(logger, GetMessageType(message), GetMessageTraceId(message));
         await finalizeMessage(message, cancellationToken);
       },
-      (TMessage? message, Exception ex) => LogConsumingMessageError(Logger, GetMessageType(message), GetMessageTraceId(message), ex.Message, ex.StackTrace),
+      (TMessage? message, Exception ex) => LogConsumingMessageError(logger, GetMessageType(message), GetMessageTraceId(message), ex.Message, ex.StackTrace),
       cancellationToken
     );
-
-  public static async Task<bool> ConsumeMessage<TMessage, TFailure> (
-    TMessage message,
-    Func<TMessage, CancellationToken, Task<IEnumerable<TFailure>>> handleMessage,
-    CancellationToken cancellationToken)
-  {
-    LogHandlingMessage(Logger, GetMessageType(message), GetMessageTraceId(message));
-    var handleFailures = handleMessage(message, cancellationToken);
-
-    return !(await handleFailures)
-      .Select(failure => { LogHandledMessageError(Logger, GetMessageType(message), GetMessageTraceId(message), failure!.ToString()!); return failure; })
-      .Any();
-  }
 }

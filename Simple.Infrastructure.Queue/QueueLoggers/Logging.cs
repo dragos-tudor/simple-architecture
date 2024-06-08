@@ -16,6 +16,4 @@ partial class QueueFuncs
 
   [LoggerMessage(12, LogLevel.Error, "Handler: handled message {MessageType} error {Error}. [{TraceId}]", EventName = "LogHandledMessageError")]
   public static partial void LogHandledMessageError (ILogger logger, string? messageType, string? traceId, string error);
-
-
 }
