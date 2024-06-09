@@ -1,6 +1,4 @@
 
-using Microsoft.Extensions.Logging;
-
 namespace Simple.Web.Api;
 
 partial class ApiFuncs

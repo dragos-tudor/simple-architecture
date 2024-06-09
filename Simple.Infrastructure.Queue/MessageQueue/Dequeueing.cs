@@ -21,7 +21,7 @@ partial class QueueFuncs
         message = await DequeueMessage(queue, cancellationToken);
         await handleMessage(message, cancellationToken);
       }
-      catch (OperationCanceledException ex) { logError(message, ex); return; }
+      catch (OperationCanceledException) { return; }
       catch (Exception ex) { logError(message, ex); }
     }
   }
