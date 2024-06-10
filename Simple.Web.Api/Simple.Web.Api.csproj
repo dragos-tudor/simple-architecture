@@ -19,6 +19,7 @@
     <ProjectReference Include="../Simple.Infrastructure.SqlServer/Simple.Infrastructure.SqlServer.csproj" />
 		<PackageReference Include="Serilog.Extensions.Logging" />
     <PackageReference Include="Serilog.Sinks.File" />
+    <None Include="settings.json" CopyToOutputDirectory="PreserveNewest"/>
   </ItemGroup>
 
 </Project>

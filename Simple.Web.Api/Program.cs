@@ -15,7 +15,7 @@ public static class Program
   {
     var configuration = new ConfigurationBuilder()
       .SetBasePath(Directory.GetCurrentDirectory())
-      .AddJsonFile("appsettings.json")
+      .AddJsonFile("settings.json")
       .Build();
 
     var notificationsStore = new ConcurrentBag<Notification>();
