@@ -6,6 +6,7 @@ global using System.Threading.Tasks;
 global using MongoDB.Driver;
 global using MongoDB.Driver.Linq;
 global using Simple.Domain.Models;
+global using static Docker.Extensions.DockerFuncs;
 global using static Storing.MongoDb.MongoDbFuncs;
 global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
 

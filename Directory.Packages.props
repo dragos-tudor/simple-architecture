@@ -5,10 +5,13 @@
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageVersion Include="Docker.Extensions" Version="1.0.0-alpha1" />
+    <PackageVersion Include="Serilog.Extensions.Logging" Version="8.0.0" />
+    <PackageVersion Include="Serilog.Settings.Configuration" Version="8.0.1" />
+    <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageVersion Include="Storing.SqlServer" Version="1.0.0-alpha1" />
     <PackageVersion Include="Storing.MongoDb" Version="1.0.0-alpha1" />
     <PackageVersion Include="SmtpServer" Version="10.0.1" />
-
     <PackageVersion Include="FluentValidation" Version="11.9.0" />
     <PackageVersion Include="MsTest" Version="3.3.1" />
     <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.10.1" />
