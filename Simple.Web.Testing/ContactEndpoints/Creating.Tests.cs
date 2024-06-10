@@ -21,7 +21,6 @@ partial class TestingFuncs
 
     var actual = await ReadResponseMessageJsonContent<Contact>(contactResponse);
     Assert.AreEqual(actual!.ContactName, contact.ContactName);
-    await Task.Delay(100); // TODO: something cleaver
-    Assert.IsTrue(NotificationsStore.Any(notification => notification.To == contact.ContactEmail));
+    await WaitForNotification(contact.ContactEmail);
   }
 }
