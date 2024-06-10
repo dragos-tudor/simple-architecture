@@ -14,13 +14,11 @@ partial class ApiFuncs
     app.MapPost("/mongo/contacts/{contactId}/phonenumbers", (Guid contactId, PhoneNumber phoneNumber, HttpContext httpContext) =>
       AddPhoneNumberMongoEndpoint(contactId, phoneNumber, agendaDb, httpContext, logger)).DisableAntiforgery();
 
-    app.MapGet("/mongo/contacts", async (int? pageSize, int? pageIndex, HttpContext httpContext) =>
-      TypedResults.Ok(await FindContacts(GetContactCollection(agendaDb).AsQueryable(), pageSize, pageIndex).ToListAsync(httpContext.RequestAborted))
-    );
+    app.MapGet("/mongo/contacts", (short? pageIndex, short? pageSize, HttpContext httpContext) =>
+      GetContactsMongoEndpoint(pageIndex, pageSize, agendaDb, httpContext));
 
-    app.MapGet("/mongo/messages", async (int? pageSize, int? pageIndex, HttpContext httpContext) =>
-      TypedResults.Ok(await FindMessages(GetMessageCollection(agendaDb).AsQueryable(), pageSize, pageIndex).ToListAsync(httpContext.RequestAborted))
-    );
+    app.MapGet("/mongo/messages", (short? pageIndex, short? pageSize, HttpContext httpContext) =>
+      GetMessagesMongoEndpoint(pageIndex, pageSize, agendaDb, httpContext));
 
     return app;
   }

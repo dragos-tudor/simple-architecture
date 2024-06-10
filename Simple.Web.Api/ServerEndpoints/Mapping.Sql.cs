@@ -16,15 +16,11 @@ partial class ApiFuncs
     app.MapPost("/sql/contacts/{contactId}/phonenumbers", (Guid contactId, [FromForm]PhoneNumber phoneNumber, HttpContext httpContext) =>
       AddPhoneNumberSqlEndpoint(contactId, phoneNumber, agendaContextFactory, httpContext, logger)).DisableAntiforgery();
 
-    app.MapGet("/sql/contacts", async (short? pageSize, short? pageIndex, HttpContext httpContext) => {
-      using var agendaContext = await agendaContextFactory.CreateDbContextAsync();
-      TypedResults.Ok(await FindContacts(agendaContext.Contacts, pageSize, pageIndex).ToListAsync(httpContext.RequestAborted));
-    });
+    app.MapGet("/sql/contacts", (short? pageIndex, short? pageSize, HttpContext httpContext) =>
+      GetContactsSqlEndpoint(pageIndex, pageSize, agendaContextFactory, httpContext));
 
-    app.MapGet("/sql/messages", async (short? pageSize, short? pageIndex, HttpContext httpContext) => {
-      using var agendaContext = await agendaContextFactory.CreateDbContextAsync();
-      TypedResults.Ok(await FindMessages(agendaContext.Messages, pageSize, pageIndex).ToListAsync(httpContext.RequestAborted));
-    });
+    app.MapGet("/sql/messages", (short? pageIndex, short? pageSize, HttpContext httpContext) =>
+      GetMessagesSqlEndpoint(pageIndex, pageSize, agendaContextFactory, httpContext));
 
     return app;
   }
