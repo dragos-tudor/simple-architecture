@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using Simple.Infrastructure.Queue;
+using static Storing.MongoDb.MongoDbFuncs;
 
 namespace Simple.Web.Api;
 

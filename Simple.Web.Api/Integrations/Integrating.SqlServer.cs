@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Simple.Infrastructure.Queue;
+using static Storing.SqlServer.SqlServerFuncs;
 
 namespace Simple.Web.Api;
 

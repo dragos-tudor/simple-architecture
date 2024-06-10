@@ -2,6 +2,7 @@
 
   <PropertyGroup>
 		<OutputType>Exe</OutputType>
+    <StartupObject>Simple.Web.Api.Program</StartupObject>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
