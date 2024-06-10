@@ -16,6 +16,9 @@ partial class ApiFuncs
     app.MapPost("/sql/contacts/{contactId}/phonenumbers", (Guid contactId, [FromForm]PhoneNumber phoneNumber, HttpContext httpContext) =>
       AddPhoneNumberSqlEndpoint(contactId, phoneNumber, agendaContextFactory, httpContext, logger)).DisableAntiforgery();
 
+    app.MapGet("/sql/contacts/{contactId}", (Guid contactId, HttpContext httpContext) =>
+      GetContactSqlEndpoint(contactId, agendaContextFactory, httpContext));
+
     app.MapGet("/sql/contacts", (short? pageIndex, short? pageSize, HttpContext httpContext) =>
       GetContactsSqlEndpoint(pageIndex, pageSize, agendaContextFactory, httpContext));
 

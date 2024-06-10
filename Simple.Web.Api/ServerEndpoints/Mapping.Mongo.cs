@@ -14,6 +14,9 @@ partial class ApiFuncs
     app.MapPost("/mongo/contacts/{contactId}/phonenumbers", (Guid contactId, PhoneNumber phoneNumber, HttpContext httpContext) =>
       AddPhoneNumberMongoEndpoint(contactId, phoneNumber, agendaDb, httpContext, logger)).DisableAntiforgery();
 
+    app.MapGet("/mongo/contacts/{contactId}", (Guid contactId, HttpContext httpContext) =>
+      GetContactMongoEndpoint(contactId, agendaDb, httpContext));
+
     app.MapGet("/mongo/contacts", (short? pageIndex, short? pageSize, HttpContext httpContext) =>
       GetContactsMongoEndpoint(pageIndex, pageSize, agendaDb, httpContext));
 

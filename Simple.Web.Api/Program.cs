@@ -19,22 +19,27 @@ public static class Program
       .Build();
 
     var notificationsStore = new ConcurrentBag<Notification>();
-    var app = await StartupAppAsync(configuration, notificationsStore.Add);
+    var configBuilder = (WebApplicationBuilder builder) => {
+      var logger = IntegrateSerilog(builder, configuration);
+      builder.Services.AddSingleton(new SerilogLoggerFactory(logger));
+    };
+    var app = await StartupAppAsync(configuration, configBuilder, notificationsStore.Add);
     await app.RunAsync();
   }
 
-  public static async Task<WebApplication> StartupAppAsync (IConfiguration configuration, Action<Notification> handleNotification)
+  public static async Task<WebApplication> StartupAppAsync (IConfiguration configuration, Action<WebApplicationBuilder> configBuilder, Action<Notification> handleNotification)
   {
     var builder = WebApplication.CreateBuilder();
+    configBuilder(builder);
     builder.Services.AddProblemDetails();
     builder.Configuration.AddConfiguration(configuration);
-    var loggerFactory = new SerilogLoggerFactory(IntegrateSerilog(builder, configuration));
 
     var app = builder.Build();
     app.UseExceptionHandler().UseRouting();
 
     var appCancellationTokenSource = new CancellationTokenSource(Timeout.Infinite);
     var appCancellationToken = appCancellationTokenSource.Token;
+    var loggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
 
     var (sendNotification, shutdownNotificationServer) = IntegrateNotificationServer(app, handleNotification, loggerFactory);
     await Task.WhenAll([

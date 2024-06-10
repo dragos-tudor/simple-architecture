@@ -13,5 +13,5 @@ partial class SqlServerFuncs
     query.Where(contact => contact.ContactName == contactName);
 
   public static IQueryable<Contact> FindContacts (IQueryable<Contact> query, short? pageSize, short? pageIndex) =>
-    query.Include(c => c.PhoneNumbers).Page(pageSize, pageIndex);
+    query.Page(pageSize, pageIndex);
 }

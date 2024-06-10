@@ -1,4 +1,11 @@
 {
+  "Kestrel": {
+    "Endpoints": {
+      "Http": {
+        "Url": "http://localhost:5500"
+      },
+    },
+  },
   "SqlServerOptions": {
     "adminName": "sa",
     "adminPassword": "admin.P@ssw0rd",
