@@ -11,4 +11,7 @@ partial class SqlServerFuncs
 
   public static IQueryable<Message> FindMessageByParent (IQueryable<Message> query, Guid parentId) =>
     query.Where(message => message.ParentId == parentId);
+
+  public static IQueryable<Message> FindMessages (IQueryable<Message> query, short? pageSize, short? pageIndex) =>
+    query.Page(pageSize, pageIndex);
 }

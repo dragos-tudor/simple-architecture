@@ -1,8 +1,6 @@
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using static Storing.MongoDb.MongoDbFuncs;
 
 namespace Simple.Web.Api;
 
@@ -16,11 +14,13 @@ partial class ApiFuncs
     app.MapPost("/mongo/contacts/{contactId}/phonenumbers", (Guid contactId, PhoneNumber phoneNumber, HttpContext httpContext) =>
       AddPhoneNumberMongoEndpoint(contactId, phoneNumber, agendaDb, httpContext, logger)).DisableAntiforgery();
 
-    app.MapGet("/mongo/contacts", (short pageSize, short pageIndex, HttpContext httpContext) =>
-      TypedResults.Ok(GetContactCollection(agendaDb).AsQueryable().Page(pageSize, pageIndex)));
+    app.MapGet("/mongo/contacts", async (int? pageSize, int? pageIndex, HttpContext httpContext) =>
+      TypedResults.Ok(await FindContacts(GetContactCollection(agendaDb).AsQueryable(), pageSize, pageIndex).ToListAsync(httpContext.RequestAborted))
+    );
 
-    app.MapGet("/mongo/messages", (short pageSize, short pageIndex, HttpContext httpContext) =>
-      TypedResults.Ok(GetMessageCollection(agendaDb).AsQueryable().Page(pageSize, pageIndex)));
+    app.MapGet("/mongo/messages", async (int? pageSize, int? pageIndex, HttpContext httpContext) =>
+      TypedResults.Ok(await FindMessages(GetMessageCollection(agendaDb).AsQueryable(), pageSize, pageIndex).ToListAsync(httpContext.RequestAborted))
+    );
 
     return app;
   }

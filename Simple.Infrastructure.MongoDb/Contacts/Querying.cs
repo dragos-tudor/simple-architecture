@@ -14,4 +14,7 @@ partial class MongoDbFuncs
 
   public static Task<Contact> FindContactByPhoneNumber (IMongoQueryable<Contact> query, PhoneNumber phoneNumber, CancellationToken cancellationToken = default) =>
     query.FirstOrDefaultAsync(contact => contact.PhoneNumbers.Any(_phoneNumber => _phoneNumber == phoneNumber), cancellationToken);
+
+  public static IMongoQueryable<Contact> FindContacts (IMongoQueryable<Contact> query, int? pageSize, int? pageIndex) =>
+    query.Page(pageSize ?? 0, pageIndex);
 }

@@ -16,3 +16,6 @@
 # API secrets
 **/prod.json
 **/secrets.json
+
+# logging files
+**/*log.txt

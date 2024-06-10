@@ -11,4 +11,7 @@ partial class MongoDbFuncs
 
   public static IMongoQueryable<Message> FindMessageByParent (IMongoQueryable<Message> query, Guid parentId) =>
     query.Where(message => message.ParentId == parentId);
+
+  public static IMongoQueryable<Message> FindMessages (IMongoQueryable<Message> query, int? pageSize, int? pageIndex) =>
+    query.Page(pageSize ?? 0, pageIndex);
 }
