@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Serilog.Extensions.Logging;
 
 namespace Simple.Web.Api;
 
@@ -18,16 +19,16 @@ public static class Program
       .Build();
 
     var notificationsStore = new ConcurrentBag<Notification>();
-    using var loggerFactory = IntegrateSerilog(configuration);
-
-    var app = await StartupAppAsync(loggerFactory, notificationsStore.Add);
+    var app = await StartupAppAsync(configuration, notificationsStore.Add);
     await app.RunAsync();
   }
 
-  public static async Task<WebApplication> StartupAppAsync (ILoggerFactory loggerFactory, Action<Notification> handleNotification)
+  public static async Task<WebApplication> StartupAppAsync (IConfiguration configuration, Action<Notification> handleNotification)
   {
     var builder = WebApplication.CreateBuilder();
     builder.Services.AddProblemDetails();
+    builder.Configuration.AddConfiguration(configuration);
+    var loggerFactory = new SerilogLoggerFactory(IntegrateSerilog(builder, configuration));
 
     var app = builder.Build();
     app.UseExceptionHandler().UseRouting();
@@ -40,9 +41,6 @@ public static class Program
       IntegrateSqlServerAsync(app, sendNotification, loggerFactory, appCancellationToken),
       IntegrateMongoServerAsync(app, sendNotification, loggerFactory, appCancellationToken)
     ]);
-
-    var appLogger = loggerFactory.CreateLogger(typeof(ApiFuncs).Namespace!);
-    app.Lifetime.ApplicationStopping.Register(() => LogShutingDownApp(appLogger));
 
     app.Lifetime.ApplicationStopping.Register(appCancellationTokenSource.Cancel);
     app.Lifetime.ApplicationStopping.Register(() => shutdownNotificationServer());

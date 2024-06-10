@@ -5,6 +5,7 @@
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageVersion Include="Docker.Extensions" Version="1.0.0-alpha1" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageVersion Include="Serilog.Extensions.Logging" Version="8.0.0" />
     <PackageVersion Include="Serilog.Settings.Configuration" Version="8.0.1" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />

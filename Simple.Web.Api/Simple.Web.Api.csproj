@@ -8,6 +8,7 @@
 
   <ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Serilog.AspNetCore" />
 		<PackageReference Include="Serilog.Settings.Configuration" />
 		<PackageReference Include="Serilog.Sinks.Console" />
     <ProjectReference Include="../Simple.Domain.Services/Simple.Domain.Services.csproj" />
