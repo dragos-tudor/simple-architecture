@@ -1,4 +1,4 @@
-@pathBase = http://localhost:5000
+@pathBase = http://localhost:5500
 @sqlPathBase = {{pathBase}}/sql
 
 # @name create_sql_contact

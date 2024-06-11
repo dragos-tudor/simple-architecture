@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using Serilog.Extensions.Logging;
 
 namespace Simple.Web.Api;
 
@@ -19,10 +18,7 @@ public static class Program
       .Build();
 
     var notificationsStore = new ConcurrentBag<Notification>();
-    var configBuilder = (WebApplicationBuilder builder) => {
-      var logger = IntegrateSerilog(builder, configuration);
-      builder.Services.AddSingleton(new SerilogLoggerFactory(logger));
-    };
+    var configBuilder = (WebApplicationBuilder builder) => IntegrateSerilog(builder, configuration);
     var app = await StartupAppAsync(configuration, configBuilder, notificationsStore.Add);
     await app.RunAsync();
   }
