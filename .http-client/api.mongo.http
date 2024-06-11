@@ -1,29 +1,4 @@
 @pathBase = http://localhost:5500
-@sqlPathBase = {{pathBase}}/sql
-
-# @name create_sql_contact
-POST {{sqlPathBase}}/contacts HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-
-contactName=contact1
-&contactEmail=contact1@test.com
-
-###
-
-@sql_contact_location = {{create_sql_contact.response.headers.Location}}
-
-# @name add_sql_phone_number
-POST {{pathBase}}{{sql_contact_location}}/phonenumbers HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-
-countryCode=123
-&number=123456789
-&numberType=0
-
-###
-
-
-
 @mongoPathBase = {{pathBase}}/mongo
 
 # @name create_mongo_contact
