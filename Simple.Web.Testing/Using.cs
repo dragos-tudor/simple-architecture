@@ -7,7 +7,6 @@ global using Simple.Domain.Models;
 global using Simple.Web.Api;
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using Microsoft.AspNetCore.TestHost;
-global using static Simple.Web.Testing.TestingFuncs;
 global using static Simple.Shared.Testing.TestingFuncs;
 
 using System.Collections.Concurrent;

@@ -8,6 +8,7 @@ global using Microsoft.EntityFrameworkCore;
 global using Simple.Domain.Models;
 global using static Docker.Extensions.DockerFuncs;
 global using static Storing.SqlServer.SqlServerFuncs;
+global using static Simple.Domain.Models.ModelsFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
 
 namespace Simple.Infrastructure.SqlServer;

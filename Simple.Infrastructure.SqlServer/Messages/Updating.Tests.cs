@@ -10,10 +10,11 @@ partial class SqlServerTests
     var message = CreateTestMessage(isActive: true);
 
     AddMessage(dbContext, message);
-    await SaveTestChanges(dbContext);
-    await UpdateMessageIsActive(dbContext, message, false);
+    await SaveChanges(dbContext);
+    ClearChangeTracker(dbContext);
 
-    var actual = await FindMessageByKey (dbContext.Messages, message.MessageId).SingleAsync();
+    await UpdateMessageIsActive(dbContext, message, false);
+    var actual = await FindMessageByKey(dbContext.Messages, message.MessageId).SingleAsync();
     Assert.AreEqual(actual.IsActive, false);
   }
 }

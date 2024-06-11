@@ -11,12 +11,15 @@ partial class SqlServerTests
     var contact = CreateTestContact(phoneNumbers: [phoneNumber]);
 
     AddContact(dbContext, contact);
-    await SaveTestChanges(dbContext);
+    AddPhoneNumber(dbContext, phoneNumber);
+    await SaveChanges(dbContext);
+    ClearChangeTracker(dbContext);
 
-    DeletePhoneNumber(dbContext, ClonePhoneNumber(phoneNumber));
-    await SaveTestChanges(dbContext);
+    DeletePhoneNumber(dbContext, phoneNumber);
+    await SaveChanges(dbContext);
+    ClearChangeTracker(dbContext);
 
-    var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
+    var actual = await FindContactByKey(dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
     CollectionAssert.AreEqual(actual.PhoneNumbers.ToArray(), (PhoneNumber[])[]);
   }
 }

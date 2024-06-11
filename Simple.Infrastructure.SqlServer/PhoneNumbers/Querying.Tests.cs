@@ -15,7 +15,9 @@ partial class SqlServerTests
     var contact = CreateTestContact(phoneNumbers: phoneNumbers);
 
     AddContact(dbContext, contact);
-    await SaveTestChanges(dbContext);
+    AddPhoneNumbers(dbContext, phoneNumbers);
+    await SaveChanges(dbContext);
+    ClearChangeTracker(dbContext);
 
     var actual = await FindPhoneNumber(dbContext.PhoneNumbers, phoneNumbers[0]).SingleAsync();
     Assert.AreEqual(actual, phoneNumbers[0]);
@@ -33,7 +35,9 @@ partial class SqlServerTests
     var contact = CreateTestContact(phoneNumbers: phoneNumbers);
 
     AddContact(dbContext, contact);
-    await SaveTestChanges(dbContext);
+    AddPhoneNumbers(dbContext, phoneNumbers);
+    await SaveChanges(dbContext);
+    ClearChangeTracker(dbContext);
 
     var actual = await FindPhoneNumbers(dbContext.PhoneNumbers, [phoneNumbers[0], phoneNumbers[2]]);
     CollectionAssert.AreEqual(actual.ToArray(), (PhoneNumber[])[phoneNumbers[0], phoneNumbers[2]]);

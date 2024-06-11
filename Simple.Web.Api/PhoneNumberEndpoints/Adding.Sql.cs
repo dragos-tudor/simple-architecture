@@ -1,6 +1,5 @@
 
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Driver;
 
 namespace Simple.Web.Api;
 
@@ -19,7 +18,7 @@ partial class ApiFuncs
       phoneNumber,
       (phoneNumber, cancellationToken) => FindPhoneNumber(agendaContext.PhoneNumbers, phoneNumber).FirstOrDefaultAsync(cancellationToken),
       (contactId, cancellationToken) => FindContactByKey(agendaContext.Contacts, contactId).FirstOrDefaultAsync(cancellationToken),
-      (contact, phoneNumber, cancellationToken) => InsertPhoneNumber(agendaContext, contact, phoneNumber, cancellationToken),
+      (contact, phoneNumber, cancellationToken) => InsertContactPhoneNumber(agendaContext, contact, phoneNumber, cancellationToken),
       logger,
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);
