@@ -40,7 +40,7 @@ public static class Program
     var (sendNotification, shutdownNotificationServer) = IntegrateNotificationServer(app, handleNotification, loggerFactory);
     await Task.WhenAll([
       IntegrateSqlServerAsync(app, sendNotification, loggerFactory, appCancellationToken),
-      IntegrateMongoServerAsync(app, sendNotification, loggerFactory, appCancellationToken)
+      IntegrateMongoReplicaSetAsync(app, sendNotification, loggerFactory, appCancellationToken)
     ]);
 
     app.Lifetime.ApplicationStopping.Register(appCancellationTokenSource.Cancel);
