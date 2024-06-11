@@ -47,7 +47,7 @@
 - *pyramid* vs *stack* => *simple* vs *complex* -> *unknown* [yet] vs *highly-appreciated* [no-comments].
 
 ### Remarks
-- related architecture already exists [how else :)] [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
+- similar architecture already exists [how else :)] [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
 - *operations* = *low-level modules* funcs [ex. database funcs].
 - *integrations* = *high-level modules* funcs [ex. webapi endpoints].
 
