@@ -22,9 +22,10 @@ partial class TestingFuncs
       new KeyValuePair<string, string>("phoneNumbers[0].extension", phoneNumber.Extension.ToString()!)
     ]);
 
-    var createResponse = await apiClient.PostAsync(new Uri(apiPathBase + "/sql/contacts"), contactForm);
-    createResponse.EnsureSuccessStatusCode();
-    var contactResponse = await apiClient.GetAsync(new Uri(apiPathBase + GetResponseMessageLocation(createResponse)));
+    var contactCreateResponse = await apiClient.PostAsync(new Uri(apiPathBase + "/sql/contacts"), contactForm);
+    contactCreateResponse.EnsureSuccessStatusCode();
+
+    var contactResponse = await apiClient.GetAsync(new Uri(apiPathBase + GetResponseMessageLocation(contactCreateResponse)));
     contactResponse.EnsureSuccessStatusCode();
 
     var actual = await ReadResponseMessageJsonContent<Contact>(contactResponse);

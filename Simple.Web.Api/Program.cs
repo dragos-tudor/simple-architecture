@@ -3,8 +3,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
-using System.IO;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 
 namespace Simple.Web.Api;
 
@@ -12,39 +12,34 @@ public static class Program
 {
   public static async Task Main (string[] _)
   {
-    var configuration = new ConfigurationBuilder()
-      .SetBasePath(Directory.GetCurrentDirectory())
-      .AddJsonFile("settings.json")
-      .Build();
-
-    var notificationsStore = new ConcurrentBag<Notification>();
-    var configBuilder = (WebApplicationBuilder builder) => IntegrateSerilog(builder, configuration);
-    var app = await StartupAppAsync(configuration, configBuilder, notificationsStore.Add);
+    var configuration = BuildConfiguration("settings.json");
+    var notificationStore = new ConcurrentBag<Notification>();
+    var (app, _, _) = await StartupAppAsync(configuration, (_) => {}, notificationStore.Add);
     await app.RunAsync();
   }
 
-  public static async Task<WebApplication> StartupAppAsync (IConfiguration configuration, Action<WebApplicationBuilder> configBuilder, Action<Notification> handleNotification)
+  public static async Task<(WebApplication, AgendaContextFactory, IMongoDatabase)> StartupAppAsync (IConfiguration configuration, Action<WebApplicationBuilder> configBuilder, Action<Notification> handleNotification)
   {
     var builder = WebApplication.CreateBuilder();
+    LoadConfiguration(builder, configuration);
+    IntegrateSerilog(builder, configuration);
+    RegisterServices(builder);
     configBuilder(builder);
-    builder.Services.AddProblemDetails();
-    builder.Configuration.AddConfiguration(configuration);
 
     var app = builder.Build();
-    app.UseExceptionHandler().UseRouting();
+    UseMiddlewares(app);
 
     var appCancellationTokenSource = new CancellationTokenSource(Timeout.Infinite);
     var appCancellationToken = appCancellationTokenSource.Token;
-    var loggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
+    var loggerFactory = GetRequiredService<ILoggerFactory>(app);
 
     var (sendNotification, shutdownNotificationServer) = IntegrateNotificationServer(app, handleNotification, loggerFactory);
-    await Task.WhenAll([
-      IntegrateSqlServerAsync(app, sendNotification, loggerFactory, appCancellationToken),
-      IntegrateMongoReplicaSetAsync(app, sendNotification, loggerFactory, appCancellationToken)
-    ]);
+    var agendaContextFactoryTask = IntegrateSqlServerAsync(app, sendNotification, loggerFactory, appCancellationToken);
+    var mongoDbTask = IntegrateMongoReplicaSetAsync(app, sendNotification, loggerFactory, appCancellationToken);
+    await Task.WhenAll([agendaContextFactoryTask, mongoDbTask]);
 
     app.Lifetime.ApplicationStopping.Register(appCancellationTokenSource.Cancel);
     app.Lifetime.ApplicationStopping.Register(() => shutdownNotificationServer());
-    return app;
+    return (app, await agendaContextFactoryTask, await mongoDbTask);
   }
 }

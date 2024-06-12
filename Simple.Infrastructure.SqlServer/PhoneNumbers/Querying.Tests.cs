@@ -14,12 +14,10 @@ partial class SqlServerTests
     ];
     var contact = CreateTestContact(phoneNumbers: phoneNumbers);
 
-    AddContact(dbContext, contact);
-    AddPhoneNumbers(dbContext, phoneNumbers);
-    await SaveChanges(dbContext);
+    await InsertContact(dbContext, contact);
     ClearChangeTracker(dbContext);
 
-    var actual = await FindPhoneNumber(dbContext.PhoneNumbers, phoneNumbers[0]).SingleAsync();
+    var actual = await FindPhoneNumber(dbContext.PhoneNumbers.AsQueryable(), phoneNumbers[0]).SingleAsync();
     Assert.AreEqual(actual, phoneNumbers[0]);
   }
 
@@ -34,12 +32,10 @@ partial class SqlServerTests
      }.OrderBy(e => e.CountryCode).ToArray();
     var contact = CreateTestContact(phoneNumbers: phoneNumbers);
 
-    AddContact(dbContext, contact);
-    AddPhoneNumbers(dbContext, phoneNumbers);
-    await SaveChanges(dbContext);
+    await InsertContact(dbContext, contact);
     ClearChangeTracker(dbContext);
 
-    var actual = await FindPhoneNumbers(dbContext.PhoneNumbers, [phoneNumbers[0], phoneNumbers[2]]);
+    var actual = await FindPhoneNumbers(dbContext.PhoneNumbers.AsQueryable(), [phoneNumbers[0], phoneNumbers[2]]);
     CollectionAssert.AreEqual(actual.ToArray(), (PhoneNumber[])[phoneNumbers[0], phoneNumbers[2]]);
   }
 }

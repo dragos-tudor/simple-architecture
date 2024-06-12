@@ -13,4 +13,7 @@ partial class ServicesFuncs
 
   [LoggerMessage(3, LogLevel.Information, "Domain: added to agenda notification sent from {From} to {To}. [{TraceId}]", EventName = "LogNotifiedAddedToAgenda")]
   public static partial void LogNotifiedAddedToAgenda (ILogger logger, string from, string to, string? traceId);
+
+  [LoggerMessage(4, LogLevel.Information, "Domain: phone number {Number} removed from contact {ContactId}. [{TraceId}]", EventName = "LogPhoneNumberRemoved")]
+  public static partial void LogPhoneNumberRemoved (ILogger logger, long number, Guid contactId, string? traceId);
 }

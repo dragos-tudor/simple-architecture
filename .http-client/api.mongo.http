@@ -24,4 +24,17 @@ content-type: application/json
   "numberType": 0
 }
 
+@mongo_phonenumber_location = {{add_mongo_phone_number.response.headers.Location}}
+
+###
+
+# @name delete_mongo_phone_number
+DELETE {{pathBase}}{{mongo_phonenumber_location}} HTTP/1.1
+content-type: application/json
+
+{
+  "countryCode": 123,
+  "number": 123456789
+}
+
 ###

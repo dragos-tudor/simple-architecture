@@ -17,7 +17,6 @@ global using static Simple.Domain.Services.ServicesFuncs;
 global using static Simple.Infrastructure.Queue.QueueFuncs;
 global using static Simple.Infrastructure.Mediator.MediatorFuncs;
 global using static Simple.Infrastructure.Notifications.NotificationsFuncs;
-global using static Simple.Shared.Extensions.ExtensionsFuncs;
 global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
 global using static Simple.Web.Api.ApiFuncs;

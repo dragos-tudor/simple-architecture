@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Domain.Models", "Sim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Mediator", "Simple.Infrastructure.Mediator\Simple.Infrastructure.Mediator.csproj", "{22D7C583-0328-418E-864E-E55C959363BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Shared.Extensions", "Simple.Shared.Extensions\Simple.Shared.Extensions.csproj", "{057CFD9A-6478-492B-A424-BDC78AEE9F6F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Queue", "Simple.Infrastructure.Queue\Simple.Infrastructure.Queue.csproj", "{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.MongoDb", "Simple.Infrastructure.MongoDb\Simple.Infrastructure.MongoDb.csproj", "{CD1B9023-65DE-4D62-A382-126CBB9A35EE}"
@@ -58,10 +56,6 @@ Global
 		{22D7C583-0328-418E-864E-E55C959363BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22D7C583-0328-418E-864E-E55C959363BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22D7C583-0328-418E-864E-E55C959363BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{057CFD9A-6478-492B-A424-BDC78AEE9F6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{057CFD9A-6478-492B-A424-BDC78AEE9F6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{057CFD9A-6478-492B-A424-BDC78AEE9F6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{057CFD9A-6478-492B-A424-BDC78AEE9F6F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{903E20E4-CEDF-4BB4-B087-CB67D6C8C184}.Release|Any CPU.ActiveCfg = Release|Any CPU

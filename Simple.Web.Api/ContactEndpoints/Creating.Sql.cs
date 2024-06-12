@@ -18,9 +18,9 @@ partial class ApiFuncs
 
     var result = await CreateContactService (
       contact,
-      (phoneNumbers, cancellationToken) => FindPhoneNumbers(agendaContext.PhoneNumbers, phoneNumbers, cancellationToken),
-      (contactName, cancellationToken) => FindContactByName(agendaContext.Contacts, contactName).FirstOrDefaultAsync(cancellationToken),
-      (contactEmail, cancellationToken) => FindContactByEmail(agendaContext.Contacts, contactEmail).FirstOrDefaultAsync(cancellationToken),
+      (phoneNumbers, cancellationToken) => FindPhoneNumbers(agendaContext.PhoneNumbers.AsQueryable(), phoneNumbers, cancellationToken),
+      (contactName, cancellationToken) => FindContactByName(agendaContext.Contacts.AsQueryable(), contactName).FirstOrDefaultAsync(cancellationToken),
+      (contactEmail, cancellationToken) => FindContactByEmail(agendaContext.Contacts.AsQueryable(), contactEmail).FirstOrDefaultAsync(cancellationToken),
       (contact, message, cancellationToken) => InsertContactAndMessage(agendaContext, contact, message, cancellationToken),
       (message) => ProduceMessage(messageQueue, message),
       logger,

@@ -4,7 +4,6 @@ global using System.Collections.Generic;
 global using System.Linq;
 global using System.Threading.Tasks;
 global using Simple.Domain.Models;
-global using Simple.Web.Api;
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using Microsoft.AspNetCore.TestHost;
 global using static Simple.Shared.Testing.TestingFuncs;
@@ -14,29 +13,34 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using static Docker.Extensions.DockerFuncs;
-
+using static Simple.Web.Api.ApiFuncs;
+using static Simple.Web.Api.Program;
 
 namespace Simple.Web.Testing;
 
 [TestClass]
 public partial class TestingFuncs
 {
-  static readonly ConcurrentBag<Notification> NotificationsStore = [];
   static WebApplication ApiServer = default!;
+  static readonly ConcurrentBag<Notification> NotificationStore = [];
 
   [AssemblyInitialize]
-  public static void InitializeApi (TestContext _)
+  public static void InitializeTests (TestContext context)
   {
-    var configPath = "/workspaces/simple-architecture/Simple.Web.Api/settings.json";
-    var configuration = new ConfigurationBuilder().AddJsonFile(configPath).Build();
+    var configuration = BuildConfiguration("settings.json");
     var configBuilder = (WebApplicationBuilder builder) => {
       builder.WebHost.UseTestServer();
-      builder.Services.AddSingleton<ILoggerFactory>(new NullLoggerFactory());
+      builder.Logging.ClearProviders();
     };
 
-    ApiServer = RunSynchronously(() => Program.StartupAppAsync(configuration, configBuilder, NotificationsStore.Add));
+    (ApiServer, _, _) = RunSynchronously(() => StartupAppAsync(configuration, configBuilder, NotificationStore.Add));
     ApiServer.RunAsync();
+  }
+
+  [AssemblyCleanup]
+  public static void CleanupTests ()
+  {
+    ApiServer?.StopAsync();
   }
 }

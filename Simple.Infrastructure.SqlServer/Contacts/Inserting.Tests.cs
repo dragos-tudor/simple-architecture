@@ -14,7 +14,7 @@ partial class SqlServerTests
     await InsertContactAndMessage(dbContext, contact, message);
     ClearChangeTracker(dbContext);
 
-    var actual = await FindContactByKey (dbContext.Contacts, contact.ContactId).Include(c => c.PhoneNumbers).SingleAsync();
+    var actual = await FindContactByKey (dbContext.Contacts.AsQueryable(), contact.ContactId).Include(c => c.PhoneNumbers).SingleAsync();
     Assert.AreEqual(actual, contact);
     Assert.AreEqual(actual.PhoneNumbers[0], phoneNumber);
   }
@@ -29,45 +29,7 @@ partial class SqlServerTests
     await InsertContactAndMessage(dbContext, contact, message);
     ClearChangeTracker(dbContext);
 
-    Assert.AreEqual(await FindContactByKey (dbContext.Contacts, contact.ContactId).SingleAsync(), contact);
-    Assert.AreEqual(await FindMessageByKey (dbContext.Messages, message.MessageId).SingleAsync(), message);
-  }
-
- [TestMethod]
-  public async Task contact_without_phone_numbers__insert_contact_phone_number__phone_number_added_on_contact ()
-  {
-    using var dbContext = CreateAgendaContext(AgendaConnString);
-    var contact = CreateTestContact();
-
-    AddContact(dbContext, contact);
-    await SaveChanges(dbContext);
-    ClearChangeTracker(dbContext);
-
-    await InsertContactPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
-    await SaveChanges(dbContext);
-    ClearChangeTracker(dbContext);
-
-    var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
-    Assert.AreEqual(actual.PhoneNumbers[0], contact.PhoneNumbers[0]);
-  }
-
- [TestMethod]
-  public async Task contact_with_phone_numbers__insert_contact_phone_number__phone_number_added_on_contact ()
-  {
-    using var dbContext = CreateAgendaContext(AgendaConnString);
-    var phoneNumber = CreateTestPhoneNumber();
-    var contact = CreateTestContact(phoneNumbers: [phoneNumber]);
-
-    AddContact(dbContext, contact);
-    AddPhoneNumber(dbContext, phoneNumber);
-    await SaveChanges(dbContext);
-    ClearChangeTracker(dbContext);
-
-    await InsertContactPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
-    await SaveChanges(dbContext);
-    ClearChangeTracker(dbContext);
-
-    var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers), contact.ContactId).SingleAsync();
-    CollectionAssert.AreEqual(actual.PhoneNumbers.OrderBy(e => e.Number).ToArray(), contact.PhoneNumbers.OrderBy(e => e.Number).ToArray());
+    Assert.AreEqual(await FindContactByKey (dbContext.Contacts.AsQueryable(), contact.ContactId).SingleAsync(), contact);
+    Assert.AreEqual(await FindMessageByKey (dbContext.Messages.AsQueryable(), message.MessageId).SingleAsync(), message);
   }
 }

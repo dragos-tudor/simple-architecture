@@ -7,12 +7,12 @@ partial class ServicesFuncs
 {
   public static readonly PhoneNumberValidator PhoneNumberValidator =  new ();
 
-  public static async Task<Result<Contact?, Failure[]?>> AddPhoneNumberService (
+  public static async Task<Result<PhoneNumber?, Failure[]?>> AddPhoneNumberService (
     Guid contactId,
     PhoneNumber phoneNumber,
     FindModel<PhoneNumber, PhoneNumber?> findDuplicatePhoneNumber,
     FindModel<Guid, Contact?> findContact,
-    SaveModels<Contact, PhoneNumber> savePhoneNumber,
+    SaveModels<Contact, PhoneNumber> insertPhoneNumber,
     ILogger logger,
     string? traceId = default,
     CancellationToken cancellationToken = default)
@@ -30,9 +30,9 @@ partial class ServicesFuncs
     if (ExistPhoneNumber(duplicateNumber)) return ToArray([GetDuplicatePhoneNumberFailure(duplicateNumber!)]);
 
     SetContactPhoneNumber(contact, phoneNumber);
-    await savePhoneNumber(contact, phoneNumber, cancellationToken);
+    await insertPhoneNumber(contact, phoneNumber, cancellationToken);
 
     LogPhoneNumberAdded(logger, phoneNumber.Number, contact.ContactId, traceId);
-    return contact;
+    return phoneNumber;
   }
 }

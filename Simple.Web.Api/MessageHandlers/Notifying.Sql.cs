@@ -19,7 +19,7 @@ partial class ApiFuncs
       message,
       "dragos.tudor@gmail.com",
       timeProvider.GetUtcNow(),
-      (message, cancellationToken) => FindMessageByParent(agendaContext.Messages, message.MessageId).FirstOrDefaultAsync(cancellationToken),
+      (message, cancellationToken) => FindMessageByParent(agendaContext.Messages.AsQueryable(), message.MessageId).FirstOrDefaultAsync(cancellationToken),
       (notification, cancellationToken) => sendNotification(notification, cancellationToken),
       (message, cancellationToken) => InsertMessage(agendaContext, message, cancellationToken),
       logger,

@@ -13,14 +13,14 @@
     "userPassword": "sqluser.P@ssw0rd",
     "imageName": "mcr.microsoft.com/mssql/server:2019-latest",
     "containerName": "simple-sql",
-    "dbName": "agenda-api",
+    "dbName": "agenda",
     "networkName": "simple-network",
     "serverPort": 1433
   },
   "MongoReplicaSetOptions": {
     "imageName": "mongo:4.2.24",
     "containerNames": ["simple-mongo1", "simple-mongo2", "simple-mongo3"],
-    "dbName": "agenda-api",
+    "dbName": "agenda",
     "collNames": ["contacts", "messages"],
     "replicaSet": "rs0",
     "networkName": "simple-network",

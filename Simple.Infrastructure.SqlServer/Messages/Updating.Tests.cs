@@ -9,12 +9,13 @@ partial class SqlServerTests
     using var dbContext = CreateAgendaContext(AgendaConnString);
     var message = CreateTestMessage(isActive: true);
 
-    AddMessage(dbContext, message);
-    await SaveChanges(dbContext);
+    await InsertMessage(dbContext, message);
     ClearChangeTracker(dbContext);
 
     await UpdateMessageIsActive(dbContext, message, false);
-    var actual = await FindMessageByKey(dbContext.Messages, message.MessageId).SingleAsync();
+    ClearChangeTracker(dbContext);
+
+    var actual = await FindMessageByKey(dbContext.Messages.AsQueryable(), message.MessageId).SingleAsync();
     Assert.AreEqual(actual.IsActive, false);
   }
 }

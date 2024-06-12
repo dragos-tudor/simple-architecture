@@ -9,17 +9,17 @@ partial class ServicesTests
   readonly FindModels<PhoneNumber, PhoneNumber> FindPhoneNumbers = Substitute.For<FindModels<PhoneNumber, PhoneNumber>>();
   readonly FindModel<string, Contact?> FindContactByName = Substitute.For<FindModel<string, Contact?>>();
   readonly FindModel<string, Contact?> FindContactByEmail = Substitute.For<FindModel<string, Contact?>>();
-  readonly SaveModels<Contact, Message<ContactCreatedEvent>> SaveModels = Substitute.For<SaveModels<Contact, Message<ContactCreatedEvent>>>();
+  readonly SaveModels<Contact, Message<ContactCreatedEvent>> InsertContactAndMessage = Substitute.For<SaveModels<Contact, Message<ContactCreatedEvent>>>();
   readonly ProduceMessage<Message<ContactCreatedEvent>> ProduceMessage = Substitute.For<ProduceMessage<Message<ContactCreatedEvent>>>();
 
   [TestMethod]
   public async Task new_contact__create_contact__contact_saved ()
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
-    var saveModels = Substitute.For<SaveModels<Contact, Message<ContactCreatedEvent>>>();
-    await CreateContactService(contact, FindPhoneNumbers, FindContactByName, FindContactByEmail, saveModels, ProduceMessage, Logger);
+    var insertContactAndMessage = Substitute.For<SaveModels<Contact, Message<ContactCreatedEvent>>>();
+    await CreateContactService(contact, FindPhoneNumbers, FindContactByName, FindContactByEmail, insertContactAndMessage, ProduceMessage, Logger);
 
-    await saveModels.Received().Invoke(
+    await insertContactAndMessage.Received().Invoke(
       Arg.Is<Contact>(x => x.ContactId == contact.ContactId),
       Arg.Any<Message<ContactCreatedEvent>>());
   }
@@ -28,11 +28,11 @@ partial class ServicesTests
   public async Task new_contact__create_contact__contact_created_event_saved ()
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
-    var saveModels = Substitute.For<SaveModels<Contact, Message<ContactCreatedEvent>>>();
-    await CreateContactService(contact, FindPhoneNumbers, FindContactByName, FindContactByEmail, saveModels, ProduceMessage, Logger);
+    var insertContactAndMessage = Substitute.For<SaveModels<Contact, Message<ContactCreatedEvent>>>();
+    await CreateContactService(contact, FindPhoneNumbers, FindContactByName, FindContactByEmail, insertContactAndMessage, ProduceMessage, Logger);
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
-    await saveModels.Received().Invoke(
+    await insertContactAndMessage.Received().Invoke(
       Arg.Any<Contact>(),
       Arg.Is<Message<ContactCreatedEvent>>(message => message.MessagePayload == contactCreatedEvent));
   }
@@ -42,7 +42,7 @@ partial class ServicesTests
   {
     var contact = CreateTestContact(contactId: Guid.Empty);
     var producehMessage = Substitute.For<ProduceMessage<Message<ContactCreatedEvent>>>();
-    await CreateContactService(contact, FindPhoneNumbers, FindContactByName, FindContactByEmail, SaveModels, producehMessage, Logger);
+    await CreateContactService(contact, FindPhoneNumbers, FindContactByName, FindContactByEmail, InsertContactAndMessage, producehMessage, Logger);
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     producehMessage.Received().Invoke(
@@ -56,9 +56,9 @@ partial class ServicesTests
     var findPhoneNumbers = Substitute.For<FindModels<PhoneNumber, PhoneNumber>>();
 
     findPhoneNumbers(contact.PhoneNumbers).Returns((_) => FromResult(contact.PhoneNumbers.AsEnumerable()));
-    var result = await CreateContactService(contact, findPhoneNumbers, FindContactByName, FindContactByEmail, SaveModels, ProduceMessage, Logger);
+    var result = await CreateContactService(contact, findPhoneNumbers, FindContactByName, FindContactByEmail, InsertContactAndMessage, ProduceMessage, Logger);
 
-    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetDuplicatePhoneNumberFailure(contact.PhoneNumbers[0])]), new FailureComparer());
+    AreEqual(FromFailure(result)!, [GetDuplicatePhoneNumberFailure(contact.PhoneNumbers[0])]);
   }
 
   [TestMethod]
@@ -68,9 +68,9 @@ partial class ServicesTests
     var findContactByName = Substitute.For<FindModel<string, Contact?>>();
 
     findContactByName(contact.ContactName).Returns((_) => FromResult(contact) as Task<Contact?>);
-    var result = await CreateContactService(contact, FindPhoneNumbers, findContactByName, FindContactByEmail, SaveModels, ProduceMessage, Logger);
+    var result = await CreateContactService(contact, FindPhoneNumbers, findContactByName, FindContactByEmail, InsertContactAndMessage, ProduceMessage, Logger);
 
-    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetDuplicateContactNameFailure(contact.ContactName)]), new FailureComparer());
+    AreEqual(FromFailure(result)!, [GetDuplicateContactNameFailure(contact.ContactName)]);
   }
 
   [TestMethod]
@@ -80,17 +80,17 @@ partial class ServicesTests
     var findContactByEmail = Substitute.For<FindModel<string, Contact?>>();
 
     findContactByEmail(contact.ContactEmail).Returns((_) => FromResult(contact) as Task<Contact?>);
-    var result = await CreateContactService(contact, FindPhoneNumbers, FindContactByName, findContactByEmail, SaveModels, ProduceMessage, Logger);
+    var result = await CreateContactService(contact, FindPhoneNumbers, FindContactByName, findContactByEmail, InsertContactAndMessage, ProduceMessage, Logger);
 
-    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetDuplicateContactEmailFailure(contact.ContactEmail)]), new FailureComparer());
+    AreEqual(FromFailure(result)!, [GetDuplicateContactEmailFailure(contact.ContactEmail)]);
   }
 
   [TestMethod]
   public async Task new_contact_with_invalid_contact_email__create_contact__invalid_contact_email_error ()
   {
     var contact = CreateTestContact(contactEmail: "wrong email");
-    var result = await CreateContactService(contact, FindPhoneNumbers, FindContactByName, FindContactByEmail, SaveModels, ProduceMessage, Logger);
+    var result = await CreateContactService(contact, FindPhoneNumbers, FindContactByName, FindContactByEmail, InsertContactAndMessage, ProduceMessage, Logger);
 
-    CollectionAssert.AreEqual(FromFailure(result)!, ToArray([GetInvalidContactEmailFailure(contact.ContactEmail)]), new FailureComparer());
+    AreEqual(FromFailure(result)!, [GetInvalidContactEmailFailure(contact.ContactEmail)]);
   }
 }

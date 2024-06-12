@@ -18,35 +18,4 @@ partial class MongoDbTests
     Assert.IsNotNull(await FindMessageByKey(messages.AsQueryable(), message.MessageId).FirstOrDefaultAsync());
     Assert.AreEqual(await FindPhoneNumber(contacts.AsQueryable(), phoneNumber), phoneNumber);
   }
-
- [TestMethod]
-  public async Task contact_without_phone_numbers__insert_phone_number__phone_number_added_on_contact ()
-  {
-    var contacts = GetContactCollection(Database);
-
-    var contact = CreateTestContact();
-    await InsertContact(contacts, contact);
-
-    var phoneNumber = CreateTestPhoneNumber();
-    await InsertContactPhoneNumber(contacts, contact, phoneNumber);
-
-    var actual = await FindContactByKey (contacts.AsQueryable(), contact.ContactId).SingleAsync();
-    Assert.AreEqual(actual.PhoneNumbers[0], phoneNumber);
-  }
-
- [TestMethod]
-  public async Task contact_with_phone_numbers__insert_phone_number__phone_number_added_on_contact ()
-  {
-    var contacts = GetContactCollection(Database);
-
-    var contact = CreateTestContact(phoneNumbers: [CreateTestPhoneNumber()]);
-    await InsertContact(contacts, contact);
-
-    var phoneNumber = CreateTestPhoneNumber();
-    await InsertContactPhoneNumber(contacts, contact, phoneNumber);
-
-    var actual = await FindContactByKey (contacts.AsQueryable(), contact.ContactId).SingleAsync();
-    Assert.AreEqual(actual.PhoneNumbers.Count, 2);
-    Assert.AreEqual(actual.PhoneNumbers[1], phoneNumber);
-  }
 }

@@ -24,14 +24,16 @@ partial class TestingFuncs
       new KeyValuePair<string, string>("extension", phoneNumber.Extension.ToString()!)
     ]);
 
-    var createResponse = await apiClient.PostAsync(new Uri(apiPathBase + "/sql/contacts"), contactForm);
-    createResponse.EnsureSuccessStatusCode();
-    var phoneNumberResponse = await apiClient.PostAsync(new Uri(apiPathBase + GetResponseMessageLocation(createResponse) + "/phoneNumbers"), phoneNumberForm);
-    phoneNumberResponse.EnsureSuccessStatusCode();
-    var contactResponse = await apiClient.GetAsync(new Uri(apiPathBase + GetResponseMessageLocation(createResponse)));
+    var contactCreatedResponse = await apiClient.PostAsync(new Uri(apiPathBase + "/sql/contacts"), contactForm);
+    contactCreatedResponse.EnsureSuccessStatusCode();
+
+    var phoneNumberCreatedResponse = await apiClient.PostAsync(new Uri(apiPathBase + GetResponseMessageLocation(contactCreatedResponse) + "/phoneNumbers"), phoneNumberForm);
+    phoneNumberCreatedResponse.EnsureSuccessStatusCode();
+
+    var contactResponse = await apiClient.GetAsync(new Uri(apiPathBase + GetResponseMessageLocation(contactCreatedResponse)));
     contactResponse.EnsureSuccessStatusCode();
 
     var actual = await ReadResponseMessageJsonContent<Contact>(contactResponse);
-    Assert.AreEqual(actual!.PhoneNumbers[0], phoneNumber);
+    AreEqual(actual!.PhoneNumbers, [phoneNumber]);
   }
 }

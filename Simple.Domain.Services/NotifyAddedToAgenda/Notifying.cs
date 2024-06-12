@@ -11,7 +11,7 @@ partial class ServicesFuncs
     DateTimeOffset date,
     FindModel<Message, Message?> findParentMessage,
     SendNotification<AddedToAgendaNotification> sendNotification,
-    SaveModel<Message<AddedToAgendaNotification>> saveMessage,
+    SaveModel<Message<AddedToAgendaNotification>> insertMessage,
     ILogger logger,
     CancellationToken cancellationToken = default)
   {
@@ -24,7 +24,7 @@ partial class ServicesFuncs
     await sendNotification(notification, cancellationToken);
     LogNotifiedAddedToAgenda(logger, notification.From, notification.To, message.TraceId);
 
-    await saveMessage(CreateFromMessage(notification, message, isActive: false), cancellationToken);
+    await insertMessage(CreateFromMessage(notification, message, isActive: false), cancellationToken);
     return notification;
   }
 }

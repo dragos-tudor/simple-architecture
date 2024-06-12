@@ -12,7 +12,8 @@ partial class NotificationsFuncs
     int serverPort,
     CancellationToken cancellationToken = default)
   {
-    await smtpClient.ConnectAsync (serverName, serverPort, false, cancellationToken);
+    if(!smtpClient.IsConnected)
+      await smtpClient.ConnectAsync (serverName, serverPort, false, cancellationToken);
     await smtpClient.SendAsync (mailMessage, cancellationToken);
     await smtpClient.DisconnectAsync (true, cancellationToken);
   }

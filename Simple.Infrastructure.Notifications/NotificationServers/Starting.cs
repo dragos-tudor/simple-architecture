@@ -3,9 +3,6 @@ namespace Simple.Infrastructure.Notifications;
 
 partial class NotificationsFuncs
 {
-  public static ShutdownServer StartNotificationServer (NotificationServerOptions options, Action<Notification> handleNotification) =>
-    StartNotificationServer(options, handleNotification, MapMessage<Notification>);
-
   public static ShutdownServer StartNotificationServer<TNotification> (
     NotificationServerOptions options, Action<TNotification> handleNotification, Func<MimeMessage, TNotification> mapper)
   {

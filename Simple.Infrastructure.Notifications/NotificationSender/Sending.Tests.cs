@@ -9,11 +9,11 @@ partial class NotificationsTests
   public async Task notification__send_notification__notification_server_receive_notification()
   {
     var options = new NotificationServerOptions("localhost", 9025);
-    var notifications = new List<Notification>();
-    var shutdownServer = StartNotificationServer(options, notifications.Add);
+    var notifications = new List<(string, string)>();
+    var shutdownServer = StartNotificationServer(options, notifications.Add, (message) => (message.From[0].Name, message.To[0].Name) );
+    var notification = ("x@test.com", "y@test.com");
 
-    var notification = CreateNotification("a@test.com", "b@test.com", "title1", "content1", new DateTime(2024, 1, 1));
-    var sendNotification = CreateNotificationSender(options);
+    var sendNotification = CreateNotificationSender<(string, string)>(options, notification => BuildMailMessage(notification.Item1, notification.Item2, "", "", default));
     await sendNotification(notification, CancellationToken.None);
     shutdownServer();
 

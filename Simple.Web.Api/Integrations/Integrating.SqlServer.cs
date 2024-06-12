@@ -8,7 +8,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  public static async Task IntegrateSqlServerAsync (WebApplication app, SendNotification<Notification> sendNotification, ILoggerFactory loggerFactory, CancellationToken appCancellationToken)
+  public static async Task<AgendaContextFactory> IntegrateSqlServerAsync (WebApplication app, SendNotification<Notification> sendNotification, ILoggerFactory loggerFactory, CancellationToken appCancellationToken)
   {
     using var startCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(10));
     var startCancellationToken = startCancellationTokenSource.Token;
@@ -25,6 +25,8 @@ partial class ApiFuncs
 
     var sqlSubscribers = RegisterSqlSubscribers(TimeProvider.System, sqlDbContextFactory, sendNotification, sqlMessageQueue, queueLogger);
     _ = ConsumeSqlMessages(sqlMessageQueue, sqlSubscribers, sqlDbContextFactory, queueLogger, appCancellationToken);
+
     MapSqlEndpoints(app, sqlDbContextFactory, sqlMessageQueue, domainLogger);
+    return sqlDbContextFactory;
   }
 }

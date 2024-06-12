@@ -1,3 +1,4 @@
+#pragma warning disable CA2234
 
 using Microsoft.EntityFrameworkCore;
 
@@ -5,7 +6,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  internal static async Task<Results<Ok, ProblemHttpResult>> AddPhoneNumberSqlEndpoint (
+  internal static async Task<Results<Created, ProblemHttpResult>> AddPhoneNumberSqlEndpoint (
     Guid contactId,
     PhoneNumber phoneNumber,
     AgendaContextFactory agendaContextFactory,
@@ -16,15 +17,15 @@ partial class ApiFuncs
     var result = await AddPhoneNumberService (
       contactId,
       phoneNumber,
-      (phoneNumber, cancellationToken) => FindPhoneNumber(agendaContext.PhoneNumbers, phoneNumber).FirstOrDefaultAsync(cancellationToken),
-      (contactId, cancellationToken) => FindContactByKey(agendaContext.Contacts, contactId).FirstOrDefaultAsync(cancellationToken),
+      (phoneNumber, cancellationToken) => FindPhoneNumber(agendaContext.PhoneNumbers.AsQueryable(), phoneNumber).FirstOrDefaultAsync(cancellationToken),
+      (contactId, cancellationToken) => FindContactByKey(agendaContext.Contacts.AsQueryable(), contactId).FirstOrDefaultAsync(cancellationToken),
       (contact, phoneNumber, cancellationToken) => InsertContactPhoneNumber(agendaContext, contact, phoneNumber, cancellationToken),
       logger,
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);
 
     return IsSuccessResult(result)?
-      TypedResults.Ok():
+      TypedResults.Created(GetPhoneNumberCreatedUri(httpContext.Request, phoneNumber)):
       TypedResults.Problem(JoinFailures(FromFailure(result)!));
   }
 }

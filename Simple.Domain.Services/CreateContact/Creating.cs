@@ -12,7 +12,7 @@ partial class ServicesFuncs
     FindModels<PhoneNumber, PhoneNumber> findPhoneNumbers,
     FindModel<string, Contact?> findContactByName,
     FindModel<string, Contact?> findContactByEmail,
-    SaveModels<Contact, Message<ContactCreatedEvent>> saveContactAndMessage,
+    SaveModels<Contact, Message<ContactCreatedEvent>> insertContactAndMessage,
     ProduceMessage<Message<ContactCreatedEvent>> produceMessage,
     ILogger logger,
     string? traceId = default,
@@ -39,7 +39,7 @@ partial class ServicesFuncs
     var @event = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     var message = CreateMessage(@event, traceId: traceId);
 
-    await saveContactAndMessage(contact, message, cancellationToken);
+    await insertContactAndMessage(contact, message, cancellationToken);
     LogContactCreated(logger, contact.ContactId, traceId);
 
     produceMessage(message);

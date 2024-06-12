@@ -14,14 +14,16 @@ partial class TestingFuncs
     var contact = CreateTestContact(phoneNumbers: [phoneNumber]);
     using var contactJson = JsonContent.Create(contact);
 
-    var createResponse = await apiClient.PostAsync(new Uri(apiPathBase + "/mongo/contacts"), contactJson);
-    createResponse.EnsureSuccessStatusCode();
-    var contactResponse = await apiClient.GetAsync(new Uri(apiPathBase + GetResponseMessageLocation(createResponse)));
+    var contactCreateResponse = await apiClient.PostAsync(new Uri(apiPathBase + "/mongo/contacts"), contactJson);
+    contactCreateResponse.EnsureSuccessStatusCode();
+
+    var contactResponse = await apiClient.GetAsync(new Uri(apiPathBase + GetResponseMessageLocation(contactCreateResponse)));
     contactResponse.EnsureSuccessStatusCode();
 
     var actual = await ReadResponseMessageJsonContent<Contact>(contactResponse);
     Assert.AreEqual(actual!.ContactName, contact.ContactName);
     Assert.AreEqual(actual!.PhoneNumbers[0], phoneNumber);
+
     await WaitForNotification(contact.ContactEmail);
   }
 }

@@ -1,3 +1,4 @@
+#pragma warning disable CA2234
 
 using MongoDB.Driver;
 
@@ -5,7 +6,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  internal static async Task<Results<Ok, ProblemHttpResult>> AddPhoneNumberMongoEndpoint (
+  internal static async Task<Results<Created, ProblemHttpResult>> AddPhoneNumberMongoEndpoint (
     Guid contactId,
     PhoneNumber phoneNumber,
     IMongoDatabase agendaDb,
@@ -24,7 +25,7 @@ partial class ApiFuncs
       httpContext.RequestAborted);
 
     return IsSuccessResult(result)?
-      TypedResults.Ok():
+      TypedResults.Created(GetPhoneNumberCreatedUri(httpContext.Request, phoneNumber)):
       TypedResults.Problem(JoinFailures(FromFailure(result)!));
   }
 }

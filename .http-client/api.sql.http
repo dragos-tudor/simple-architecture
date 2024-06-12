@@ -21,3 +21,14 @@ countryCode=123
 &numberType=0
 
 ###
+
+@sql_phonenumber_location = {{add_sql_phone_number.response.headers.Location}}
+
+# @name delete_sql_phone_number
+DELETE {{pathBase}}{{sql_phonenumber_location}} HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+countryCode=123
+&number=123456789
+
+###

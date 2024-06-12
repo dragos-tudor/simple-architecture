@@ -8,6 +8,7 @@ global using MongoDB.Driver.Linq;
 global using Simple.Domain.Models;
 global using static Docker.Extensions.DockerFuncs;
 global using static Storing.MongoDb.MongoDbFuncs;
+global using static Simple.Domain.Models.ModelsFuncs;
 global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
 
 namespace Simple.Infrastructure.MongoDb;

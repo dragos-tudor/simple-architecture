@@ -7,7 +7,7 @@ namespace Simple.Infrastructure.SqlServer;
 [TestClass]
 public partial class SqlServerTests
 {
-  static readonly string AgendaConnString = CreateSqlConnectionString("agenda", "sqluser", "sqluser.P@ssw0rd", "simple-sql");
+  static readonly string AgendaConnString = CreateSqlConnectionString("agenda-tests", "sqluser", "sqluser.P@ssw0rd", "simple-sql");
 
   [AssemblyInitialize]
   public static void InitializeSqlServer (TestContext _)
@@ -18,7 +18,7 @@ public partial class SqlServerTests
       "sa", "admin.P@ssw0rd",
       "sqluser", "sqluser.P@ssw0rd",
       "mcr.microsoft.com/mssql/server:2019-latest", "simple-sql",
-      "agenda", "simple-network",
+      "agenda-tests", "simple-network",
       1433
     );
 
