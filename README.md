@@ -7,10 +7,10 @@
 - *high-level modules* **integrate** all *low-level modules* and *mid-level modules* [integration here](/Simple.Web.Api/Program.cs).
 - *middle-level modules* **relies** on *low-level modules* having lower complexity than *high-level modules*.
 - *low-level modules* **completely independent** ["parallel" modules].
-- *low-level modules* **could share** some *low-level modules* [ex. *simple.domain.models*].
+- *low-level modules* **could share** some modules [ex. *simple.domain.models*].
 - *low-level modules* should be **most of** all modules [pyramid base].
-- *low-level modules* could be seen as **lego pieces** and *high-level modules* as **lego structures**.
-- **fractals design** could be applied at any level:
+- *low-level modules* should be seen as **lego pieces** and *high-level modules* as **lego structures**.
+- **fractal design** could be applied at any level:
   - server projects [simple projects](/).
   - front-end modules [react-like library](https://github.com/dragos-tudor/frontend-rendering).
   - front-end pages [security sample project](https://github.com/dragos-tudor/backend-security/tree/main/Security.Sample/frontend-components).
@@ -44,7 +44,7 @@
 - [simple-architecture implementation](/):
   - *simple.domain.services*, *simple.infrastructure.** completely independent projects [share *simple.domain.models* project].
   - *simple.web.api* project depend on all above projects [top of the pyramid].
-- *pyramid* vs *stack* => *simple* vs *complex* -> *unknown* [yet] vs *highly-appreciated* [no-comments].
+- *pyramid* vs *stack* => *simple* vs *complex* -> *unknown* [yet] vs *highly-appreciated* [?!].
 
 ### Remarks
 - similar architecture already exists [how else :)] [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
