@@ -5,7 +5,6 @@ namespace Simple.Domain.Services;
 
 partial class ServicesFuncs
 {
-
   public static async Task<Result<PhoneNumber?, Failure[]?>> DeletePhoneNumberService (
     Guid contactId,
     PhoneNumber phoneNumber,
@@ -16,11 +15,15 @@ partial class ServicesFuncs
     CancellationToken cancellationToken = default)
   {
     var contact = await findContact(contactId, cancellationToken);
-    if (contact is null) return ToArray([GetMissingContactFailure(contactId)]);
+    if (!ExistContact(contact)) return ToArray([GetMissingContactFailure(contactId)]);
 
-    await deletePhoneNumber(contact, phoneNumber, cancellationToken);
+    var phoneNumbers = contact!.PhoneNumbers ?? [];
+    var contactPhoneNumber = FindPhoneNumber(phoneNumbers.AsQueryable(), phoneNumber).FirstOrDefault();
+    if(!ExistPhoneNumber(contactPhoneNumber)) return contactPhoneNumber;
 
-    LogPhoneNumberRemoved(logger, phoneNumber.Number, contact.ContactId, traceId);
+    await deletePhoneNumber(contact, contactPhoneNumber!, cancellationToken);
+
+    LogPhoneNumberRemoved(logger, contactPhoneNumber!.Number, contact.ContactId, traceId);
     return phoneNumber;
   }
 }

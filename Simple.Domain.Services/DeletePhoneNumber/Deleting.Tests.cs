@@ -11,8 +11,8 @@ partial class ServicesTests
   [TestMethod]
   public async Task contact_with_phone_number__delete_phone_number_from_contact__phone_number_deleted ()
   {
-    var contact = CreateTestContact();
     var phoneNumber = CreateTestPhoneNumber();
+    var contact = CreateTestContact(phoneNumbers: [phoneNumber]);
     var deletePhoneNumber = Substitute.For<SaveModels<Contact, PhoneNumber>>();
     var findContact = Substitute.For<FindModel<Guid, Contact?>>();
 
@@ -36,5 +36,19 @@ partial class ServicesTests
     var result= await DeletePhoneNumberService(contactId, phoneNumber, findContact, DeletePhoneNumber, Logger);
 
     AreEqual(FromFailure(result)!, [GetMissingContactFailure(contactId)]);
+  }
+
+  [TestMethod]
+  public async Task non_existing_contact_phone_number__delete_phone_number_from_contact__nothing_happend ()
+  {
+    var contact = CreateTestContact();
+    var phoneNumber = CreateTestPhoneNumber();
+    var deletePhoneNumber = Substitute.For<SaveModels<Contact, PhoneNumber>>();
+    var findContact = Substitute.For<FindModel<Guid, Contact?>>();
+
+    findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
+    var result= await DeletePhoneNumberService(contact.ContactId, phoneNumber, findContact, DeletePhoneNumber, Logger);
+
+    deletePhoneNumber.DidNotReceive();
   }
 }

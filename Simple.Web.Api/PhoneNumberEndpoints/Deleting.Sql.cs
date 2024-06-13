@@ -17,7 +17,7 @@ partial class ApiFuncs
     var result = await DeletePhoneNumberService (
       contactId,
       CreatePhoneNumber(countryCode, number),
-      (contactId, cancellationToken) => FindContactByKey(agendaContext.Contacts.AsQueryable(), contactId).FirstOrDefaultAsync(cancellationToken),
+      (contactId, cancellationToken) => FindContactByKey(agendaContext.Contacts.AsQueryable(), contactId).Include(c => c.PhoneNumbers).FirstOrDefaultAsync(cancellationToken),
       (contact, phoneNumber, cancellationToken) => DeletePhoneNumber(agendaContext, phoneNumber, cancellationToken),
       logger,
       httpContext.TraceIdentifier,
