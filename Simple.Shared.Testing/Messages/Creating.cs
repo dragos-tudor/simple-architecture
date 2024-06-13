@@ -7,7 +7,7 @@ partial class TestingFuncs
     Guid? messageId = default,
     string? messageType = default,
     string? messageContent = default,
-    DateTime? messageData = default,
+    DateTime? messageDate = default,
     Guid? parentId = default,
     string? traceId = default,
     bool? isActive = default)
@@ -16,7 +16,7 @@ partial class TestingFuncs
       MessageId = messageId ?? GetRandomGuid(),
       MessageType = messageType ?? GetRandomString(MessageContraints.MessageTypeMaxLength),
       MessageContent = messageContent ?? GetRandomString(50),
-      MessageDate = messageData ?? GetRandomDate(),
+      MessageDate = messageDate ?? GetRandomDate(),
       ParentId = parentId ?? GetRandomGuid(),
       TraceId = traceId ?? GetRandomString(MessageContraints.TraceIdMaxLength),
       IsActive = isActive ?? GetRandomInt(0, 1) == 1? true: false

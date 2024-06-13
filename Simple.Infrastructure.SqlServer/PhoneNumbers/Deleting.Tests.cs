@@ -13,7 +13,7 @@ partial class SqlServerTests
     await InsertContact(dbContext, contact);
     ClearChangeTracker(dbContext);
 
-    await DeleteContactPhoneNumber(dbContext, phoneNumber);
+    await DeletePhoneNumber(dbContext, phoneNumber);
     ClearChangeTracker(dbContext);
 
     var actual = await FindContactByKey(dbContext.Contacts.Include(e => e.PhoneNumbers).AsQueryable(), contact.ContactId).SingleAsync();

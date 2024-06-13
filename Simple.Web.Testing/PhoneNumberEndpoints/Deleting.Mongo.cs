@@ -28,6 +28,6 @@ partial class TestingFuncs
     contactResponse.EnsureSuccessStatusCode();
 
     var actual = await ReadResponseMessageJsonContent<Contact>(contactResponse);
-    // AreEqual(actual!.PhoneNumbers, []);
+    AreEqual(actual!.PhoneNumbers, []);
   }
 }

@@ -4,7 +4,7 @@ namespace Simple.Infrastructure.SqlServer;
 partial class SqlServerTests
 {
  [TestMethod]
-  public async Task contacts__find_contact_by_key__stored_contact_with_id ()
+  public async Task contacts__find_contact_by_key__stored_contact_with_key ()
   {
     using var dbContext = CreateAgendaContext(AgendaConnString);
     var contact = CreateTestContact();
@@ -12,7 +12,7 @@ partial class SqlServerTests
     await InsertContact(dbContext, contact);
     ClearChangeTracker(dbContext);
 
-    var actual = await FindContactByKey (dbContext.Contacts.AsQueryable(), contact.ContactId).SingleAsync();
+    var actual = await FindContactByKey(dbContext.Contacts.AsQueryable(), contact.ContactId).SingleAsync();
     Assert.IsNotNull(actual);
   }
 
@@ -25,7 +25,7 @@ partial class SqlServerTests
     await InsertContact(dbContext, contact);
     ClearChangeTracker(dbContext);
 
-    var actual = await FindContactByName (dbContext.Contacts.AsQueryable(), contact.ContactName).SingleAsync();
+    var actual = await FindContactByName(dbContext.Contacts.AsQueryable(), contact.ContactName).SingleAsync();
     Assert.IsNotNull(actual);
   }
 
@@ -38,7 +38,17 @@ partial class SqlServerTests
     await InsertContact(dbContext, contact);
     ClearChangeTracker(dbContext);
 
-    var actual = await FindContactByEmail (dbContext.Contacts.AsQueryable(), contact.ContactEmail).SingleAsync();
+    var actual = await FindContactByEmail(dbContext.Contacts.AsQueryable(), contact.ContactEmail).SingleAsync();
     Assert.IsNotNull(actual);
+  }
+
+ [TestMethod]
+  public void contacts__get_contacts_page__paged_contacts ()
+  {
+    using var dbContext = CreateAgendaContext(AgendaConnString);
+    Contact[] contacts = [CreateTestContact(), CreateTestContact(), CreateTestContact(), CreateTestContact(), CreateTestContact()];
+
+    var actual = GetContactsPage(contacts.AsQueryable(), 1, 2);
+    AreEqual(actual, [contacts[1], contacts[2]]);
   }
 }

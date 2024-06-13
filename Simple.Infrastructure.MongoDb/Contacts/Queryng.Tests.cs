@@ -44,4 +44,13 @@ partial class MongoDbTests
     var actual = await FindContactByEmail(contacts.AsQueryable(), contact.ContactEmail).FirstOrDefaultAsync();
     Assert.AreEqual(actual, contact);
   }
+
+ [TestMethod]
+  public void contacts__get_contacts_page__paged_contacts ()
+  {
+    Contact[] contacts = [CreateTestContact(), CreateTestContact(), CreateTestContact(), CreateTestContact(), CreateTestContact()];
+
+    var actual = GetContactsPage(contacts.AsQueryable(), 1, 2);
+    AreEqual(actual, [contacts[1], contacts[2]]);
+  }
 }

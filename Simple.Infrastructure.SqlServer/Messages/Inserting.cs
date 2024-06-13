@@ -5,7 +5,7 @@ partial class SqlServerFuncs
 {
   public static Task InsertMessage (AgendaContext dbContext, Message message, CancellationToken cancellationToken = default)
   {
-    AddMessage(dbContext, message);
+    AddEntity(dbContext, message);
     return SaveChanges(dbContext, cancellationToken);
   }
 }

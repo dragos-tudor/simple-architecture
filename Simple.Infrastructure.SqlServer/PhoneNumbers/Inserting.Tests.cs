@@ -12,7 +12,7 @@ partial class SqlServerTests
     await InsertContact(dbContext, contact);
     ClearChangeTracker(dbContext);
 
-    await InsertContactPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
+    await InsertPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
     ClearChangeTracker(dbContext);
 
     var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers).AsQueryable(), contact.ContactId).SingleAsync();
@@ -29,7 +29,7 @@ partial class SqlServerTests
     await InsertContact(dbContext, contact);
     ClearChangeTracker(dbContext);
 
-    await InsertContactPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
+    await InsertPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
     ClearChangeTracker(dbContext);
 
     var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers).AsQueryable(), contact.ContactId).SingleAsync();

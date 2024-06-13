@@ -12,7 +12,7 @@ partial class MongoDbTests
     await InsertContact(contacts, contact);
 
     var phoneNumber = CreateTestPhoneNumber();
-    await InsertContactPhoneNumber(contacts, contact, phoneNumber);
+    await InsertPhoneNumber(contacts, contact, phoneNumber);
 
     var actual = await FindContactByKey(contacts.AsQueryable(), contact.ContactId).SingleAsync();
     Assert.AreEqual(actual.PhoneNumbers[0], phoneNumber);
@@ -27,7 +27,7 @@ partial class MongoDbTests
     await InsertContact(contacts, contact);
 
     var phoneNumber = CreateTestPhoneNumber();
-    await InsertContactPhoneNumber(contacts, contact, phoneNumber);
+    await InsertPhoneNumber(contacts, contact, phoneNumber);
 
     var actual = await FindContactByKey(contacts.AsQueryable(), contact.ContactId).SingleAsync();
     Assert.AreEqual(actual.PhoneNumbers.Count, 2);

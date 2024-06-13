@@ -18,7 +18,7 @@ partial class ApiFuncs
       contactId,
       CreatePhoneNumber(countryCode, number),
       (contactId, cancellationToken) => FindContactByKey(contacts.AsQueryable(), contactId).FirstOrDefaultAsync(cancellationToken) as Task<Contact?>,
-      (contact, phoneNumber, cancellationToken) => DeleteContactPhoneNumber(contacts, contact, phoneNumber, cancellationToken),
+      (contact, phoneNumber, cancellationToken) => DeletePhoneNumber(contacts, contact, phoneNumber, cancellationToken),
       logger,
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);

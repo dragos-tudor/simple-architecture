@@ -19,7 +19,7 @@ partial class ApiFuncs
       phoneNumber,
       (phoneNumber, cancellationToken) => FindPhoneNumber(contacts.AsQueryable(), phoneNumber, cancellationToken),
       (contactId, cancellationToken) => FindContactByKey(contacts.AsQueryable(), contactId).FirstOrDefaultAsync(cancellationToken) as Task<Contact?>,
-      (contact, phoneNumber, cancellationToken) => InsertContactPhoneNumber(contacts, contact, phoneNumber, cancellationToken),
+      (contact, phoneNumber, cancellationToken) => InsertPhoneNumber(contacts, contact, phoneNumber, cancellationToken),
       logger,
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);
