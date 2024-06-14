@@ -19,7 +19,7 @@ partial class ServicesFuncs
 
     var phoneNumbers = contact!.PhoneNumbers ?? [];
     var contactPhoneNumber = FindPhoneNumber(phoneNumbers.AsQueryable(), phoneNumber).FirstOrDefault();
-    if(!ExistPhoneNumber(contactPhoneNumber)) return contactPhoneNumber;
+    if(!ExistPhoneNumber(contactPhoneNumber)) return phoneNumber;
 
     await deletePhoneNumber(contact, contactPhoneNumber!, cancellationToken);
 
