@@ -19,8 +19,10 @@ global using static Simple.Infrastructure.Mediator.MediatorFuncs;
 global using static Simple.Infrastructure.Notifications.NotificationsFuncs;
 global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
-global using static Simple.Web.Api.ApiFuncs;
 global using AgendaContextFactory = Microsoft.EntityFrameworkCore.Infrastructure.PooledDbContextFactory<Simple.Infrastructure.SqlServer.AgendaContext>;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Simple.Web.Testing")]
 
 namespace Simple.Web.Api;
 

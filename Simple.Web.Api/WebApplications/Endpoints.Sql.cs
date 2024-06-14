@@ -6,7 +6,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  internal static WebApplication MapSqlEndpoints (WebApplication app, AgendaContextFactory agendaContextFactory, Channel<Message> messageQueue, ILogger logger)
+  static WebApplication MapSqlEndpoints (WebApplication app, AgendaContextFactory agendaContextFactory, Channel<Message> messageQueue, ILogger logger)
   {
     app.MapPost("/sql/contacts", ([FromForm]Contact contact, HttpContext httpContext) =>
       CreateContactSqlEndpoint(contact, agendaContextFactory, messageQueue, httpContext, logger)).DisableAntiforgery();

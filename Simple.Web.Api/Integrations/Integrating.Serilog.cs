@@ -10,7 +10,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  public static void IntegrateSerilog (WebApplicationBuilder builder, IConfiguration configuration)
+  static void IntegrateSerilog (WebApplicationBuilder builder, IConfiguration configuration)
   {
     var loggerConfiguration = new LoggerConfiguration();
     var logger = loggerConfiguration.ReadFrom.Configuration(configuration).CreateLogger();

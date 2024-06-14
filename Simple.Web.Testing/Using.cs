@@ -15,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using static Docker.Extensions.DockerFuncs;
 using static Simple.Web.Api.ApiFuncs;
-using static Simple.Web.Api.Program;
 
 namespace Simple.Web.Testing;
 

@@ -6,7 +6,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  public static async Task<Results<Created, ProblemHttpResult>> CreateContactSqlEndpoint (
+  internal static async Task<Results<Created, ProblemHttpResult>> CreateContactSqlEndpoint (
     Contact contact,
     AgendaContextFactory agendaContextFactory,
     Channel<Message> messageQueue,

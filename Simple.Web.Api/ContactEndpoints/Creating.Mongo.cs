@@ -6,7 +6,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  public static async Task<Results<Created, ProblemHttpResult>> CreateContactMongoEndpoint (
+  internal static async Task<Results<Created, ProblemHttpResult>> CreateContactMongoEndpoint (
     Contact contact,
     IMongoDatabase agendaDb,
     Channel<Message> messageQueue,

@@ -6,7 +6,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  internal static async Task<Failure?> NotifyAddedToAgendaSqlHandler (
+  static async Task<Failure?> NotifyAddedToAgendaSqlHandler (
     Message<ContactCreatedEvent> message,
     TimeProvider timeProvider,
     AgendaContextFactory agendaContextFactory,

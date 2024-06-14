@@ -1,23 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-		<OutputType>Exe</OutputType>
-    <StartupObject>Simple.Web.Api.Program</StartupObject>
+    <OutputType>Exe</OutputType>
+    <StartupObject>Simple.Web.Api.ApiFuncs</StartupObject>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="Serilog.AspNetCore" />
-		<PackageReference Include="Serilog.Settings.Configuration" />
-		<PackageReference Include="Serilog.Sinks.Console" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="../Simple.Domain.Services/Simple.Domain.Services.csproj" />
     <ProjectReference Include="../Simple.Infrastructure.Mediator/Simple.Infrastructure.Mediator.csproj" />
     <ProjectReference Include="../Simple.Infrastructure.Notifications/Simple.Infrastructure.Notifications.csproj" />
     <ProjectReference Include="../Simple.Infrastructure.Queue/Simple.Infrastructure.Queue.csproj" />
     <ProjectReference Include="../Simple.Infrastructure.MongoDb/Simple.Infrastructure.MongoDb.csproj" />
     <ProjectReference Include="../Simple.Infrastructure.SqlServer/Simple.Infrastructure.SqlServer.csproj" />
-		<PackageReference Include="Serilog.Extensions.Logging" />
+
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog.Settings.Configuration" />
+    <PackageReference Include="Serilog.Sinks.Console" />
+    <PackageReference Include="Serilog.Extensions.Logging" />
     <PackageReference Include="Serilog.Sinks.File" />
     <None Include="settings.json" CopyToOutputDirectory="PreserveNewest"/>
   </ItemGroup>

@@ -8,7 +8,7 @@ using MongoDB.Driver;
 
 namespace Simple.Web.Api;
 
-public static class Program
+partial class ApiFuncs
 {
   public static async Task Main (string[] _)
   {
