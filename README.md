@@ -22,11 +22,11 @@
 - *low-level modules*: simple.domain.\*, simple.infrastructure.\*.
 
 ### Simple vs clean architectures parallels
-- *the dependency rule* - no dependencies.
-- *entities* - rich entities replaced with simple data bags in *low-level module* simple.domain.models.
+- *the dependency rule* != no dependencies [even callback funcs could be seen as a form of dependency].
+- *entities* != simple data bags [*low-level module* simple.domain.models].
 - *use cases* = *simple.domain.services*.
-- *interface adapters* - reside into *high-level modules*.
-- *frameworks and drivers* - reside into:
+- *interface adapters* = *high-level modules*.
+- *frameworks and drivers* =
   - *low-level modules* [databases drivers].
   - *high-level modules* [web frameworks].
 
