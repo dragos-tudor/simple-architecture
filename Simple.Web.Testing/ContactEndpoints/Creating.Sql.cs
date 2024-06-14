@@ -13,6 +13,7 @@ partial class TestingFuncs
     var apiPathBase = GetApiPathBase(ApiServer);
     var contact = CreateTestContact();
     var phoneNumber = CreateTestPhoneNumber();
+
     using var contactForm = new FormUrlEncodedContent([
       new KeyValuePair<string, string>("contactName", contact.ContactName),
       new KeyValuePair<string, string>("contactEmail", contact.ContactEmail),
@@ -21,7 +22,6 @@ partial class TestingFuncs
       new KeyValuePair<string, string>("phoneNumbers[0].numberType", phoneNumber.NumberType.ToString()),
       new KeyValuePair<string, string>("phoneNumbers[0].extension", phoneNumber.Extension.ToString()!)
     ]);
-
     var contactCreateResponse = await apiClient.PostAsync(new Uri(apiPathBase + "/sql/contacts"), contactForm);
     contactCreateResponse.EnsureSuccessStatusCode();
 

@@ -12,8 +12,8 @@ partial class TestingFuncs
     var apiPathBase = GetApiPathBase(ApiServer);
     var phoneNumber = CreateTestPhoneNumber();
     var contact = CreateTestContact(phoneNumbers: [phoneNumber]);
-    using var contactJson = JsonContent.Create(contact);
 
+    using var contactJson = JsonContent.Create(contact);
     var contactCreateResponse = await apiClient.PostAsync(new Uri(apiPathBase + "/mongo/contacts"), contactJson);
     contactCreateResponse.EnsureSuccessStatusCode();
 

@@ -1,6 +1,5 @@
 #pragma warning disable CA1305
 
-using System.Globalization;
 using System.Net.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,16 +14,16 @@ partial class TestingFuncs
     var apiPathBase = GetApiPathBase(ApiServer);
     var contact = CreateTestContact();
     var phoneNumber = CreateTestPhoneNumber();
+
+    var agendaContext = await AgendaContextFactory.CreateDbContextAsync();
+    await InsertContact(agendaContext, contact);
+
     using var phoneNumberForm = new FormUrlEncodedContent([
       new KeyValuePair<string, string>("countryCode", phoneNumber.CountryCode.ToString()),
       new KeyValuePair<string, string>("number", phoneNumber.Number.ToString()),
       new KeyValuePair<string, string>("numberType", phoneNumber.NumberType.ToString()),
       new KeyValuePair<string, string>("extension", phoneNumber.Extension.ToString()!)
     ]);
-
-    var agendaContext = await AgendaContextFactory.CreateDbContextAsync();
-    await InsertContact(agendaContext, contact);
-
     var phoneNumbersPath = apiPathBase + GetSqlPhoneNumbersPath(contact.ContactId);
     var phoneNumberCreatedResponse = await apiClient.PostAsync(new Uri(phoneNumbersPath), phoneNumberForm);
     phoneNumberCreatedResponse.EnsureSuccessStatusCode();

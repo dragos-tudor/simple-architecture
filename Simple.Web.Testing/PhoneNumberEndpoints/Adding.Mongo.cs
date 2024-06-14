@@ -13,11 +13,11 @@ partial class TestingFuncs
     var apiPathBase = GetApiPathBase(ApiServer);
     var contact = CreateTestContact();
     var phoneNumber = CreateTestPhoneNumber();
-    using var phoneNumberJson = JsonContent.Create(phoneNumber);
 
     var contacts = GetContactCollection(AgendaDb);
     await InsertContact(contacts, contact);
 
+    using var phoneNumberJson = JsonContent.Create(phoneNumber);
     var phoneNumbersPath = apiPathBase + GetMongoPhoneNumbersPath(contact.ContactId);
     var phoneNumberCreatedResponse = await apiClient.PostAsync(new Uri(phoneNumbersPath), phoneNumberJson);
     phoneNumberCreatedResponse.EnsureSuccessStatusCode();
