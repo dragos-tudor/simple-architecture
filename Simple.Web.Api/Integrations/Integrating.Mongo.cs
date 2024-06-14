@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using Simple.Infrastructure.Queue;
 using static Storing.MongoDb.MongoDbFuncs;
@@ -14,7 +13,7 @@ partial class ApiFuncs
     using var startCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(10));
     var startCancellationToken = startCancellationTokenSource.Token;
 
-    var replicaSetOptions = app.Configuration.GetSection(nameof(MongoReplicaSetOptions)).Get<MongoReplicaSetOptions>()!;
+    var replicaSetOptions = GetConfigurationOptions<MongoReplicaSetOptions>(app);
     // https://github.com/dotnet/runtime/issues/83803
     replicaSetOptions = replicaSetOptions with { CollNames = replicaSetOptions.CollNames.Distinct().ToArray(), ContainerNames = replicaSetOptions.ContainerNames.Distinct().ToArray() };
     await InitializeMongeReplicaSetAsync(replicaSetOptions, startCancellationToken);

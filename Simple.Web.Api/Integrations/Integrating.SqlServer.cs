@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Simple.Infrastructure.Queue;
 using static Storing.SqlServer.SqlServerFuncs;
 
@@ -13,7 +12,7 @@ partial class ApiFuncs
     using var startCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(10));
     var startCancellationToken = startCancellationTokenSource.Token;
 
-    var sqlServerOptions = app.Configuration.GetSection(nameof(SqlServerOptions)).Get<SqlServerOptions>()!;
+    var sqlServerOptions = GetConfigurationOptions<SqlServerOptions>(app);
     await InitializeSqlServerAsync(sqlServerOptions, startCancellationToken);
 
     var sqlMessageQueue = CreateMessageQueue<Message>(1000);
