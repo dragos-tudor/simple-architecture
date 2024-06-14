@@ -1,9 +1,9 @@
 
-using System.IO;
-
 namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  static string GetContactCreatedUri (HttpRequest request, Contact contact) => Path.Combine(request.Path, contact.ContactId.ToString());
+  internal static string GetMongoContactCreatedPath (Guid contactId) => $"/mongo/contacts/{contactId}";
+
+  internal static string GetSqlContactCreatedPath (Guid contactId) => $"/sql/contacts/{contactId}";
 }

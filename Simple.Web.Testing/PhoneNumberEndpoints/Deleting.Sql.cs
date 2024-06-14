@@ -1,6 +1,5 @@
-#pragma warning disable CA1305
 
-using System.Net.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Simple.Web.Testing;
 
@@ -11,32 +10,17 @@ partial class TestingFuncs
   {
     using var apiClient = ApiServer.GetTestClient();
     var apiPathBase = GetApiPathBase(ApiServer);
-    var contact = CreateTestContact();
     var phoneNumber = CreateTestPhoneNumber();
-    using var contactForm = new FormUrlEncodedContent([
-      new KeyValuePair<string, string>("contactName", contact.ContactName),
-      new KeyValuePair<string, string>("contactEmail", contact.ContactEmail)
-    ]);
-    using var phoneNumberForm = new FormUrlEncodedContent([
-      new KeyValuePair<string, string>("countryCode", phoneNumber.CountryCode.ToString()),
-      new KeyValuePair<string, string>("number", phoneNumber.Number.ToString()),
-      new KeyValuePair<string, string>("numberType", phoneNumber.NumberType.ToString()),
-      new KeyValuePair<string, string>("extension", phoneNumber.Extension.ToString()!)
-    ]);
+    var contact = CreateTestContact(phoneNumbers: [phoneNumber]);
 
-    var contactCreatedResponse = await apiClient.PostAsync(new Uri(apiPathBase + "/sql/contacts"), contactForm);
-    contactCreatedResponse.EnsureSuccessStatusCode();
+    using var agendaContext = await AgendaContextFactory.CreateDbContextAsync();
+    await InsertContact(agendaContext, contact);
 
-    var phoneNumberCreatedResponse = await apiClient.PostAsync(new Uri(apiPathBase + GetResponseMessageLocation(contactCreatedResponse) + "/phoneNumbers"), phoneNumberForm);
-    phoneNumberCreatedResponse.EnsureSuccessStatusCode();
-
-    var phoneNumberDeletedResponse = await apiClient.DeleteAsync(new Uri(apiPathBase + GetResponseMessageLocation(phoneNumberCreatedResponse)));
+    var phoneNumberCreatedPath = apiPathBase + GetSqlPhoneNumberCreatedPath(contact.ContactId, phoneNumber.CountryCode, phoneNumber.Number);
+    var phoneNumberDeletedResponse = await apiClient.DeleteAsync(new Uri(phoneNumberCreatedPath));
     phoneNumberDeletedResponse.EnsureSuccessStatusCode();
 
-    var contactResponse = await apiClient.GetAsync(new Uri(apiPathBase + GetResponseMessageLocation(contactCreatedResponse)));
-    contactResponse.EnsureSuccessStatusCode();
-
-    var actual = await ReadResponseMessageJsonContent<Contact>(contactResponse);
+    var actual = await FindContactByKey(agendaContext.Contacts.AsQueryable(), contact.ContactId).Include(c => c.PhoneNumbers).FirstOrDefaultAsync();
     AreEqual(actual!.PhoneNumbers, []);
   }
 }

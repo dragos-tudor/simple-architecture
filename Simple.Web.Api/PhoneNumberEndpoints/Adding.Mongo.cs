@@ -25,7 +25,7 @@ partial class ApiFuncs
       httpContext.RequestAborted);
 
     return IsSuccessResult(result)?
-      TypedResults.Created(GetPhoneNumberCreatedUri(httpContext.Request, phoneNumber)):
+      TypedResults.Created(GetMongoPhoneNumberCreatedPath(contactId, phoneNumber.CountryCode, phoneNumber.Number)):
       TypedResults.Problem(JoinFailures(FromFailure(result)!));
   }
 }

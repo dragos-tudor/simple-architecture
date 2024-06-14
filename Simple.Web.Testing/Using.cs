@@ -6,7 +6,12 @@ global using System.Threading.Tasks;
 global using Simple.Domain.Models;
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using Microsoft.AspNetCore.TestHost;
+global using static Simple.Domain.Models.ModelsFuncs;
+global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
+global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
 global using static Simple.Shared.Testing.TestingFuncs;
+global using static Simple.Web.Api.ApiFuncs;
+global using AgendaContextFactory = Microsoft.EntityFrameworkCore.Infrastructure.PooledDbContextFactory<Simple.Infrastructure.SqlServer.AgendaContext>;
 
 using System.Collections.Concurrent;
 using Microsoft.AspNetCore.Builder;
@@ -14,7 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using static Docker.Extensions.DockerFuncs;
-using static Simple.Web.Api.ApiFuncs;
+using MongoDB.Driver;
 
 namespace Simple.Web.Testing;
 
@@ -22,6 +27,8 @@ namespace Simple.Web.Testing;
 public partial class TestingFuncs
 {
   static WebApplication ApiServer = default!;
+  static AgendaContextFactory AgendaContextFactory = default!;
+  static IMongoDatabase AgendaDb = default!;
   static readonly ConcurrentBag<Notification> NotificationStore = [];
 
   [AssemblyInitialize]
@@ -33,7 +40,7 @@ public partial class TestingFuncs
       builder.Logging.ClearProviders();
     };
 
-    (ApiServer, _, _) = RunSynchronously(() => StartupAppAsync(configuration, configBuilder, NotificationStore.Add));
+    (ApiServer, AgendaContextFactory, AgendaDb) = RunSynchronously(() => StartupAppAsync(configuration, configBuilder, NotificationStore.Add));
     ApiServer.RunAsync();
   }
 

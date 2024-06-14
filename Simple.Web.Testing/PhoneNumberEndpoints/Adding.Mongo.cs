@@ -1,5 +1,6 @@
 
 using System.Net.Http.Json;
+using MongoDB.Driver;
 
 namespace Simple.Web.Testing;
 
@@ -12,19 +13,16 @@ partial class TestingFuncs
     var apiPathBase = GetApiPathBase(ApiServer);
     var contact = CreateTestContact();
     var phoneNumber = CreateTestPhoneNumber();
-    using var contactJson = JsonContent.Create(contact);
     using var phoneNumberJson = JsonContent.Create(phoneNumber);
 
-    var contactCreatedResponse = await apiClient.PostAsync(new Uri(apiPathBase + "/mongo/contacts"), contactJson);
-    contactCreatedResponse.EnsureSuccessStatusCode();
+    var contacts = GetContactCollection(AgendaDb);
+    await InsertContact(contacts, contact);
 
-    var phoneNumberCreatedResponse = await apiClient.PostAsync(new Uri(apiPathBase + GetResponseMessageLocation(contactCreatedResponse) + "/phoneNumbers"), phoneNumberJson);
+    var phoneNumbersPath = apiPathBase + GetMongoPhoneNumbersPath(contact.ContactId);
+    var phoneNumberCreatedResponse = await apiClient.PostAsync(new Uri(phoneNumbersPath), phoneNumberJson);
     phoneNumberCreatedResponse.EnsureSuccessStatusCode();
 
-    var contactResponse = await apiClient.GetAsync(new Uri(apiPathBase + GetResponseMessageLocation(contactCreatedResponse)));
-    contactResponse.EnsureSuccessStatusCode();
-
-    var actual = await ReadResponseMessageJsonContent<Contact>(contactResponse);
+    var actual = await FindContactByKey(contacts.AsQueryable(), contact.ContactId).FirstOrDefaultAsync();
     AreEqual(actual!.PhoneNumbers, [phoneNumber]);
   }
 }

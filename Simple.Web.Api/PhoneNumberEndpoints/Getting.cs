@@ -1,10 +1,13 @@
-#pragma warning disable CA1305
-
-using System.IO;
 
 namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  static string GetPhoneNumberCreatedUri (HttpRequest request, PhoneNumber phoneNumber) => Path.Combine(request.Path, phoneNumber.CountryCode.ToString(), phoneNumber.Number.ToString());
+  internal static string GetMongoPhoneNumbersPath (Guid contactId) => $"/mongo/contacts/{contactId}/phonenumbers";
+
+  internal static string GetMongoPhoneNumberCreatedPath (Guid contactId, short countryCode, long number) => $"/mongo/contacts/{contactId}/phonenumbers/{countryCode}/{number}";
+
+  internal static string GetSqlPhoneNumbersPath (Guid contactId) => $"/sql/contacts/{contactId}/phonenumbers";
+
+  internal static string GetSqlPhoneNumberCreatedPath (Guid contactId, short countryCode, long number) => $"/sql/contacts/{contactId}/phonenumbers/{countryCode}/{number}";
 }

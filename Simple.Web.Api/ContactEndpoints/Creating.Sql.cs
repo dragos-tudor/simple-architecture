@@ -28,7 +28,7 @@ partial class ApiFuncs
       httpContext.RequestAborted);
 
     return IsSuccessResult(result)?
-      TypedResults.Created(GetContactCreatedUri(httpContext.Request, FromSuccess(result)!)):
+      TypedResults.Created(GetSqlContactCreatedPath(FromSuccess(result)!.ContactId)):
       TypedResults.Problem(JoinFailures(FromFailure(result)!), statusCode: 400);
   }
 }

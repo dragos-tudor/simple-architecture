@@ -1,5 +1,5 @@
 
-using System.Net.Http.Json;
+using MongoDB.Driver;
 
 namespace Simple.Web.Testing;
 
@@ -10,24 +10,17 @@ partial class TestingFuncs
   {
     using var apiClient = ApiServer.GetTestClient();
     var apiPathBase = GetApiPathBase(ApiServer);
-    var contact = CreateTestContact();
     var phoneNumber = CreateTestPhoneNumber();
-    using var contactJson = JsonContent.Create(contact);
-    using var phoneNumberJson = JsonContent.Create(phoneNumber);
+    var contact = CreateTestContact(phoneNumbers: [phoneNumber]);
 
-    var contactCreatedResponse = await apiClient.PostAsync(new Uri(apiPathBase + "/mongo/contacts"), contactJson);
-    contactCreatedResponse.EnsureSuccessStatusCode();
+    var contacts = GetContactCollection(AgendaDb);
+    await InsertContact(contacts, contact);
 
-    var phoneNumberCreatedResponse = await apiClient.PostAsync(new Uri(apiPathBase + GetResponseMessageLocation(contactCreatedResponse) + "/phoneNumbers"), phoneNumberJson);
-    phoneNumberCreatedResponse.EnsureSuccessStatusCode();
-
-    var phoneNumberDeletedResponse = await apiClient.DeleteAsync(new Uri(apiPathBase + GetResponseMessageLocation(phoneNumberCreatedResponse)));
+    var phoneNumberCreatedPath = apiPathBase + GetMongoPhoneNumberCreatedPath(contact.ContactId, phoneNumber.CountryCode, phoneNumber.Number);
+    var phoneNumberDeletedResponse = await apiClient.DeleteAsync(new Uri(phoneNumberCreatedPath));
     phoneNumberDeletedResponse.EnsureSuccessStatusCode();
 
-    var contactResponse = await apiClient.GetAsync(new Uri(apiPathBase + GetResponseMessageLocation(contactCreatedResponse)));
-    contactResponse.EnsureSuccessStatusCode();
-
-    var actual = await ReadResponseMessageJsonContent<Contact>(contactResponse);
+    var actual = await FindContactByKey(contacts.AsQueryable(), contact.ContactId).FirstOrDefaultAsync();
     AreEqual(actual!.PhoneNumbers, []);
   }
 }
