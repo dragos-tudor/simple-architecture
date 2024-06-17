@@ -9,7 +9,7 @@ partial class TestingFuncs
     string? messageContent = default,
     DateTime? messageDate = default,
     Guid? parentId = default,
-    string? traceId = default,
+    string? correlationId = default,
     bool? isActive = default)
   =>
     new () {
@@ -18,7 +18,7 @@ partial class TestingFuncs
       MessageContent = messageContent ?? GetRandomString(50),
       MessageDate = messageDate ?? GetRandomDate(),
       ParentId = parentId ?? GetRandomGuid(),
-      TraceId = traceId ?? GetRandomString(MessageContraints.TraceIdMaxLength),
+      CorrelationId = correlationId ?? GetRandomString(MessageContraints.CorrelationIdMaxLength),
       IsActive = isActive ?? GetRandomInt(0, 1) == 1? true: false
     };
 }

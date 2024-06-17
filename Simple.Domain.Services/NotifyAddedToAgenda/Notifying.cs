@@ -23,7 +23,7 @@ partial class ServicesFuncs
     var notification = CreateAddedToAgendaNotification(from, contactEmail, date);
 
     await sendNotification(notification, cancellationToken);
-    LogNotifiedAddedToAgenda(logger, notification.From, notification.To, message.TraceId);
+    LogNotifiedAddedToAgenda(logger, notification.From, notification.To, message.CorrelationId);
 
     await insertMessage(CreateFromMessage(notification, message, isActive: false), cancellationToken);
     return notification;

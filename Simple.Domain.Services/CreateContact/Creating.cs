@@ -15,7 +15,7 @@ partial class ServicesFuncs
     SaveModels<Contact, Message<ContactCreatedEvent>> insertContactAndMessage,
     ProduceMessage<Message<ContactCreatedEvent>> produceMessage,
     ILogger logger,
-    string? traceId = default,
+    string? correlationId = default,
     CancellationToken cancellationToken = default)
   {
     var contactFailures = ValidateData(contact, ContactValidator);
@@ -37,10 +37,10 @@ partial class ServicesFuncs
     if (ExistsPhoneNumbers(duplicateNumbers)) return ToArray(GetDuplicatePhoneNumberFailures(duplicateNumbers));
 
     var @event = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
-    var message = CreateMessage(@event, traceId: traceId);
+    var message = CreateMessage(@event, correlationId: correlationId);
 
     await insertContactAndMessage(contact, message, cancellationToken);
-    LogContactCreated(logger, contact.ContactId, traceId);
+    LogContactCreated(logger, contact.ContactId, correlationId);
 
     produceMessage(message);
     return contact;

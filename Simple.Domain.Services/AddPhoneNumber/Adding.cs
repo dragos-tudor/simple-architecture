@@ -14,7 +14,7 @@ partial class ServicesFuncs
     FindModel<Guid, Contact?> findContact,
     SaveModels<Contact, PhoneNumber> insertPhoneNumber,
     ILogger logger,
-    string? traceId = default,
+    string? correlationId = default,
     CancellationToken cancellationToken = default)
   {
     var dataFailures = ValidateData(phoneNumber, PhoneNumberValidator);
@@ -32,7 +32,7 @@ partial class ServicesFuncs
     SetContactPhoneNumber(contact, phoneNumber);
     await insertPhoneNumber(contact, phoneNumber, cancellationToken);
 
-    LogPhoneNumberAdded(logger, phoneNumber.Number, contact.ContactId, traceId);
+    LogPhoneNumberAdded(logger, phoneNumber.Number, contact.ContactId, correlationId);
     return phoneNumber;
   }
 }

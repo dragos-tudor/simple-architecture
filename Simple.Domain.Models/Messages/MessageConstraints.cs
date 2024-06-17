@@ -7,5 +7,5 @@ public record MessageContraints
   public static bool MessageTypeRequired => true;
 
   public static bool MessageContentRequired => true;
-  public static int TraceIdMaxLength => 24;
+  public static int CorrelationIdMaxLength => 24;
 }

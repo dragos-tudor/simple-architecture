@@ -8,7 +8,7 @@ partial class ModelsFuncs
     Guid? messageId = default,
     DateTime? messageDate = default,
     Guid? parentId = default,
-    string? traceId = default,
+    string? correlationId = default,
     bool isActive = true)
   =>
     new () {
@@ -19,7 +19,7 @@ partial class ModelsFuncs
       MessageContent = SerializePayload(messagePayload),
       MessageVersion = 1,
       ParentId = parentId,
-      TraceId = traceId,
+      CorrelationId = correlationId,
       IsActive = isActive
     };
 
@@ -38,7 +38,7 @@ partial class ModelsFuncs
       MessageContent = SerializePayload(messagePayload),
       MessageVersion = 1,
       ParentId = message.MessageId,
-      TraceId = message.TraceId,
+      CorrelationId = message.CorrelationId,
       IsActive = isActive
     };
 }

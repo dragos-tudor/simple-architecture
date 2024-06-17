@@ -28,7 +28,10 @@ CREATE TABLE [Messages] (
     [MessageDate] datetime2 NOT NULL,
     [MessageContent] nvarchar(max) NOT NULL,
     [ParentId] uniqueidentifier NULL,
-    [TraceId] nvarchar(24) NULL,
+    [CorrelationId] nvarchar(24) NULL,
+
+    [FailureMessage] nvarchar(2048) NULL,
+    [FailureCounter] TINYINT NULL,
     [IsActive] bit NOT NULL,
     CONSTRAINT [PK_Messages] PRIMARY KEY ([MessageId])
 );
@@ -40,7 +43,7 @@ CREATE TABLE [PhoneNumbers] (
     [Number] BIGINT NOT NULL,
     [CountryCode] SMALLINT NOT NULL,
     [Extension] SMALLINT NULL,
-    [NumberType] tinyint NOT NULL,
+    [NumberType] TINYINT NOT NULL,
     [ContactId] uniqueidentifier NOT NULL,
     CONSTRAINT [PK_PhoneNumbers] PRIMARY KEY ([CountryCode], [Number]),
     CONSTRAINT [FK_PhoneNumbers_Contacts_ContactId] FOREIGN KEY ([ContactId]) REFERENCES [Contacts] ([ContactId])

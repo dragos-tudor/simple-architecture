@@ -11,7 +11,7 @@ partial class ServicesFuncs
     FindModel<Guid, Contact?> findContact,
     SaveModels<Contact, PhoneNumber> deletePhoneNumber,
     ILogger logger,
-    string? traceId = default,
+    string? correlationId = default,
     CancellationToken cancellationToken = default)
   {
     var contact = await findContact(contactId, cancellationToken);
@@ -23,7 +23,7 @@ partial class ServicesFuncs
 
     await deletePhoneNumber(contact, contactPhoneNumber!, cancellationToken);
 
-    LogPhoneNumberRemoved(logger, contactPhoneNumber!.Number, contact.ContactId, traceId);
+    LogPhoneNumberRemoved(logger, contactPhoneNumber!.Number, contact.ContactId, correlationId);
     return phoneNumber;
   }
 }
