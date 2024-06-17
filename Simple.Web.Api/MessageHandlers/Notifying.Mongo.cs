@@ -18,7 +18,7 @@ partial class ApiFuncs
       message,
       "dragos.tudor@gmail.com",
       timeProvider.GetUtcNow(),
-      (message, cancellationToken) => FindMessageByParent(messages.AsQueryable(), message.MessageId).FirstOrDefaultAsync(cancellationToken) as Task<Message?>,
+      (messageIdempotency, cancellationToken) => FindMessageDuplication(messages.AsQueryable(), messageIdempotency).FirstOrDefaultAsync(cancellationToken) as Task<Message?>,
       (notification, cancellationToken) => sendNotification(notification, cancellationToken),
       (message, cancellationToken) => InsertMessage(messages, message, cancellationToken),
       logger,

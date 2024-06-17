@@ -5,7 +5,7 @@ namespace Simple.Domain.Services;
 
 partial class ServicesTests
 {
-  readonly FindModel<Message, Message?> FindParentMessage = Substitute.For<FindModel<Message, Message?>>();
+  readonly FindModel<MessageIdempotency, Message?> FindParentMessage = Substitute.For<FindModel<MessageIdempotency, Message?>>();
   readonly SendNotification<AddedToAgendaNotification> SendNotification = Substitute.For<SendNotification<AddedToAgendaNotification>>();
   readonly SaveModel<Message<AddedToAgendaNotification>> InsertMessage = Substitute.For<SaveModel<Message<AddedToAgendaNotification>>>();
 
@@ -40,10 +40,11 @@ partial class ServicesTests
   {
     var contact = CreateTestContact();
     var message = CreateMessage(CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail));
-    var findParentMessage = Substitute.For<FindModel<Message, Message?>>();
+    var findParentMessage = Substitute.For<FindModel<MessageIdempotency, Message?>>();
     var sendNotification = Substitute.For<SendNotification<AddedToAgendaNotification>>();
 
-    findParentMessage(message).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
+    var messageIdempotency = CreateMessageIdempotency<AddedToAgendaNotification>(message);
+    findParentMessage(messageIdempotency).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
     await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, findParentMessage, sendNotification, InsertMessage, Logger);
 
     await sendNotification.DidNotReceive().Invoke(Arg.Any<AddedToAgendaNotification>());
@@ -54,10 +55,11 @@ partial class ServicesTests
   {
     var contact = CreateTestContact();
     var message = CreateMessage(CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail));
-    var findParentMessage = Substitute.For<FindModel<Message, Message?>>();
+    var findParentMessage = Substitute.For<FindModel<MessageIdempotency, Message?>>();
     var saveMessage = Substitute.For<SaveModel<Message<AddedToAgendaNotification>>>();
 
-    findParentMessage(message).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
+    var messageIdempotency = CreateMessageIdempotency<AddedToAgendaNotification>(message);
+    findParentMessage(messageIdempotency).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
     await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, findParentMessage, SendNotification, saveMessage, Logger);
 
     await saveMessage.DidNotReceive().Invoke(Arg.Any<Message<AddedToAgendaNotification>>());

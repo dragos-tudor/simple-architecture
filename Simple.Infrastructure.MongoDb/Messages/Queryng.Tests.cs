@@ -15,16 +15,29 @@ partial class MongoDbTests
   }
 
  [TestMethod]
-  public async Task messages__find_message_by_parent__stored_message_with_parent ()
+  public async Task parent_message_and_message__find_message_duplication__stored_duplicated_message ()
   {
     var messages = GetMessageCollection(Database);
     var parent = CreateTestMessage();
     var message = CreateTestMessage(parentId: parent.MessageId);
+    var messageIdempotency = CreateMessageIdempotency(parent, message.MessageType);
 
     await InsertMessage(messages, parent);
     await InsertMessage(messages, message);
 
-    Assert.IsNotNull( await FindMessageByParent(messages.AsQueryable(), parent.MessageId).FirstOrDefaultAsync());
+    Assert.IsNotNull( await FindMessageDuplication(messages.AsQueryable(), messageIdempotency).FirstOrDefaultAsync());
+  }
+
+ [TestMethod]
+  public async Task parent_message_and_message__find_message_duplication_with_different_type__no_duplicated_message ()
+  {
+    var messages = GetMessageCollection(Database);
+    var parent = CreateTestMessage();
+    var messageIdempotency = CreateMessageIdempotency(parent, "other mesage type");
+
+    await InsertMessage(messages, parent);
+
+    Assert.IsNull( await FindMessageDuplication(messages.AsQueryable(), messageIdempotency).FirstOrDefaultAsync());
   }
 
  [TestMethod]
