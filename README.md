@@ -57,6 +57,6 @@ Based idea comes from:
 - Mark Seemann's mindset changing hidden gems:
   - [impureim sandwitch](https://blog.ploeh.dk/2020/03/02/impureim-sandwich/).
   - [dependency rejection](https://blog.ploeh.dk/2017/01/27/from-dependency-injection-to-dependency-rejection/).
-- Dragos Tudor: each functionality == one *high-level* integration function [aka functionality controller].
+- Dragos Tudor: each functionality == one function/controller ex. [create contact](/Simple.Domain.Services//CreateContact/Creating.cs).
 
 *SIMPLE ALWAYS MEANS SIMPLE*
