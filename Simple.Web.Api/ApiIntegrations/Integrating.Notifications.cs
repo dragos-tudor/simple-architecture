@@ -5,7 +5,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  public static (SendNotification<Notification>, ShutdownServer) IntegrateNotificationServer (WebApplication app, Action<Notification> handleNotification, ILoggerFactory loggerFactory)
+  static (SendNotification<Notification>, ShutdownServer) IntegrateNotificationServer (WebApplication app, Action<Notification> handleNotification, ILoggerFactory loggerFactory)
   {
     var notificationServerOptions = GetConfigurationOptions<NotificationServerOptions>(app);
     var notificationsLogger = loggerFactory.CreateLogger(typeof(NotificationsFuncs).Namespace!);

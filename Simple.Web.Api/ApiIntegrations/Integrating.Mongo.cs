@@ -8,7 +8,7 @@ namespace Simple.Web.Api;
 
 partial class ApiFuncs
 {
-  public static async Task<IMongoDatabase> IntegrateMongoReplicaSetAsync (WebApplication app, SendNotification<Notification> sendNotification, ILoggerFactory loggerFactory, CancellationToken appCancellationToken)
+  static async Task<IMongoDatabase> IntegrateMongoReplicaSetAsync (WebApplication app, SendNotification<Notification> sendNotification, ILoggerFactory loggerFactory, CancellationToken appCancellationToken)
   {
     using var startCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(10));
     var startCancellationToken = startCancellationTokenSource.Token;
