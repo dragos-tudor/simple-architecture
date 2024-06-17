@@ -3,6 +3,6 @@ namespace Simple.Infrastructure.Mediator;
 
 partial class MediatorFuncs
 {
-  public static Task<IEnumerable<TFailure>> PublishMessage<TMessage, TPayload, TFailure> (TMessage message, IEnumerable<Subscriber<TMessage,TFailure>> subscribers, CancellationToken cancellationToken = default) =>
-    HandleMessage(message, GetMessageType<TPayload>(), subscribers, cancellationToken);
+  public static Task PublishMessage<TMessage, TPayload> (TMessage message, IEnumerable<Subscriber<TMessage>> subscribers, CancellationToken cancellationToken = default) =>
+    HandleMessageParallel(message, GetMessageType<TPayload>(), subscribers, cancellationToken);
 }

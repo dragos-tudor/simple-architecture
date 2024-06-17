@@ -24,9 +24,10 @@ partial class ApiFuncs
 
     var domainLogger = loggerFactory.CreateLogger(typeof(ServicesFuncs).Namespace!);
     var queueLogger = loggerFactory.CreateLogger(typeof(QueueFuncs).Namespace!);
+    var messageHandlerOptions = GetConfigurationOptions<MessageHandlerOptions>(app);
 
     var mongoSubscribers = RegisterMongoSubscribers(TimeProvider.System, mongoDb, sendNotification, mongoMessageQueue, queueLogger);
-    _ = ConsumeMongoMessages(mongoMessageQueue, mongoSubscribers, mongoDb, queueLogger, appCancellationToken);
+    _ = DequeueMongoMessages(mongoMessageQueue, mongoSubscribers, mongoDb, messageHandlerOptions, queueLogger, appCancellationToken);
 
     MapMongoEndpoints(app, mongoDb, mongoMessageQueue, domainLogger);
     return mongoDb;

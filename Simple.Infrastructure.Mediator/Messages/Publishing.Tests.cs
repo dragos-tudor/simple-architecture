@@ -1,4 +1,3 @@
-#pragma warning disable CA1861
 
 using static System.Threading.Tasks.Task;
 
@@ -9,40 +8,41 @@ partial class MediatorTests
   [TestMethod]
   public async Task subscriber_with_message_handler__publish_message__message_handled()
   {
-    var sub = CreateSubscriber<string, string, string>("sub", (msg, _) => FromResult(msg == "1"? "one": "not one") as Task<string?>);
+    var actual = string.Empty;
+    var sub = CreateSubscriber<string, string>("sub", async (msg, _) => { await CompletedTask; actual = msg; });
 
-    var actual = await PublishMessage<string, string, string>("1", [sub]);
-    CollectionAssert.AreEqual(actual.ToArray(), new string[] {"one"});
+    await PublishMessage<string, string>("1", [sub]);
+    Assert.AreEqual(actual, "1");
   }
 
   [TestMethod]
   public async Task subscribers_with_message_handlers__publish_message__message_handled()
   {
-    var sub1 = CreateSubscriber<string, string, string>("sub1", (msg, _) => FromResult(msg == "1"? "one": "not one")  as Task<string?>);
-    var sub2 = CreateSubscriber<string, string, string>("sub2", (msg, _) => FromResult(msg == "2"? "two": "not two")  as Task<string?>);
+    var actual = new List<string>();
+    var sub1 = CreateSubscriber<string, string>("sub1", async (msg, _) => { await CompletedTask; actual.Add("sub1"); });
+    var sub2 = CreateSubscriber<string, string>("sub2", async (msg, _) => { await CompletedTask; actual.Add("sub2"); });
 
-    var actual = await PublishMessage<string, string, string>("1", [sub1, sub2]);
-    CollectionAssert.AreEqual(actual.ToArray(), new string[] {"one", "not two"});
+    await PublishMessage<string, string>("1", [sub1, sub2]);
+    AreEqual(actual, ["sub1", "sub2"]);
   }
 
   [TestMethod]
   public async Task subscribers_with_long_running_handlers__publish_message_with_cancellation_request__some_message_handlers_skipped()
   {
     using var cts = new CancellationTokenSource();
-    var sub1 = CreateSubscriber<int, string, string>("sub1", async (_, _) => { await cts.CancelAsync(); return "ran"; });
-    var sub2 = CreateSubscriber<int, string, string>("sub2", (_, token) => FromResult(cts.IsCancellationRequested ? "not ran": "ran") as Task<string?>);
+    var actual = new List<string>();
+    var sub1 = CreateSubscriber<int, string>("sub1", async (_, _) => { await cts.CancelAsync(); actual.Add("ran"); });
+    var sub2 = CreateSubscriber<int, string>("sub2", async (_, token) => { await CompletedTask; actual.Add(cts.IsCancellationRequested ? "not ran": "ran"); });
 
-    var actual = await PublishMessage<int, string, string>(1, [sub1, sub2], cts.Token);
-    CollectionAssert.AreEqual(actual.ToArray(), new string[] {"ran", "not ran"});
+    await PublishMessage<int, string>(1, [sub1, sub2], cts.Token);
+    AreEqual(actual, ["ran", "not ran"]);
   }
 
   [TestMethod]
   public async Task subscriber_with_error_throwing_message_handler__publish_message__handler_exception()
   {
-    var sub = CreateSubscriber<string, string, string>("sub", (msg, _) => { throw new ArgumentException(msg); });
+    var sub = CreateSubscriber<string, string>("sub", (msg, _) => { throw new ArgumentException(msg); });
 
-    var actual = PublishMessage<string, string, string>("error", [sub]);
-    await Assert.ThrowsExceptionAsync<ArgumentException>(() => actual, "error");
+    await Assert.ThrowsExceptionAsync<ArgumentException>(() => PublishMessage<string, string>("error", [sub]), "error");
   }
-
 }

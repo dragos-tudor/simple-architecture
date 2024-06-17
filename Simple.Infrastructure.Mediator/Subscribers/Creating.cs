@@ -3,6 +3,6 @@ namespace Simple.Infrastructure.Mediator;
 
 partial class MediatorFuncs
 {
-  public static Subscriber<TMessage, TFailure> CreateSubscriber<TMessage, TPayload, TFailure> (string subscriberId, Func<TMessage, CancellationToken, Task<TFailure?>> messageHandler)=>
+  public static Subscriber<TMessage> CreateSubscriber<TMessage, TPayload> (string subscriberId, Func<TMessage, CancellationToken, Task> messageHandler)=>
     new (subscriberId, GetMessageType<TPayload>(), messageHandler);
 }

@@ -13,7 +13,7 @@ partial class ServicesFuncs
     FindModel<string, Contact?> findContactByName,
     FindModel<string, Contact?> findContactByEmail,
     SaveModels<Contact, Message<ContactCreatedEvent>> insertContactAndMessage,
-    ProduceMessage<Message<ContactCreatedEvent>> produceMessage,
+    EnqueueMessage<Message<ContactCreatedEvent>> enqueueMessage,
     ILogger logger,
     string? correlationId = default,
     CancellationToken cancellationToken = default)
@@ -42,7 +42,7 @@ partial class ServicesFuncs
     await insertContactAndMessage(contact, message, cancellationToken);
     LogContactCreated(logger, contact.ContactId, correlationId);
 
-    produceMessage(message);
+    enqueueMessage(message);
     return contact;
   }
 }

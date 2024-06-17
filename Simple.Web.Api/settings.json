@@ -47,5 +47,9 @@
     "Properties": {
       "Application": "Simple.Web.Api"
     }
+  },
+  "MessageHandlerOptions": {
+    "HandleTimeout": "00:00:15.000",
+    "MaxFailures": 10
   }
 }

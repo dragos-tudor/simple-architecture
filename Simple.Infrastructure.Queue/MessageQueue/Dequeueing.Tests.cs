@@ -1,13 +1,14 @@
-
 #pragma warning disable CS4014
-#pragma warning disable CA2201
 
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 
 namespace Simple.Infrastructure.Queue;
 
 partial class QueueTests
 {
+  static readonly ILogger Logger = Substitute.For<ILogger>();
+
   [TestMethod]
   [DataRow(10)]
   [DataRow(100)]
@@ -18,23 +19,41 @@ partial class QueueTests
     var queue = CreateMessageQueue<int>(queueCapacity);
     using var counter = new CountdownEvent(queueCapacity);
 
-    DequeueMessages(queue, (index, _) => { counter.Signal(); return Task.CompletedTask; }, (_, _) => {}, CancellationToken.None);
-    Parallel.For(0, queueCapacity, (index, _) => { EnqueueMessage(index, queue); });
+    DequeueMessages(queue, (message) => Task.FromResult(counter.Signal()), Substitute.For<HandleMessageError<int>>(), Logger, CancellationToken.None);
+    Parallel.For(0, queueCapacity, (message, _) => { EnqueueMessage(queue, message); });
 
-    counter.Wait();
+    using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+    counter.Wait(cancellationTokenSource.Token);
   }
 
   [TestMethod]
-  public async Task enqueue_error_throwing_message__dequeue_messages__errors_handled()
+  public void enqueue_message_with_error_throwing_message_handlers__dequeue_messages__errors_handled()
   {
-    var queue = CreateMessageQueue<string>(1);
-    var logger = Substitute.For<Action<string?, Exception>>();
-    using var cts = new CancellationTokenSource();
+    var queueCapacity = 5;
+    var queue = CreateMessageQueue<int>(queueCapacity);
+    using var counter = new CountdownEvent(queueCapacity);
 
-    DequeueMessages(queue, (_, _) => { throw new Exception("error"); }, logger, cts.Token);
-    EnqueueMessage("abc", queue);
+    DequeueMessages(queue, (message) => Task.FromException(new ArgumentException("")), (message, _) => Task.FromResult(counter.Signal()) , Logger, CancellationToken.None);
+    Parallel.For(0, queueCapacity, (message, _) => { EnqueueMessage(queue, message); });
 
-    await cts.CancelAsync();
-    logger.Received().Invoke(Arg.Is("abc"), Arg.Is<Exception>(ex => ex.Message == "error"));
+    using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+    counter.Wait(cancellationTokenSource.Token);
   }
+
+  [TestMethod]
+  public void enqueue_message_with_error_throwing_message_error_handlers__dequeue_messages__continue_dequeueing_messages()
+  {
+    var queueCapacity = 5;
+    var queue = CreateMessageQueue<int>(queueCapacity);
+    using var counter = new CountdownEvent(queueCapacity);
+
+    DequeueMessages(queue, (message) => Task.FromException(new ArgumentException("")), (message, exception) => { counter.Signal(); return Task.FromException(exception); }, Logger, CancellationToken.None);
+    Parallel.For(0, queueCapacity, (message, _) => { EnqueueMessage(queue, message); });
+
+    using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+    counter.Wait(cancellationTokenSource.Token);
+  }
+
+  // TODO: generated consumern logging tests [without MockLogger]
+  // https://github.com/nsubstitute/NSubstitute/issues/597
 }

@@ -21,9 +21,10 @@ partial class ApiFuncs
 
     var domainLogger = loggerFactory.CreateLogger(typeof(ServicesFuncs).Namespace!);
     var queueLogger = loggerFactory.CreateLogger(typeof(QueueFuncs).Namespace!);
+    var messageHandlerOptions = GetConfigurationOptions<MessageHandlerOptions>(app);
 
     var sqlSubscribers = RegisterSqlSubscribers(TimeProvider.System, sqlDbContextFactory, sendNotification, sqlMessageQueue, queueLogger);
-    _ = ConsumeSqlMessages(sqlMessageQueue, sqlSubscribers, sqlDbContextFactory, queueLogger, appCancellationToken);
+    _ = DequeueSqlMessages(sqlMessageQueue, sqlSubscribers, sqlDbContextFactory, messageHandlerOptions, queueLogger, appCancellationToken);
 
     MapSqlEndpoints(app, sqlDbContextFactory, sqlMessageQueue, domainLogger);
     return sqlDbContextFactory;

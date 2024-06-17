@@ -23,7 +23,7 @@ partial class ApiFuncs
       (contactName, cancellationToken) => FindContactByName(contacts.AsQueryable(), contactName).FirstOrDefaultAsync(cancellationToken) as Task<Contact?>,
       (contactEmail, cancellationToken) => FindContactByEmail(contacts.AsQueryable(), contactEmail).FirstOrDefaultAsync(cancellationToken) as Task<Contact?>,
       (contact, message, cancellationToken) => InsertContactAndMessage(contacts, messages, contact, message, default, cancellationToken),
-      (message) => ProduceMessage(messageQueue, message),
+      (message) => EnqueueMessage(messageQueue, message),
       logger,
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);
