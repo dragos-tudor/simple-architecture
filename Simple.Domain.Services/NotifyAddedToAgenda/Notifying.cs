@@ -9,14 +9,14 @@ partial class ServicesFuncs
     Message<ContactCreatedEvent> message,
     string from,
     DateTimeOffset date,
-    FindModel<MessageIdempotency, Message?> findParentMessage,
+    FindModel<MessageIdempotency, Message?> findDuplicateMessage,
     SendNotification<AddedToAgendaNotification> sendNotification,
     SaveModel<Message<AddedToAgendaNotification>> insertMessage,
     ILogger logger,
     CancellationToken cancellationToken = default)
   {
     var messageIdempotency = CreateMessageIdempotency<AddedToAgendaNotification>(message);
-    var parentMessage = await findParentMessage(messageIdempotency, cancellationToken);
+    var parentMessage = await findDuplicateMessage(messageIdempotency, cancellationToken);
     if(ExistMessage(parentMessage)) return default;
 
     var contactEmail = message.MessagePayload.ContactEmail;

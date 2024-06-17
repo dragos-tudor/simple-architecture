@@ -5,7 +5,7 @@ namespace Simple.Domain.Services;
 
 partial class ServicesTests
 {
-  readonly FindModel<MessageIdempotency, Message?> FindParentMessage = Substitute.For<FindModel<MessageIdempotency, Message?>>();
+  readonly FindModel<MessageIdempotency, Message?> FindDuplicateMessage = Substitute.For<FindModel<MessageIdempotency, Message?>>();
   readonly SendNotification<AddedToAgendaNotification> SendNotification = Substitute.For<SendNotification<AddedToAgendaNotification>>();
   readonly SaveModel<Message<AddedToAgendaNotification>> InsertMessage = Substitute.For<SaveModel<Message<AddedToAgendaNotification>>>();
 
@@ -16,7 +16,7 @@ partial class ServicesTests
     var message = CreateMessage(CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail));
     var sendNotification = Substitute.For<SendNotification<AddedToAgendaNotification>>();
 
-    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, FindParentMessage, sendNotification, InsertMessage, Logger);
+    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, FindDuplicateMessage, sendNotification, InsertMessage, Logger);
 
     await sendNotification.Received().Invoke(Arg.Is<AddedToAgendaNotification>(notification =>
       notification == CreateAddedToAgendaNotification("from", contact.ContactEmail, DateTime.MinValue)));
@@ -27,11 +27,11 @@ partial class ServicesTests
   {
     var contact = CreateTestContact();
     var message = CreateMessage(CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail));
-    var saveMessage = Substitute.For<SaveModel<Message<AddedToAgendaNotification>>>();
+    var insertMessage = Substitute.For<SaveModel<Message<AddedToAgendaNotification>>>();
 
-    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, FindParentMessage, SendNotification, saveMessage, Logger);
+    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, FindDuplicateMessage, SendNotification, insertMessage, Logger);
 
-    await saveMessage.Received().Invoke(Arg.Is<Message<AddedToAgendaNotification>>(message =>
+    await insertMessage.Received().Invoke(Arg.Is<Message<AddedToAgendaNotification>>(message =>
       message.MessagePayload == CreateAddedToAgendaNotification("from", contact.ContactEmail, DateTime.MinValue)));
   }
 
@@ -40,12 +40,12 @@ partial class ServicesTests
   {
     var contact = CreateTestContact();
     var message = CreateMessage(CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail));
-    var findParentMessage = Substitute.For<FindModel<MessageIdempotency, Message?>>();
+    var findDuplicateMessage = Substitute.For<FindModel<MessageIdempotency, Message?>>();
     var sendNotification = Substitute.For<SendNotification<AddedToAgendaNotification>>();
 
     var messageIdempotency = CreateMessageIdempotency<AddedToAgendaNotification>(message);
-    findParentMessage(messageIdempotency).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
-    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, findParentMessage, sendNotification, InsertMessage, Logger);
+    findDuplicateMessage(messageIdempotency).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
+    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, findDuplicateMessage, sendNotification, InsertMessage, Logger);
 
     await sendNotification.DidNotReceive().Invoke(Arg.Any<AddedToAgendaNotification>());
   }
@@ -55,14 +55,14 @@ partial class ServicesTests
   {
     var contact = CreateTestContact();
     var message = CreateMessage(CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail));
-    var findParentMessage = Substitute.For<FindModel<MessageIdempotency, Message?>>();
-    var saveMessage = Substitute.For<SaveModel<Message<AddedToAgendaNotification>>>();
+    var findDuplicateMessage = Substitute.For<FindModel<MessageIdempotency, Message?>>();
+    var insertMessage = Substitute.For<SaveModel<Message<AddedToAgendaNotification>>>();
 
     var messageIdempotency = CreateMessageIdempotency<AddedToAgendaNotification>(message);
-    findParentMessage(messageIdempotency).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
-    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, findParentMessage, SendNotification, saveMessage, Logger);
+    findDuplicateMessage(messageIdempotency).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
+    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, findDuplicateMessage, SendNotification, insertMessage, Logger);
 
-    await saveMessage.DidNotReceive().Invoke(Arg.Any<Message<AddedToAgendaNotification>>());
+    await insertMessage.DidNotReceive().Invoke(Arg.Any<Message<AddedToAgendaNotification>>());
   }
 
 }
