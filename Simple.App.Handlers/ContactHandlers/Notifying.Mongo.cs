@@ -1,11 +1,11 @@
 
 using MongoDB.Driver;
 
-namespace Simple.Web.Api;
+namespace Simple.App.Handlers;
 
-partial class ApiFuncs
+partial class HandlersFuncs
 {
-  static async Task<Failure?> NotifyAddedToAgendaMongoHandler (
+  public static async Task<Failure?> NotifyAddedToAgendaMongoHandler (
     Message<ContactCreatedEvent> message,
     TimeProvider timeProvider,
     IMongoDatabase agendaDdb,

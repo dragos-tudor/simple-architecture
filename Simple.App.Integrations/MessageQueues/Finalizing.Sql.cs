@@ -1,7 +1,7 @@
 
-namespace Simple.Web.Api;
+namespace Simple.App.Integrations;
 
-partial class ApiFuncs
+partial class IntegrationFuncs
 {
   static async Task FinalizeSqlMessage (Message message, AgendaContextFactory agendaContextFactory, CancellationToken cancellationToken = default)
   {

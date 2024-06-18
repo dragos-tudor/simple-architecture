@@ -1,7 +1,7 @@
 
-namespace Simple.Web.Api;
+namespace Simple.App.Integrations;
 
-partial class ApiFuncs
+partial class IntegrationFuncs
 {
   public static Subscriber<Message>[] RegisterSqlSubscribers (TimeProvider timeProvider, AgendaContextFactory agendaContextFactory, SendNotification<Notification> sendNotification, Channel<Message> queue, ILogger logger) =>
   [

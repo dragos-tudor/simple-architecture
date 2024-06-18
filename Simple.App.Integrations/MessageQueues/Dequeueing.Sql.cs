@@ -1,11 +1,9 @@
 
-using MongoDB.Driver;
+namespace Simple.App.Integrations;
 
-namespace Simple.Web.Api;
-
-partial class ApiFuncs
+partial class IntegrationFuncs
 {
-  internal static Task DequeueMongoMessages (Channel<Message> messageQueue, Subscriber<Message>[] subscribers, IMongoDatabase agendaDb, MessageHandlerOptions handlerOptions, ILogger logger, CancellationToken queueCancellationToken = default) =>
+  internal static Task DequeueSqlMessages (Channel<Message> messageQueue, Subscriber<Message>[] subscribers, AgendaContextFactory agendaContextFactory, MessageHandlerOptions handlerOptions, ILogger logger, CancellationToken queueCancellationToken = default) =>
     DequeueMessages(
       messageQueue,
       async (message) => {
@@ -13,14 +11,14 @@ partial class ApiFuncs
         var cancellationToken = cancellationTokenSource.Token;
 
         await HandleMessageParallel(message, GetMessageType(message)!, subscribers, cancellationToken);
-        await FinalizeMongoMessage(message, agendaDb, cancellationToken);
+        await FinalizeSqlMessage(message, agendaContextFactory, cancellationToken);
       },
       async (message, exception) => {
         using var cancellationTokenSource = new CancellationTokenSource(handlerOptions.HandleTimeout);
         var cancellationToken = cancellationTokenSource.Token;
         if(!ExistMessage(message)) return;
 
-        await HandleErrorMongoMessage(message!, exception, agendaDb, handlerOptions, cancellationToken);
+        await HandleErrorSqlMessage(message!, exception, agendaContextFactory, handlerOptions, cancellationToken);
       },
       logger,
       queueCancellationToken

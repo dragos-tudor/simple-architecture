@@ -1,13 +1,13 @@
 
-using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 
-namespace Simple.Web.Api;
+namespace Simple.App.Integrations;
 
-partial class ApiFuncs
+partial class IntegrationFuncs
 {
-  static (SendNotification<Notification>, ShutdownServer) IntegrateNotificationServer (WebApplication app, Action<Notification> handleNotification, ILoggerFactory loggerFactory)
+  public static (SendNotification<Notification>, ShutdownServer) IntegrateNotificationServer (IConfiguration configuration, Action<Notification> handleNotification, ILoggerFactory loggerFactory)
   {
-    var notificationServerOptions = GetConfigurationOptions<NotificationServerOptions>(app);
+    var notificationServerOptions = GetConfigurationOptions<NotificationServerOptions>(configuration);
     var notificationsLogger = loggerFactory.CreateLogger(typeof(NotificationsFuncs).Namespace!);
 
     var shutdownNotificationServer = StartNotificationServer(

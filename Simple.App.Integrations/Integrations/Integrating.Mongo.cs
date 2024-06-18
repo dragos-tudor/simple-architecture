@@ -1,35 +1,32 @@
 
-using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using Simple.Infrastructure.Queue;
 using static Storing.MongoDb.MongoDbFuncs;
 
-namespace Simple.Web.Api;
+namespace Simple.App.Integrations;
 
-partial class ApiFuncs
+partial class IntegrationFuncs
 {
-  static async Task<IMongoDatabase> IntegrateMongoReplicaSetAsync (WebApplication app, SendNotification<Notification> sendNotification, ILoggerFactory loggerFactory, CancellationToken appCancellationToken)
+  public static async Task<(IMongoDatabase, Channel<Message>)> IntegrateMongoReplicaSetAsync (IConfiguration configuration, SendNotification<Notification> sendNotification, ILoggerFactory loggerFactory, CancellationToken appCancellationToken)
   {
     using var startCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(10));
     var startCancellationToken = startCancellationTokenSource.Token;
 
-    var replicaSetOptions = GetConfigurationOptions<MongoReplicaSetOptions>(app);
     // https://github.com/dotnet/runtime/issues/83803
-    replicaSetOptions = replicaSetOptions with { CollNames = replicaSetOptions.CollNames.Distinct().ToArray(), ContainerNames = replicaSetOptions.ContainerNames.Distinct().ToArray() };
+    var replicaSetOptions = SanitizeReplicaSetOptions(GetConfigurationOptions<MongoReplicaSetOptions>(configuration));
     await InitializeMongeReplicaSetAsync(replicaSetOptions, startCancellationToken);
 
     var mongoMessageQueue = CreateMessageQueue<Message>(1000);
     var mongoConnString = GetMongoConnectionString(string.Join(",", replicaSetOptions.ContainerNames), replicaSetOptions.ReplicaSet);
     var mongoDb = GetMongoDatabase(CreateMongoClient(mongoConnString), replicaSetOptions.DbName);
 
-    var domainLogger = loggerFactory.CreateLogger(typeof(ServicesFuncs).Namespace!);
     var queueLogger = loggerFactory.CreateLogger(typeof(QueueFuncs).Namespace!);
-    var messageHandlerOptions = GetConfigurationOptions<MessageHandlerOptions>(app);
+    var messageHandlerOptions = GetConfigurationOptions<MessageHandlerOptions>(configuration);
 
     var mongoSubscribers = RegisterMongoSubscribers(TimeProvider.System, mongoDb, sendNotification, mongoMessageQueue, queueLogger);
     _ = DequeueMongoMessages(mongoMessageQueue, mongoSubscribers, mongoDb, messageHandlerOptions, queueLogger, appCancellationToken);
 
-    MapMongoEndpoints(app, mongoDb, mongoMessageQueue, domainLogger);
-    return mongoDb;
+    return (mongoDb, mongoMessageQueue);
   }
 }

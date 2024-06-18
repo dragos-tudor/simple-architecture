@@ -44,7 +44,7 @@
       { "Name": "Console" }
     ],
     "Properties": {
-      "Application": "Simple.Web.Api"
+      "Application": "Simple.Web.Testing"
     }
   },
   "MessageHandlerOptions": {

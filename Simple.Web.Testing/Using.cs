@@ -19,7 +19,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using static Docker.Extensions.DockerFuncs;
+using static Simple.App.Integrations.IntegrationFuncs;
 using MongoDB.Driver;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Simple.Web.Testing;
 
@@ -37,7 +39,7 @@ public partial class TestingFuncs
     var configuration = BuildConfiguration("settings.json");
     var configBuilder = (WebApplicationBuilder builder) => {
       builder.WebHost.UseTestServer();
-      builder.Logging.ClearProviders();
+      builder.Services.AddSingleton<ILoggerFactory>(new NullLoggerFactory());
     };
 
     (ApiServer, AgendaContextFactory, AgendaDb) = RunSynchronously(() => StartupAppAsync(configuration, configBuilder, NotificationStore.Add));

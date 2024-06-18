@@ -21,8 +21,7 @@ partial class ApiFuncs
   public static async Task<(WebApplication, AgendaContextFactory, IMongoDatabase)> StartupAppAsync (IConfiguration configuration, Action<WebApplicationBuilder> configBuilder, Action<Notification> handleNotification)
   {
     var builder = WebApplication.CreateBuilder();
-    LoadConfiguration(builder, configuration);
-    IntegrateSerilog(builder, configuration);
+    RegisterLogging(builder, IntegrateSerilog(configuration));
     RegisterServices(builder);
     configBuilder(builder);
 
@@ -33,13 +32,20 @@ partial class ApiFuncs
     var appCancellationToken = appCancellationTokenSource.Token;
     var loggerFactory = GetRequiredService<ILoggerFactory>(app);
 
-    var (sendNotification, shutdownNotificationServer) = IntegrateNotificationServer(app, handleNotification, loggerFactory);
-    var agendaContextFactoryTask = IntegrateSqlServerAsync(app, sendNotification, loggerFactory, appCancellationToken);
-    var mongoDbTask = IntegrateMongoReplicaSetAsync(app, sendNotification, loggerFactory, appCancellationToken);
-    await Task.WhenAll([agendaContextFactoryTask, mongoDbTask]);
+    var (sendNotification, shutdownNotificationServer) = IntegrateNotificationServer(configuration, handleNotification, loggerFactory);
+    var mongoTask = IntegrateMongoReplicaSetAsync(configuration, sendNotification, loggerFactory, appCancellationToken);
+    var sqlServerTask = IntegrateSqlServerAsync(configuration, sendNotification, loggerFactory, appCancellationToken);
+    await Task.WhenAll([mongoTask, sqlServerTask]);
+
+    var (agendaDb, mongoMessageQueue) = await mongoTask;
+    var (agendaContextFactory, sqlMessageQueue) = await sqlServerTask;
+    var domainLogger = loggerFactory.CreateLogger(typeof(ServicesFuncs).Namespace!);
+
+    MapMongoEndpoints(app, agendaDb, mongoMessageQueue, domainLogger);
+    MapSqlEndpoints(app, agendaContextFactory, sqlMessageQueue, domainLogger);
 
     app.Lifetime.ApplicationStopping.Register(appCancellationTokenSource.Cancel);
     app.Lifetime.ApplicationStopping.Register(() => shutdownNotificationServer());
-    return (app, await agendaContextFactoryTask, await mongoDbTask);
+    return (app, agendaContextFactory, agendaDb);
   }
 }

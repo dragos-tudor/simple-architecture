@@ -3,7 +3,7 @@
    <Import Project="../Directory.Testing.props" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
     <PackageReference Include="MailKit" />
     <PackageReference Include="SmtpServer"/>
   </ItemGroup>

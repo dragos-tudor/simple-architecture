@@ -1,9 +1,9 @@
 
 using MimeKit;
 
-namespace Simple.Web.Api;
+namespace Simple.App.Integrations;
 
-partial class ApiFuncs
+partial class IntegrationFuncs
 {
   static TNotification MapMessage<TNotification> (MimeMessage mailMessage) where TNotification: Notification =>
     (TNotification)CreateNotification (mailMessage.From[0].Name, mailMessage.To[0].Name, mailMessage.Subject, mailMessage.TextBody, mailMessage.Date);
