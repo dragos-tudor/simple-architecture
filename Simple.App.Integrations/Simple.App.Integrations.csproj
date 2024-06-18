@@ -8,9 +8,7 @@
     <ProjectReference Include="../Simple.App.Handlers/Simple.App.Handlers.csproj" />
 
     <PackageReference Include="Serilog.Settings.Configuration" />
-    <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="Serilog.Extensions.Logging" />
-    <PackageReference Include="Serilog.Sinks.File" />
   </ItemGroup>
 
 </Project>
