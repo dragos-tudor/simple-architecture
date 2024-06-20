@@ -11,24 +11,12 @@
     "adminPassword": "admin.P@ssw0rd",
     "userName": "sqluser",
     "userPassword": "sqluser.P@ssw0rd",
-    "imageName": "mcr.microsoft.com/mssql/server:2019-latest",
-    "containerName": "simple-sql",
-    "dbName": "agenda",
-    "networkName": "simple-network",
-    "serverPort": 1433
+    "dbName": "agenda"
   },
   "MongoReplicaSetOptions": {
-    "imageName": "mongo:4.2.24",
     "containerNames": ["simple-mongo1", "simple-mongo2", "simple-mongo3"],
-    "dbName": "agenda",
     "collNames": ["contacts", "messages"],
-    "replicaSet": "rs0",
-    "networkName": "simple-network",
-    "serverPort": 27017
-  },
-  "NotificationServerOptions": {
-    "ServerName": "localhost",
-    "ServerPort": 9025
+    "dbName": "agenda"
   },
   "Serilog": {
     "Using":  [ "Serilog.Sinks.Console", "Serilog.Sinks.File" ],
@@ -43,13 +31,6 @@
     "WriteTo": [
       { "Name": "Console" },
       { "Name": "File", "Args": { "path": "log.txt" } }
-    ],
-    "Properties": {
-      "Application": "Simple.Web.Api"
-    }
-  },
-  "MessageHandlerOptions": {
-    "HandleTimeout": "00:00:15.000",
-    "MaxFailures": 10
+    ]
   }
 }

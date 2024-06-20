@@ -5,20 +5,16 @@ namespace Simple.App.Integrations;
 
 partial class IntegrationFuncs
 {
-  public static (SendNotification<Notification>, ShutdownServer) IntegrateNotificationServer (IConfiguration configuration, Action<Notification> handleNotification, ILoggerFactory loggerFactory)
+  public static async Task<(SendNotifications<Notification>, ReceiveNotifications<Notification>)> IntegrateNotificationServerAsync (
+    IConfiguration configuration,
+    CancellationToken cancellationToken = default)
   {
-    var notificationServerOptions = GetConfigurationOptions<NotificationServerOptions>(configuration);
-    var notificationsLogger = loggerFactory.CreateLogger(typeof(NotificationsFuncs).Namespace!);
+    var emailServerOptions = GetConfigurationOptions<EmailServerOptions>(configuration);
+    await InitializeEmailServerAsync (emailServerOptions, cancellationToken);
 
-    var shutdownNotificationServer = StartNotificationServer(
-      notificationServerOptions,
-      (notification) => {
-        handleNotification(notification);
-        LogSentNotification(notificationsLogger, notification.From, notification.To, notification.Title);
-      },
-      MapMessage<Notification>);
-    var sendNotification = CreateNotificationSender<Notification>(notificationServerOptions, MapNotification);
-
-    return ((notification, cancellationToken) => sendNotification(notification, cancellationToken), shutdownNotificationServer);
+    return (
+      CreateNotificationsSender<Notification>(emailServerOptions, MapNotification),
+      CreateNotificationsReceiver(emailServerOptions, MapMessage<Notification>)
+    );
   }
 }

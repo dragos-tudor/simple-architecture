@@ -3,7 +3,7 @@ namespace Simple.Infrastructure.Notifications;
 
 partial class NotificationsFuncs
 {
-  public static MimeMessage BuildMailMessage (string from, string to, string subject, string body, DateTimeOffset date)
+  public static MimeMessage BuildMailMessage (string from, string to, string subject, string body, DateTimeOffset? date = default)
   {
     var mailMessage = new MimeMessage();
 
@@ -11,7 +11,7 @@ partial class NotificationsFuncs
     SetMessageTo(mailMessage, new MailboxAddress(to, to));
     SetMessageSubject(mailMessage, subject);
     SetMessageBody(mailMessage, body);
-    SetMessageDate(mailMessage, date);
+    SetMessageDate(mailMessage, date ?? DateTimeOffset.UtcNow);
 
     return mailMessage;
   }

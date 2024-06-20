@@ -4,6 +4,7 @@ global using System.Collections.Generic;
 global using System.Linq;
 global using System.Threading.Tasks;
 global using Simple.Domain.Models;
+global using Simple.Infrastructure.Notifications;
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using Microsoft.AspNetCore.TestHost;
 global using static Simple.Domain.Models.ModelsFuncs;
@@ -23,6 +24,7 @@ using static Simple.App.Integrations.IntegrationFuncs;
 using MongoDB.Driver;
 using Microsoft.Extensions.Logging.Abstractions;
 
+
 namespace Simple.Web.Testing;
 
 [TestClass]
@@ -31,6 +33,7 @@ public partial class TestingFuncs
   static WebApplication ApiServer = default!;
   static AgendaContextFactory AgendaContextFactory = default!;
   static IMongoDatabase AgendaDb = default!;
+  static ReceiveNotifications<Notification> ReceiveNotifications = default!;
   static readonly ConcurrentBag<Notification> NotificationStore = [];
 
   [AssemblyInitialize]
@@ -42,7 +45,7 @@ public partial class TestingFuncs
       builder.Services.AddSingleton<ILoggerFactory>(new NullLoggerFactory());
     };
 
-    (ApiServer, AgendaContextFactory, AgendaDb) = RunSynchronously(() => StartupAppAsync(configuration, configBuilder, NotificationStore.Add));
+    (ApiServer, AgendaContextFactory, AgendaDb, ReceiveNotifications) = RunSynchronously(() => StartupAppAsync(configuration, configBuilder, NotificationStore.Add));
     ApiServer.RunAsync();
   }
 

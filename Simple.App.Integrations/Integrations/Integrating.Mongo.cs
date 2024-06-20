@@ -14,7 +14,7 @@ partial class IntegrationFuncs
     var startCancellationToken = startCancellationTokenSource.Token;
 
     // https://github.com/dotnet/runtime/issues/83803
-    var replicaSetOptions = SanitizeReplicaSetOptions(GetConfigurationOptions<MongoReplicaSetOptions>(configuration));
+    var replicaSetOptions = SanitizeReplicaSetOptions(GetConfigurationOptions<MongoReplicaSetOptions>(configuration)!);
     await InitializeMongeReplicaSetAsync(replicaSetOptions, startCancellationToken);
 
     var mongoMessageQueue = CreateMessageQueue<Message>(1000);

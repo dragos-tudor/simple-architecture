@@ -20,7 +20,7 @@ partial class IntegrationFuncs
         var cancellationToken = cancellationTokenSource.Token;
         if(!ExistMessage(message)) return;
 
-        await HandleErrorMongoMessage(message!, exception, agendaDb, handlerOptions, cancellationToken);
+        await HandleErrorMongoMessage(message!, exception, agendaDb, handlerOptions.MaxFailures, cancellationToken);
       },
       logger,
       queueCancellationToken

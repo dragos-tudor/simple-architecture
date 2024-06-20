@@ -24,6 +24,7 @@ partial class TestingFuncs
     Assert.AreEqual(actual!.ContactName, contact.ContactName);
     Assert.AreEqual(actual!.PhoneNumbers[0], phoneNumber);
 
-    await WaitForNotification(contact.ContactEmail);
+    var notifications = await ReceiveNotifications(contact.ContactEmail, contact.ContactEmail, notification => notification.Title == AddedToAgendaTitle);
+    Assert.IsTrue(notifications.Any());
   }
 }

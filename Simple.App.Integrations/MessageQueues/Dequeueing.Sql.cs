@@ -18,7 +18,7 @@ partial class IntegrationFuncs
         var cancellationToken = cancellationTokenSource.Token;
         if(!ExistMessage(message)) return;
 
-        await HandleErrorSqlMessage(message!, exception, agendaContextFactory, handlerOptions, cancellationToken);
+        await HandleErrorSqlMessage(message!, exception, agendaContextFactory, handlerOptions.MaxFailures, cancellationToken);
       },
       logger,
       queueCancellationToken

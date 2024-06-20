@@ -5,6 +5,7 @@ global using System.IO;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using MimeKit;
+global using static Docker.Extensions.DockerFuncs;
 global using static Simple.Infrastructure.Notifications.NotificationsFuncs;
 
 namespace Simple.Infrastructure.Notifications;
