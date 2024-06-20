@@ -6,7 +6,7 @@ partial class MongoDbTests
   [TestMethod]
   public async Task new_contact__insert_contact__contact_stored ()
   {
-    var contacts = GetContactCollection(Database);
+    var contacts = GetContactCollection(AgendaDb);
 
     var phoneNumber = CreateTestPhoneNumber();
     var contact = CreateTestContact(phoneNumbers: [ phoneNumber ]);
@@ -19,8 +19,8 @@ partial class MongoDbTests
   [TestMethod]
   public async Task new_contact_and_message__insert_contact_and_message__contact_and_message_stored ()
   {
-    var contacts = GetContactCollection(Database);
-    var messages = GetMessageCollection(Database);
+    var contacts = GetContactCollection(AgendaDb);
+    var messages = GetMessageCollection(AgendaDb);
 
     var phoneNumber = CreateTestPhoneNumber();
     var contact = CreateTestContact(phoneNumbers: [ phoneNumber ]);

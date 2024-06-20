@@ -6,7 +6,7 @@ partial class MongoDbTests
  [TestMethod]
   public async Task messages__find_message_by_key__stored_message_with_key ()
   {
-    var messages = GetMessageCollection(Database);
+    var messages = GetMessageCollection(AgendaDb);
     var message = CreateTestMessage();
 
     await InsertMessage(messages, message);
@@ -17,7 +17,7 @@ partial class MongoDbTests
  [TestMethod]
   public async Task parent_message_and_message__find_message_duplication__stored_duplicated_message ()
   {
-    var messages = GetMessageCollection(Database);
+    var messages = GetMessageCollection(AgendaDb);
     var parent = CreateTestMessage();
     var message = CreateTestMessage(parentId: parent.MessageId);
     var messageIdempotency = CreateMessageIdempotency(parent, message.MessageType);
@@ -31,7 +31,7 @@ partial class MongoDbTests
  [TestMethod]
   public async Task parent_message_and_message__find_message_duplication_with_different_type__no_duplicated_message ()
   {
-    var messages = GetMessageCollection(Database);
+    var messages = GetMessageCollection(AgendaDb);
     var parent = CreateTestMessage();
     var messageIdempotency = CreateMessageIdempotency(parent, "other mesage type");
 

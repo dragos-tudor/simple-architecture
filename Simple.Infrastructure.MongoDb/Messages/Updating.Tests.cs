@@ -6,7 +6,7 @@ partial class MongoDbTests
  [TestMethod]
   public async Task message__update_message_is_active__message_updated ()
   {
-    var messages = GetMessageCollection(Database);
+    var messages = GetMessageCollection(AgendaDb);
     var message = CreateTestMessage(isActive: true);
 
     await InsertMessage(messages, message);
@@ -19,7 +19,7 @@ partial class MongoDbTests
  [TestMethod]
   public async Task message__update_message_failure_informations__message_updated ()
   {
-    var messages = GetMessageCollection(Database);
+    var messages = GetMessageCollection(AgendaDb);
     var message = CreateTestMessage(isActive: true);
 
     await InsertMessage(messages, message);

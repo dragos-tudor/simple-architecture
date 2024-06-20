@@ -1,4 +1,8 @@
 
 namespace Simple.Infrastructure.Mediator;
 
-public sealed record MessageHandlerOptions (TimeSpan HandleTimeout, byte MaxFailures = 10);
+public sealed record MessageHandlerOptions
+{
+  public TimeSpan HandleTimeout { get; init; } = TimeSpan.FromSeconds(15);
+  public byte MaxFailures { get; init; } = 10;
+}

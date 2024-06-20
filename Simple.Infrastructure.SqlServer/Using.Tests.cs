@@ -7,22 +7,16 @@ namespace Simple.Infrastructure.SqlServer;
 [TestClass]
 public partial class SqlServerTests
 {
-  static readonly string AgendaConnString = CreateSqlConnectionString("agenda-tests", "sqluser", "sqluser.P@ssw0rd", "simple-sql");
+  static readonly SqlServerOptions SqlServerOptions = new SqlServerOptions() {DbName = "agenda-tests", AdminName = "sa", AdminPassword = "admin.P@ssw0rd", UserName = "sqluser", UserPassword = "sqluser.P@ssw0rd"};
+  static readonly string AgendaConnString = CreateSqlConnectionString(SqlServerOptions.ContainerName, SqlServerOptions.UserName, SqlServerOptions.UserPassword, SqlServerOptions.DbName);
 
   [AssemblyInitialize]
   public static void InitializeSqlServer (TestContext _)
   {
     using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(10));
     var cancellationToken = cancellationTokenSource.Token;
-    var sqlServerOptions = new SqlServerOptions(
-      "sa", "admin.P@ssw0rd",
-      "sqluser", "sqluser.P@ssw0rd",
-      "mcr.microsoft.com/mssql/server:2019-latest", "simple-sql",
-      "agenda-tests", "simple-network",
-      1433
-    );
 
     RunSynchronously(() =>
-      InitializeSqlServerAsync (sqlServerOptions, cancellationToken));
+      InitializeSqlServerAsync (SqlServerOptions, cancellationToken));
   }
 }

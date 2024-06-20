@@ -1,17 +1,18 @@
 
 namespace Simple.Infrastructure.SqlServer;
 
-public partial record SqlServerOptions(
-  string AdminName,
-  string AdminPassword,
-  string UserName,
-  string UserPassword,
-  string ImageName,
-  string ContainerName,
-  string DbName,
-  string NetworkName,
-  int ServerPort
-);
+public partial record SqlServerOptions
+{
+  public string AdminName { get; init; } = string.Empty;
+  public string AdminPassword { get; init; } = string.Empty;
+  public string UserName { get; init; } = string.Empty;
+  public string UserPassword { get; init; } = string.Empty;
+  public string ImageName { get; init; } = "mcr.microsoft.com/mssql/server:2019-latest";
+  public string ContainerName { get; init; } = "simple-sql";
+  public string DbName { get; init; } = "agenda";
+  public string NetworkName { get; init; } = "simple-network";
+  public int ServerPort { get; init; } = 1433;
+}
 
 partial record SqlServerOptions
 {

@@ -2,15 +2,16 @@
 
 namespace Simple.Infrastructure.MongoDb;
 
-public partial record MongoReplicaSetOptions(
-  string ImageName,
-  string[] ContainerNames,
-  string NetworkName,
-  string ReplicaSet,
-  string DbName,
-  string[] CollNames,
-  int ServerPort
-);
+public partial record MongoReplicaSetOptions
+{
+  public string ImageName { get; init; } = "mongo:4.2.24";
+  public string[] ContainerNames { get; init; } = [];
+  public string NetworkName { get; init; } = "simple-network";
+  public string ReplicaSet { get; init; } = "rs0";
+  public string DbName { get; init; } =  "agenda";
+  public string[] CollNames { get; init; } = [];
+  public int ServerPort { get; init; } = 27017;
+}
 
 partial record MongoReplicaSetOptions
 {
