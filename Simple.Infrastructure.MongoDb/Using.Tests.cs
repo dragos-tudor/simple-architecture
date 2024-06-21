@@ -8,7 +8,7 @@ namespace Simple.Infrastructure.MongoDb;
 public partial class MongoDbTests
 {
   static readonly MongoReplicaSetOptions MongoReplicaSetOptions = new MongoReplicaSetOptions() { ContainerNames = ["simple-mongo1", "simple-mongo2", "simple-mongo3"], CollNames = ["contacts", "messages"], DbName = "agenda-tests" };
-  static readonly IMongoDatabase AgendaDb = GetMongoDatabase(CreateMongoClient(GetMongoConnectionString(string.Join(",", MongoReplicaSetOptions.ContainerNames), MongoReplicaSetOptions.ReplicaSet)), MongoReplicaSetOptions.DbName);
+  static readonly IMongoDatabase AgendaDatabase = GetMongoDatabase(MongoReplicaSetOptions);
 
   [AssemblyInitialize]
   public static void InitializeMongeServer (TestContext _)

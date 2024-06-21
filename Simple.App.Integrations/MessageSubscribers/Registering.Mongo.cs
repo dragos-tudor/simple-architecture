@@ -3,11 +3,11 @@ using MongoDB.Driver;
 
 namespace Simple.App.Integrations;
 
-partial class IntegrationFuncs
+partial class IntegrationsFuncs
 {
-  public static Subscriber<Message>[] RegisterMongoSubscribers (TimeProvider timeProvider, IMongoDatabase agendaDb, SendNotification<Notification> sendNotification, Channel<Message> queue, ILogger logger) =>
+  public static Subscriber<Message>[] RegisterMongoSubscribers (TimeProvider timeProvider, IMongoDatabase agendaDatabase, SendNotification<Notification> sendNotification, Channel<Message> queue, ILogger logger) =>
   [
-    CreateSubscriber<Message, ContactCreatedEvent>("notify_added_to_agenda_mongo", (message, cancellationToken) =>
-      NotifyAddedToAgendaMongoHandler ((Message<ContactCreatedEvent>)message, timeProvider, agendaDb, sendNotification, logger, cancellationToken)),
+    CreateSubscriber<Message, ContactCreatedEvent>("notify_added_to_agenda", (message, cancellationToken) =>
+      NotifyAddedToAgendaMongoHandler ((Message<ContactCreatedEvent>)message, agendaDatabase, sendNotification, timeProvider, logger, cancellationToken)),
   ];
 }

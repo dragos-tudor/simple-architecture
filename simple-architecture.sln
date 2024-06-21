@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Domain.Services", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.SqlServer", "Simple.Infrastructure.SqlServer\Simple.Infrastructure.SqlServer.csproj", "{4266DBD9-2FF8-40A9-99E7-4F3EBAF4A8E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Web.Api", "Simple.Web.Api\Simple.Web.Api.csproj", "{5B75C02E-E552-4B1F-B945-8924AF04A902}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Api", "Simple.Api\Simple.Api.csproj", "{5B75C02E-E552-4B1F-B945-8924AF04A902}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Notifications", "Simple.Infrastructure.Notifications\Simple.Infrastructure.Notifications.csproj", "{2030B230-FB17-4A8C-8FCC-9654215BA0D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.EmailServer", "Simple.Infrastructure.EmailServer\Simple.Infrastructure.EmailServer.csproj", "{2030B230-FB17-4A8C-8FCC-9654215BA0D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Domain.Models", "Simple.Domain.Models\Simple.Domain.Models.csproj", "{CBF7229B-D119-484E-A50F-E5CC36062055}"
 EndProject
@@ -21,13 +21,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Mongo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Shared.Testing", "Simple.Shared.Testing\Simple.Shared.Testing.csproj", "{F8107493-9A66-4647-8EF4-6419F8907123}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Web.Testing", "Simple.Web.Testing\Simple.Web.Testing.csproj", "{CBCC59F0-0C7B-49B4-8221-662BD6F4EB2E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Api.Testing", "Simple.Api.Testing\Simple.Api.Testing.csproj", "{CBCC59F0-0C7B-49B4-8221-662BD6F4EB2E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.App.Integrations", "Simple.App.Integrations\Simple.App.Integrations.csproj", "{26391EA3-7897-4761-8693-F3A915EB322F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.App.Handlers", "Simple.App.Handlers\Simple.App.Handlers.csproj", "{1F8C51A7-3FC8-44F0-AC9C-4719CA3FECF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.App.Services", "Simple.App.Services\Simple.App.Services.csproj", "{1F8C51A7-3FC8-44F0-AC9C-4719CA3FECF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.App.Services", "Simple.App.Services\Simple.App.Services.csproj", "{329C2005-A792-4256-8144-52D3CE363386}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.App", "Simple.App\Simple.App.csproj", "{329C2005-A792-4256-8144-52D3CE363386}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

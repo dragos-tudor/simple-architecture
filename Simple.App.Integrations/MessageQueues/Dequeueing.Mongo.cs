@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace Simple.App.Integrations;
 
-partial class IntegrationFuncs
+partial class IntegrationsFuncs
 {
   internal static Task DequeueMongoMessages (Channel<Message> messageQueue, Subscriber<Message>[] subscribers, IMongoDatabase agendaDb, MessageHandlerOptions handlerOptions, ILogger logger, CancellationToken queueCancellationToken = default) =>
     DequeueMessages(
@@ -18,7 +18,6 @@ partial class IntegrationFuncs
       async (message, exception) => {
         using var cancellationTokenSource = new CancellationTokenSource(handlerOptions.HandleTimeout);
         var cancellationToken = cancellationTokenSource.Token;
-        if(!ExistMessage(message)) return;
 
         await HandleErrorMongoMessage(message!, exception, agendaDb, handlerOptions.MaxFailures, cancellationToken);
       },

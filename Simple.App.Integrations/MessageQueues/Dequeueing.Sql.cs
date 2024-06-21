@@ -1,7 +1,7 @@
 
 namespace Simple.App.Integrations;
 
-partial class IntegrationFuncs
+partial class IntegrationsFuncs
 {
   internal static Task DequeueSqlMessages (Channel<Message> messageQueue, Subscriber<Message>[] subscribers, AgendaContextFactory agendaContextFactory, MessageHandlerOptions handlerOptions, ILogger logger, CancellationToken queueCancellationToken = default) =>
     DequeueMessages(
@@ -16,7 +16,6 @@ partial class IntegrationFuncs
       async (message, exception) => {
         using var cancellationTokenSource = new CancellationTokenSource(handlerOptions.HandleTimeout);
         var cancellationToken = cancellationTokenSource.Token;
-        if(!ExistMessage(message)) return;
 
         await HandleErrorSqlMessage(message!, exception, agendaContextFactory, handlerOptions.MaxFailures, cancellationToken);
       },

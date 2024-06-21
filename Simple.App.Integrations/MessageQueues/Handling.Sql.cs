@@ -1,7 +1,7 @@
 
 namespace Simple.App.Integrations;
 
-partial class IntegrationFuncs
+partial class IntegrationsFuncs
 {
   static async Task HandleErrorSqlMessage (Message message, Exception exception, AgendaContextFactory agendaContextFactory, byte maxFailures, CancellationToken cancellationToken = default)
   {

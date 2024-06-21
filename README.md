@@ -4,7 +4,7 @@
 ### Simple architecture design
 - **simple architecture**: an alternative to [clean-architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 - modules dependencies: **high-level modules** --> **middle-level modules** [optional] --> **low-level modules** [modules pyramid].
-- *high-level modules* **integrate** all *low-level modules* and *mid-level modules*: integrations [here](/Simple.Web.Api/ContactEndpoints/Creating.Sql.cs), [here](/Simple.Web.Api/ContactEndpoints/Creating.Mongo.cs), and [here](/Simple.Web.Api/Program.cs).
+- *high-level modules* **integrate** all *low-level modules* and *mid-level modules*: integrations [here](/Simple.App.Services/ContactEndpoints/Creating.Sql.cs), [here](/Simple.App.Services/ContactEndpoints/Creating.Mongo.cs), and [here](/Simple.App.Integrations/ServerIntegrations/Integrating.cs).
 - *middle-level modules* **relies** on *low-level modules* having lower complexity than *high-level modules*.
 - *low-level modules* **completely independent** ["parallel" modules].
 - *low-level modules* **could share** some modules [ex. *simple.domain.models*].
@@ -18,7 +18,7 @@
 - **simple architecture** aka **pyramid architecture**.
 
 ### Simple architecture implementation
-- *high-level modules*: simple.web.api.
+- *high-level modules*: simple.app.services, simple.app.integrations.
 - *low-level modules*: simple.domain.\*, simple.infrastructure.\*.
 
 ### Simple vs clean architectures parallels
@@ -57,6 +57,6 @@ Based idea comes from:
 - Mark Seemann's mindset changing hidden gems:
   - [impureim sandwitch](https://blog.ploeh.dk/2020/03/02/impureim-sandwich/).
   - [dependency rejection](https://blog.ploeh.dk/2017/01/27/from-dependency-injection-to-dependency-rejection/).
-- Dragos Tudor: each functionality == one function/controller ex. [create contact](/Simple.Domain.Services//CreateContact/Creating.cs).
+- Dragos Tudor: each functionality == one function/controller ex. [create contact](/Simple.Domain.Services/CreateContact/Creating.cs).
 
 *SIMPLE ALWAYS MEANS SIMPLE*

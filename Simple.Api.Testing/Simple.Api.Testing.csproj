@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../Directory.Testing.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="../Simple.Api/Simple.Api.csproj" />
+    <PackageReference Include="System.Net.Http.Json" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" />
+    <None Include="settings.json" CopyToOutputDirectory="PreserveNewest"/>
+  </ItemGroup>
+
+</Project>

@@ -1,7 +1,7 @@
 
 namespace Simple.App.Integrations;
 
-partial class IntegrationFuncs
+partial class IntegrationsFuncs
 {
   static async Task FinalizeSqlMessage (Message message, AgendaContextFactory agendaContextFactory, CancellationToken cancellationToken = default)
   {

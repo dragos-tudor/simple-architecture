@@ -1,11 +1,11 @@
 
 namespace Simple.App.Integrations;
 
-partial class IntegrationFuncs
+partial class IntegrationsFuncs
 {
   public static Subscriber<Message>[] RegisterSqlSubscribers (TimeProvider timeProvider, AgendaContextFactory agendaContextFactory, SendNotification<Notification> sendNotification, Channel<Message> queue, ILogger logger) =>
   [
-    CreateSubscriber<Message, ContactCreatedEvent>("notify_added_to_agenda_sql", (message, cancellationToken) =>
-      NotifyAddedToAgendaSqlHandler ((Message<ContactCreatedEvent>)message, timeProvider, agendaContextFactory, sendNotification, logger, cancellationToken)),
+    CreateSubscriber<Message, ContactCreatedEvent>("notify_added_to_agenda", (message, cancellationToken) =>
+      NotifyAddedToAgendaSqlHandler ((Message<ContactCreatedEvent>)message, agendaContextFactory, sendNotification, timeProvider, logger, cancellationToken)),
   ];
 }

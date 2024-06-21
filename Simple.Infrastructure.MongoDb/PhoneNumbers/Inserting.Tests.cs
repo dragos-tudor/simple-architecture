@@ -6,7 +6,7 @@ partial class MongoDbTests
  [TestMethod]
   public async Task contact_without_phone_numbers__insert_phone_number__phone_number_added_on_contact ()
   {
-    var contacts = GetContactCollection(AgendaDb);
+    var contacts = GetContactCollection(AgendaDatabase);
 
     var contact = CreateTestContact();
     await InsertContact(contacts, contact);
@@ -21,7 +21,7 @@ partial class MongoDbTests
  [TestMethod]
   public async Task contact_with_phone_numbers__insert_phone_number__phone_number_added_on_contact ()
   {
-    var contacts = GetContactCollection(AgendaDb);
+    var contacts = GetContactCollection(AgendaDatabase);
 
     var contact = CreateTestContact(phoneNumbers: [CreateTestPhoneNumber()]);
     await InsertContact(contacts, contact);

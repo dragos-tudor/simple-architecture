@@ -6,7 +6,7 @@ partial class MongoDbTests
  [TestMethod]
   public async Task contact_with_phone_numbers__delete_phone_number__phone_number_deleted_from_contact ()
   {
-    var contacts = GetContactCollection(AgendaDb);
+    var contacts = GetContactCollection(AgendaDatabase);
     var phoneNumber = CreateTestPhoneNumber();
     var contact = CreateTestContact(phoneNumbers: [phoneNumber]);
 

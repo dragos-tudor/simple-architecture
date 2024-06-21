@@ -1,19 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <StartupObject>Simple.App.Services.ServicesFuncs</StartupObject>
-    <IsTestProject>false</IsTestProject>
-  </PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="../Simple.App.Integrations/Simple.App.Integrations.csproj" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
-    <PackageReference Include="Scheduling.JobScheduler" />
 
-    <PackageReference Include="Serilog.Sinks.Console" />
-    <PackageReference Include="Serilog.Sinks.File" />
-    <None Include="settings.json" CopyToOutputDirectory="PreserveNewest"/>
+    <ProjectReference Include="../Simple.Domain.Services/Simple.Domain.Services.csproj" />
+    <ProjectReference Include="../Simple.Infrastructure.Queue/Simple.Infrastructure.Queue.csproj" />
+    <ProjectReference Include="../Simple.Infrastructure.MongoDb/Simple.Infrastructure.MongoDb.csproj" />
+    <ProjectReference Include="../Simple.Infrastructure.SqlServer/Simple.Infrastructure.SqlServer.csproj" />
   </ItemGroup>
 
 </Project>
