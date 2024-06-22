@@ -4,7 +4,7 @@
 ### Simple architecture design
 - **simple architecture**: an alternative to [clean-architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 - modules dependencies: **high-level modules** --> **middle-level modules** [optional] --> **low-level modules** [modules pyramid].
-- *high-level modules* **integrate** all *low-level modules* and *mid-level modules*: integrations [here](/Simple.App.Services/ContactEndpoints/Creating.Sql.cs), [here](/Simple.App.Services/ContactEndpoints/Creating.Mongo.cs), and [here](/Simple.App.Integrations/ServerIntegrations/Integrating.cs).
+- *high-level modules* **integrate** all *low-level modules* and *mid-level modules*: integrations [here](/Simple.App.Services/ContactEndpoints/Creating.Sql.cs), [here](/Simple.App.Services/ContactEndpoints/Creating.Mongo.cs), and [here](/Simple.Infrastructure.Integrations/ServerIntegrations/Integrating.cs).
 - *middle-level modules* **relies** on *low-level modules* having lower complexity than *high-level modules*.
 - *low-level modules* **completely independent** ["parallel" modules].
 - *low-level modules* **could share** some modules [ex. *simple.domain.models*].
@@ -18,8 +18,8 @@
 - **simple architecture** aka **pyramid architecture**.
 
 ### Simple architecture implementation
-- *high-level modules*: simple.app.services, simple.app.integrations.
-- *low-level modules*: simple.domain.\*, simple.infrastructure.\*.
+- *high-level modules*: simple.app.services, simple.infrastructure.integrations.
+- *low-level modules*: simple.domain.models, simple.domain.services, simple.infrastructure.emailserver, simple.infrastructure.mediator, simple.infrastructure.mongodb, simple.infrastructure.queue, simple.infrastructure.sqlserver.
 
 ### Simple vs clean architectures parallels
 - *the dependency rule* != no dependencies [even callback funcs could be seen as a form of dependency].
@@ -43,7 +43,7 @@
   - *web* project depend on *infrastructure* project [ok].
 - [simple-architecture implementation](/):
   - *simple.domain.services*, *simple.infrastructure.** completely independent projects [share *simple.domain.models* project].
-  - *simple.web.api* project depend on all above projects [top of the pyramid].
+  - *simple.app.services* and *simple.infrastructure.integrations* projects depend on all above projects [top of the pyramid].
 - *pyramid* vs *stack* => *simple* vs *complex* -> *unknown* [yet] vs *highly-appreciated* [?!].
 
 ### Remarks
