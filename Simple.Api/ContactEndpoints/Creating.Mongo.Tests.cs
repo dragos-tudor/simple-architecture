@@ -1,9 +1,7 @@
 
-using System.Net.Http.Json;
+namespace Simple.Api;
 
-namespace Simple.Api.Testing;
-
-partial class TestingFuncs
+partial class ApiTesting
 {
   [TestMethod]
   public async Task contact_with_phone_number__create_mongo_contact__contact_with_phone_number_created_and_notification_sent ()

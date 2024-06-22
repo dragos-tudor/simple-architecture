@@ -3,9 +3,9 @@
 using System.Net.Http;
 using Microsoft.EntityFrameworkCore;
 
-namespace Simple.Api.Testing;
+namespace Simple.Api;
 
-partial class TestingFuncs
+partial class ApiTesting
 {
   [TestMethod]
   public async Task new_phone_number__add_phone_number_to_sql_contact__phone_number_added_to_contact ()

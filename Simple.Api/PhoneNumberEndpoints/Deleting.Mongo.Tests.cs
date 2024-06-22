@@ -1,9 +1,7 @@
 
-using MongoDB.Driver;
+namespace Simple.Api;
 
-namespace Simple.Api.Testing;
-
-partial class TestingFuncs
+partial class ApiTesting
 {
   [TestMethod]
   public async Task contact_with_phone_number__delete_phone_number_from_mongo__phone_number_deleted_from_contact ()

@@ -1,10 +1,7 @@
 
-using System.Net.Http.Json;
-using MongoDB.Driver;
+namespace Simple.Api;
 
-namespace Simple.Api.Testing;
-
-partial class TestingFuncs
+partial class ApiTesting
 {
   [TestMethod]
   public async Task new_phone_number__add_phone_number_to_mongo_contact__phone_number_added_to_contact ()

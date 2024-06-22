@@ -1,9 +1,7 @@
 
-using Microsoft.AspNetCore.Builder;
+namespace Simple.Api;
 
-namespace Simple.Api.Testing;
-
-partial class TestingFuncs
+partial class ApiTesting
 {
   static string GetApiPathBase (WebApplication app) => app.Configuration["Kestrel:Endpoints:Http:Url"]!;
 }

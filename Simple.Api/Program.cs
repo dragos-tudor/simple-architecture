@@ -8,10 +8,12 @@ public sealed partial class ApiFuncs
   {
     var cancellationTokenSource = new CancellationTokenSource(Timeout.Infinite);
     var cancellationToken = cancellationTokenSource.Token;
-
     var configuration = BuildConfiguration("settings.json");
     var app = BuildApplication(args, configuration, (_) => {});
-    await IntegrateServersAndApiAsync(app, configuration, cancellationToken);
+
+    var loggerFactory = GetRequiredService<ILoggerFactory>(app.Services);
+    var serverIntegrations = await IntegrateServersAsync(configuration, RegisterMongoSubscribers, RegisterSqlSubscribers, loggerFactory, cancellationToken);
+    IntegrateApi(app, serverIntegrations, loggerFactory);
 
     app.Lifetime.ApplicationStopping.Register(cancellationTokenSource.Cancel);
     await app.RunAsync();

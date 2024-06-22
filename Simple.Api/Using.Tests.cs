@@ -1,32 +1,20 @@
 
-global using System;
-global using System.Collections.Generic;
-global using System.Linq;
-global using System.Threading;
-global using System.Threading.Tasks;
-global using Microsoft.AspNetCore.Builder;
-global using Microsoft.Extensions.DependencyInjection;
-global using Microsoft.Extensions.Logging;
-global using Microsoft.Extensions.Logging.Abstractions;
-global using Microsoft.VisualStudio.TestTools.UnitTesting;
+global using System.Net.Http.Json;
 global using Microsoft.AspNetCore.TestHost;
-global using Simple.Domain.Models;
+global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using static Simple.Api.ApiFuncs;
-global using static Simple.App.Services.ServicesFuncs;
 global using static Simple.Domain.Models.ModelsFuncs;
-global using static Simple.Infrastructure.Integrations.IntegrationsFuncs;
 global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
 global using static Simple.Shared.Testing.TestingFuncs;
-global using AgendaContextFactory = Microsoft.EntityFrameworkCore.Infrastructure.PooledDbContextFactory<Simple.Infrastructure.SqlServer.AgendaContext>;
 
-using MongoDB.Driver;
 using static Docker.Extensions.DockerFuncs;
+using Microsoft.Extensions.Logging.Abstractions;
 
-namespace Simple.Api.Testing;
+namespace Simple.Api;
 
 [TestClass]
-public partial class TestingFuncs
+public partial class ApiTesting
 {
   static readonly CancellationTokenSource CancellationTokenSource = new (Timeout.Infinite);
   static WebApplication ApiServer = default!;
@@ -43,11 +31,13 @@ public partial class TestingFuncs
       builder.WebHost.UseTestServer();
       builder.Services.AddSingleton<ILoggerFactory>(new NullLoggerFactory());
     };
-
     var app = BuildApplication([], configuration, configBuilder);
-    var serverIntegrations = RunSynchronously(() => IntegrateServersAndApiAsync(app, configuration, cancellationToken));
-    app.StartAsync(cancellationToken);
 
+    var loggerFactory = GetRequiredService<ILoggerFactory>(app.Services);
+    var serverIntegrations = RunSynchronously(() => IntegrateServersAsync(configuration, RegisterMongoSubscribers, RegisterSqlSubscribers, loggerFactory, cancellationToken));
+    IntegrateApi(app, serverIntegrations, loggerFactory);
+
+    app.StartAsync(cancellationToken);
     ApiServer = app;
     AgendaContextFactory = serverIntegrations.SqlIntegration.SqlContextFactory;
     AgendaDatabase = serverIntegrations.MongoIntegration.MongoDatabase;

@@ -1,11 +1,10 @@
 
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Json;
 
-namespace Simple.Api.Testing;
+namespace Simple.Api;
 
-partial class TestingFuncs
+partial class ApiTesting
 {
   static IEnumerable<string> GetResponseMessageHeader (HttpResponseMessage response, string name) => response.Headers.GetValues(name);
 
