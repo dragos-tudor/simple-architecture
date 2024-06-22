@@ -1,7 +1,9 @@
 
-namespace Simple.Api;
+using MongoDB.Driver;
 
-partial class ApiFuncs
+namespace Simple.App.Services;
+
+partial class ServicesFuncs
 {
   const string MongoContactsPath = "/mongo/contacts";
   const string MongoContactPath = "/mongo/contacts/{contactId}";
@@ -9,7 +11,7 @@ partial class ApiFuncs
   const string MongoPhoneNumberPath = "/mongo/contacts/{contactId}/phonenumbers/{countryCode}/{number}";
   const string MongoMessagesPath = "/mongo/messages";
 
-  static WebApplication MapMongoEndpoints (WebApplication app, IMongoDatabase agendaDb, Channel<Message> messageQueue, ILogger logger)
+  public static WebApplication MapMongoEndpoints (WebApplication app, IMongoDatabase agendaDb, Channel<Message> messageQueue, ILogger logger)
   {
     app.MapPost(MongoContactsPath, (Contact contact, HttpContext httpContext) =>
       CreateContactMongoEndpoint(contact, agendaDb, messageQueue, httpContext, logger)).DisableAntiforgery();

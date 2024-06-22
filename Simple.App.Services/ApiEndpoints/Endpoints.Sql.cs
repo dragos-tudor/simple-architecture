@@ -1,9 +1,9 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace Simple.Api;
+namespace Simple.App.Services;
 
-partial class ApiFuncs
+partial class ServicesFuncs
 {
   const string SqlContactsPath = "/sql/contacts";
   const string SqlContactPath = "/sql/contacts/{contactId}";
@@ -11,7 +11,7 @@ partial class ApiFuncs
   const string SqlPhoneNumberPath = "/sql/contacts/{contactId}/phonenumbers/{countryCode}/{number}";
   const string SqlMessagesPath = "/sql/messages";
 
-  static WebApplication MapSqlEndpoints (WebApplication app, AgendaContextFactory agendaContextFactory, Channel<Message> messageQueue, ILogger logger)
+  public static WebApplication MapSqlEndpoints (WebApplication app, AgendaContextFactory agendaContextFactory, Channel<Message> messageQueue, ILogger logger)
   {
     app.MapPost(SqlContactsPath, ([FromForm]Contact contact, HttpContext httpContext) =>
       CreateContactSqlEndpoint(contact, agendaContextFactory, messageQueue, httpContext, logger)).DisableAntiforgery();
