@@ -6,4 +6,5 @@ global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
 global using Simple.App.Services;
-global using static Simple.App.Integrations.IntegrationsFuncs;
+global using static Simple.App.Services.ServicesFuncs;
+global using static Simple.Infrastructure.Integrations.IntegrationsFuncs;

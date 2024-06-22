@@ -8,7 +8,8 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <ProjectReference Include="../Simple.App.Integrations/Simple.App.Integrations.csproj" />
+    <ProjectReference Include="../Simple.App.Services/Simple.App.Services.csproj" />
+    <ProjectReference Include="../Simple.Infrastructure.Integrations/Simple.Infrastructure.Integrations.csproj" />
 
     <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="Serilog.Sinks.File" />

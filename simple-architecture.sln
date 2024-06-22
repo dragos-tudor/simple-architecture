@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Shared.Testing", "Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Api.Testing", "Simple.Api.Testing\Simple.Api.Testing.csproj", "{CBCC59F0-0C7B-49B4-8221-662BD6F4EB2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.App.Integrations", "Simple.App.Integrations\Simple.App.Integrations.csproj", "{26391EA3-7897-4761-8693-F3A915EB322F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Integrations", "Simple.Infrastructure.Integrations\Simple.Infrastructure.Integrations.csproj", "{26391EA3-7897-4761-8693-F3A915EB322F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.App.Services", "Simple.App.Services\Simple.App.Services.csproj", "{1F8C51A7-3FC8-44F0-AC9C-4719CA3FECF8}"
 EndProject

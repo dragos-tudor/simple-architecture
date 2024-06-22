@@ -7,7 +7,7 @@ partial class ApiFuncs
   {
     var loggerFactory = GetRequiredService<ILoggerFactory>(app.Services);
 
-    var serverIntegrations = await IntegrateServersAsync(configuration, loggerFactory, cancellationToken);
+    var serverIntegrations = await IntegrateServersAsync(configuration, RegisterMongoSubscribers, RegisterSqlSubscribers, loggerFactory, cancellationToken);
     IntegrateApi(app, serverIntegrations, loggerFactory);
 
     return serverIntegrations;
