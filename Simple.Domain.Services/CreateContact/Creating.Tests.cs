@@ -15,7 +15,7 @@ partial class ServicesTests
   [TestMethod]
   public async Task new_contact__create_contact__contact_saved ()
   {
-    var contact = CreateTestContact(contactId: Guid.Empty);
+    var contact = CreateTestContact();
     var insertContactAndMessage = Substitute.For<SaveModels<Contact, Message<ContactCreatedEvent>>>();
     await CreateContactService(contact, FindPhoneNumbers, FindContactByName, FindContactByEmail, insertContactAndMessage, EnqueueMessage, Logger);
 
@@ -27,7 +27,7 @@ partial class ServicesTests
   [TestMethod]
   public async Task new_contact__create_contact__contact_created_event_saved ()
   {
-    var contact = CreateTestContact(contactId: Guid.Empty);
+    var contact = CreateTestContact();
     var insertContactAndMessage = Substitute.For<SaveModels<Contact, Message<ContactCreatedEvent>>>();
     await CreateContactService(contact, FindPhoneNumbers, FindContactByName, FindContactByEmail, insertContactAndMessage, EnqueueMessage, Logger);
 
@@ -38,9 +38,9 @@ partial class ServicesTests
   }
 
   [TestMethod]
-  public async Task new_contact__create_contact__produce_contact_created_event_message ()
+  public async Task new_contact__create_contact__enqueue_contact_created_event_message ()
   {
-    var contact = CreateTestContact(contactId: Guid.Empty);
+    var contact = CreateTestContact();
     var enqueueMessage = Substitute.For<EnqueueMessage<Message<ContactCreatedEvent>>>();
     await CreateContactService(contact, FindPhoneNumbers, FindContactByName, FindContactByEmail, InsertContactAndMessage, enqueueMessage, Logger);
 

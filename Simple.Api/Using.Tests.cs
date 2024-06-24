@@ -2,13 +2,13 @@
 global using System.Net.Http.Json;
 global using Microsoft.AspNetCore.TestHost;
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
+global using static Docker.Extensions.DockerFuncs;
 global using static Simple.Api.ApiFuncs;
 global using static Simple.Domain.Models.ModelsFuncs;
 global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
 global using static Simple.Shared.Testing.TestingFuncs;
 
-using static Docker.Extensions.DockerFuncs;
 using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Simple.Api;

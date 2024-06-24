@@ -5,7 +5,7 @@ namespace Simple.Domain.Services;
 
 partial class ServicesFuncs
 {
-  public static readonly ContactValidator ContactValidator =  new ();
+  static readonly ContactValidator ContactValidator =  new ();
 
   public static async Task<Result<Contact?, Failure[]?>> CreateContactService (
     Contact contact,

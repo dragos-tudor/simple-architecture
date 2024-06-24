@@ -11,11 +11,10 @@ partial class ApiTesting
   public async Task new_phone_number__add_phone_number_to_sql_contact__phone_number_added_to_contact ()
   {
     using var apiClient = ApiServer.GetTestClient();
-    var apiPathBase = GetApiPathBase(ApiServer);
     var contact = CreateTestContact();
     var phoneNumber = CreateTestPhoneNumber();
 
-    var agendaContext = await AgendaContextFactory.CreateDbContextAsync();
+    using var agendaContext = await AgendaContextFactory.CreateDbContextAsync();
     await InsertContact(agendaContext, contact);
 
     using var phoneNumberForm = new FormUrlEncodedContent([
@@ -24,8 +23,7 @@ partial class ApiTesting
       new KeyValuePair<string, string>("numberType", phoneNumber.NumberType.ToString()),
       new KeyValuePair<string, string>("extension", phoneNumber.Extension.ToString()!)
     ]);
-    var phoneNumbersPath = apiPathBase + GetSqlPhoneNumbersPath(contact.ContactId);
-    var phoneNumberCreatedResponse = await apiClient.PostAsync(new Uri(phoneNumbersPath), phoneNumberForm);
+    var phoneNumberCreatedResponse = await apiClient.PostAsync(GetSqlPhoneNumbersPath(contact.ContactId), phoneNumberForm);
     phoneNumberCreatedResponse.EnsureSuccessStatusCode();
 
     var actual = await FindContactByKey(agendaContext.Contacts.AsQueryable(), contact.ContactId).Include(c => c.PhoneNumbers).FirstOrDefaultAsync();
