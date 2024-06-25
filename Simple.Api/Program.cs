@@ -13,7 +13,7 @@ public sealed partial class ApiFuncs
 
     var loggerFactory = GetRequiredService<ILoggerFactory>(app.Services);
     var serverIntegrations = await IntegrateServersAsync(configuration, RegisterMongoSubscribers, RegisterSqlSubscribers, loggerFactory, cancellationToken);
-    IntegrateApi(app, serverIntegrations, loggerFactory);
+    MapEndpoints(app, serverIntegrations, loggerFactory);
 
     app.Lifetime.ApplicationStopping.Register(cancellationTokenSource.Cancel);
     await app.RunAsync();

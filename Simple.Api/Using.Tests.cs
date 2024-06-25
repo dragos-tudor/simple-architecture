@@ -35,7 +35,7 @@ public partial class ApiTesting
 
     var loggerFactory = GetRequiredService<ILoggerFactory>(app.Services);
     var serverIntegrations = RunSynchronously(() => IntegrateServersAsync(configuration, RegisterMongoSubscribers, RegisterSqlSubscribers, loggerFactory, cancellationToken));
-    IntegrateApi(app, serverIntegrations, loggerFactory);
+    MapEndpoints(app, serverIntegrations, loggerFactory);
 
     app.StartAsync(cancellationToken);
     ApiServer = app;

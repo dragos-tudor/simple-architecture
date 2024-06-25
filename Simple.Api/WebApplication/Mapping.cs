@@ -3,7 +3,7 @@ namespace Simple.Api;
 
 partial class ApiFuncs
 {
-  internal static WebApplication IntegrateApi (WebApplication app, ServerIntegrations serverIntegrations, ILoggerFactory loggerFactory)
+  internal static WebApplication MapEndpoints (WebApplication app, ServerIntegrations serverIntegrations, ILoggerFactory loggerFactory)
   {
     var domainLogger = loggerFactory.CreateLogger(typeof(ServicesFuncs).Namespace!);
     var (mongoIntegration, sqlIntegration) = serverIntegrations;
