@@ -16,7 +16,7 @@ partial class ApiTesting
     await InsertContact(agendaContext, contact);
 
     var phoneNumberDeletedResponse = await apiClient.DeleteAsync(GetSqlPhoneNumberCreatedPath(contact.ContactId, phoneNumber.CountryCode, phoneNumber.Number));
-    phoneNumberDeletedResponse.EnsureSuccessStatusCode();
+    await EnsureResponseMessageSuccess(phoneNumberDeletedResponse);
 
     var actual = await FindContactByKey(agendaContext.Contacts.AsQueryable(), contact.ContactId).Include(c => c.PhoneNumbers).FirstOrDefaultAsync();
     AreEqual(actual!.PhoneNumbers, []);

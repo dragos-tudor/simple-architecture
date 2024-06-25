@@ -1,7 +1,4 @@
 
-using MongoDB.Driver.Linq;
-using Storing.MongoDb;
-
 namespace Simple.Api;
 
 partial class ApiTesting
@@ -15,10 +12,10 @@ partial class ApiTesting
 
     using var contactJson = JsonContent.Create(contact);
     var contactCreateResponse = await apiClient.PostAsync("/mongo/contacts", contactJson);
-    contactCreateResponse.EnsureSuccessStatusCode();
+    await EnsureResponseMessageSuccess(contactCreateResponse);
 
     var contactResponse = await apiClient.GetAsync(GetResponseMessageLocation(contactCreateResponse));
-    contactResponse.EnsureSuccessStatusCode();
+    await EnsureResponseMessageSuccess(contactResponse);
 
     var actual = await ReadResponseMessageJsonContent<Contact>(contactResponse);
     Assert.AreEqual(actual!.ContactName, contact.ContactName);
@@ -33,7 +30,7 @@ partial class ApiTesting
 
     using var contactJson = JsonContent.Create(contact);
     var contactCreateResponse = await apiClient.PostAsync("/mongo/contacts", contactJson);
-    contactCreateResponse.EnsureSuccessStatusCode();
+    await EnsureResponseMessageSuccess(contactCreateResponse);
 
     await WaitUntilAsync(
       async () => await ReceiveNotifications(contact.ContactEmail, contact.ContactEmail, notification => notification.Title == AddedToAgendaTitle) is not null,

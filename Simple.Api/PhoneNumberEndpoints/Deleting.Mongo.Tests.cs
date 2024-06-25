@@ -14,7 +14,7 @@ partial class ApiTesting
     await InsertContact(contacts, contact);
 
     var phoneNumberDeletedResponse = await apiClient.DeleteAsync(GetMongoPhoneNumberCreatedPath(contact.ContactId, phoneNumber.CountryCode, phoneNumber.Number));
-    phoneNumberDeletedResponse.EnsureSuccessStatusCode();
+    await EnsureResponseMessageSuccess(phoneNumberDeletedResponse);
 
     var actual = await FindContactByKey(contacts.AsQueryable(), contact.ContactId).FirstOrDefaultAsync();
     AreEqual(actual!.PhoneNumbers, []);

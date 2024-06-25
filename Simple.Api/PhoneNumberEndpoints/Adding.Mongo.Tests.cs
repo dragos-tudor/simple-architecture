@@ -15,7 +15,7 @@ partial class ApiTesting
 
     using var phoneNumberJson = JsonContent.Create(phoneNumber);
     var phoneNumberCreatedResponse = await apiClient.PostAsync(GetMongoPhoneNumbersPath(contact.ContactId), phoneNumberJson);
-    phoneNumberCreatedResponse.EnsureSuccessStatusCode();
+    await EnsureResponseMessageSuccess(phoneNumberCreatedResponse);
 
     var actual = await FindContactByKey(contacts.AsQueryable(), contact.ContactId).FirstOrDefaultAsync();
     AreEqual(actual!.PhoneNumbers, [phoneNumber]);

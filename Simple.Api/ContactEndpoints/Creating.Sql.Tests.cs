@@ -22,10 +22,10 @@ partial class ApiTesting
       new KeyValuePair<string, string>("phoneNumbers[0].extension", phoneNumber.Extension.ToString()!)
     ]);
     var contactCreateResponse = await apiClient.PostAsync("/sql/contacts", contactForm);
-    contactCreateResponse.EnsureSuccessStatusCode();
+    await EnsureResponseMessageSuccess(contactCreateResponse);
 
     var contactResponse = await apiClient.GetAsync(GetResponseMessageLocation(contactCreateResponse));
-    contactResponse.EnsureSuccessStatusCode();
+    await EnsureResponseMessageSuccess(contactResponse);
 
     var actual = await ReadResponseMessageJsonContent<Contact>(contactResponse);
     Assert.AreEqual(actual!.ContactName, contact.ContactName);
@@ -43,7 +43,7 @@ partial class ApiTesting
       new KeyValuePair<string, string>("contactEmail", contact.ContactEmail)
     ]);
     var contactCreateResponse = await apiClient.PostAsync("/sql/contacts", contactForm);
-    contactCreateResponse.EnsureSuccessStatusCode();
+    await EnsureResponseMessageSuccess(contactCreateResponse);
 
     await WaitUntilAsync(
       async () => await ReceiveNotifications(contact.ContactEmail, contact.ContactEmail, notification => notification.Title == AddedToAgendaTitle) is not null,

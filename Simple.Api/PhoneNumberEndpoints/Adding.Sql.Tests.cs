@@ -24,7 +24,7 @@ partial class ApiTesting
       new KeyValuePair<string, string>("extension", phoneNumber.Extension.ToString()!)
     ]);
     var phoneNumberCreatedResponse = await apiClient.PostAsync(GetSqlPhoneNumbersPath(contact.ContactId), phoneNumberForm);
-    phoneNumberCreatedResponse.EnsureSuccessStatusCode();
+    await EnsureResponseMessageSuccess(phoneNumberCreatedResponse);
 
     var actual = await FindContactByKey(agendaContext.Contacts.AsQueryable(), contact.ContactId).Include(c => c.PhoneNumbers).FirstOrDefaultAsync();
     AreEqual(actual!.PhoneNumbers, [phoneNumber]);
