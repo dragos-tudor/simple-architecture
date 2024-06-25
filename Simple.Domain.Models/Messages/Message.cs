@@ -15,8 +15,6 @@ public record Message
   public string FailureMessage { get; set; } = string.Empty;
   public byte? FailureCounter { get; set; }
   public bool IsActive { get; set; } = true;
-
-  public override string ToString() => MessageType;
 }
 
 public record Message<TPayload>: Message

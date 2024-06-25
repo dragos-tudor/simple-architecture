@@ -43,10 +43,10 @@ partial class MongoDbTests
  [TestMethod]
   public void active_and_inactive_messages__find_message_active_messages__stored_active_messages ()
   {
-    Message[] messages = [CreateTestMessage(isActive: true), CreateTestMessage(isActive: false), CreateTestMessage(isActive: true)];
+    Message[] messages = [CreateTestMessage(isActive: true, messageDate: DateTime.UtcNow.AddSeconds(5)), CreateTestMessage(isActive: false), CreateTestMessage(isActive: true, messageDate: DateTime.UtcNow)];
 
-    var actual = FindActiveMessages(messages.AsQueryable());
-    AreEqual(actual, [messages[0], messages[2]]);
+    var actual = FindActiveMessages(messages.AsQueryable(), DateTime.UtcNow);
+    AreEqual(actual, [messages[2]]);
   }
 
  [TestMethod]

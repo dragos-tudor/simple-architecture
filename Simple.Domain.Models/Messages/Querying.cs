@@ -3,8 +3,8 @@ namespace Simple.Domain.Models;
 
 partial class ModelsFuncs
 {
-  public static TQueryable FindActiveMessages<TQueryable> (TQueryable query) where TQueryable: IQueryable<Message> =>
-    (TQueryable)query.Where(message => message.IsActive);
+  public static TQueryable FindActiveMessages<TQueryable> (TQueryable query, DateTime startDate) where TQueryable: IQueryable<Message> =>
+    (TQueryable)query.Where(message => message.IsActive && startDate > message.MessageDate);
 
   public static TQueryable FindMessageByKey<TQueryable> (TQueryable query, Guid messageId) where TQueryable: IQueryable<Message> =>
     (TQueryable)query.Where(message => message.MessageId == messageId);

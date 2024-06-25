@@ -1,4 +1,16 @@
 {
+  "Jobs": [
+    {
+      "JobName": "ResumeMessages",
+      "RunOptions": {
+        "RunInterval": "00:01:00.000"
+      }
+    }
+  ],
+  "JobSchedulerOptions": {
+    "TimerDelay": "00:00:05.000",
+    "TimerPeriod": "00:00:30.000",
+  },
   "SqlServerOptions": {
     "adminName": "sa",
     "adminPassword": "admin.P@ssw0rd",
