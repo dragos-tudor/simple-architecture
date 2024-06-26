@@ -9,7 +9,7 @@ partial class IntegrationsFuncs
   {
     using var agendaContext = await agendaContextFactory.CreateDbContextAsync(cancellationToken);
     var startDate = GetMessageStartDate(timeProvider.GetUtcNow(), messageHandlerOptions.ResumeDelay);
-    var activeMessages = await FindActiveMessages(agendaContext.Messages.AsQueryable(), startDate).ToListAsync(cancellationToken); // time-ordering message ids.
+    var activeMessages = await FindActiveMessages(agendaContext.Messages.AsQueryable(), startDate).ToListAsync(cancellationToken); // time-ordered message ids.
 
     return EnqueueMessages(sqlQueue, activeMessages);
   }

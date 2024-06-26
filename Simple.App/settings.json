@@ -1,5 +1,5 @@
 {
-  "Jobs": [
+  "ResumeMessagesJob": [
     {
       "JobName": "ResumeMessages",
       "RunOptions": {

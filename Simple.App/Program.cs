@@ -15,8 +15,9 @@ partial class AppFuncs
     var loggerFactory = GetRequiredService<ILoggerFactory>(host.Services);
     var serverIntegrations = await IntegrateServersAsync(configuration, RegisterMongoSubscribers,  RegisterSqlSubscribers, loggerFactory, cancellationToken);
 
-    var jobs = GetConfigurationOptions<Job>(configuration, "Jobs");
-    var jobScheduler = StartJobScheduler(jobs, serverIntegrations, configuration, TimeProvider.System, loggerFactory);
+    var job = GetConfigurationOptions<ResumeMessagesJob>(configuration);
+    var jobs = MapResumeMessageJobAction(job, serverIntegrations, configuration, TimeProvider.System);
+    var jobScheduler = IntegrateJobScheduler(jobs, serverIntegrations, configuration, TimeProvider.System, loggerFactory);
 
     var hostLifetime = GetRequiredService<IHostApplicationLifetime>(host.Services);
     hostLifetime.ApplicationStopping.Register(cancellationTokenSource.Cancel);
