@@ -25,7 +25,7 @@ partial class ServicesFuncs
     await sendNotification(notification, cancellationToken);
     LogNotifiedAddedToAgenda(logger, notification.From, notification.To, message.CorrelationId);
 
-    await insertMessage(CreateFromMessage(notification, message, isActive: false), cancellationToken);
+    await insertMessage(CreateChildMessage(message, notification), cancellationToken);
     return notification;
   }
 }

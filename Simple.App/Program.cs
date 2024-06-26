@@ -16,7 +16,7 @@ partial class AppFuncs
     var serverIntegrations = await IntegrateServersAsync(configuration, RegisterMongoSubscribers,  RegisterSqlSubscribers, loggerFactory, cancellationToken);
 
     var job = GetConfigurationOptions<ResumeMessagesJob>(configuration);
-    var jobs = MapResumeMessageJobAction(job, serverIntegrations, configuration, TimeProvider.System);
+    var jobs = MapResumeMessagesJobAction(job, serverIntegrations, configuration, TimeProvider.System);
     var jobScheduler = IntegrateJobScheduler(jobs, serverIntegrations, configuration, TimeProvider.System, loggerFactory);
 
     var hostLifetime = GetRequiredService<IHostApplicationLifetime>(host.Services);

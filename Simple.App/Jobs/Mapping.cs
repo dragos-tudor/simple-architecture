@@ -5,7 +5,7 @@ namespace Simple.App;
 
 partial class AppFuncs
 {
-  internal static Job[] MapResumeMessageJobAction (ResumeMessagesJob job, ServerIntegrations serverIntegrations, IConfiguration configuration, TimeProvider timeProvider)
+  internal static Job[] MapResumeMessagesJobAction (ResumeMessagesJob job, ServerIntegrations serverIntegrations, IConfiguration configuration, TimeProvider timeProvider)
   {
     var (mongoIntegration, sqlIntegration) = serverIntegrations;
     var messageHandlerOptions = GetConfigurationOptions<MessageHandlerOptions>(configuration);

@@ -1,4 +1,5 @@
 global using System;
+global using System.Collections.Generic;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using Microsoft.Extensions.Logging;
@@ -10,3 +11,4 @@ global using Simple.Infrastructure.Integrations;
 global using Scheduling.JobScheduler;
 global using static Simple.Domain.Integrations.IntegrationsFuncs;
 global using static Simple.Infrastructure.Integrations.IntegrationsFuncs;
+global using AgendaContextFactory = Microsoft.EntityFrameworkCore.Infrastructure.PooledDbContextFactory<Simple.Infrastructure.SqlServer.AgendaContext>;

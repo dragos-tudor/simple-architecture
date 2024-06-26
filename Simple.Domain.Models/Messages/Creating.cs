@@ -23,22 +23,25 @@ partial class ModelsFuncs
       IsActive = isActive
     };
 
+  public static Message<T> CreateChildMessage<T> (Message message, T messagePayload) =>
+    CreateMessage(messagePayload, parentId: message.MessageId, correlationId: message.CorrelationId, isActive: false);
+
   public static Message<T> CreateFromMessage<T> (
-    T messagePayload,
     Message message,
-    Guid? messageId = default,
-    DateTime? messageDate = default,
-    bool isActive = true)
+    T messagePayload)
   =>
     new () {
-      MessageId = messageId ?? Guid.Empty,
-      MessageType = typeof(T).Name,
-      MessageDate = messageDate ?? DateTime.UtcNow,
+      MessageId = message.MessageId,
+      MessageType = messagePayload!.GetType().Name,
+      MessageDate = message.MessageDate,
       MessagePayload = messagePayload,
-      MessageContent = SerializePayload(messagePayload),
-      MessageVersion = 1,
-      ParentId = message.MessageId,
+      MessageContent = message.MessageContent,
+      MessageVersion = message.MessageVersion,
+      ParentId = message.ParentId,
       CorrelationId = message.CorrelationId,
-      IsActive = isActive
+
+      FailureCounter = message.FailureCounter,
+      FailureMessage = message.FailureMessage,
+      IsActive = message.IsActive
     };
 }

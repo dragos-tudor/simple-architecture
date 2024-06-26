@@ -1,9 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="../Directory.Testing.props" />
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <StartupObject>Simple.App.AppFuncs</StartupObject>
     <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'!='Release'">
+    <StartupObject>TestingPlatformEntryPoint</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
