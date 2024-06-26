@@ -45,9 +45,7 @@ partial class ApiTesting
     var contactCreateResponse = await apiClient.PostAsync("/sql/contacts", contactForm);
     await EnsureResponseMessageSuccess(contactCreateResponse);
 
-    using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
-    await WaitUntilAsync(
-      async () => await ReceiveNotifications(contact.ContactEmail, contact.ContactEmail, notification => notification.Title == AddedToAgendaTitle) is not null,
-      TimeSpan.FromMilliseconds(50), cancellationTokenSource.Token);
+    var actual = await ReceiveNotificationsAsync<Notification>(contact.ContactEmail, contact.ContactEmail, GetEmailServerOptions(Configuration), notification => notification.Title == AddedToAgendaTitle);
+    Assert.IsNotNull(actual);
   }
 }

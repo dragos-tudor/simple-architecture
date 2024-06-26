@@ -16,16 +16,15 @@ namespace Simple.Api;
 [TestClass]
 public partial class ApiTesting
 {
-  static readonly CancellationTokenSource CancellationTokenSource = new (Timeout.Infinite);
   static WebApplication ApiServer = default!;
   static AgendaContextFactory AgendaContextFactory = default!;
   static IMongoDatabase AgendaDatabase = default!;
-  static Func<string, string, Predicate<Notification>, Task<IEnumerable<Notification>>> ReceiveNotifications = default!;
+  static IConfiguration Configuration = default!;
+  static readonly CancellationTokenSource CancellationTokenSource = new (Timeout.Infinite);
 
   [AssemblyInitialize]
   public static void InitializeTests (TestContext context)
   {
-    var cancellationToken = CancellationTokenSource.Token;
     var configuration = BuildConfiguration("settings.json");
     var configBuilder = (WebApplicationBuilder builder) => {
       builder.WebHost.UseTestServer();
@@ -33,20 +32,22 @@ public partial class ApiTesting
     };
     var app = BuildApplication([], configuration, configBuilder);
 
+    var cancellationToken = CancellationTokenSource.Token;
     var loggerFactory = GetRequiredService<ILoggerFactory>(app.Services);
     var serverIntegrations = RunSynchronously(() => IntegrateServersAsync(configuration, RegisterMongoSubscribers, RegisterSqlSubscribers, loggerFactory, cancellationToken));
     MapEndpoints(app, serverIntegrations, loggerFactory);
+    RunSynchronously(() => app.StartAsync(cancellationToken));
 
-    app.StartAsync(cancellationToken);
     ApiServer = app;
     AgendaContextFactory = serverIntegrations.SqlIntegration.SqlContextFactory;
     AgendaDatabase = serverIntegrations.MongoIntegration.MongoDatabase;
-    ReceiveNotifications = (userName, password, filterNotification) => ReceiveNotificationsAsync(userName, password, GetEmailServerOptions(configuration), filterNotification);
+    Configuration = configuration;
   }
 
   [AssemblyCleanup]
   public static void CleanupTests ()
   {
+    RunSynchronously(() => ApiServer.StopAsync());
     CancellationTokenSource.Cancel();
   }
 }
