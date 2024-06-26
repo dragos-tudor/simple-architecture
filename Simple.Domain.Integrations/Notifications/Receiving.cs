@@ -1,5 +1,4 @@
 
-
 namespace Simple.Domain.Integrations;
 
 partial class IntegrationsFuncs

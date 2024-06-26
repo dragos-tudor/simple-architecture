@@ -1,5 +1,4 @@
 
-using System.Collections.Generic;
 using MongoDB.Driver;
 
 namespace Simple.Domain.Integrations;
