@@ -41,8 +41,7 @@ public partial class ApiTesting
     ApiServer = app;
     AgendaContextFactory = serverIntegrations.SqlIntegration.SqlContextFactory;
     AgendaDatabase = serverIntegrations.MongoIntegration.MongoDatabase;
-    ReceiveNotifications = (userName, password, filterNotification) =>
-      ReceiveNotificationsAsync(userName, password, GetEmailServerOptions(configuration), filterNotification);
+    ReceiveNotifications = (userName, password, filterNotification) => ReceiveNotificationsAsync(userName, password, GetEmailServerOptions(configuration), filterNotification);
   }
 
   [AssemblyCleanup]

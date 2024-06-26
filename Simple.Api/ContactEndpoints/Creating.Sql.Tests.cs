@@ -7,7 +7,7 @@ namespace Simple.Api;
 partial class ApiTesting
 {
   [TestMethod]
-  public async Task contact_with_phone_number__create_sql_contact__contact_with_phone_number_created ()
+  public async Task new_contact_with_phone_number__create_sql_contact__contact_with_phone_number_created ()
   {
     using var apiClient = ApiServer.GetTestClient();
     var contact = CreateTestContact();
@@ -33,7 +33,7 @@ partial class ApiTesting
   }
 
   [TestMethod]
-  public async Task contact_with_phone_number__create_sql_contact__added_to_agenda_notification_sent ()
+  public async Task new_contact__create_sql_contact__added_to_agenda_notification_sent ()
   {
     using var apiClient = ApiServer.GetTestClient();
     var contact = CreateTestContact();
@@ -45,8 +45,9 @@ partial class ApiTesting
     var contactCreateResponse = await apiClient.PostAsync("/sql/contacts", contactForm);
     await EnsureResponseMessageSuccess(contactCreateResponse);
 
+    using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
     await WaitUntilAsync(
       async () => await ReceiveNotifications(contact.ContactEmail, contact.ContactEmail, notification => notification.Title == AddedToAgendaTitle) is not null,
-      TimeSpan.FromMilliseconds(50));
+      TimeSpan.FromMilliseconds(50), cancellationTokenSource.Token);
   }
 }

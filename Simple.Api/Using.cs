@@ -12,6 +12,6 @@ global using MongoDB.Driver;
 global using Simple.Domain.Models;
 global using Simple.Domain.Services;
 global using Simple.Infrastructure.Integrations;
-global using static Simple.App.Services.ServicesFuncs;
+global using static Simple.Domain.Integrations.IntegrationsFuncs;
 global using static Simple.Infrastructure.Integrations.IntegrationsFuncs;
 global using AgendaContextFactory = Microsoft.EntityFrameworkCore.Infrastructure.PooledDbContextFactory<Simple.Infrastructure.SqlServer.AgendaContext>;

@@ -4,7 +4,7 @@
 ### Simple architecture design
 - **simple architecture**: an alternative to [clean-architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 - modules dependencies: **high-level modules** --> **middle-level modules** [optional] --> **low-level modules** [modules pyramid].
-- *high-level modules* **integrate** all *low-level modules* and *mid-level modules*: integrations [here](/Simple.App.Services/ContactEndpoints/Creating.Sql.cs), [here](/Simple.App.Services/ContactEndpoints/Creating.Mongo.cs), and [here](/Simple.Infrastructure.Integrations/ServerIntegrations/Integrating.cs).
+- *high-level modules* **integrate** all *low-level modules* and *mid-level modules*: integrations [here](/Simple.Domain.Integrations/ContactEndpoints/Creating.Sql.cs), [here](/Simple.Domain.Integrations/ContactEndpoints/Creating.Mongo.cs), and [here](/Simple.Infrastructure.Integrations/ServerIntegrations/Integrating.cs).
 - *middle-level modules* **relies** on *low-level modules* having lower complexity than *high-level modules*.
 - *low-level modules* **completely independent** ["parallel" modules].
 - *low-level modules* **could share** some modules [ex. *simple.domain.models*].
@@ -18,7 +18,7 @@
 - **simple architecture** aka **pyramid architecture**.
 
 ### Simple architecture implementation
-- *high-level modules*: simple.app.services, simple.infrastructure.integrations.
+- *high-level modules*: simple.domain.integrations, simple.infrastructure.integrations.
 - *low-level modules*: simple.domain.models, simple.domain.services, simple.infrastructure.emailserver, simple.infrastructure.mediator, simple.infrastructure.mongodb, simple.infrastructure.queue, simple.infrastructure.sqlserver.
 
 ### Simple vs clean architectures parallels
@@ -29,6 +29,7 @@
 - *frameworks and drivers* =
   - *low-level modules* [databases drivers].
   - *high-level modules* [web frameworks].
+- *pyramid* vs *stack* => *simple* vs *complex* -> *unknown* [yet] vs *highly-appreciated* [?!].
 
 ### Simple vs clean architectures dependencies
 - [clean-architecture implementation](https://github.com/ardalis/CleanArchitecture/tree/main/src):
@@ -43,8 +44,7 @@
   - *web* project depend on *infrastructure* project [ok].
 - [simple-architecture implementation](/):
   - *simple.domain.services*, *simple.infrastructure.** completely independent projects [share *simple.domain.models* project].
-  - *simple.app.services* and *simple.infrastructure.integrations* projects depend on all above projects [top of the pyramid].
-- *pyramid* vs *stack* => *simple* vs *complex* -> *unknown* [yet] vs *highly-appreciated* [?!].
+  - *simple.domain.integrations* and *simple.infrastructure.integrations* projects independent of each other, depend on all above projects [top of the pyramid].
 
 ### Remarks
 - similar architecture already exists [how else :)] [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
