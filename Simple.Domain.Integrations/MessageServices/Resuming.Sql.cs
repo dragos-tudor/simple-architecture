@@ -8,9 +8,10 @@ partial class IntegrationsFuncs
   public static async Task<IEnumerable<Message>> ResumeMessagesSqlAsync (AgendaContextFactory agendaContextFactory, Channel<Message> sqlQueue, MessageHandlerOptions messageHandlerOptions, TimeProvider timeProvider, CancellationToken cancellationToken = default)
   {
     using var agendaContext = await agendaContextFactory.CreateDbContextAsync(cancellationToken);
-    var startDate = GetMessageStartDate(timeProvider.GetUtcNow(), messageHandlerOptions.ResumeDelay);
-    var activeMessages = await FindActiveMessages(agendaContext.Messages.AsQueryable(), startDate).ToListAsync(cancellationToken); // time-ordered message ids.
+    var messages = await FindActiveMessages(agendaContext.Messages.AsQueryable(), timeProvider.GetUtcNow().DateTime, messageHandlerOptions.ResumeDelay).ToListAsync(cancellationToken); // time-ordered message id.
 
-    return EnqueueMessages(sqlQueue, activeMessages);
+    foreach(var message in RestoreMessages(messages))
+      EnqueueMessage(sqlQueue, message);
+    return messages!;
   }
 }

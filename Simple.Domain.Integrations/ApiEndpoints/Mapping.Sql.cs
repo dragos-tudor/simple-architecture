@@ -26,10 +26,10 @@ partial class IntegrationsFuncs
       FindContactSqlEndpoint(contactId, agendaContextFactory, httpContext));
 
     app.MapGet(SqlContactsPath, (short? pageIndex, short? pageSize, HttpContext httpContext) =>
-      GetContactsPageSqlEndpoint(pageIndex, pageSize, agendaContextFactory, httpContext));
+      FindContactsPageSqlEndpoint(pageIndex, pageSize, agendaContextFactory, httpContext));
 
     app.MapGet(SqlMessagesPath, (short? pageIndex, short? pageSize, HttpContext httpContext) =>
-      GetMessagesPageSqlEndpoint(pageIndex, pageSize, agendaContextFactory, httpContext));
+      FindMessagesPageSqlEndpoint(pageIndex, pageSize, agendaContextFactory, httpContext));
 
     return app;
   }

@@ -50,7 +50,7 @@ partial class MongoDbTests
   {
     Contact[] contacts = [CreateTestContact(), CreateTestContact(), CreateTestContact(), CreateTestContact(), CreateTestContact()];
 
-    var actual = GetContactsPage(contacts.AsQueryable(), 1, 2);
+    var actual = FindContactsPage(contacts.AsQueryable(), 1, 2);
     AreEqual(actual, [contacts[1], contacts[2]]);
   }
 }

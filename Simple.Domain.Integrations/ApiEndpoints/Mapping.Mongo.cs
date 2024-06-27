@@ -26,10 +26,10 @@ partial class IntegrationsFuncs
       FindContactMongoEndpoint(contactId, agendaDb, httpContext));
 
     app.MapGet(MongoContactsPath, (short? pageIndex, short? pageSize, HttpContext httpContext) =>
-      GetContactsPageMongoEndpoint(pageIndex, pageSize, agendaDb, httpContext));
+      FindContactsPageMongoEndpoint(pageIndex, pageSize, agendaDb, httpContext));
 
     app.MapGet(MongoMessagesPath, (short? pageIndex, short? pageSize, HttpContext httpContext) =>
-      GetMessagesPageMongoEndpoint(pageIndex, pageSize, agendaDb, httpContext));
+      FindMessagesPageMongoEndpoint(pageIndex, pageSize, agendaDb, httpContext));
 
     return app;
   }

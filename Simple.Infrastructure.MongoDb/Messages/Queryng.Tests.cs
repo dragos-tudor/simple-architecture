@@ -41,20 +41,38 @@ partial class MongoDbTests
   }
 
  [TestMethod]
-  public void active_and_inactive_messages__find_message_active_messages__stored_active_messages ()
+  public void active_and_inactive_messages__find_active_messages__active_messages ()
   {
-    Message[] messages = [CreateTestMessage(isActive: true, messageDate: DateTime.UtcNow.AddSeconds(5)), CreateTestMessage(isActive: false), CreateTestMessage(isActive: true, messageDate: DateTime.UtcNow)];
+    Message[] messages = [CreateMessage(new object(), isActive: true), CreateMessage(new object(), isActive: false), CreateMessage(new object(), isActive: true)];
 
-    var actual = FindActiveMessages(messages.AsQueryable(), DateTime.UtcNow);
-    AreEqual(actual, [messages[2]]);
+    var actual = FindActiveMessages(messages.AsQueryable(), DateTime.UtcNow.AddSeconds(5));
+    AreEqual(actual, [messages[0], messages[2]]);
   }
 
  [TestMethod]
-  public void messages__get_messages_page__paged_messages ()
+  public void active_and_inactive_messages__find_active_messages_with_date_delay__active_messages ()
+  {
+    Message[] messages = [CreateMessage(new object(), isActive: true), CreateMessage(new object(), isActive: false)];
+
+    var actual = FindActiveMessages(messages.AsQueryable(), DateTime.UtcNow, TimeSpan.FromSeconds(-1));
+    AreEqual(actual, [messages[0]]);
+  }
+
+ [TestMethod]
+  public void old_and_new_messages__find_active_messages_with_date_delay__old_messages ()
+  {
+    Message[] messages = [CreateMessage(new object(), messageDate: DateTime.UtcNow.AddSeconds(-2), isActive: true), CreateMessage(new object(), isActive: true)];
+
+    var actual = FindActiveMessages(messages.AsQueryable(), DateTime.UtcNow, TimeSpan.FromSeconds(1));
+    AreEqual(actual, [messages[0]]);
+  }
+
+ [TestMethod]
+  public void messages__find_messages_page__messages_page ()
   {
     Message[] messages = [CreateTestMessage(), CreateTestMessage(), CreateTestMessage(), CreateTestMessage(), CreateTestMessage()];
 
-    var actual = GetMessagesPage(messages.AsQueryable(), 1, 2);
+    var actual = FindMessagesPage(messages.AsQueryable(), 1, 2);
     AreEqual(actual, [messages[1], messages[2]]);
   }
 }
