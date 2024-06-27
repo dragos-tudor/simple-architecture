@@ -31,8 +31,7 @@ public partial class AppTesting
     var loggerFactory = GetRequiredService<ILoggerFactory>(host.Services);
     var serverIntegrations = RunSynchronously(() => IntegrateServersAsync(configuration, RegisterMongoSubscribers, RegisterSqlSubscribers, loggerFactory, cancellationToken));
 
-    var job = GetConfigurationOptions<ResumeMessagesJob>(configuration);
-    var jobs = MapResumeMessagesJobAction(job, serverIntegrations, configuration, TimeProvider.System);
+    var jobs = ResolveResumeMessagesJobs(serverIntegrations, configuration, TimeProvider.System);
     var jobScheduler = IntegrateJobScheduler(jobs, serverIntegrations, configuration, TimeProvider.System, loggerFactory);
     RunSynchronously(() => host.StartAsync(cancellationToken));
 

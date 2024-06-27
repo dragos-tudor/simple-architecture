@@ -7,8 +7,6 @@ namespace Simple.Api;
 
 partial class ApiTesting
 {
-  static IEnumerable<string> GetResponseMessageHeader (HttpResponseMessage response, string name) => response.Headers.GetValues(name);
-
   static string GetResponseMessageLocation (HttpResponseMessage response) => WebUtility.UrlDecode(response.Headers.Location!.OriginalString);
 
   static string GetResponseErrorMessage(HttpResponseMessage response, string problemDetails) => response.ToString() + Environment.NewLine + problemDetails;
