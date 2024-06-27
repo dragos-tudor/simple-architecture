@@ -18,4 +18,8 @@ partial class ModelsFuncs
       FailureMessage = message.FailureMessage,
       IsActive = message.IsActive
     };
+
+  public static Message<object> RestoreMessage (Message message) => RestoreMessage(message, DeserializeMessagePayload(message)!);
+
+  public static IEnumerable<Message> RestoreMessages (IEnumerable<Message> messages) => messages.Where(HasMessageContent).Select(message => RestoreMessage(message));
 }

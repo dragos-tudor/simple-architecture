@@ -17,6 +17,6 @@ partial class ModelsFuncs
   public static TQueryable FindContactByPhoneNumber<TQueryable> (TQueryable query, PhoneNumber phoneNumber) where TQueryable: IQueryable<Contact> =>
     (TQueryable)query.Where(contact => contact.PhoneNumbers.Any(_phoneNumber => _phoneNumber == phoneNumber));
 
-  public static TQueryable GetContactsPage<TQueryable> (TQueryable query, int? pageIndex, int? pageSize) where TQueryable: IQueryable<Contact> =>
+  public static TQueryable FindContactsPage<TQueryable> (TQueryable query, int? pageIndex, int? pageSize) where TQueryable: IQueryable<Contact> =>
     (TQueryable)query.Skip(pageIndex ?? 0 * pageSize ?? DefaultPageSize).Take(pageSize ?? DefaultPageSize);
 }

@@ -1,6 +1,12 @@
 
 namespace Simple.Domain.Models;
 
-public record Notification (string From , string To, string Title, string Content, DateTimeOffset Date);
+public record Notification {
+  public string From { get; init; } = string.Empty;
+  public string To { get; init; } = string.Empty;
+  public string Title { get; init; } = string.Empty;
+  public string Content { get; init; } = string.Empty;
+  public DateTimeOffset Date { get; init; } = DateTimeOffset.UtcNow;
+};
 
-public record AddedToAgendaNotification(string From , string To, string Title, string Content, DateTimeOffset Date): Notification(From, To, Title, Content, Date);
+public record AddedToAgendaNotification: Notification;
