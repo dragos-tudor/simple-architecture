@@ -4,7 +4,7 @@ namespace Simple.Api;
 partial class ApiTests
 {
   [TestMethod]
-  public async Task contact_api_integration_mongo_tests ()
+  public async Task contact_api_mongo_tests ()
   {
     using var apiClient = ApiServer.GetTestClient();
     var contact = CreateTestContact();

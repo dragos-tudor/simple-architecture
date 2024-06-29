@@ -7,7 +7,7 @@ namespace Simple.Api;
 partial class ApiTests
 {
   [TestMethod]
-  public async Task contact_api_integration_sql_tests ()
+  public async Task contact_api_sql_tests ()
   {
     using var apiClient = ApiServer.GetTestClient();
     var contact = CreateTestContact();
