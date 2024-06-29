@@ -1,16 +1,12 @@
 
-global using System.Net;
-global using System.Net.Http.Json;
 global using Microsoft.AspNetCore.TestHost;
+global using System.Net.Http.Json;
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
-global using static Docker.Extensions.DockerFuncs;
 global using static Simple.Api.ApiFuncs;
-global using static Simple.Domain.Models.ModelsFuncs;
-global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
-global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
 global using static Simple.Shared.Testing.TestingFuncs;
 
 using Microsoft.Extensions.Logging.Abstractions;
+using static Docker.Extensions.DockerFuncs;
 
 namespace Simple.Api;
 
@@ -18,10 +14,7 @@ namespace Simple.Api;
 public partial class ApiTests
 {
   static WebApplication ApiServer = default!;
-  static AgendaContextFactory SqlContextFactory = default!;
-  static IMongoDatabase MongoDatabase = default!;
-  static IConfiguration Configuration = default!;
-  static readonly CancellationTokenSource CancellationTokenSource = new (Timeout.Infinite);
+  static readonly CancellationTokenSource CancellationTokenSource = new (TimeSpan.FromMinutes(10));
 
   [AssemblyInitialize]
   public static void InitializeTests (TestContext context)
@@ -40,9 +33,6 @@ public partial class ApiTests
     RunSynchronously(() => app.StartAsync(cancellationToken));
 
     ApiServer = app;
-    SqlContextFactory = serverIntegrations.SqlIntegration.SqlContextFactory;
-    MongoDatabase = serverIntegrations.MongoIntegration.MongoDatabase;
-    Configuration = configuration;
   }
 
   [AssemblyCleanup]
