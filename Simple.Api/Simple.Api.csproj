@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'!='Release'">
-    <PackageReference Include="System.Net.Http.Json" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" />
+    <None Include="settings.tests.json" CopyToOutputDirectory="PreserveNewest"/>
   </ItemGroup>
 
 </Project>

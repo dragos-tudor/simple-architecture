@@ -21,4 +21,8 @@
     <None Include="settings.json" CopyToOutputDirectory="PreserveNewest"/>
   </ItemGroup>
 
+  <ItemGroup Condition="'$(Configuration)'!='Release'">
+    <None Include="settings.tests.json" CopyToOutputDirectory="PreserveNewest"/>
+  </ItemGroup>
+
 </Project>

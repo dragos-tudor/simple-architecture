@@ -1,4 +1,5 @@
 
+global using System.Net;
 global using System.Net.Http.Json;
 global using Microsoft.AspNetCore.TestHost;
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,18 +15,18 @@ using Microsoft.Extensions.Logging.Abstractions;
 namespace Simple.Api;
 
 [TestClass]
-public partial class ApiTesting
+public partial class ApiTests
 {
   static WebApplication ApiServer = default!;
-  static AgendaContextFactory AgendaContextFactory = default!;
-  static IMongoDatabase AgendaDatabase = default!;
+  static AgendaContextFactory SqlContextFactory = default!;
+  static IMongoDatabase MongoDatabase = default!;
   static IConfiguration Configuration = default!;
   static readonly CancellationTokenSource CancellationTokenSource = new (Timeout.Infinite);
 
   [AssemblyInitialize]
   public static void InitializeTests (TestContext context)
   {
-    var configuration = BuildConfiguration("settings.json");
+    var configuration = BuildConfiguration("settings.tests.json");
     var configBuilder = (WebApplicationBuilder builder) => {
       builder.WebHost.UseTestServer();
       builder.Services.AddSingleton<ILoggerFactory>(new NullLoggerFactory());
@@ -39,8 +40,8 @@ public partial class ApiTesting
     RunSynchronously(() => app.StartAsync(cancellationToken));
 
     ApiServer = app;
-    AgendaContextFactory = serverIntegrations.SqlIntegration.SqlContextFactory;
-    AgendaDatabase = serverIntegrations.MongoIntegration.MongoDatabase;
+    SqlContextFactory = serverIntegrations.SqlIntegration.SqlContextFactory;
+    MongoDatabase = serverIntegrations.MongoIntegration.MongoDatabase;
     Configuration = configuration;
   }
 

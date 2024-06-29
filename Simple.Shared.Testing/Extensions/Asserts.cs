@@ -13,4 +13,9 @@ partial class TestingFuncs
       CollectionAssert.AreEqual(expected.ToArray(), actual.ToArray());
   }
 
+  public static void Contains<T> (IEnumerable<T> expected, IEnumerable<T> actual) =>
+    CollectionAssert.Contains(expected.ToArray(), actual.ToArray());
+
+  public static void DoesNotContain<T> (IEnumerable<T> expected, IEnumerable<T> actual) =>
+    CollectionAssert.DoesNotContain(expected.ToArray(), actual.ToArray());
 }

@@ -1,24 +1,15 @@
 {
-  "ResumeMessagesJob": {
-    "RunOptions": {
-      "RunInterval": "00:01:00.000"
-    }
-  },
-  "JobSchedulerOptions": {
-    "TimerDelay": "00:00:05.000",
-    "TimerPeriod": "00:00:30.000"
-  },
   "SqlServerOptions": {
     "adminName": "sa",
     "adminPassword": "admin.P@ssw0rd",
     "userName": "sqluser",
     "userPassword": "sqluser.P@ssw0rd",
-    "dbName": "agenda"
+    "dbName": "agenda-tests"
   },
   "MongoReplicaSetOptions": {
     "containerNames": ["simple-mongo1", "simple-mongo2", "simple-mongo3"],
     "collNames": ["contacts", "messages"],
-    "dbName": "agenda"
+    "dbName": "agenda-tests"
   },
   "Serilog": {
     "Using":  [ "Serilog.Sinks.Console", "Serilog.Sinks.File" ],
