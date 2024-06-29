@@ -8,12 +8,12 @@ partial class IntegrationsFuncs
 {
   public static async Task<Results<Created, ProblemHttpResult>> CreateContactSqlEndpoint (
     Contact contact,
-    AgendaContextFactory agendaContextFactory,
+    AgendaContextFactory sqlContextFactory,
     Channel<Message> messageQueue,
     HttpContext httpContext,
     ILogger logger)
   {
-    using var agendaContext = await agendaContextFactory.CreateDbContextAsync();
+    using var agendaContext = await sqlContextFactory.CreateDbContextAsync();
     SetContactId(contact, GenerateSequentialGuid(agendaContext, contact));
 
     var result = await CreateContactService (
@@ -21,7 +21,7 @@ partial class IntegrationsFuncs
       (phoneNumbers, cancellationToken) => FindPhoneNumbers(agendaContext.PhoneNumbers.AsQueryable(), phoneNumbers, cancellationToken),
       (contactName, cancellationToken) => FindContactByName(agendaContext.Contacts.AsQueryable(), contactName).FirstOrDefaultAsync(cancellationToken),
       (contactEmail, cancellationToken) => FindContactByEmail(agendaContext.Contacts.AsQueryable(), contactEmail).FirstOrDefaultAsync(cancellationToken),
-      (contact, message, cancellationToken) => InsertContactAndMessage(agendaContext, contact, message, cancellationToken),
+      (contact, message, cancellationToken) => InsertContactAndMessageAsync(agendaContext, contact, message, cancellationToken),
       (message) => EnqueueMessage(messageQueue, message),
       logger,
       httpContext.TraceIdentifier,

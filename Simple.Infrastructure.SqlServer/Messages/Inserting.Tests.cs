@@ -6,10 +6,10 @@ partial class SqlServerTests
  [TestMethod]
   public async Task new_message__add_message__message_stored ()
   {
-    using var dbContext = CreateAgendaContext(AgendaConnString);
+    using var dbContext = CreateAgendaContext(SqlConnectionString);
     var message = CreateTestMessage();
 
-    await InsertMessage(dbContext, message);
+    await InsertMessageAsync(dbContext, message);
     ClearChangeTracker(dbContext);
 
     var actual = await FindMessageByKey(dbContext.Messages.AsQueryable(), message.MessageId).SingleAsync();

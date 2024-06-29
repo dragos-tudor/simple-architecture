@@ -3,11 +3,8 @@ namespace Simple.Domain.Models;
 
 partial class ModelsFuncs
 {
-  public static TQueryable FindActiveMessages<TQueryable> (TQueryable query, DateTime maxDate) where TQueryable: IQueryable<Message> =>
-    (TQueryable)query.Where(message => message.IsActive && message.MessageDate < maxDate);
-
-  public static TQueryable FindActiveMessages<TQueryable> (TQueryable query, DateTime maxDate, TimeSpan maxDateDelay) where TQueryable: IQueryable<Message> =>
-    FindActiveMessages(query, GetMessageDateDelay(maxDate, maxDateDelay));
+  public static TQueryable FindActiveMessages<TQueryable> (TQueryable query, DateTime nonInclusiveMinDate, DateTime inclusiveMaxDate) where TQueryable: IQueryable<Message> =>
+    (TQueryable)query.Where(message => message.IsActive && nonInclusiveMinDate < message.MessageDate && message.MessageDate <= inclusiveMaxDate);
 
   public static TQueryable FindMessageByKey<TQueryable> (TQueryable query, Guid messageId) where TQueryable: IQueryable<Message> =>
     (TQueryable)query.Where(message => message.MessageId == messageId);

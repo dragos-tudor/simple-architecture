@@ -6,13 +6,13 @@ partial class MongoDbTests
  [TestMethod]
   public async Task contact_without_phone_numbers__insert_phone_number__phone_number_added_on_contact ()
   {
-    var contacts = GetContactCollection(AgendaDatabase);
+    var contacts = GetContactCollection(MongoDatabase);
 
     var contact = CreateTestContact();
-    await InsertContact(contacts, contact);
+    await InsertContactAsync(contacts, contact);
 
     var phoneNumber = CreateTestPhoneNumber();
-    await InsertPhoneNumber(contacts, contact, phoneNumber);
+    await InsertPhoneNumberAsync(contacts, contact, phoneNumber);
 
     var actual = await FindContactByKey(contacts.AsQueryable(), contact.ContactId).SingleAsync();
     Assert.AreEqual(actual.PhoneNumbers[0], phoneNumber);
@@ -21,13 +21,13 @@ partial class MongoDbTests
  [TestMethod]
   public async Task contact_with_phone_numbers__insert_phone_number__phone_number_added_on_contact ()
   {
-    var contacts = GetContactCollection(AgendaDatabase);
+    var contacts = GetContactCollection(MongoDatabase);
 
     var contact = CreateTestContact(phoneNumbers: [CreateTestPhoneNumber()]);
-    await InsertContact(contacts, contact);
+    await InsertContactAsync(contacts, contact);
 
     var phoneNumber = CreateTestPhoneNumber();
-    await InsertPhoneNumber(contacts, contact, phoneNumber);
+    await InsertPhoneNumberAsync(contacts, contact, phoneNumber);
 
     var actual = await FindContactByKey(contacts.AsQueryable(), contact.ContactId).SingleAsync();
     Assert.AreEqual(actual.PhoneNumbers.Count, 2);

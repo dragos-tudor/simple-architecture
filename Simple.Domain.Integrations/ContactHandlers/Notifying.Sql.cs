@@ -7,13 +7,13 @@ partial class IntegrationsFuncs
 {
   public static async Task<Failure?> NotifyAddedToAgendaSqlHandler (
     Message<ContactCreatedEvent> message,
-    AgendaContextFactory agendaContextFactory,
+    AgendaContextFactory sqlContextFactory,
     SendNotification<Notification> sendNotification,
     TimeProvider timeProvider,
     ILogger logger,
     CancellationToken cancellationToken = default)
   {
-    using var agendaContext = await agendaContextFactory.CreateDbContextAsync(cancellationToken);
+    using var agendaContext = await sqlContextFactory.CreateDbContextAsync(cancellationToken);
     var messages = agendaContext.Messages;
     await NotifyAddedToAgendaService (
       message,
@@ -21,7 +21,7 @@ partial class IntegrationsFuncs
       timeProvider.GetUtcNow(),
       (messageIdempotency, cancellationToken) => FindMessageDuplication(messages.AsQueryable(), messageIdempotency).FirstOrDefaultAsync(cancellationToken),
       (notification, cancellationToken) => sendNotification(notification, cancellationToken),
-      (message, cancellationToken) => InsertMessage(agendaContext, message, cancellationToken),
+      (message, cancellationToken) => InsertMessageAsync(agendaContext, message, cancellationToken),
       logger,
       cancellationToken
     );

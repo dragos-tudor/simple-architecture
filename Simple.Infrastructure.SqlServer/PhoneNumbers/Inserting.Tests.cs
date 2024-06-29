@@ -6,13 +6,13 @@ partial class SqlServerTests
  [TestMethod]
   public async Task contact_without_phone_numbers__insert_contact_phone_number__phone_number_added_on_contact ()
   {
-    using var dbContext = CreateAgendaContext(AgendaConnString);
+    using var dbContext = CreateAgendaContext(SqlConnectionString);
     var contact = CreateTestContact();
 
-    await InsertContact(dbContext, contact);
+    await InsertContactAsync(dbContext, contact);
     ClearChangeTracker(dbContext);
 
-    await InsertPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
+    await InsertPhoneNumberAsync(dbContext, contact, CreateTestPhoneNumber());
     ClearChangeTracker(dbContext);
 
     var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers).AsQueryable(), contact.ContactId).SingleAsync();
@@ -22,14 +22,14 @@ partial class SqlServerTests
  [TestMethod]
   public async Task contact_with_phone_numbers__insert_contact_phone_number__phone_number_added_on_contact ()
   {
-    using var dbContext = CreateAgendaContext(AgendaConnString);
+    using var dbContext = CreateAgendaContext(SqlConnectionString);
     var phoneNumber = CreateTestPhoneNumber();
     var contact = CreateTestContact(phoneNumbers: [phoneNumber]);
 
-    await InsertContact(dbContext, contact);
+    await InsertContactAsync(dbContext, contact);
     ClearChangeTracker(dbContext);
 
-    await InsertPhoneNumber(dbContext, contact, CreateTestPhoneNumber());
+    await InsertPhoneNumberAsync(dbContext, contact, CreateTestPhoneNumber());
     ClearChangeTracker(dbContext);
 
     var actual = await FindContactByKey (dbContext.Contacts.Include(e => e.PhoneNumbers).AsQueryable(), contact.ContactId).SingleAsync();

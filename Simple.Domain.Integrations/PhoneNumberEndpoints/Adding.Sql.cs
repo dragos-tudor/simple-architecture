@@ -9,17 +9,17 @@ partial class IntegrationsFuncs
   public static async Task<Results<Created, ProblemHttpResult>> AddPhoneNumberSqlEndpoint (
     Guid contactId,
     PhoneNumber phoneNumber,
-    AgendaContextFactory agendaContextFactory,
+    AgendaContextFactory sqlContextFactory,
     HttpContext httpContext,
     ILogger logger)
   {
-    using var agendaContext = await agendaContextFactory.CreateDbContextAsync();
+    using var agendaContext = await sqlContextFactory.CreateDbContextAsync();
     var result = await AddPhoneNumberService (
       contactId,
       phoneNumber,
       (phoneNumber, cancellationToken) => FindPhoneNumber(agendaContext.PhoneNumbers.AsQueryable(), phoneNumber).FirstOrDefaultAsync(cancellationToken),
       (contactId, cancellationToken) => FindContactByKey(agendaContext.Contacts.AsQueryable(), contactId).FirstOrDefaultAsync(cancellationToken),
-      (contact, phoneNumber, cancellationToken) => InsertPhoneNumber(agendaContext, contact, phoneNumber, cancellationToken),
+      (contact, phoneNumber, cancellationToken) => InsertPhoneNumberAsync(agendaContext, contact, phoneNumber, cancellationToken),
       logger,
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);

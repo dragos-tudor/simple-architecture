@@ -9,17 +9,17 @@ partial class IntegrationsFuncs
   public static async Task<Results<Created, ProblemHttpResult>> AddPhoneNumberMongoEndpoint (
     Guid contactId,
     PhoneNumber phoneNumber,
-    IMongoDatabase agendaDb,
+    IMongoDatabase mongoDatabase,
     HttpContext httpContext,
     ILogger logger)
   {
-    var contacts = GetContactCollection(agendaDb);
+    var contacts = GetContactCollection(mongoDatabase);
     var result = await AddPhoneNumberService (
       contactId,
       phoneNumber,
       (phoneNumber, cancellationToken) => FindPhoneNumber(contacts.AsQueryable(), phoneNumber, cancellationToken),
       (contactId, cancellationToken) => FindContactByKey(contacts.AsQueryable(), contactId).FirstOrDefaultAsync(cancellationToken) as Task<Contact?>,
-      (contact, phoneNumber, cancellationToken) => InsertPhoneNumber(contacts, contact, phoneNumber, cancellationToken),
+      (contact, phoneNumber, cancellationToken) => InsertPhoneNumberAsync(contacts, contact, phoneNumber, cancellationToken),
       logger,
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);

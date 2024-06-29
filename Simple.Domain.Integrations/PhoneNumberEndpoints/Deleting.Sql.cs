@@ -9,16 +9,16 @@ partial class IntegrationsFuncs
     Guid contactId,
     short countryCode,
     long number,
-    AgendaContextFactory agendaContextFactory,
+    AgendaContextFactory sqlContextFactory,
     HttpContext httpContext,
     ILogger logger)
   {
-    using var agendaContext = await agendaContextFactory.CreateDbContextAsync();
+    using var agendaContext = await sqlContextFactory.CreateDbContextAsync();
     var result = await DeletePhoneNumberService (
       contactId,
       CreatePhoneNumber(countryCode, number),
       (contactId, cancellationToken) => FindContactByKey(agendaContext.Contacts.AsQueryable(), contactId).Include(c => c.PhoneNumbers).FirstOrDefaultAsync(cancellationToken),
-      (contact, phoneNumber, cancellationToken) => DeletePhoneNumber(agendaContext, phoneNumber, cancellationToken),
+      (contact, phoneNumber, cancellationToken) => DeletePhoneNumberAsync(agendaContext, phoneNumber, cancellationToken),
       logger,
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);

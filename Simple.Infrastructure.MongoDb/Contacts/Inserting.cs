@@ -3,10 +3,10 @@ namespace Simple.Infrastructure.MongoDb;
 
 partial class MongoDbFuncs
 {
-  public static Task InsertContact (IClientSessionHandle session, IMongoCollection<Contact> coll, Contact contact, CancellationToken cancellationToken = default) =>
+  public static Task InsertContactAsync (IClientSessionHandle session, IMongoCollection<Contact> coll, Contact contact, CancellationToken cancellationToken = default) =>
     InsertDocument(session, coll, contact, default, cancellationToken);
 
-  public static Task InsertContact (IMongoCollection<Contact> coll, Contact contact, CancellationToken cancellationToken = default) =>
+  public static Task InsertContactAsync (IMongoCollection<Contact> coll, Contact contact, CancellationToken cancellationToken = default) =>
     InsertDocument(coll, contact, default, cancellationToken);
 
   public static async Task<Guid> InsertContactAndMessage (
@@ -22,8 +22,8 @@ partial class MongoDbFuncs
 
     return await session.WithTransactionAsync (
       async (session, cancellationToken) => {
-        await InsertContact(session, contacts, contact, cancellationToken);
-        await InsertMessage(session, messages, message, cancellationToken);
+        await InsertContactAsync(session, contacts, contact, cancellationToken);
+        await InsertMessageAsync(session, messages, message, cancellationToken);
         return contact.ContactId;
       },
       transactionOptions,

@@ -1,4 +1,3 @@
-
 namespace Simple.Domain.Models;
 
 public record Notification {
@@ -9,4 +8,8 @@ public record Notification {
   public DateTimeOffset Date { get; init; } = DateTimeOffset.UtcNow;
 };
 
-public record AddedToAgendaNotification: Notification;
+partial class ModelsFuncs
+{
+  public static Notification CreateNotification (string from, string to, string title, string content, DateTimeOffset date) =>
+    new () { From = from, To = to, Title = title, Content  = content, Date = date };
+}

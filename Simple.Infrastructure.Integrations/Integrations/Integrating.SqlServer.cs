@@ -17,12 +17,12 @@ partial class IntegrationsFuncs
 
     var sqlMessageQueue = CreateMessageQueue<Message>(1000);
     var sqlConnString = CreateSqlServerConnectionString(sqlServerOptions);
-    var agendaContextFactory = new AgendaContextFactory(CreateSqlContextOptions<AgendaContext>(sqlConnString));
+    var sqlContextFactory = new AgendaContextFactory(CreateSqlContextOptions<AgendaContext>(sqlConnString));
 
     var queueLogger = loggerFactory.CreateLogger(typeof(QueueFuncs).Namespace!);
-    var sqlSubscribers = registerSqlSubscribers(agendaContextFactory, emailServerOptions, sqlMessageQueue, queueLogger);
-    _ = DequeueSqlMessages(sqlMessageQueue, sqlSubscribers, agendaContextFactory, messageHandlerOptions, queueLogger, appCancellationToken);
+    var sqlSubscribers = registerSqlSubscribers(sqlContextFactory, emailServerOptions, sqlMessageQueue, queueLogger);
+    _ = DequeueSqlMessages(sqlMessageQueue, sqlSubscribers, sqlContextFactory, messageHandlerOptions, queueLogger, appCancellationToken);
 
-    return new (agendaContextFactory, sqlMessageQueue);
+    return new (sqlContextFactory, sqlMessageQueue);
   }
 }

@@ -8,5 +8,7 @@ partial class MongoDbFuncs
     BsonClassMap.RegisterClassMap<Contact>(MapContactClassType);
     BsonClassMap.RegisterClassMap<PhoneNumber>(MapPhoneNumberClassType);
     BsonClassMap.RegisterClassMap<Message>(MapMessageClassType);
+    BsonClassMap.RegisterClassMap<Message<AddedToAgendaNotification>>(MapMessageClassType);
+    BsonClassMap.RegisterClassMap<Message<RemovedFromAgendaNotification>>(MapMessageClassType);
   }
 }

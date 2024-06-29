@@ -6,10 +6,10 @@ partial class MongoDbTests
  [TestMethod]
   public async Task messages__find_message_by_key__stored_message_with_key ()
   {
-    var messages = GetMessageCollection(AgendaDatabase);
+    var messages = GetMessageCollection(MongoDatabase);
     var message = CreateTestMessage();
 
-    await InsertMessage(messages, message);
+    await InsertMessageAsync(messages, message);
 
     Assert.IsNotNull(await FindMessageByKey(messages.AsQueryable(), message.MessageId).FirstOrDefaultAsync());
   }
@@ -17,13 +17,13 @@ partial class MongoDbTests
  [TestMethod]
   public async Task parent_message_and_message__find_message_duplication__stored_duplicated_message ()
   {
-    var messages = GetMessageCollection(AgendaDatabase);
+    var messages = GetMessageCollection(MongoDatabase);
     var parent = CreateTestMessage();
     var message = CreateTestMessage(parentId: parent.MessageId);
     var messageIdempotency = CreateMessageIdempotency(parent, message.MessageType);
 
-    await InsertMessage(messages, parent);
-    await InsertMessage(messages, message);
+    await InsertMessageAsync(messages, parent);
+    await InsertMessageAsync(messages, message);
 
     Assert.IsNotNull( await FindMessageDuplication(messages.AsQueryable(), messageIdempotency).FirstOrDefaultAsync());
   }
@@ -31,40 +31,28 @@ partial class MongoDbTests
  [TestMethod]
   public async Task parent_message_and_message__find_message_duplication_with_different_type__no_duplicated_message ()
   {
-    var messages = GetMessageCollection(AgendaDatabase);
+    var messages = GetMessageCollection(MongoDatabase);
     var parent = CreateTestMessage();
     var messageIdempotency = CreateMessageIdempotency(parent, "other mesage type");
 
-    await InsertMessage(messages, parent);
+    await InsertMessageAsync(messages, parent);
 
     Assert.IsNull( await FindMessageDuplication(messages.AsQueryable(), messageIdempotency).FirstOrDefaultAsync());
   }
 
  [TestMethod]
-  public void active_and_inactive_messages__find_active_messages__active_messages ()
+  public void messages__find_active_messages_between_dates__active_messages ()
   {
-    Message[] messages = [CreateMessage(new object(), isActive: true), CreateMessage(new object(), isActive: false), CreateMessage(new object(), isActive: true)];
+    var currentDate = DateTime.UtcNow;
+    Message[] messages = [
+      CreateMessage(new object(), messageDate: currentDate, isActive: false),
+      CreateMessage(new object(), messageDate: currentDate),
+      CreateMessage(new object(), messageDate: currentDate.AddSeconds(1)),
+      CreateMessage(new object(), messageDate: currentDate.AddSeconds(2))
+    ];
 
-    var actual = FindActiveMessages(messages.AsQueryable(), DateTime.UtcNow.AddSeconds(5));
-    AreEqual(actual, [messages[0], messages[2]]);
-  }
-
- [TestMethod]
-  public void active_and_inactive_messages__find_active_messages_with_date_delay__active_messages ()
-  {
-    Message[] messages = [CreateMessage(new object(), isActive: true), CreateMessage(new object(), isActive: false)];
-
-    var actual = FindActiveMessages(messages.AsQueryable(), DateTime.UtcNow, TimeSpan.FromSeconds(-1));
-    AreEqual(actual, [messages[0]]);
-  }
-
- [TestMethod]
-  public void old_and_new_messages__find_active_messages_with_date_delay__old_messages ()
-  {
-    Message[] messages = [CreateMessage(new object(), messageDate: DateTime.UtcNow.AddSeconds(-2), isActive: true), CreateMessage(new object(), isActive: true)];
-
-    var actual = FindActiveMessages(messages.AsQueryable(), DateTime.UtcNow, TimeSpan.FromSeconds(1));
-    AreEqual(actual, [messages[0]]);
+    var actual = FindActiveMessages(messages.AsQueryable(), currentDate, currentDate.AddSeconds(2));
+    AreEqual(actual, [messages[2], messages[3]]);
   }
 
  [TestMethod]

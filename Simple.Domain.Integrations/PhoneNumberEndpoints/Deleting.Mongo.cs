@@ -9,16 +9,16 @@ partial class IntegrationsFuncs
     Guid contactId,
     short countryCode,
     long number,
-    IMongoDatabase agendaDb,
+    IMongoDatabase mongoDatabase,
     HttpContext httpContext,
     ILogger logger)
   {
-    var contacts = GetContactCollection(agendaDb);
+    var contacts = GetContactCollection(mongoDatabase);
     var result = await DeletePhoneNumberService (
       contactId,
       CreatePhoneNumber(countryCode, number),
       (contactId, cancellationToken) => FindContactByKey(contacts.AsQueryable(), contactId).FirstOrDefaultAsync(cancellationToken) as Task<Contact?>,
-      (contact, phoneNumber, cancellationToken) => DeletePhoneNumber(contacts, contact, phoneNumber, cancellationToken),
+      (contact, phoneNumber, cancellationToken) => DeletePhoneNumberAsync(contacts, contact, phoneNumber, cancellationToken),
       logger,
       httpContext.TraceIdentifier,
       httpContext.RequestAborted);

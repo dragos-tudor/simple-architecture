@@ -3,9 +3,9 @@ namespace Simple.Infrastructure.Integrations;
 
 partial class IntegrationsFuncs
 {
-  static async Task FinalizeSqlMessage (Message message, AgendaContextFactory agendaContextFactory, CancellationToken cancellationToken = default)
+  static async Task FinalizeSqlMessage (Message message, AgendaContextFactory sqlContextFactory, CancellationToken cancellationToken = default)
   {
-    using var agendaContext = await agendaContextFactory.CreateDbContextAsync(cancellationToken);
-    await UpdateMessageIsActive(agendaContext, message, false, cancellationToken);
+    using var agendaContext = await sqlContextFactory.CreateDbContextAsync(cancellationToken);
+    await UpdateMessageIsActiveAsync(agendaContext, message, false, cancellationToken);
   }
 }

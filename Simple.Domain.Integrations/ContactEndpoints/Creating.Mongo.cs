@@ -8,13 +8,13 @@ partial class IntegrationsFuncs
 {
   public static async Task<Results<Created, ProblemHttpResult>> CreateContactMongoEndpoint (
     Contact contact,
-    IMongoDatabase agendaDb,
+    IMongoDatabase mongoDatabase,
     Channel<Message> messageQueue,
     HttpContext httpContext,
     ILogger logger)
   {
-    var contacts = GetContactCollection(agendaDb);
-    var messages = GetMessageCollection(agendaDb);
+    var contacts = GetContactCollection(mongoDatabase);
+    var messages = GetMessageCollection(mongoDatabase);
     SetContactId(contact, GenerateSequentialGuid());
 
     var result = await CreateContactService (

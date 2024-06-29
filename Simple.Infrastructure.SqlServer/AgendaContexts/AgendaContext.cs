@@ -1,4 +1,6 @@
 
+using Microsoft.EntityFrameworkCore.ValueGeneration;
+
 namespace Simple.Infrastructure.SqlServer;
 
 public partial class AgendaContext: DbContext
@@ -16,6 +18,7 @@ public partial class AgendaContext: DbContext
     modelBuilder.Entity<Contact>().Property(e => e.ContactName).HasMaxLength(ContactConstraints.ContactNameMaxLength);
 
     modelBuilder.Entity<Message>().HasKey(e => e.MessageId);
+    modelBuilder.Entity<Message>().Property(e => e.MessageId).HasValueGenerator<SequentialGuidValueGenerator>();
     modelBuilder.Entity<Message>().Property(e => e.MessageType).HasMaxLength(MessageContraints.MessageTypeMaxLength);
     modelBuilder.Entity<Message>().Property(e => e.CorrelationId).HasMaxLength(MessageContraints.CorrelationIdMaxLength);
 

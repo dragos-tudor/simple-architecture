@@ -12,7 +12,6 @@ global using Simple.Domain.Models;
 global using Simple.Domain.Services;
 global using Simple.Infrastructure.EmailServer;
 global using Simple.Infrastructure.Mediator;
-global using Scheduling.JobScheduler;
 global using static Simple.Domain.Models.ModelsFuncs;
 global using static Simple.Domain.Services.ServicesFuncs;
 global using static Simple.Infrastructure.EmailServer.EmailServerFuncs;
