@@ -8,6 +8,7 @@ global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
 global using Simple.Domain.Integrations;
+global using Simple.Infrastructure.JobScheduler;
 global using Simple.Infrastructure.Integrations;
 global using Simple.Infrastructure.Mediator;
 global using Scheduling.JobScheduler;
