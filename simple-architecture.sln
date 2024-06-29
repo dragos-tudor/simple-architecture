@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Domain.Integrations"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.App", "Simple.App\Simple.App.csproj", "{329C2005-A792-4256-8144-52D3CE363386}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.JobScheduler", "Simple.Infrastructure.JobScheduler\Simple.Infrastructure.JobScheduler.csproj", "{A6B84B4C-A5B6-403A-AF56-34E01E0F05FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,5 +86,9 @@ Global
 		{329C2005-A792-4256-8144-52D3CE363386}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{329C2005-A792-4256-8144-52D3CE363386}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{329C2005-A792-4256-8144-52D3CE363386}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6B84B4C-A5B6-403A-AF56-34E01E0F05FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6B84B4C-A5B6-403A-AF56-34E01E0F05FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6B84B4C-A5B6-403A-AF56-34E01E0F05FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6B84B4C-A5B6-403A-AF56-34E01E0F05FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

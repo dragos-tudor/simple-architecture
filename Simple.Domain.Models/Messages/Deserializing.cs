@@ -5,7 +5,7 @@ namespace Simple.Domain.Models;
 
 partial class ModelsFuncs
 {
-  public static object? DeserializeMessagePayload (Message message) => DeserializePayload(message.MessageContent, GetMessagePayloadType(GetMessagePayloadAssembly(), message));
+  public static object? DeserializeMessagePayload (Message message) => DeserializePayload(message.MessageContent, GetMessagePayloadType(message));
 
   public static T? DeserializePayload<T> (string json, JsonSerializerOptions? options = default) => JsonSerializer.Deserialize<T>(json, options);
 

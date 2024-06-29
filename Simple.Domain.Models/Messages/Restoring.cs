@@ -1,9 +1,11 @@
 
+using System.Reflection;
+
 namespace Simple.Domain.Models;
 
 partial class ModelsFuncs
 {
-  public static Message<T> RestoreMessage<T> (Message message, T messagePayload) =>
+  static Message<T> RestoreMessage<T> (Message message, T messagePayload) =>
     new () {
       MessageId = message.MessageId,
       MessageType = messagePayload!.GetType().Name,
@@ -19,7 +21,15 @@ partial class ModelsFuncs
       IsActive = message.IsActive
     };
 
-  public static Message<object> RestoreMessage (Message message) => RestoreMessage(message, DeserializeMessagePayload(message)!);
+  public static Message RestoreMessage (Message message)
+  {
+    var bindingFlags = BindingFlags.NonPublic | BindingFlags.Static;
+    var restoreMessage = typeof(ModelsFuncs).GetMethod(nameof(RestoreMessage), bindingFlags)!;
 
-  public static IEnumerable<Message> RestoreMessages (IEnumerable<Message> messages) => messages.Where(HasMessageContent).Select(message => RestoreMessage(message));
+    var messagePayloadType = GetMessagePayloadType(message);
+    var genericRestoreMessage = restoreMessage.MakeGenericMethod(messagePayloadType);
+
+    var messagePayload = DeserializeMessagePayload(message);
+    return (Message)genericRestoreMessage.Invoke(null, [message, messagePayload])!;
+  }
 }
