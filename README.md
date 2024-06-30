@@ -1,5 +1,6 @@
 
 # Simple architecture
+Build independent [*low-level*] modules and integrate them on top [*high-level*] modules.
 
 ### Simple architecture design
 - **simple architecture**: an alternative to [clean-architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
