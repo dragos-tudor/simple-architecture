@@ -30,7 +30,7 @@ CREATE TABLE [Messages] (
     [ParentId] uniqueidentifier NULL,
     [CorrelationId] nvarchar(24) NULL,
 
-    [FailureMessage] nvarchar(2048) NULL,
+    [FailureMessage] nvarchar(max) NULL,
     [FailureCounter] TINYINT NULL,
     [IsActive] bit NOT NULL,
     CONSTRAINT [PK_Messages] PRIMARY KEY ([MessageId])
