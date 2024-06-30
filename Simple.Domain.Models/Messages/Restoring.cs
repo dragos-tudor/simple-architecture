@@ -8,7 +8,7 @@ partial class ModelsFuncs
   static Message<T> RestoreMessage<T> (Message message, T messagePayload) =>
     new () {
       MessageId = message.MessageId,
-      MessageType = messagePayload!.GetType().Name,
+      MessageType = message.MessageType,
       MessageDate = message.MessageDate,
       MessagePayload = messagePayload,
       MessageContent = message.MessageContent,
