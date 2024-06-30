@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Time.Testing;
 
-namespace Simple.Domain.Integrations;
+namespace Simple.Infrastructure.Integrations;
 
 partial class IntegrationsTests
 {

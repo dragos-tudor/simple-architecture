@@ -1,7 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Simple.Domain.Integrations;
+namespace Simple.Infrastructure.Integrations;
 
 partial class IntegrationsFuncs
 {

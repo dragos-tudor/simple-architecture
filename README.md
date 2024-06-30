@@ -4,7 +4,7 @@
 ### Simple architecture design
 - **simple architecture**: an alternative to [clean-architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 - modules dependencies: **high-level modules** --> **middle-level modules** [optional] --> **low-level modules** [modules pyramid].
-- *high-level modules* **integrate** all *low-level modules* and *mid-level modules*: integrations [here](/Simple.Domain.Integrations/ContactEndpoints/Creating.Sql.cs), [here](/Simple.Domain.Integrations/ContactEndpoints/Creating.Mongo.cs), and [here](/Simple.Infrastructure.Integrations/ServerIntegrations/Integrating.cs).
+- *high-level modules* **integrate** all *low-level modules* and *mid-level modules*: domain integrations [here](/Simple.Domain.Integrations/ContactEndpoints/Creating.Sql.cs), [here](/Simple.Domain.Integrations/ContactEndpoints/Creating.Mongo.cs), and infrastructure integrations [here](/Simple.Infrastructure.Integrations/Integrations/Integrating.cs).
 - *middle-level modules* **relies** on *low-level modules* having lower complexity than *high-level modules*.
 - *low-level modules* **completely independent** ["parallel" modules].
 - *low-level modules* **could share** some modules [ex. *simple.domain.models*].
@@ -44,7 +44,7 @@
   - *web* project depend on *infrastructure* project [ok].
 - [simple-architecture implementation](/):
   - *simple.domain.services*, *simple.infrastructure.** completely independent projects [share *simple.domain.models* project].
-  - *simple.domain.integrations* and *simple.infrastructure.integrations* projects independent of each other, depend on all above projects [top of the pyramid].
+  - *simple.domain.integrations* and *simple.infrastructure.integrations* projects independent of each other, depends on all above projects [top of the pyramid].
 
 ### Remarks
 - similar architecture already exists [how else :)] [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
