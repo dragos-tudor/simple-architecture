@@ -1,6 +1,5 @@
 
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
-global using Microsoft.Extensions.Time.Testing;
 global using static Docker.Extensions.DockerFuncs;
 global using static Simple.App.AppFuncs;
 global using Simple.Domain.Models;
@@ -16,17 +15,21 @@ namespace Simple.App;
 [TestClass]
 public partial class AppTests
 {
+  static readonly CancellationTokenSource CancellationTokenSource = new (TimeSpan.FromMinutes(10)); // allow pulling images [one-time], starting/restarting containers, open server ports
+  static IDisposable JobScheduler = default!;
   static ServerIntegrations ServerIntegrations = default!;
-  static readonly CancellationTokenSource CancellationTokenSource = new (TimeSpan.FromMinutes(10));
 
   [AssemblyInitialize]
   public static void InitializeTests (TestContext context)
   {
     var configuration = BuildConfiguration("settings.tests.json");
-    var loggerFactory = NullLoggerFactory.Instance;
+    var loggerFactory = IntegrateSerilog(configuration); // NullLoggerFactory.Instance;
 
     var cancellationToken = CancellationTokenSource.Token;
     var serverIntegrations = RunSynchronously(() => IntegrateServersAsync(configuration, RegisterMongoSubscribers, RegisterSqlSubscribers, loggerFactory, cancellationToken));
+    var jobScheduler = IntegrateJobScheduler(serverIntegrations, configuration, TimeProvider.System, loggerFactory);
+
+    JobScheduler = jobScheduler;
     ServerIntegrations = serverIntegrations;
   }
 
@@ -34,5 +37,6 @@ public partial class AppTests
   public static void CleanupTests ()
   {
     CancellationTokenSource.Cancel();
+    JobScheduler.Dispose();
   }
 }
