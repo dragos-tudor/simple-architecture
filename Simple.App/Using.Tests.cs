@@ -1,14 +1,11 @@
 
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using static Docker.Extensions.DockerFuncs;
-global using static Simple.App.AppFuncs;
 global using Simple.Domain.Models;
 global using static Simple.Domain.Models.ModelsFuncs;
 global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
 global using static Simple.Shared.Testing.TestingFuncs;
-
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Simple.App;
 
