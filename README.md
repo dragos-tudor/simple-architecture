@@ -20,7 +20,7 @@ Build independent [*low-level*] modules and integrate them on top [*high-level*]
 
 ### Simple architecture implementation
 - *high-level modules*: simple.domain.integrations, simple.infrastructure.integrations.
-- *low-level modules*: simple.domain.models, simple.domain.services, simple.infrastructure.emailserver, simple.infrastructure.mediator, simple.infrastructure.mongodb, simple.infrastructure.queue, simple.infrastructure.sqlserver.
+- *low-level modules*: simple.domain.services, simple.infrastructure.emailserver, simple.infrastructure.jobscheduler, simple.infrastructure.mediator, simple.infrastructure.mongodb, simple.infrastructure.queue, simple.infrastructure.sqlserver, simple.domain.models [shared].
 
 ### Simple vs clean architectures parallels
 - *the dependency rule* != no dependencies [even callback funcs could be seen as a form of dependency].
