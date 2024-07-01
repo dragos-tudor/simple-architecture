@@ -8,13 +8,10 @@ class SyntaxReceiver : ISyntaxReceiver
 
   public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
   {
-    if (syntaxNode is not RecordDeclarationSyntax recordDeclaration) return;
-    if (recordDeclaration.BaseList is not BaseListSyntax baseList) return;
+    if (syntaxNode is not RecordDeclarationSyntax recordDeclarationSyntax) return;
+    if (recordDeclarationSyntax.BaseList is not BaseListSyntax baseListSyntax) return;
 
-    if (HasSimpleBaseTypeChildNode(baseList, "IEvent"))
-      EventClassesNames.Add(recordDeclaration.Identifier.ValueText);
-
-    if (HasSimpleBaseTypeChildNode(baseList, "INotification"))
-      NotificationClassesNames.Add(recordDeclaration.Identifier.ValueText);
+    if (IsImplementingIEventInterface(baseListSyntax)) EventClassesNames.Add(GetRecordDeclarationSyntaxName(recordDeclarationSyntax));
+    if (IsImplementingINotificationInterface(baseListSyntax)) NotificationClassesNames.Add(GetRecordDeclarationSyntaxName(recordDeclarationSyntax));
   }
 }

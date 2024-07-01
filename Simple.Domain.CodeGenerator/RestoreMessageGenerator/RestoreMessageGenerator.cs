@@ -16,9 +16,9 @@ public partial class RestoreMessageGenerator : ISourceGenerator
     var syntaxReceiver = (SyntaxReceiver)context.SyntaxReceiver!;
     var classNames = syntaxReceiver.EventClassesNames.Concat(syntaxReceiver.NotificationClassesNames);
 
-    var matchMessageTypeStatements = GenerateMatchMessageTypeStatements(classNames);
-    var restoreMessageDeclaration = GenerateRestoreMessageDeclaration(matchMessageTypeStatements);
+    var matchMessageTypeBranches = GenerateMatchMessageTypeBranches(classNames);
+    var restoreMessageFunction = GenerateRestoreMessageFunction(matchMessageTypeBranches);
 
-    context.AddSource("Restoring.g.cs", SourceText.From(restoreMessageDeclaration, Encoding.UTF8));
+    context.AddSource("Restoring.g.cs", SourceText.From(restoreMessageFunction, Encoding.UTF8));
   }
 }
