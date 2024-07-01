@@ -31,6 +31,6 @@ partial class IntegrationsTests
     await CreateContactSqlEndpoint(contact, SqlContextFactory, messageQueue, new DefaultHttpContext(), Logger);
 
     var actual = await DequeueMessage(messageQueue);
-    Assert.AreEqual(actual.MessageType, typeof(ContactCreatedEvent).FullName);
+    Assert.AreEqual(actual.MessageType, typeof(ContactCreatedEvent).Name);
   }
 }

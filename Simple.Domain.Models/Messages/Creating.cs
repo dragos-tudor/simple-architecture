@@ -13,7 +13,7 @@ partial class ModelsFuncs
   =>
     new () {
       MessageId = messageId ?? Guid.Empty,
-      MessageType = typeof(T).FullName!,
+      MessageType = typeof(T).Name!,
       MessageDate = messageDate ?? DateTime.UtcNow,
       MessagePayload = messagePayload,
       MessageContent = SerializePayload(messagePayload),

@@ -31,6 +31,6 @@ partial class IntegrationsTests
     await CreateContactMongoEndpoint(contact, MongoDatabase, messageQueue, new DefaultHttpContext(), Logger);
 
     var actual = await DequeueMessage(messageQueue);
-    Assert.AreEqual(actual.MessageType, typeof(ContactCreatedEvent).FullName);
+    Assert.AreEqual(actual.MessageType, typeof(ContactCreatedEvent).Name);
   }
 }

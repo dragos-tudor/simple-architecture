@@ -13,4 +13,4 @@ public delegate Task SaveModels<TModel1, TModel2> (TModel1 model1, TModel2 model
 
 public delegate bool EnqueueMessage<TMessage> (TMessage message) where TMessage: Message;
 
-public delegate Task SendNotification<TNotification> (TNotification notification, CancellationToken cancellationToken = default) where TNotification: Notification;
+public delegate Task SendNotification<TNotification> (TNotification notification, CancellationToken cancellationToken = default) where TNotification: INotification;

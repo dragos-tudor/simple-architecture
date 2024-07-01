@@ -13,11 +13,11 @@ partial class IntegrationsTests
     var messageQueue = CreateMessageQueue<Message>(10);
     var resumeMessagesOption = new ResumeMessagesOptions(){ BatchSize = 2, MinTime = TimeSpan.FromSeconds(5), MaxTime = TimeSpan.Zero };
     Message[] messages = [
-      CreateMessage(new AddedToAgendaNotification(), messageDate: currentDate.AddSeconds(-3), isActive: false),
-      CreateMessage(new AddedToAgendaNotification(), messageDate: currentDate.AddSeconds(-2)),
-      CreateMessage(new AddedToAgendaNotification(), messageDate: currentDate.AddSeconds(-1)),
-      CreateMessage(new AddedToAgendaNotification(), messageDate: currentDate),
-      CreateMessage(new AddedToAgendaNotification(), messageDate: currentDate.AddSeconds(1))
+      CreateMessage(CreateAddedToAgendaNotification("", ""), messageDate: currentDate.AddSeconds(-3), isActive: false),
+      CreateMessage(CreateAddedToAgendaNotification("", ""), messageDate: currentDate.AddSeconds(-2)),
+      CreateMessage(CreateAddedToAgendaNotification("", ""), messageDate: currentDate.AddSeconds(-1)),
+      CreateMessage(CreateAddedToAgendaNotification("", ""), messageDate: currentDate),
+      CreateMessage(CreateAddedToAgendaNotification("", ""), messageDate: currentDate.AddSeconds(1))
     ];
 
     await InsertMessageAsync(GetMessageCollection(MongoDatabase), messages[0]);

@@ -1,7 +1,7 @@
 ﻿
 namespace Simple.Domain.Models;
 
-public record ContactCreatedEvent(Guid ContactId, string ContactEmail);
+public record ContactCreatedEvent(Guid ContactId, string ContactEmail): IEvent;
 
 partial class ModelsFuncs
 {

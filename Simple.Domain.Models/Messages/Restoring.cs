@@ -1,6 +1,4 @@
 
-using System.Reflection;
-
 namespace Simple.Domain.Models;
 
 partial class ModelsFuncs
@@ -21,15 +19,5 @@ partial class ModelsFuncs
       IsActive = message.IsActive
     };
 
-  public static Message RestoreMessage (Message message)
-  {
-    var bindingFlags = BindingFlags.NonPublic | BindingFlags.Static;
-    var restoreMessage = typeof(ModelsFuncs).GetMethod(nameof(RestoreMessage), bindingFlags)!;
-
-    var messagePayloadType = GetMessagePayloadType(message);
-    var genericRestoreMessage = restoreMessage.MakeGenericMethod(messagePayloadType);
-
-    var messagePayload = DeserializeMessagePayload(message);
-    return (Message)genericRestoreMessage.Invoke(null, [message, messagePayload])!;
-  }
+  public static partial Message RestoreMessage(Message message);
 }

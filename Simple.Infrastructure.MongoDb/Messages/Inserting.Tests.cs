@@ -18,8 +18,8 @@ partial class MongoDbTests
   public async Task new_discriminated_messages__insert_messages__discriminated_messages_stored ()
   {
     var messages = GetMessageCollection(MongoDatabase);
-    var message1 = CreateMessage(new AddedToAgendaNotification());
-    var message2 = CreateMessage(new RemovedFromAgendaNotification());
+    var message1 = CreateMessage(CreateAddedToAgendaNotification("", ""));
+    var message2 = CreateMessage(CreateRemovedFromAgendaNotification("", ""));
 
     await InsertMessageAsync(messages, message1);
     await InsertMessageAsync(messages, message2);

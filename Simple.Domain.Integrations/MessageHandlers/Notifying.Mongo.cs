@@ -8,7 +8,7 @@ partial class IntegrationsFuncs
   public static async Task<Failure?> NotifyAddedToAgendaMongoHandler (
     Message<ContactCreatedEvent> message,
     IMongoDatabase mongoDatabase,
-    SendNotification<Notification> sendNotification,
+    SendNotification<INotification> sendNotification,
     TimeProvider timeProvider,
     ILogger logger,
     CancellationToken cancellationToken = default)
