@@ -15,11 +15,11 @@ partial class ServicesFuncs
     CancellationToken cancellationToken = default)
   {
     var contact = await findContact(contactId, cancellationToken);
-    if (!ExistContact(contact)) return ToArray([GetMissingContactFailure(contactId)]);
+    if (!ExistsContact(contact)) return ToArray([GetMissingContactFailure(contactId)]);
 
     var phoneNumbers = contact!.PhoneNumbers ?? [];
     var contactPhoneNumber = FindPhoneNumber(phoneNumbers.AsQueryable(), phoneNumber).FirstOrDefault();
-    if(!ExistPhoneNumber(contactPhoneNumber)) return phoneNumber;
+    if(!ExistsPhoneNumber(contactPhoneNumber)) return phoneNumber;
 
     await deletePhoneNumber(contact, contactPhoneNumber!, cancellationToken);
 

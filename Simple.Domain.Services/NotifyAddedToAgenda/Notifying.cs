@@ -17,7 +17,7 @@ partial class ServicesFuncs
   {
     var messageIdempotency = CreateMessageIdempotency<AddedToAgendaNotification>(message);
     var parentMessage = await findDuplicateMessage(messageIdempotency, cancellationToken);
-    if(ExistMessage(parentMessage)) return default;
+    if(ExistsMessage(parentMessage)) return default;
 
     var contactEmail = message.MessagePayload.ContactEmail;
     var notification = CreateAddedToAgendaNotification(from, contactEmail, date);

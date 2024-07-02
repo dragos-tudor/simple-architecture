@@ -8,12 +8,12 @@ public partial class RestoreMessageGenerator : ISourceGenerator
 {
   public void Initialize(GeneratorInitializationContext context)
   {
-    context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
+    context.RegisterForSyntaxNotifications(() => new RestoreMessageSyntaxReceiver());
   }
 
   public void Execute(GeneratorExecutionContext context)
   {
-    var syntaxReceiver = (SyntaxReceiver)context.SyntaxReceiver!;
+    var syntaxReceiver = (RestoreMessageSyntaxReceiver)context.SyntaxReceiver!;
     var classNames = syntaxReceiver.EventClassesNames.Concat(syntaxReceiver.NotificationClassesNames);
 
     var matchMessageTypeBranches = GenerateMatchMessageTypeBranches(classNames);

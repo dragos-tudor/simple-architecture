@@ -1,7 +1,7 @@
 
 namespace Simple.Domain.CodeGenerator;
 
-class SyntaxReceiver : ISyntaxReceiver
+class RestoreMessageSyntaxReceiver : ISyntaxReceiver
 {
   public ICollection<string> EventClassesNames { get; } = [];
   public ICollection<string> NotificationClassesNames { get; } = [];

@@ -19,22 +19,22 @@ partial class ServicesFuncs
     CancellationToken cancellationToken = default)
   {
     var contactFailures = ValidateData(contact, ContactValidator);
-    if(ExistsFailures(contactFailures)) return ToArray(contactFailures);
+    if(ExistFailures(contactFailures)) return ToArray(contactFailures);
 
     var phoneNumberFailures = ValidateData(contact.PhoneNumbers ?? [], PhoneNumberValidator);
-    if(ExistsFailures(phoneNumberFailures)) return ToArray(phoneNumberFailures);
+    if(ExistFailures(phoneNumberFailures)) return ToArray(phoneNumberFailures);
 
     var contactDomainFailures = ValidateContact(contact);
-    if (ExistsFailures(contactDomainFailures)) return ToArray(GetFailures(contactDomainFailures));
+    if (ExistFailures(contactDomainFailures)) return ToArray(GetFailures(contactDomainFailures));
 
     var duplicateContactName = await findContactByName(contact.ContactName, cancellationToken);
-    if (ExistContact(duplicateContactName)) return ToArray([GetDuplicateContactNameFailure(contact.ContactName)]);
+    if (ExistsContact(duplicateContactName)) return ToArray([GetDuplicateContactNameFailure(contact.ContactName)]);
 
     var duplicateContactEmail = await findContactByEmail(contact.ContactEmail, cancellationToken);
-    if (ExistContact(duplicateContactEmail)) return ToArray([GetDuplicateContactEmailFailure(contact.ContactEmail)]);
+    if (ExistsContact(duplicateContactEmail)) return ToArray([GetDuplicateContactEmailFailure(contact.ContactEmail)]);
 
     var duplicateNumbers = await findPhoneNumbers(contact.PhoneNumbers ?? [], cancellationToken);
-    if (ExistsPhoneNumbers(duplicateNumbers)) return ToArray(GetDuplicatePhoneNumberFailures(duplicateNumbers));
+    if (ExistPhoneNumbers(duplicateNumbers)) return ToArray(GetDuplicatePhoneNumberFailures(duplicateNumbers));
 
     var @event = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     var message = CreateMessage(@event, correlationId: correlationId);
