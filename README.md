@@ -45,7 +45,7 @@ Build independent [*low-level*] modules and integrate them on top [*high-level*]
   - *web* project depends on *infrastructure* project [ok].
 - [simple-architecture implementation](/):
   - *simple.domain.services*, *simple.infrastructure.** completely independent projects [share *simple.domain.models* project].
-  - *simple.domain.integrations* and *simple.infrastructure.integrations* projects independent of each other, depends on all above projects [top of the pyramid].
+  - *simple.domain.integrations* and *simple.infrastructure.integrations* projects independent of each other, depend on all above projects [top of the pyramid].
 
 ### Remarks
 - similar architecture already exists [how else :)] [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
