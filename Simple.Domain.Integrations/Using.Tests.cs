@@ -17,7 +17,7 @@ namespace Simple.Domain.Integrations;
 public partial class IntegrationsTests
 {
   static readonly ILogger Logger = new NullLoggerFactory().CreateLogger(nameof(IntegrationsTests));
-  static readonly MongoReplicaSetOptions MongoReplicaSetOptions = new () { ContainerNames = ["simple-mongo1", "simple-mongo2", "simple-mongo3"], CollNames = ["contacts", "messages"], DbName = "agenda-tests" };
+  static readonly MongoReplicaSetOptions MongoReplicaSetOptions = new () { ContainerNames = ["architecture-mongo1", "architecture-mongo2", "architecture-mongo3"], CollNames = ["contacts", "messages"], DbName = "agenda-tests" };
   static readonly IMongoDatabase MongoDatabase = GetMongoDatabase(MongoReplicaSetOptions);
 
   static readonly SqlServerOptions SqlServerOptions = new () {DbName = "agenda-tests", AdminName = "sa", AdminPassword = "admin.P@ssw0rd", UserName = "sqluser", UserPassword = "sqluser.P@ssw0rd"};

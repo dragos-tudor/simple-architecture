@@ -21,7 +21,7 @@
     "dbName": "agenda-tests"
   },
   "MongoReplicaSetOptions": {
-    "containerNames": ["simple-mongo1", "simple-mongo2", "simple-mongo3"],
+    "containerNames": ["architecture-mongo1", "architecture-mongo2", "architecture-mongo3"],
     "collNames": ["contacts", "messages"],
     "dbName": "agenda-tests"
   },

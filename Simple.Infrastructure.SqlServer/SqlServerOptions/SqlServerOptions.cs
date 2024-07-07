@@ -8,9 +8,9 @@ public partial record SqlServerOptions
   public string UserName { get; init; } = string.Empty;
   public string UserPassword { get; init; } = string.Empty;
   public string ImageName { get; init; } = "mcr.microsoft.com/mssql/server:2019-latest";
-  public string ContainerName { get; init; } = "simple-sql";
+  public string ContainerName { get; init; } = "architecture-sql";
   public string DbName { get; init; } = "agenda";
-  public string NetworkName { get; init; } = "simple-network";
+  public string NetworkName { get; init; } = "architecture-network";
   public int ServerPort { get; init; } = 1433;
 }
 

@@ -7,7 +7,7 @@ namespace Simple.Infrastructure.MongoDb;
 [TestClass]
 public partial class MongoDbTests
 {
-  static readonly MongoReplicaSetOptions MongoReplicaSetOptions = new MongoReplicaSetOptions() { ContainerNames = ["simple-mongo1", "simple-mongo2", "simple-mongo3"], CollNames = ["contacts", "messages"], DbName = "agenda-tests" };
+  static readonly MongoReplicaSetOptions MongoReplicaSetOptions = new MongoReplicaSetOptions() { ContainerNames = ["architecture-mongo1", "architecture-mongo2", "architecture-mongo3"], CollNames = ["contacts", "messages"], DbName = "agenda-tests" };
   static readonly IMongoDatabase MongoDatabase = GetMongoDatabase(MongoReplicaSetOptions);
 
   [AssemblyInitialize]
