@@ -22,7 +22,7 @@ Build independent [*low-level*] modules and integrate them on top [*high-level*]
 - *high-level modules*: simple.domain.integrations, simple.infrastructure.integrations.
 - *low-level modules*: simple.domain.services, simple.infrastructure.emailserver, simple.infrastructure.jobscheduler, simple.infrastructure.mediator, simple.infrastructure.mongodb, simple.infrastructure.queue, simple.infrastructure.sqlserver, simple.domain.models [shared].
 
-### Simple vs clean architectures parallels
+### Simple vs clean architecture parallels
 - *the dependency rule* != no dependencies [even callback funcs could be seen as a form of dependency].
 - *entities* != simple data bags [*low-level module* simple.domain.models].
 - *use cases* = *simple.domain.services*.
@@ -32,7 +32,7 @@ Build independent [*low-level*] modules and integrate them on top [*high-level*]
   - *high-level modules* [web frameworks].
 - *pyramid* vs *stack* => *simple* vs *complex* -> *unknown* [yet] vs *highly-appreciated* [?!].
 
-### Simple vs clean architectures dependencies
+### Simple vs clean architecture dependencies
 - [clean-architecture implementation](https://github.com/ardalis/CleanArchitecture/tree/main/src):
   - *clean.architecture.core* project depends on *Mediatr* package [?!].
   - *clean.architecture.usecases* project depends on *clean.architecture.core* project and *EntityFrameworkCore* package [?!].
