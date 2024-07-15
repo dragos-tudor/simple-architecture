@@ -19,8 +19,8 @@
     "DOCKER_HOST_GATEWAY": "${localEnv:DOCKER_HOST_GATEWAY:172.17.0.1}" // host.docker.internal [MAC & WINDOWS]
    },
 	"runArgs": [
-		"--name=simple-architecture",
-		"--hostname=simple-architecture",
+    "--name=simple-architecture",
+    "--hostname=simple-architecture",
     "--net=architecture-network"
 	],
   "remoteUser": "vscode"
