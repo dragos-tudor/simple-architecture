@@ -24,13 +24,13 @@ Build independent [*low-level*] modules and integrate them on top [*high-level*]
 
 ### Simple vs clean architecture parallels
 - *the dependency rule* != no dependencies [even callback funcs could be seen as a form of dependency].
-- *entities* != simple data bags [*low-level module* simple.domain.models].
-- *use cases* = *simple.domain.services*.
-- *interface adapters* = *high-level modules*.
-- *frameworks and drivers* =
+- *entities* != simple data bags [simple.domain.models].
+- *use cases* == *simple.domain.services*.
+- *interface adapters* == *high-level modules*.
+- *frameworks and drivers*:
   - *low-level modules* [databases drivers].
   - *high-level modules* [web frameworks].
-- *pyramid* vs *stack* => *simple* vs *complex* -> *unknown* [yet] vs *highly-appreciated* [?!].
+- *pyramid* vs *stack* => *simple* vs *complex* => *unknown* [yet] vs *highly-appreciated* [?!].
 
 ### Simple vs clean architecture dependencies
 - [clean-architecture implementation](https://github.com/ardalis/CleanArchitecture/tree/main/src):
