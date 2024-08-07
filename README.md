@@ -14,7 +14,7 @@ Build independent [*low-level*] modules and integrate them on top [*high-level*]
 - *fractal design* could be applied at any level:
   - server projects [simple projects](/).
   - front-end modules [react-like library](https://github.com/dragos-tudor/frontend-rendering).
-  - front-end pages [security sample project](https://github.com/dragos-tudor/backend-security/tree/main/Security.Sample/frontend-components).
+  - front-end components [identity app](https://github.com/dragos-tudor/identity-app/frontend-components).
   - functions [aspnet-like security library](https://github.com/dragos-tudor/backend-security).
 - *simple architecture* aka *pyramid architecture*.
 
