@@ -12,7 +12,7 @@ partial class NotificationsTests
     using var smtpClient = CreateSmtpClient();
     using var imapClient = CreateImapClient();
     var mail = new TestMail("x@test.com", "y@test.com", Guid.NewGuid().ToString());
-    var message = BuildMailMessage(mail.From, mail.To, mail.Subject, "");
+    using var message = BuildMailMessage(mail.From, mail.To, mail.Subject, "");
 
     await SendMailMessageAsync(smtpClient, message, EmailServerOptions.ContainerName, EmailServerOptions.SmtpPort);
     var actual = await ReceiveMailMessagesAsync(imapClient, mail.To, mail.To, EmailServerOptions.ContainerName, EmailServerOptions.ImapPort);

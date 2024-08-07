@@ -11,7 +11,7 @@ partial class EmailServerFuncs
   {
     if(!client.IsConnected)
       await ConnectSmtpClientAsync (client, serverName, smtpPort, cancellationToken);
-    await AuthenticateSmtpClientAsync (client, cancellationToken);
+    await AuthenticateSmtpClientAsync (client, GetMessageFromName(message), GetMessageFromName(message), cancellationToken);
 
     await SendMailMessageAsync(client, message, cancellationToken);
     message.Dispose();
