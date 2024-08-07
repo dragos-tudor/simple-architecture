@@ -13,7 +13,9 @@
   - pull SqlServer, MongoDb and GreenMail images from docker hub.
   - create SQLServer, MongoDb and GreenMail containers.
   - start SqlServer, MongoDb replcate set [3] and GreenMail servers.
-  - possible to encounter some execution timeout. should run test command again.
+- possible issues:
+  - first run execution timeout. should run test command again.
+  - greenmail server sometimes fail to start smtp service. greemail server container needs to be restarted.
 
 ### Running tests
 ```shell
