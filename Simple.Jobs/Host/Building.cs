@@ -1,7 +1,7 @@
 
-namespace Simple.App;
+namespace Simple.Jobs;
 
-partial class AppFuncs
+partial class JobsFuncs
 {
   internal static IHost BuildHost (string[] args, IConfiguration configuration, Action<HostApplicationBuilder> configBuilder)
   {

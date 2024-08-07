@@ -1,7 +1,7 @@
 
-namespace Simple.App;
+namespace Simple.Jobs;
 
-partial class AppFuncs
+partial class JobsFuncs
 {
   static IServiceCollection RegisterLogging(IServiceCollection services, ILoggerFactory loggerFactory) => services.AddSingleton(loggerFactory);
 }

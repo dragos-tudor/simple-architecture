@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.Integ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Domain.Integrations", "Simple.Domain.Integrations\Simple.Domain.Integrations.csproj", "{1F8C51A7-3FC8-44F0-AC9C-4719CA3FECF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.App", "Simple.App\Simple.App.csproj", "{329C2005-A792-4256-8144-52D3CE363386}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Jobs", "Simple.Jobs\Simple.Jobs.csproj", "{329C2005-A792-4256-8144-52D3CE363386}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Infrastructure.JobScheduler", "Simple.Infrastructure.JobScheduler\Simple.Infrastructure.JobScheduler.csproj", "{A6B84B4C-A5B6-403A-AF56-34E01E0F05FF}"
 EndProject

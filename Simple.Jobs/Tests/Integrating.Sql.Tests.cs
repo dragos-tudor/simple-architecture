@@ -1,9 +1,9 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Simple.App;
+namespace Simple.Jobs;
 
-partial class AppTests
+partial class JobsTests
 {
   [TestMethod]
   public async Task resume_messages_job_sql_tests ()
