@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <StartupObject>Simple.Jobs.JobsFuncs</StartupObject>
+    <StartupObject>Simple.Worker.WorkerFuncs</StartupObject>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
