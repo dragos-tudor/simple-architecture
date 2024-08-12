@@ -1,12 +1,12 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Simple.Jobs;
+namespace Simple.Worker;
 
-partial class JobsTests
+partial class WorkerTests
 {
   [TestMethod]
-  public async Task resume_messages_job_sql_tests ()
+  public async Task resume_messages_sql_job ()
   {
     var contact = CreateTestContact();
     var message = CreateMessage(new ContactCreatedEvent(contact.ContactId, contact.ContactEmail));

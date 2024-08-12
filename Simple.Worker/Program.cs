@@ -1,8 +1,8 @@
 #pragma warning disable CA2000
 
-namespace Simple.Jobs;
+namespace Simple.Worker;
 
-partial class JobsFuncs
+partial class WorkerFuncs
 {
   public static async Task Main(string[] args)
   {

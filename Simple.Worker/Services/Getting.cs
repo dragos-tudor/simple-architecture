@@ -1,7 +1,7 @@
 
-namespace Simple.Jobs;
+namespace Simple.Worker;
 
-partial class JobsFuncs
+partial class WorkerFuncs
 {
   internal static T GetRequiredService<T> (IServiceProvider services) where T: class => services.GetRequiredService<T>();
 }

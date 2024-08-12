@@ -1,7 +1,7 @@
 
-namespace Simple.Jobs;
+namespace Simple.Worker;
 
-partial class JobsFuncs
+partial class WorkerFuncs
 {
   internal static IHost BuildHost (string[] args, IConfiguration configuration, Action<HostApplicationBuilder> configBuilder)
   {

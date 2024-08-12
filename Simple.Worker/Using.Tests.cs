@@ -7,10 +7,10 @@ global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
 global using static Simple.Shared.Testing.TestingFuncs;
 
-namespace Simple.Jobs;
+namespace Simple.Worker;
 
 [TestClass]
-public partial class JobsTests
+public partial class WorkerTests
 {
   static readonly CancellationTokenSource CancellationTokenSource = new (TimeSpan.FromMinutes(10)); // allow pulling images [one-time], starting/restarting containers, open server ports
   static IDisposable JobScheduler = default!;
