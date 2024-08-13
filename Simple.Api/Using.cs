@@ -1,17 +1,17 @@
 global using System;
 global using System.Collections.Generic;
-global using System.Linq;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using Microsoft.AspNetCore.Builder;
-global using Microsoft.AspNetCore.Http;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
-global using MongoDB.Driver;
 global using Simple.Domain.Models;
 global using Simple.Domain.Services;
 global using Simple.Infrastructure.Integrations;
 global using static Simple.Domain.Integrations.IntegrationsFuncs;
 global using static Simple.Infrastructure.Integrations.IntegrationsFuncs;
-global using AgendaContextFactory = Microsoft.EntityFrameworkCore.Infrastructure.PooledDbContextFactory<Simple.Infrastructure.SqlServer.AgendaContext>;
+
+namespace Simple.Api;
+
+public static partial class ApiFuncs;

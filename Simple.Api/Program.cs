@@ -2,7 +2,7 @@
 
 namespace Simple.Api;
 
-public sealed partial class ApiFuncs
+partial class ApiFuncs
 {
   public static async Task Main (string[] args)
   {

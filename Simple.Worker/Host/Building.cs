@@ -7,6 +7,7 @@ partial class WorkerFuncs
   {
     var builder = Host.CreateApplicationBuilder(args);
     RegisterLogging(builder.Services, IntegrateSerilog(configuration));
+    AddConfiguration(builder.Configuration, configuration);
     configBuilder(builder);
 
     return builder.Build();

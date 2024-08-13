@@ -8,6 +8,7 @@ partial class ApiFuncs
     var builder = WebApplication.CreateBuilder(args);
     RegisterLogging(builder.Services, IntegrateSerilog(configuration));
     RegisterServices(builder.Services);
+    AddConfiguration(builder.Configuration, configuration);
     configBuilder(builder);
 
     var app = builder.Build();
