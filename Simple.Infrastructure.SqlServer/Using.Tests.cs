@@ -1,22 +1,29 @@
 
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
-global using static Simple.Shared.Testing.TestingFuncs;
+global using static Simple.Domain.Queries.QueriesFuncs;
+global using static Simple.Testing.Models.ModelsFuncs;
 
 namespace Simple.Infrastructure.SqlServer;
 
 [TestClass]
 public partial class SqlServerTests
 {
-  static readonly SqlServerOptions SqlServerOptions = new SqlServerOptions() {DbName = "agenda-tests", AdminName = "sa", AdminPassword = "admin.P@ssw0rd", UserName = "sqluser", UserPassword = "sqluser.P@ssw0rd"};
-  static readonly string SqlConnectionString = CreateSqlConnectionString(SqlServerOptions.DbName, SqlServerOptions.UserName, SqlServerOptions.UserPassword, SqlServerOptions.ContainerName);
+  static readonly string SqlConnectionString = CreateSqlConnectionString("agenda-tests", "dbuser", "P@ssw0rd!", "127.0.0.1");
+
+  static void InitializeSqlDatabase<TContext>(TContext dbContext) where TContext : DbContext
+  {
+    dbContext.Database.EnsureDeleted();
+    dbContext.Database.EnsureCreated();
+    dbContext.Database.Migrate();
+  }
 
   [AssemblyInitialize]
-  public static void InitializeSqlServer (TestContext _)
+  public static void InitializeSqlServer(TestContext _)
   {
-    using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(10));
-    var cancellationToken = cancellationTokenSource.Token;
+    string adminConnectionString = CreateSqlConnectionString("agenda-tests", "sa", "P@ssw0rd!", "127.0.0.1");
+    using var agendaContext = CreateAgendaContext(adminConnectionString);
 
-    RunSynchronously(() =>
-      InitializeSqlServerAsync (SqlServerOptions, cancellationToken));
+    InitializeSqlDatabase(agendaContext);
+    CreateSqlDatabaseUser(agendaContext, "agenda-tests", "dbuser", "P@ssw0rd!");
   }
 }

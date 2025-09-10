@@ -1,38 +1,28 @@
 
-using Microsoft.Extensions.Logging;
-
 namespace Simple.Domain.Services;
 
 partial class ServicesFuncs
 {
-  public static readonly PhoneNumberValidator PhoneNumberValidator =  new ();
-
-  public static async Task<Result<PhoneNumber?, Failure[]?>> AddPhoneNumberService (
+  public static async Task<Result<PhoneNumber?, string?>> AddPhoneNumberService(
     Guid contactId,
     PhoneNumber phoneNumber,
-    FindModel<PhoneNumber, PhoneNumber?> findDuplicatePhoneNumber,
+    FindModel<PhoneNumber, PhoneNumber?> findPhoneNumber,
     FindModel<Guid, Contact?> findContact,
-    SaveModels<Contact, PhoneNumber> insertPhoneNumber,
-    ILogger logger,
-    string? correlationId = default,
+    StoreModels<Contact, PhoneNumber> insertPhoneNumber,
     CancellationToken cancellationToken = default)
   {
-    var dataFailures = ValidateData(phoneNumber, PhoneNumberValidator);
-    if(ExistFailures(dataFailures)) return ToArray(dataFailures);
-
-    var domainFailures = ValidatePhoneNumber(phoneNumber);
-    if(ExistFailures(domainFailures)) return ToArray(GetFailures(domainFailures));
+    var valErrors = ValidatePhoneNumber(phoneNumber);
+    if (ExistErrors(valErrors)) return JoinErrors(valErrors);
 
     var contact = await findContact(contactId, cancellationToken);
-    if (contact is null) return ToArray([GetMissingContactFailure(contactId)]);
+    if (contact is null) return MissingContactError;
 
-    var duplicateNumber = await findDuplicatePhoneNumber(phoneNumber, cancellationToken);
-    if (ExistsPhoneNumber(duplicateNumber)) return ToArray([GetDuplicatePhoneNumberFailure(duplicateNumber!)]);
+    var existingPhoneNumber = await findPhoneNumber(phoneNumber, cancellationToken);
+    if (ExistsPhoneNumber(existingPhoneNumber)) return DuplicatePhoneNumberError;
 
     SetContactPhoneNumber(contact, phoneNumber);
     await insertPhoneNumber(contact, phoneNumber, cancellationToken);
 
-    LogPhoneNumberAdded(logger, phoneNumber.Number, contact.ContactId, correlationId);
     return phoneNumber;
   }
 }

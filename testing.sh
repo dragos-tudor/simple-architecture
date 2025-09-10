@@ -2,15 +2,15 @@ set -e
 
 WORKSPACE_DIR=/workspaces/simple-architecture/
 PROJECTS=(
-  "Simple.Domain.Services"
-  "Simple.Infrastructure.EmailServer"
-  "Simple.Infrastructure.Mediator"
+  "Simple.Infrastructure.MailServer"
+  "Simple.Infrastructure.MessageQueue"
   "Simple.Infrastructure.MongoDb"
-  "Simple.Infrastructure.Queue"
   "Simple.Infrastructure.SqlServer"
-  "Simple.Domain.Integrations"
-  "Simple.Infrastructure.Integrations"
+  "Simple.Domain.Queries"
+  "Simple.Domain.Services"
+  "Simple.Api.Endpoints"
   "Simple.Api"
+  "Simple.Worker.Services"
   "Simple.Worker"
 )
 

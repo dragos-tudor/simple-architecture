@@ -1,15 +1,13 @@
 
 global using System;
-global using System.Collections.Generic;
 global using System.Linq;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using Microsoft.EntityFrameworkCore;
-global using Simple.Domain.Models;
-global using static Docker.Extensions.DockerFuncs;
+global using Simple.Shared.Models;
 global using static Storing.SqlServer.SqlServerFuncs;
-global using static Simple.Domain.Models.ModelsFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
+global using AgendaContextFactory = Microsoft.EntityFrameworkCore.Infrastructure.PooledDbContextFactory<Simple.Infrastructure.SqlServer.AgendaContext>;
 
 namespace Simple.Infrastructure.SqlServer;
 

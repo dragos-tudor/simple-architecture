@@ -3,62 +3,65 @@ namespace Simple.Infrastructure.SqlServer;
 
 partial class SqlServerTests
 {
- [TestMethod]
-  public async Task messages__find_message_by_key__stored_message_with_key ()
+  [TestMethod]
+  public async Task messages__find_message_by_id__message_with_id()
   {
     using var dbContext = CreateAgendaContext(SqlConnectionString);
     var message = CreateTestMessage();
 
-    await InsertMessageAsync(dbContext, message);
+    AddMessage(dbContext, message);
+    await SaveChangesAsync(dbContext);
     ClearChangeTracker(dbContext);
 
-    var actual = await FindMessageByKey(dbContext.Messages.AsQueryable(), message.MessageId).FirstOrDefaultAsync();
+    var actual = await FindMessageById(dbContext.Messages.AsQueryable(), message.MessageId).FirstOrDefaultAsync();
     Assert.AreEqual(actual, message);
   }
 
- [TestMethod]
-  public async Task parent_message_and_message__find_message_duplication__stored_duplicated_message ()
+  [TestMethod]
+  public async Task parent_message_and_message__find_message_duplication__duplicated_message()
   {
-     using var dbContext = CreateAgendaContext(SqlConnectionString);
+    using var dbContext = CreateAgendaContext(SqlConnectionString);
     var parent = CreateTestMessage();
     var message = CreateTestMessage(parentId: parent.MessageId);
-    var messageIdempotency = CreateMessageIdempotency(parent, message.MessageType);
+    var messageIdempotency = CreateTestMessageIdempotency(parent.MessageId, message.MessageType);
 
-    await InsertMessageAsync(dbContext, parent);
-    await InsertMessageAsync(dbContext, message);
+    AddMessage(dbContext, parent);
+    AddMessage(dbContext, message);
+    await SaveChangesAsync(dbContext);
 
-    Assert.IsNotNull( await FindMessageDuplication(dbContext.Messages.AsQueryable(), messageIdempotency).FirstOrDefaultAsync());
+    Assert.IsNotNull(await FindMessageDuplication(dbContext.Messages.AsQueryable(), messageIdempotency).FirstOrDefaultAsync());
   }
 
- [TestMethod]
-  public async Task parent_message_and_message__find_message_duplication_with_different_type__no_duplicated_message ()
+  [TestMethod]
+  public async Task parent_message_and_message__find_message_duplication_with_different_type__no_duplicated_message()
   {
-     using var dbContext = CreateAgendaContext(SqlConnectionString);
+    using var dbContext = CreateAgendaContext(SqlConnectionString);
     var parent = CreateTestMessage();
-    var messageIdempotency = CreateMessageIdempotency(parent, "other mesage type");
+    var messageIdempotency = CreateTestMessageIdempotency(parent.MessageId, "other mesage type");
 
-    await InsertMessageAsync(dbContext, parent);
+    AddMessage(dbContext, parent);
+    await SaveChangesAsync(dbContext);
 
-    Assert.IsNull( await FindMessageDuplication(dbContext.Messages.AsQueryable(), messageIdempotency).FirstOrDefaultAsync());
+    Assert.IsNull(await FindMessageDuplication(dbContext.Messages.AsQueryable(), messageIdempotency).FirstOrDefaultAsync());
   }
 
- [TestMethod]
-  public void messages__find_active_messages_between_dates__active_messages ()
+  [TestMethod]
+  public void messages__query_pending_messages_between_dates__pending_messages()
   {
     var currentDate = DateTime.UtcNow;
     Message[] messages = [
-      CreateMessage(new object(), messageDate: currentDate, isActive: false),
-      CreateMessage(new object(), messageDate: currentDate),
-      CreateMessage(new object(), messageDate: currentDate.AddSeconds(1)),
-      CreateMessage(new object(), messageDate: currentDate.AddSeconds(2))
+      CreateTestMessage(messageDate: currentDate, isPending: true),
+      CreateTestMessage(messageDate: currentDate, isPending: true),
+      CreateTestMessage(messageDate: currentDate.AddSeconds(1), isPending: true),
+      CreateTestMessage(messageDate: currentDate.AddSeconds(2), isPending: true)
     ];
 
-    var actual = FindActiveMessages(messages.AsQueryable(), currentDate, currentDate.AddSeconds(2));
+    var actual = QueryPendingMessages(messages.AsQueryable(), currentDate, currentDate.AddSeconds(2));
     AreEqual(actual, [messages[2], messages[3]]);
   }
 
- [TestMethod]
-  public void messages__find_messages_page__messages_page ()
+  [TestMethod]
+  public void messages__find_messages_page__messages_page()
   {
     Message[] messages = [CreateTestMessage(), CreateTestMessage(), CreateTestMessage(), CreateTestMessage(), CreateTestMessage()];
 

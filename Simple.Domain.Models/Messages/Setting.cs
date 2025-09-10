@@ -3,9 +3,9 @@ namespace Simple.Domain.Models;
 
 partial class ModelsFuncs
 {
-  public static string SetMessageFailureMessage (Message message, string failureMessage) => message.FailureMessage = failureMessage;
+  public static string SetMessageErrorMessage(Message message, string errorMessage) => message.ErrorMessage = errorMessage;
 
-  public static byte? SetMessageFailureCounter (Message message, byte failureCounter) => message.FailureCounter = failureCounter;
+  public static byte? SetMessageErrorCounter(Message message, byte errorCounter) => message.ErrorCounter = errorCounter;
 
-  public static bool SetMessageIsActive (Message message, bool isActive) => message.IsActive = isActive;
+  public static bool SetMessageIsPending(Message message, bool isPending) => message.IsPending = isPending;
 }

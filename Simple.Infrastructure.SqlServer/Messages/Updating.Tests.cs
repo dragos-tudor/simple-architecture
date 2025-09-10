@@ -3,36 +3,21 @@ namespace Simple.Infrastructure.SqlServer;
 
 partial class SqlServerTests
 {
- [TestMethod]
-  public async Task message__update_message_is_active__message_updated ()
+  [TestMethod]
+  public async Task message__update_message__message_updated()
   {
     using var dbContext = CreateAgendaContext(SqlConnectionString);
-    var message = CreateTestMessage(isActive: true);
+    var message = CreateTestMessage(isPending: true);
 
-    await InsertMessageAsync(dbContext, message);
+    AddMessage(dbContext, message);
+    await SaveChangesAsync(dbContext);
     ClearChangeTracker(dbContext);
 
-    await UpdateMessageIsActiveAsync(dbContext, message, false);
+    UpdateMessage(dbContext, message, (message) => message.IsPending = false);
+    await SaveChangesAsync(dbContext);
     ClearChangeTracker(dbContext);
 
-    var actual = await FindMessageByKey(dbContext.Messages.AsQueryable(), message.MessageId).SingleAsync();
-    Assert.AreEqual(actual.IsActive, false);
-  }
-
- [TestMethod]
-  public async Task message__update_message_failure_informations__message_updated ()
-  {
-    using var dbContext = CreateAgendaContext(SqlConnectionString);
-    var message = CreateTestMessage(isActive: true);
-
-    await InsertMessageAsync(dbContext, message);
-    ClearChangeTracker(dbContext);
-
-    await UpdateMessageFailureAsync(dbContext, message, "failure", 3);
-    ClearChangeTracker(dbContext);
-
-    var actual = await FindMessageByKey(dbContext.Messages.AsQueryable(), message.MessageId).SingleAsync();
-    Assert.AreEqual(actual.FailureMessage, "failure");
-    Assert.AreEqual(actual.FailureCounter, (byte?)3);
+    var actual = await FindMessageById(dbContext.Messages.AsQueryable(), message.MessageId).SingleAsync();
+    Assert.AreEqual(actual.IsPending, false);
   }
 }

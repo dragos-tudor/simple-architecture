@@ -3,8 +3,8 @@ namespace Simple.Infrastructure.MongoDb;
 
 partial class MongoDbTests
 {
- [TestMethod]
-  public async Task contact_with_phone_numbers__delete_phone_number__phone_number_deleted_from_contact ()
+  [TestMethod]
+  public async Task contact_with_phone_numbers__delete_phone_number__phone_number_deleted_from_contact()
   {
     var contacts = GetContactCollection(MongoDatabase);
     var phoneNumber = CreateTestPhoneNumber();
@@ -13,7 +13,7 @@ partial class MongoDbTests
     await InsertContactAsync(contacts, contact);
     await DeletePhoneNumberAsync(contacts, contact, phoneNumber);
 
-    var actual = await FindContactByKey(contacts.AsQueryable(), contact.ContactId).SingleAsync();
+    var actual = await FindContactById(contacts.AsQueryable(), contact.ContactId).SingleAsync();
     AreEqual(actual.PhoneNumbers, []);
   }
 }

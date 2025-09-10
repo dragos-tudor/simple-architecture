@@ -3,8 +3,9 @@ namespace Simple.Domain.Models;
 
 partial class ModelsFuncs
 {
-  static Message<T> RestoreMessage<T> (Message message, T messagePayload) =>
-    new () {
+  public static Message<T> RestoreMessage<T>(Message message, T messagePayload) =>
+    new()
+    {
       MessageId = message.MessageId,
       MessageType = message.MessageType,
       MessageDate = message.MessageDate,
@@ -14,9 +15,9 @@ partial class ModelsFuncs
       ParentId = message.ParentId,
       CorrelationId = message.CorrelationId,
 
-      FailureCounter = message.FailureCounter,
-      FailureMessage = message.FailureMessage,
-      IsActive = message.IsActive
+      ErrorCounter = message.ErrorCounter,
+      ErrorMessage = message.ErrorMessage,
+      IsPending = message.IsPending
     };
 
   public static partial Message RestoreMessage(Message message);

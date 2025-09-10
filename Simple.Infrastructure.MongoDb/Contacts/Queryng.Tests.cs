@@ -3,27 +3,27 @@ namespace Simple.Infrastructure.MongoDb;
 
 partial class MongoDbTests
 {
- [TestMethod]
-  public async Task contacts__find_contact_by_key__stored_contact_with_id ()
+  [TestMethod]
+  public async Task contacts__find_contact_by_id__contact_with_id()
   {
     var contacts = GetContactCollection(MongoDatabase);
 
     var phoneNumber = CreateTestPhoneNumber();
-    var contact = CreateTestContact(phoneNumbers: [ phoneNumber ]);
+    var contact = CreateTestContact(phoneNumbers: [phoneNumber]);
 
     await InsertContactAsync(contacts, contact);
 
-    var actual = await FindContactByKey(contacts.AsQueryable(), contact.ContactId).FirstOrDefaultAsync();
+    var actual = await FindContactById(contacts.AsQueryable(), contact.ContactId).FirstOrDefaultAsync();
     Assert.AreEqual(actual, contact);
   }
 
- [TestMethod]
-  public async Task contacts__get_contact_by_name__stored_contact_with_name ()
+  [TestMethod]
+  public async Task contacts__find_contact_by_name__contact_with_name()
   {
     var contacts = GetContactCollection(MongoDatabase);
 
     var phoneNumber = CreateTestPhoneNumber();
-    var contact = CreateTestContact(phoneNumbers: [ phoneNumber ]);
+    var contact = CreateTestContact(phoneNumbers: [phoneNumber]);
 
     await InsertContactAsync(contacts, contact);
 
@@ -31,13 +31,13 @@ partial class MongoDbTests
     Assert.AreEqual(actual, contact);
   }
 
- [TestMethod]
-  public async Task contacts__get_contact_by_email__stored_contact_with_email ()
+  [TestMethod]
+  public async Task contacts__find_contact_by_email__contact_with_email()
   {
     var contacts = GetContactCollection(MongoDatabase);
 
     var phoneNumber = CreateTestPhoneNumber();
-    var contact = CreateTestContact(phoneNumbers: [ phoneNumber ]);
+    var contact = CreateTestContact(phoneNumbers: [phoneNumber]);
 
     await InsertContactAsync(contacts, contact);
 
@@ -45,12 +45,12 @@ partial class MongoDbTests
     Assert.AreEqual(actual, contact);
   }
 
- [TestMethod]
-  public void contacts__get_contacts_page__paged_contacts ()
+  [TestMethod]
+  public void contacts__find_contacts_page__paged_contacts()
   {
     Contact[] contacts = [CreateTestContact(), CreateTestContact(), CreateTestContact(), CreateTestContact(), CreateTestContact()];
 
     var actual = FindContactsPage(contacts.AsQueryable(), 1, 2);
-    AreEqual(actual, [contacts[1], contacts[2]]);
+    AreEqual(actual, [contacts[2], contacts[3]]);
   }
 }

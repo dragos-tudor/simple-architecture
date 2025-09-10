@@ -14,6 +14,6 @@ partial class WorkerTests
     await InsertMessageAsync(messages, message);
 
     using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-    await WaitUntilAsync(async () => !(await FindMessageByKey(messages.AsQueryable(), message.MessageId).FirstAsync()).IsActive, TimeSpan.FromMilliseconds(100), cancellationTokenSource.Token);
+    await WaitUntilAsync(async () => !(await FindMessageByKey(messages.AsQueryable(), message.MessageId).FirstAsync()).IsPending, TimeSpan.FromMilliseconds(100), cancellationTokenSource.Token);
   }
 }

@@ -1,26 +1,32 @@
 {
-	"image": "mcr.microsoft.com/dotnet/sdk:8.0.303-bookworm-slim",
-  "customizations": {
-    "vscode": {
-	    "extensions": [
-        "ms-dotnettools.csharp",
-        "icsharpcode.ilspy-vscode"
-      ]
-	  }
+	"dockerFile": "Dockerfile",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-dotnettools.csharp"
+			]
+		}
 	},
-  "mounts": [
-  	{"source": "nuget", "target": "/home/app/.nuget", "type": "volume"}
-  ],
-  "containerEnv": {
-    "DATA_PROTECTION_KEY": "HFm8fYbLyEarjjlGBj5r9Q==",
-    "DOCKER_HOST_PORT": "${localEnv:DOCKER_HOST_PORT:2375}",
-    "DOCKER_HOST_GATEWAY": "${localEnv:DOCKER_HOST_GATEWAY:172.17.0.1}", // host.docker.internal [MAC & WINDOWS]
-		"SHELL": "/bin/bash"
-   },
-	"runArgs": [
-    "--name=simple-architecture",
-    "--hostname=simple-architecture",
-    "--net=architecture-network"
+	"mounts": [
+		{ "source": "nuget", "target": "/root/.nuget", "type": "volume" }
 	],
-  "remoteUser": "app"
+	"containerEnv": {
+		"DATA_PROTECTION_KEY": "HFm8fYbLyEarjjlGBj5r9Q==",
+		"SHELL": "/bin/bash"
+	},
+	"runArgs": [
+		"--name=simple-architecture",
+		"--network=host",
+		"--privileged"
+	],
+  "postCreateCommand": {
+		"sql-server": "podman pull mcr.microsoft.com/mssql/server:2017-latest; podman run -e \"ACCEPT_EULA=Y\" -e \"MSSQL_SA_PASSWORD=P@ssw0rd!\" -d --name architecture-sql mcr.microsoft.com/mssql/server:2017-latest;",
+		"mongo": "podman pull docker.io/library/mongo:4.4-focal;  podman run -d --name architecture-mongo mongo:4.4-focal;",
+		"mail-server": "podman pull docker.io/greenmail/standalone:2.1.5; podman run -d --name architecture-mail greenmail/standalone:2.1.5"
+	},
+  "postStartCommand": {
+		"sql-server": "podman stop architecture-sql; podman start architecture-sql",
+		"mongo": "podman stop architecture-mongo; podman start architecture-mongo",
+		"mail-server": "podman stop architecture-mail; podman start architecture-mail"
+	}
 }

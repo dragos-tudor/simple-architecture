@@ -3,13 +3,11 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace Simple.Infrastructure.SqlServer;
 
-public partial class AgendaContext: DbContext
+public partial class AgendaContext(DbContextOptions<AgendaContext> options) : DbContext(options)
 {
   public DbSet<Contact> Contacts => Set<Contact>();
   public DbSet<PhoneNumber> PhoneNumbers => Set<PhoneNumber>();
   public DbSet<Message> Messages => Set<Message>();
-
-  public AgendaContext(DbContextOptions<AgendaContext> options) : base(options) { }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {

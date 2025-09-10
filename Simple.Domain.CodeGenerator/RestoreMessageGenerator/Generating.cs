@@ -3,7 +3,7 @@ namespace Simple.Domain.CodeGenerator;
 
 partial class CodeGeneratorFuncs
 {
-  internal static string GenerateRestoreMessageFunction (IEnumerable<string> matchMessageTypeStatements) => $@"
+  internal static string GenerateRestoreMessageFunction(IEnumerable<string> matchMessageTypeStatements) => $@"
 namespace Simple.Domain.Models;
 
 partial class ModelsFuncs
@@ -15,7 +15,7 @@ partial class ModelsFuncs
   }};
 }}";
 
-  internal static string GenerateMatchMessageTypeBranch (string className) => $"nameof({className}) => RestoreMessage(message, DeserializePayload<{className}>(message.MessageContent)!),";
+  internal static string GenerateMatchMessageTypeBranch(string className) => $"nameof({className}) => RestoreMessage(message, DeserializePayload<{className}>(message.MessageContent)!),";
 
-  internal static IEnumerable<string> GenerateMatchMessageTypeBranches (IEnumerable<string> classNames) => classNames.Select(GenerateMatchMessageTypeBranch);
+  internal static IEnumerable<string> GenerateMatchMessageTypeBranches(IEnumerable<string> classNames) => classNames.Select(GenerateMatchMessageTypeBranch);
 }

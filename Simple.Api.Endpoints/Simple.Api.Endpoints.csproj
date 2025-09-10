@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../Directory.Testing.props" />
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="../Simple.Domain.Services/Simple.Domain.Services.csproj" />
+    <ProjectReference Include="../Simple.Infrastructure.MailServer/Simple.Infrastructure.MailServer.csproj" />
+    <ProjectReference Include="../Simple.Infrastructure.MessageQueue/Simple.Infrastructure.MessageQueue.csproj" />
+    <ProjectReference Include="../Simple.Infrastructure.MongoDb/Simple.Infrastructure.MongoDb.csproj" />
+    <ProjectReference Include="../Simple.Infrastructure.SqlServer/Simple.Infrastructure.SqlServer.csproj" />
+    <PackageReference Include="FluentValidation" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'!='Release'">
+    <ProjectReference Include="../Simple.Testing.Http/Simple.Testing.Http.csproj" />
+  </ItemGroup>
+
+</Project>

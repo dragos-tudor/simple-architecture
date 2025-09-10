@@ -3,7 +3,7 @@ namespace Simple.Infrastructure.SqlServer;
 
 partial class SqlServerFuncs
 {
-  static string GetCreateSqlLoginScript (string userName, string password) => $@"
+  static string GetCreateSqlLoginScript(string userName, string password) => $@"
     USE MASTER;
     IF NOT EXISTS (SELECT name FROM sys.server_principals WHERE name = '{userName}')
     BEGIN
@@ -11,7 +11,7 @@ partial class SqlServerFuncs
     END
   ";
 
-  static string GetCreateSqlDatabaseUserScript (string databaseName, string userName) => $@"
+  static string GetCreateSqlDatabaseUserScript(string databaseName, string userName) => $@"
     USE [{databaseName}];
     IF NOT EXISTS (SELECT name FROM sys.database_principals WHERE name = N'{userName}')
     BEGIN

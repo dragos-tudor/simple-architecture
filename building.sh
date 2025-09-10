@@ -3,19 +3,21 @@ set -e
 CONFIGURATION=${1:-Debug}
 WORKSPACE_DIR=/workspaces/simple-architecture/
 PROJECTS=(
+  "Simple.Testing.Models"
+  "Simple.Testing.Http"
+  "Simple.Shared.Models"
+  "Simple.Domain.Queries"
+  "Simple.Infrastructure.MailServer"
+  "Simple.Infrastructure.JobScheduler"
+  "Simple.Infrastructure.MessageQueue"
+  "Simple.Infrastructure.MongoDb"
+  "Simple.Infrastructure.SqlServer"
   "Simple.Domain.CodeGenerator"
   "Simple.Domain.Models"
-  "Simple.Shared.Testing"
   "Simple.Domain.Services"
-  "Simple.Infrastructure.EmailServer"
-  "Simple.Infrastructure.JobScheduler"
-  "Simple.Infrastructure.Mediator"
-  "Simple.Infrastructure.MongoDb"
-  "Simple.Infrastructure.Queue"
-  "Simple.Infrastructure.SqlServer"
-  "Simple.Domain.Integrations"
-  "Simple.Infrastructure.Integrations"
+  "Simple.Api.Endpoints"
   "Simple.Api"
+  "Simple.Worker.Services"
   "Simple.Worker"
 )
 

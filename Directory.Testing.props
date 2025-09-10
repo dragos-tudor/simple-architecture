@@ -9,7 +9,7 @@
     <PackageReference Include="MsTest" PrivateAssets="all"/>
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" PrivateAssets="all"/>
     <PackageReference Include="Microsoft.CodeCoverage.MSBuild" PrivateAssets="all"/>
-    <ProjectReference Include="../Simple.Shared.Testing/Simple.Shared.Testing.csproj" PrivateAssets="all"/>
+    <ProjectReference Include="../Simple.Testing.Models/Simple.Testing.Models.csproj" PrivateAssets="all"/>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">

@@ -1,8 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="../Directory.Testing.props" />
+
   <ItemGroup>
-    <ProjectReference Include="../Simple.Domain.Models/Simple.Domain.Models.csproj" />
+    <ProjectReference Include="../Simple.Shared.Models/Simple.Shared.Models.csproj" />
     <PackageReference Include="Scheduling.JobScheduler" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'!='Release'">
+    <ProjectReference Include="../Simple.Domain.Queries/Simple.Domain.Queries.csproj" />
   </ItemGroup>
 
 </Project>

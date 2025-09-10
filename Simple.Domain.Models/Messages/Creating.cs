@@ -3,15 +3,16 @@ namespace Simple.Domain.Models;
 
 partial class ModelsFuncs
 {
-  public static Message<T> CreateMessage<T> (
+  public static Message<T> CreateMessage<T>(
     T messagePayload,
     Guid? messageId = default,
     DateTime? messageDate = default,
     Guid? parentId = default,
     string? correlationId = default,
-    bool isActive = true)
+    bool isPending = true)
   =>
-    new () {
+    new()
+    {
       MessageId = messageId ?? Guid.Empty,
       MessageType = typeof(T).Name!,
       MessageDate = messageDate ?? DateTime.UtcNow,
@@ -20,9 +21,9 @@ partial class ModelsFuncs
       MessageVersion = 1,
       ParentId = parentId,
       CorrelationId = correlationId,
-      IsActive = isActive
+      IsPending = isPending
     };
 
-  public static Message<T> CreateChildMessage<T> (Message message, T messagePayload) =>
-    CreateMessage(messagePayload, parentId: message.MessageId, correlationId: message.CorrelationId, isActive: false);
+  public static Message<T> CreateChildMessage<T>(Message message, T messagePayload) =>
+    CreateMessage(messagePayload, parentId: message.MessageId, correlationId: message.CorrelationId, isPending: false);
 }

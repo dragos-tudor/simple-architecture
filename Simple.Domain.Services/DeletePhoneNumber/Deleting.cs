@@ -1,29 +1,20 @@
 
-using Microsoft.Extensions.Logging;
-
 namespace Simple.Domain.Services;
 
 partial class ServicesFuncs
 {
-  public static async Task<Result<PhoneNumber?, Failure[]?>> DeletePhoneNumberService (
+  public static async Task<Result<PhoneNumber?, string?>> DeletePhoneNumberService(
     Guid contactId,
     PhoneNumber phoneNumber,
     FindModel<Guid, Contact?> findContact,
-    SaveModels<Contact, PhoneNumber> deletePhoneNumber,
-    ILogger logger,
-    string? correlationId = default,
+    StoreModels<Contact, PhoneNumber> deletePhoneNumber,
     CancellationToken cancellationToken = default)
   {
     var contact = await findContact(contactId, cancellationToken);
-    if (!ExistsContact(contact)) return ToArray([GetMissingContactFailure(contactId)]);
+    if (!ExistsContact(contact)) return MissingContactError;
+    if (!ExistsPhoneNumber(contact!.PhoneNumbers, phoneNumber)) return MissingPhoneNumberError;
 
-    var phoneNumbers = contact!.PhoneNumbers ?? [];
-    var contactPhoneNumber = FindPhoneNumber(phoneNumbers.AsQueryable(), phoneNumber).FirstOrDefault();
-    if(!ExistsPhoneNumber(contactPhoneNumber)) return phoneNumber;
-
-    await deletePhoneNumber(contact, contactPhoneNumber!, cancellationToken);
-
-    LogPhoneNumberRemoved(logger, contactPhoneNumber!.Number, contact.ContactId, correlationId);
+    await deletePhoneNumber(contact, phoneNumber, cancellationToken);
     return phoneNumber;
   }
 }

@@ -3,15 +3,15 @@ namespace Simple.Infrastructure.MongoDb;
 
 partial class MongoDbFuncs
 {
-  public static Task UpdateMessageIsActiveAsync (IMongoCollection<Message> coll, Message message, bool isActive, CancellationToken cancellationToken = default) =>
-    UpdateDocument(coll, message, SetFieldDefinition<Message, bool>(nameof(Message.IsActive), isActive), default, cancellationToken);
+  public static Task UpdateMessageIsPendingAsync(IMongoCollection<Message> coll, Message message, CancellationToken cancellationToken = default) =>
+    UpdateDocument(coll, message, SetFieldDefinition<Message, bool>(nameof(Message.IsPending), message.IsPending), default, cancellationToken);
 
-  public static Task UpdateMessageFailureAsync (IMongoCollection<Message> coll, Message message, string failureMessage, byte failureCounter, bool isActive = true, CancellationToken cancellationToken = default) =>
+  public static Task UpdateMessageErrorAsync(IMongoCollection<Message> coll, Message message, CancellationToken cancellationToken = default) =>
     UpdateDocument(coll, message,
       CombineDefinitions(
-        SetFieldDefinition<Message, string>(nameof(Message.FailureMessage), failureMessage),
-        SetFieldDefinition<Message, byte>(nameof(Message.FailureCounter), failureCounter),
-        SetFieldDefinition<Message, bool>(nameof(Message.IsActive), isActive)
+        SetFieldDefinition<Message, string>(nameof(Message.ErrorMessage), message.ErrorMessage),
+        SetFieldDefinition<Message, byte>(nameof(Message.ErrorCounter), message.ErrorCounter ?? 0),
+        SetFieldDefinition<Message, bool>(nameof(Message.IsPending), message.IsPending)
       ),
     default, cancellationToken);
 }
