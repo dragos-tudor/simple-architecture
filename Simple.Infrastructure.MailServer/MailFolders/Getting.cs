@@ -1,9 +1,9 @@
 
 using MailKit;
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
-partial class EmailServerFuncs
+partial class MailServerFuncs
 {
   static Task<MimeMessage> GetMailFolderMessageAsync(IMailFolder mailFolder, UniqueId messageId, CancellationToken cancellationToken = default) =>
     mailFolder.GetMessageAsync(messageId, cancellationToken);

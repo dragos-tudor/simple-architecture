@@ -11,7 +11,7 @@ partial class EndpointsFuncs
   const string MongoPhoneNumberPath = "/mongo/contacts/{contactId}/phonenumbers/{countryCode}/{number}";
   const string MongoMessagesPath = "/mongo/messages";
 
-  public static WebApplication MapMongoEndpoints(WebApplication app, IMongoDatabase mongoDatabase, Channel<Message> messageQueue, ILogger logger)
+  public static WebApplication MapMongoEndpoints(WebApplication app, IMongoDatabase mongoDatabase, Channel<Message> messageQueue)
   {
     app.MapPost(MongoContactsPath, (CreateContactRequest request, HttpContext httpContext) =>
       CreateContactMongoAsync(request, mongoDatabase, messageQueue, httpContext.TraceIdentifier, httpContext.RequestAborted)).DisableAntiforgery();

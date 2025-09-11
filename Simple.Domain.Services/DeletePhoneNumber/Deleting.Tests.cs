@@ -17,7 +17,7 @@ partial class ServicesTests
     var findContact = Substitute.For<FindModel<Guid, Contact?>>();
 
     findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
-    await DeletePhoneNumberService(contact.ContactId, phoneNumber, findContact, deletePhoneNumber);
+    await DeletePhoneNumberAsync(contact.ContactId, phoneNumber, findContact, deletePhoneNumber);
 
     await deletePhoneNumber.Received().Invoke(
       Arg.Is(contact),
@@ -33,7 +33,7 @@ partial class ServicesTests
     var findContact = Substitute.For<FindModel<Guid, Contact?>>();
 
     findContact(contactId).Returns((_) => FromResult(default(Contact)));
-    var (_, error) = await DeletePhoneNumberService(contactId, phoneNumber, findContact, DeletePhoneNumber);
+    var (_, error) = await DeletePhoneNumberAsync(contactId, phoneNumber, findContact, DeletePhoneNumber);
 
     Assert.AreEqual(MissingContactError, error!);
   }
@@ -47,7 +47,7 @@ partial class ServicesTests
     var findContact = Substitute.For<FindModel<Guid, Contact?>>();
 
     findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
-    await DeletePhoneNumberService(contact.ContactId, phoneNumber, findContact, DeletePhoneNumber);
+    await DeletePhoneNumberAsync(contact.ContactId, phoneNumber, findContact, DeletePhoneNumber);
 
     deletePhoneNumber.DidNotReceive();
   }

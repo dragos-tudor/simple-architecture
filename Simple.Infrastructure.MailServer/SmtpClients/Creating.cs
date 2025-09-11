@@ -1,9 +1,9 @@
 
 using MailKit.Net.Smtp;
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
-partial class EmailServerFuncs
+partial class MailServerFuncs
 {
   public static SmtpClient CreateSmtpClient() => new();
 }

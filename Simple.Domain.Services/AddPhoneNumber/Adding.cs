@@ -3,7 +3,7 @@ namespace Simple.Domain.Services;
 
 partial class ServicesFuncs
 {
-  public static async Task<Result<PhoneNumber?, string?>> AddPhoneNumberService(
+  public static async Task<Result<PhoneNumber?, string?>> AddPhoneNumberAsync(
     Guid contactId,
     PhoneNumber phoneNumber,
     FindModel<PhoneNumber, PhoneNumber?> findPhoneNumber,

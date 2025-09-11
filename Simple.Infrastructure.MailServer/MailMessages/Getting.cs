@@ -1,9 +1,9 @@
 
 using System.Linq;
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
-partial class EmailServerFuncs
+partial class MailServerFuncs
 {
   internal static string GetMessageFrom(MimeMessage message) => string.Join(",", message.From.Select(m => m.Name));
 

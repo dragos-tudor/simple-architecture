@@ -14,7 +14,7 @@ partial class EndpointsFuncs
   {
     using var dbContext = CreateAgendaContext(dbContextFactory);
 
-    var (_, error) = await DeletePhoneNumberService(
+    var (_, error) = await DeletePhoneNumberAsync(
       contactId,
       CreatePhoneNumber(countryCode, number),
       (contactId, cancellationToken) => FindContactById(dbContext.Contacts.AsQueryable(), contactId).Include(c => c.PhoneNumbers).FirstOrDefaultAsync(cancellationToken),

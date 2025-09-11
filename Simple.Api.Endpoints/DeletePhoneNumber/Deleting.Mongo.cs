@@ -14,7 +14,7 @@ partial class EndpointsFuncs
   {
     var contactColl = GetContactCollection(mongoDatabase);
 
-    var (_, error) = await DeletePhoneNumberService(
+    var (_, error) = await DeletePhoneNumberAsync(
       contactId,
       CreatePhoneNumber(countryCode, number),
       (contactId, cancellationToken) => FindContactById(contactColl.AsQueryable(), contactId).FirstOrDefaultAsync(cancellationToken) as Task<Contact?>,

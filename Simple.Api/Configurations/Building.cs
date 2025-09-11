@@ -1,9 +1,7 @@
 
-using Microsoft.Extensions.Configuration;
+namespace Simple.Api;
 
-namespace Simple.Infrastructure.Integrations;
-
-partial class IntegrationsFuncs
+partial class ApiFuncs
 {
-  public static IConfiguration BuildConfiguration (string configPath) => new ConfigurationBuilder().AddJsonFile(configPath).Build();
+  internal static IConfiguration BuildConfiguration(string configPath) => new ConfigurationBuilder().AddJsonFile(configPath).Build();
 }

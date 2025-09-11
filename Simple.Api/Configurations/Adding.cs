@@ -1,9 +1,7 @@
 
-using Microsoft.Extensions.Configuration;
+namespace Simple.Api;
 
-namespace Simple.Infrastructure.Integrations;
-
-partial class IntegrationsFuncs
+partial class ApiFuncs
 {
-  public static IConfigurationBuilder AddConfiguration (ConfigurationManager manager, IConfiguration configuration) => manager.AddConfiguration(configuration);
+  static IConfigurationBuilder AddConfiguration(ConfigurationManager manager, IConfiguration configuration) => manager.AddConfiguration(configuration);
 }

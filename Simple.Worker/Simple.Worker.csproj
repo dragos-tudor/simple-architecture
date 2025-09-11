@@ -13,8 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Simple.Domain.Integrations/Simple.Domain.Integrations.csproj" />
-    <ProjectReference Include="../Simple.Infrastructure.Integrations/Simple.Infrastructure.Integrations.csproj" />
+    <ProjectReference Include="../Simple.Worker.Jobs/Simple.Worker.Jobs.csproj" />
 
     <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="Serilog.Sinks.File" />

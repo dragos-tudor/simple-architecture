@@ -1,7 +1,7 @@
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
-partial class EmailServerFuncs
+partial class MailServerFuncs
 {
   public static async Task<MimeMessage> ReadMailMessage(ReadOnlySequence<byte> buffer, CancellationToken cancellationToken)
   {

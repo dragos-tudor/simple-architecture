@@ -2,9 +2,9 @@
 using MailKit;
 using MailKit.Search;
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
-partial class EmailServerFuncs
+partial class MailServerFuncs
 {
   // static Task<IList<UniqueId>> FindAllMessages(IMailFolder mailFolder, CancellationToken cancellationToken) => FindMessages(mailFolder, SearchQuery.All, cancellationToken);
 

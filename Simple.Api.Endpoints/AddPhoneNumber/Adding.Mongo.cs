@@ -17,7 +17,7 @@ partial class EndpointsFuncs
     var contactColl = GetContactCollection(mongoDatabase);
     var phoneNumber = CreatePhoneNumber(request.CountryCode, request.Number, request.Extension, request.NumberType);
 
-    var (_, error) = await AddPhoneNumberService(
+    var (_, error) = await AddPhoneNumberAsync(
       contactId,
       phoneNumber,
       (phoneNumber, cancellationToken) => FindMongoPhoneNumber(contactColl, phoneNumber, cancellationToken),

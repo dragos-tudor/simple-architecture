@@ -12,3 +12,7 @@ dotnet run --no-build --no-restore-- --config-file ../.testconfig.json --no-prog
 
 ### Known issues
 - greenmail server sometimes fail to start smtp service. greemail server container needs to be restarted.
+- .NET Install Tool settings `dotnetAcquisitionExtension.sharedExistingDotnetPath: "/usr/bin/dotnet"` will use installed .Net Runtime (and skip loading other .Net Runtime version).
+- start containers error "current system boot ID differs from cached boot ID". solutions:
+  - delete `/run/libpod` and `/run/containers/storage` folder and re-run podman.
+  - if journal logs would were available the current system boot id [`journalctl --list -boots`] would replaced the old system boot id from `/run/libpod/alive`.

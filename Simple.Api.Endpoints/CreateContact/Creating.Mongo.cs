@@ -19,7 +19,7 @@ partial class EndpointsFuncs
     var messages = GetMessageCollection(mongoDatabase);
     var contact = CreateContact(GenerateSequentialGuid(), request.ContactName, request.ContactEmail);
 
-    var (@event, error) = await CreateContactService(
+    var (@event, error) = await CreateContactAsync(
       contact,
       (contactName, cancellationToken) => FindContactByName(contacts.AsQueryable(), contactName).FirstOrDefaultAsync(cancellationToken) as Task<Contact?>,
       (contactEmail, cancellationToken) => FindContactByEmail(contacts.AsQueryable(), contactEmail).FirstOrDefaultAsync(cancellationToken) as Task<Contact?>,

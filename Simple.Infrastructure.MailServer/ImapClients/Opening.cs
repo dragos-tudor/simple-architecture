@@ -2,9 +2,9 @@
 using MailKit;
 using MailKit.Net.Imap;
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
-partial class EmailServerFuncs
+partial class MailServerFuncs
 {
   static async Task<IMailFolder> OpenInboxAsync(ImapClient client, CancellationToken cancellationToken = default)
   {

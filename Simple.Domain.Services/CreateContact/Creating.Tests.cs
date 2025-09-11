@@ -16,7 +16,7 @@ partial class ServicesTests
   {
     var contact = CreateTestContact();
     var insertContactAndMessage = Substitute.For<StoreModels<Contact, Message<ContactCreatedEvent>>>();
-    await CreateContactService(contact, FindContactByName, FindContactByEmail, insertContactAndMessage, EnqueueMessage, "");
+    await CreateContactAsync(contact, FindContactByName, FindContactByEmail, insertContactAndMessage, EnqueueMessage, "");
 
     await insertContactAndMessage.Received().Invoke(
       Arg.Is<Contact>(x => x.ContactId == contact.ContactId),
@@ -28,7 +28,7 @@ partial class ServicesTests
   {
     var contact = CreateTestContact();
     var insertContactAndMessage = Substitute.For<StoreModels<Contact, Message<ContactCreatedEvent>>>();
-    await CreateContactService(contact, FindContactByName, FindContactByEmail, insertContactAndMessage, EnqueueMessage, "");
+    await CreateContactAsync(contact, FindContactByName, FindContactByEmail, insertContactAndMessage, EnqueueMessage, "");
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     await insertContactAndMessage.Received().Invoke(
@@ -41,7 +41,7 @@ partial class ServicesTests
   {
     var contact = CreateTestContact();
     var enqueueMessage = Substitute.For<EnqueueMessage<Message<ContactCreatedEvent>>>();
-    await CreateContactService(contact, FindContactByName, FindContactByEmail, InsertContactAndMessage, enqueueMessage, "");
+    await CreateContactAsync(contact, FindContactByName, FindContactByEmail, InsertContactAndMessage, enqueueMessage, "");
 
     var contactCreatedEvent = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
     enqueueMessage.Received().Invoke(
@@ -55,7 +55,7 @@ partial class ServicesTests
     var findContactByName = Substitute.For<FindModel<string, Contact?>>();
 
     findContactByName(contact.ContactName).Returns((_) => FromResult(contact) as Task<Contact?>);
-    var (_, error) = await CreateContactService(contact, findContactByName, FindContactByEmail, InsertContactAndMessage, EnqueueMessage, "");
+    var (_, error) = await CreateContactAsync(contact, findContactByName, FindContactByEmail, InsertContactAndMessage, EnqueueMessage, "");
 
     Assert.AreEqual(DuplicateContactNameError, error!);
   }
@@ -67,7 +67,7 @@ partial class ServicesTests
     var findContactByEmail = Substitute.For<FindModel<string, Contact?>>();
 
     findContactByEmail(contact.ContactEmail).Returns((_) => FromResult(contact) as Task<Contact?>);
-    var (_, error) = await CreateContactService(contact, FindContactByName, findContactByEmail, InsertContactAndMessage, EnqueueMessage, "");
+    var (_, error) = await CreateContactAsync(contact, FindContactByName, findContactByEmail, InsertContactAndMessage, EnqueueMessage, "");
 
     Assert.AreEqual(DuplicateContactEmailError, error!);
   }
@@ -76,7 +76,7 @@ partial class ServicesTests
   public async Task new_contact_with_invalid_contact_email__create_contact__invalid_contact_email_error()
   {
     var contact = CreateTestContact(contactEmail: "wrong email");
-    var (_, error) = await CreateContactService(contact, FindContactByName, FindContactByEmail, InsertContactAndMessage, EnqueueMessage, "");
+    var (_, error) = await CreateContactAsync(contact, FindContactByName, FindContactByEmail, InsertContactAndMessage, EnqueueMessage, "");
 
     Assert.AreEqual(InvalidContactEmailError, error!);
   }

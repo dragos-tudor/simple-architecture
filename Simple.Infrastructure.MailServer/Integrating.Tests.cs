@@ -1,7 +1,7 @@
 
 using System.Linq;
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
 partial class EmailServerTests
 {

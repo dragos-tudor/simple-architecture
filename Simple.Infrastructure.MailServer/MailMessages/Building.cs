@@ -1,7 +1,7 @@
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
-partial class EmailServerFuncs
+partial class MailServerFuncs
 {
   public static MimeMessage BuildMailMessage(string from, string to, string subject, string body, DateTimeOffset? date = default)
   {

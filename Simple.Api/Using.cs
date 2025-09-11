@@ -6,11 +6,13 @@ global using Microsoft.AspNetCore.Builder;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
-global using Simple.Domain.Models;
-global using Simple.Domain.Services;
-global using Simple.Infrastructure.Integrations;
-global using static Simple.Domain.Integrations.IntegrationsFuncs;
-global using static Simple.Infrastructure.Integrations.IntegrationsFuncs;
+global using Simple.Shared.Models;
+global using static Storing.SqlServer.SqlServerFuncs;
+global using static Simple.Infrastructure.MessageQueue.MessageQueueFuncs;
+global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
+global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
+global using static Simple.Api.Endpoints.EndpointsFuncs;
+global using static Simple.Api.ApiFuncs;
 
 namespace Simple.Api;
 

@@ -3,17 +3,17 @@ namespace Simple.Domain.Services;
 
 partial class ServicesFuncs
 {
-  public static async Task<AddedToAgendaNotification?> NotifyAddedToAgendaService(
+  public static async Task<AddedToAgendaNotification?> NotifyAddedToAgendaAsync(
     Message<ContactCreatedEvent> message,
     string from,
     DateTimeOffset date,
-    FindModel<MessageIdempotency, Message?> findDuplicateMessage,
+    FindModel<MessageIdempotency, Message?> findMessage,
     SendNotification<AddedToAgendaNotification> sendNotification,
     StoreModel<Message<AddedToAgendaNotification>> insertMessage,
     CancellationToken cancellationToken = default)
   {
     var messageIdempotency = CreateMessageIdempotency<AddedToAgendaNotification>(message);
-    var parentMessage = await findDuplicateMessage(messageIdempotency, cancellationToken);
+    var parentMessage = await findMessage(messageIdempotency, cancellationToken);
     if (ExistsMessage(parentMessage)) return default;
 
     var contactEmail = message.MessagePayload.ContactEmail;

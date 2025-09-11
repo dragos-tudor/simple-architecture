@@ -1,21 +1,35 @@
-#pragma warning disable CA2000
 
 namespace Simple.Api;
 
 partial class ApiFuncs
 {
-  public static async Task Main (string[] args)
+  internal static async Task<WebApplication> StartAppAsync(
+    string[] args,
+    string settingsFile,
+    Action<WebApplicationBuilder> configBuilder,
+    CancellationToken cancellationToken = default)
   {
-    var cancellationTokenSource = new CancellationTokenSource(Timeout.Infinite);
-    var cancellationToken = cancellationTokenSource.Token;
-    var configuration = BuildConfiguration("settings.json");
-    var app = BuildApplication(args, configuration, (_) => {});
+    var configuration = BuildConfiguration(settingsFile);
+    var app = BuildApplication(args, configuration, configBuilder);
 
-    var loggerFactory = GetRequiredService<ILoggerFactory>(app.Services);
-    var serverIntegrations = await IntegrateServersAsync(configuration, RegisterMongoSubscribers, RegisterSqlSubscribers, loggerFactory, cancellationToken);
-    MapEndpoints(app, serverIntegrations, loggerFactory);
+    var sqlServerOptions = GetConfigurationOptions<SqlServerOptions>(configuration);
+    var sqlConnectionString = CreateSqlConnectionString(sqlServerOptions.DbName, sqlServerOptions.UserName, sqlServerOptions.UserPassword, sqlServerOptions.ServerName);
+    var dbContextFactory = CreateAgendaContextFactory(sqlConnectionString);
+    InitializeSqlDatabase(sqlServerOptions.DbName, sqlServerOptions.AdminName, sqlServerOptions.AdminPassword, sqlServerOptions.UserName, sqlServerOptions.UserPassword, sqlServerOptions.ServerName);
+    MapSqlEndpoints(app, dbContextFactory, CreateMessageQueue<Message>(1000));
 
-    app.Lifetime.ApplicationStopping.Register(cancellationTokenSource.Cancel);
+    var mongoOptions = GetConfigurationOptions<MongoOptions>(configuration);
+    var mongoDatabase = GetMongoDatabase(mongoOptions.ServerName, mongoOptions.ServerPort, mongoOptions.DbName);
+    InitializeMongoDatabase();
+    MapMongoEndpoints(app, mongoDatabase, CreateMessageQueue<Message>(1000));
+
+    await app.StartAsync(cancellationToken);
+    return app;
+  }
+
+  public static async Task MainAsync(string[] args)
+  {
+    var app = await StartAppAsync(args, "settings.json", (_) => { }, CancellationToken.None);
     await app.RunAsync();
   }
 }

@@ -17,7 +17,7 @@ partial class EndpointsFuncs
     var dbContext = CreateAgendaContext(dbContextFactory);
     var phoneNumber = CreatePhoneNumber(request.CountryCode, request.Number, request.Extension, request.NumberType);
 
-    var (_, error) = await AddPhoneNumberService(
+    var (_, error) = await AddPhoneNumberAsync(
       contactId,
       phoneNumber,
       (phoneNumber, cancellationToken) => FindPhoneNumber(dbContext.PhoneNumbers.AsQueryable(), phoneNumber).FirstOrDefaultAsync(cancellationToken),

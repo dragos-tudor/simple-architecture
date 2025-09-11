@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Domain.CodeGenerator
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Worker", "Simple.Worker\Simple.Worker.csproj", "{8FF7BA1E-5463-4F71-88EB-705F2CC88B22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Worker.Services", "Simple.Worker.Services\Simple.Worker.Services.csproj", "{1E8CC48B-3B56-4A5A-A023-FD16BFDE7573}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Worker.Jobs", "Simple.Worker.Jobs\Simple.Worker.Jobs.csproj", "{1E8CC48B-3B56-4A5A-A023-FD16BFDE7573}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Domain.Models", "Simple.Domain.Models\Simple.Domain.Models.csproj", "{5CC6FED0-F12D-4A45-99DF-72F1A3D05511}"
 EndProject

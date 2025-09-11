@@ -1,7 +1,7 @@
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
-partial class EmailServerFuncs
+partial class MailServerFuncs
 {
   static MimeEntity SetMessageBody(MimeMessage message, string body) => message.Body = new TextPart("plain") { Text = body };
 

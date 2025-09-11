@@ -1,9 +1,9 @@
 
 using System.Linq;
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
-partial class EmailServerFuncs
+partial class MailServerFuncs
 {
   public static bool IsMessageFrom(MimeMessage message, string from) => message.From.Any(address => address.Name == from);
 

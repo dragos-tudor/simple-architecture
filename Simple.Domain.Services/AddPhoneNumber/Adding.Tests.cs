@@ -18,7 +18,7 @@ partial class ServicesTests
     var findContact = Substitute.For<FindModel<Guid, Contact?>>();
 
     findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
-    await AddPhoneNumberService(contact.ContactId, phoneNumber, FindPhoneNumber, findContact, insertPhoneNumber);
+    await AddPhoneNumberAsync(contact.ContactId, phoneNumber, FindPhoneNumber, findContact, insertPhoneNumber);
 
     await insertPhoneNumber.Received().Invoke(
       Arg.Is<Contact>(ct => ct.ContactId == contact.ContactId),
@@ -36,7 +36,7 @@ partial class ServicesTests
 
     findPhoneNumber(phoneNumber).Returns((_) => FromResult(phoneNumber) as Task<PhoneNumber?>);
     findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
-    var (_, error) = await AddPhoneNumberService(contact.ContactId, phoneNumber, findPhoneNumber, findContact, InsertPhoneNumber);
+    var (_, error) = await AddPhoneNumberAsync(contact.ContactId, phoneNumber, findPhoneNumber, findContact, InsertPhoneNumber);
 
     Assert.AreEqual(DuplicatePhoneNumberError, error!);
   }
@@ -49,7 +49,7 @@ partial class ServicesTests
     var findContact = Substitute.For<FindModel<Guid, Contact?>>();
 
     findContact(contact.ContactId).Returns((_) => FromResult(contact) as Task<Contact?>);
-    var (_, error) = await AddPhoneNumberService(contact.ContactId, phoneNumber, FindPhoneNumber, findContact, InsertPhoneNumber);
+    var (_, error) = await AddPhoneNumberAsync(contact.ContactId, phoneNumber, FindPhoneNumber, findContact, InsertPhoneNumber);
 
     Assert.AreEqual(InvalidPhoneNumberError, error!);
   }
@@ -63,7 +63,7 @@ partial class ServicesTests
     var findContact = Substitute.For<FindModel<Guid, Contact?>>();
 
     findContact(contactId).Returns((_) => FromResult(default(Contact)));
-    var (_, error) = await AddPhoneNumberService(contactId, phoneNumber, FindPhoneNumber, findContact, insertPhoneNumber);
+    var (_, error) = await AddPhoneNumberAsync(contactId, phoneNumber, FindPhoneNumber, findContact, insertPhoneNumber);
 
     Assert.AreEqual(MissingContactError, error!);
   }

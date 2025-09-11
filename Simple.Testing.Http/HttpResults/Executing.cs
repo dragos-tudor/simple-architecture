@@ -1,12 +1,14 @@
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Simple.Testing.Http;
 
 partial class HttpFuncs
 {
-  public static async Task<HttpContext> ExecuteResultAsync(IResult result, HttpContext? httpContext = default)
+  public static async Task<HttpContext> ExecuteHttpResultAsync(IResult result, HttpContext httpContext)
   {
-    httpContext ??= CreateHttpContext();
     await result.ExecuteAsync(httpContext);
+    httpContext.Response.Body.Position = 0;
     return httpContext;
   }
 }

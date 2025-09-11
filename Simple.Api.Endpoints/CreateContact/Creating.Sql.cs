@@ -18,7 +18,7 @@ partial class EndpointsFuncs
     var dbContext = CreateAgendaContext(dbContextFactory);
     var contact = CreateContact(GenerateSequentialGuid(), request.ContactName, request.ContactEmail);
 
-    var (@event, error) = await CreateContactService(
+    var (@event, error) = await CreateContactAsync(
       contact,
       (contactName, cancellationToken) => FindContactByName(dbContext.Contacts.AsQueryable(), contactName).FirstOrDefaultAsync(cancellationToken),
       (contactEmail, cancellationToken) => FindContactByEmail(dbContext.Contacts.AsQueryable(), contactEmail).FirstOrDefaultAsync(cancellationToken),

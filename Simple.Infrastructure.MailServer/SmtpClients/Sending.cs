@@ -1,9 +1,9 @@
 ﻿
 using MailKit.Net.Smtp;
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
-partial class EmailServerFuncs
+partial class MailServerFuncs
 {
   static Task<string> SendMailMessageAsync(SmtpClient client, MimeMessage message, CancellationToken cancellationToken = default) => client.SendAsync(message, cancellationToken);
 

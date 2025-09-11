@@ -8,15 +8,15 @@
   },
   "SqlServerOptions": {
     "adminName": "sa",
-    "adminPassword": "admin.P@ssw0rd",
-    "userName": "sqluser",
-    "userPassword": "sqluser.P@ssw0rd",
-    "dbName": "agenda"
+    "adminPassword": "P@ssw0rd",
+    "userName": "dbuser",
+    "userPassword": "dbuser.P@ssw0rd",
+    "dbName": "agenda-api",
+    "serverName": "127.0.0.1"
   },
-  "MongoReplicaSetOptions": {
-    "containerNames": ["architecture-mongo1", "architecture-mongo2", "architecture-mongo3"],
-    "collNames": ["contacts", "messages"],
-    "dbName": "agenda"
+  "MongoDbOptions": {
+    "dbName": "agenda-api",
+    "serverName": "127.0.0.1"
   },
   "Serilog": {
     "Using":  [ "Serilog.Sinks.Console", "Serilog.Sinks.File" ],

@@ -11,8 +11,6 @@ public partial class MongoDbTests
   static readonly IMongoDatabase MongoDatabase = GetMongoDatabase("127.0.0.1", 27017, "agenda-tests");
 
   [AssemblyInitialize]
-  public static void InitializeMongeServer(TestContext _)
-  {
-    MapModelClassTypes();
-  }
+  public static void InitializeTests(TestContext _) =>
+    InitializeMongoDatabase();
 }

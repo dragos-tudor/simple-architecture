@@ -1,9 +1,9 @@
 
 using MailKit;
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
-partial class EmailServerFuncs
+partial class MailServerFuncs
 {
   static Task SetMailFolderMessageFlagsAsync(IMailFolder mailFolder, UniqueId messageId, MessageFlags messageFlags, CancellationToken cancellationToken = default) =>
     mailFolder.AddFlagsAsync(messageId, messageFlags, true, cancellationToken);

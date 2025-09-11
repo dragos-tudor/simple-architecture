@@ -1,9 +1,9 @@
 
-using Microsoft.Extensions.Configuration;
+namespace Simple.Api;
 
-namespace Simple.Infrastructure.Integrations;
-
-partial class IntegrationsFuncs
+partial class ApiFuncs
 {
-  public static TOptions GetConfigurationOptions<TOptions>(IConfiguration configuration) where TOptions : new() => configuration.GetSection(typeof(TOptions).Name).Get<TOptions>() ?? new();
+  static string? GetConfiguration(IConfiguration configuration, string name) => configuration[name];
+
+  static TOptions GetConfigurationOptions<TOptions>(IConfiguration configuration) where TOptions : new() => configuration.GetSection(typeof(TOptions).Name).Get<TOptions>() ?? new();
 }

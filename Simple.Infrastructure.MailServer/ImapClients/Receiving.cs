@@ -2,9 +2,9 @@
 using MailKit;
 using MailKit.Net.Imap;
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
-partial class EmailServerFuncs
+partial class MailServerFuncs
 {
   public static async Task<IEnumerable<MimeMessage>> ReceiveMailMessagesAsync(ImapClient client, string userName, string password, string serverName, int imapPort, CancellationToken cancellationToken = default)
   {

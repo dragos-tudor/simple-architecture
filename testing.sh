@@ -2,16 +2,16 @@ set -e
 
 WORKSPACE_DIR=/workspaces/simple-architecture/
 PROJECTS=(
+  "Simple.Infrastructure.JobScheduler"
   "Simple.Infrastructure.MailServer"
   "Simple.Infrastructure.MessageQueue"
   "Simple.Infrastructure.MongoDb"
   "Simple.Infrastructure.SqlServer"
-  "Simple.Domain.Queries"
   "Simple.Domain.Services"
   "Simple.Api.Endpoints"
-  "Simple.Api"
-  "Simple.Worker.Services"
-  "Simple.Worker"
+  # "Simple.Api"
+  # "Simple.Worker.Jobs"
+  # "Simple.Worker"
 )
 
 ./building.sh Debug

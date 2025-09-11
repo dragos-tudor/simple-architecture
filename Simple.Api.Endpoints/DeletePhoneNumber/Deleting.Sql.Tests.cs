@@ -19,6 +19,7 @@ partial class EndpointsTests
     await DeletePhoneNumberSqlAsync(contact.ContactId, phoneNumber.CountryCode, phoneNumber.Number, SqlContextFactory, CancellationToken.None);
 
     var actual = await FindContactById(dbContext.Contacts.Include(c => c.PhoneNumbers).AsQueryable(), contact.ContactId).FirstOrDefaultAsync();
+    Console.WriteLine("delete sql phone numbers " + actual!.PhoneNumbers.Count());
     AreEqual(actual!.PhoneNumbers, []);
   }
 }

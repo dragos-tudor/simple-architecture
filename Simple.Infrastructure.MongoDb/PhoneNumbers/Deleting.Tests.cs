@@ -11,7 +11,7 @@ partial class MongoDbTests
     var contact = CreateTestContact(phoneNumbers: [phoneNumber]);
 
     await InsertContactAsync(contacts, contact);
-    await DeletePhoneNumberAsync(contacts, contact, phoneNumber);
+    await DeletePhoneNumberAsync(contacts, contact, CreateTestPhoneNumber(phoneNumber.CountryCode, phoneNumber.Number));
 
     var actual = await FindContactById(contacts.AsQueryable(), contact.ContactId).SingleAsync();
     AreEqual(actual.PhoneNumbers, []);

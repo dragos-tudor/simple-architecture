@@ -16,7 +16,7 @@ partial class ServicesTests
     var message = CreateMessage(CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail));
     var sendNotification = Substitute.For<SendNotification<AddedToAgendaNotification>>();
 
-    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, FindDuplicateMessage, sendNotification, InsertMessage);
+    await NotifyAddedToAgendaAsync(message, "from", DateTime.MinValue, FindDuplicateMessage, sendNotification, InsertMessage);
 
     await sendNotification.Received().Invoke(Arg.Is<AddedToAgendaNotification>(notification =>
       notification == CreateAddedToAgendaNotification("from", contact.ContactEmail, DateTime.MinValue)));
@@ -29,7 +29,7 @@ partial class ServicesTests
     var message = CreateMessage(CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail));
     var insertMessage = Substitute.For<StoreModel<Message<AddedToAgendaNotification>>>();
 
-    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, FindDuplicateMessage, SendNotification, insertMessage);
+    await NotifyAddedToAgendaAsync(message, "from", DateTime.MinValue, FindDuplicateMessage, SendNotification, insertMessage);
 
     await insertMessage.Received().Invoke(Arg.Is<Message<AddedToAgendaNotification>>(message =>
       message.MessagePayload == CreateAddedToAgendaNotification("from", contact.ContactEmail, DateTime.MinValue)));
@@ -45,7 +45,7 @@ partial class ServicesTests
 
     var messageIdempotency = CreateMessageIdempotency<AddedToAgendaNotification>(message);
     findDuplicateMessage(messageIdempotency).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
-    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, findDuplicateMessage, sendNotification, InsertMessage);
+    await NotifyAddedToAgendaAsync(message, "from", DateTime.MinValue, findDuplicateMessage, sendNotification, InsertMessage);
 
     await sendNotification.DidNotReceive().Invoke(Arg.Any<AddedToAgendaNotification>());
   }
@@ -60,7 +60,7 @@ partial class ServicesTests
 
     var messageIdempotency = CreateMessageIdempotency<AddedToAgendaNotification>(message);
     findDuplicateMessage(messageIdempotency).Returns((_) => Task.FromResult(CreateTestMessage()) as Task<Message?>);
-    await NotifyAddedToAgendaService(message, "from", DateTime.MinValue, findDuplicateMessage, SendNotification, insertMessage);
+    await NotifyAddedToAgendaAsync(message, "from", DateTime.MinValue, findDuplicateMessage, SendNotification, insertMessage);
 
     await insertMessage.DidNotReceive().Invoke(Arg.Any<Message<AddedToAgendaNotification>>());
   }

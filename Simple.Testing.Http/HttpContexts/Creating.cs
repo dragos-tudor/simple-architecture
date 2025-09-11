@@ -1,12 +1,15 @@
 
+using System.IO;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Simple.Testing.Http;
 
 partial class HttpFuncs
 {
-  public static HttpContext CreateHttpContext(string contentType = "application/json")
-  {
-    var httpContext = new DefaultHttpContext();
-    httpContext.Response.ContentType = contentType;
-    return httpContext;
-  }
+  public static HttpContext CreateHttpContext() =>
+    new DefaultHttpContext
+    {
+      RequestServices = new ServiceCollection().AddLogging().BuildServiceProvider(),
+      Response = { Body = new MemoryStream() }
+    };
 }

@@ -3,7 +3,7 @@ namespace Simple.Domain.Services;
 
 partial class ServicesFuncs
 {
-  public static async Task<Result<PhoneNumber?, string?>> DeletePhoneNumberService(
+  public static async Task<Result<PhoneNumber?, string?>> DeletePhoneNumberAsync(
     Guid contactId,
     PhoneNumber phoneNumber,
     FindModel<Guid, Contact?> findContact,

@@ -3,7 +3,7 @@ namespace Simple.Domain.Services;
 
 partial class ServicesFuncs
 {
-  public static async Task<Result<ContactCreatedEvent?, string?>> CreateContactService(
+  public static async Task<Result<ContactCreatedEvent?, string?>> CreateContactAsync(
     Contact contact,
     FindModel<string, Contact?> findContactByName,
     FindModel<string, Contact?> findContactByEmail,

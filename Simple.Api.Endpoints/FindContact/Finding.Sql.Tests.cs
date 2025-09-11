@@ -14,8 +14,8 @@ partial class EndpointsTests
 
     var result = await FindContactSqlAsync(contact.ContactId, SqlContextFactory, CancellationToken.None);
 
-    var httpContext = await ExecuteResultAsync(result, CreateHttpContext());
-    Assert.AreEqual(contact, ReadHttpResponseJson<Contact>(httpContext.Response));
-    Assert.AreEqual(200, GetHttpResponseStatusCode(httpContext.Response));
+    var httpContext = await ExecuteHttpResultAsync(result, CreateHttpContext());
+    Assert.AreEqual(contact, await ReadHttpResponseJsonAsync<Contact>(httpContext.Response));
+    Assert.AreEqual(200, httpContext.Response.StatusCode);
   }
 }

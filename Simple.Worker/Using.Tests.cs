@@ -17,7 +17,7 @@ public partial class WorkerTests
   static ServerIntegrations ServerIntegrations = default!;
 
   [AssemblyInitialize]
-  public static void InitializeTests (TestContext context)
+  public static void InitializeTests(TestContext context)
   {
     var configuration = BuildConfiguration("settings.tests.json");
     var loggerFactory = IntegrateSerilog(configuration); // NullLoggerFactory.Instance;

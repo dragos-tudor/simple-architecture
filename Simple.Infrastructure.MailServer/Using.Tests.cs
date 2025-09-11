@@ -1,7 +1,7 @@
 
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Simple.Infrastructure.EmailServer;
+namespace Simple.Infrastructure.MailServer;
 
 [TestClass]
 public partial class EmailServerTests
