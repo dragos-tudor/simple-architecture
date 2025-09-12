@@ -11,11 +11,14 @@
     "adminPassword": "P@ssw0rd",
     "userName": "dbuser",
     "userPassword": "dbuser.P@ssw0rd",
-    "dbName": "agenda-api",
+    "dbName": "agenda",
     "serverName": "127.0.0.1"
   },
   "MongoDbOptions": {
-    "dbName": "agenda-api",
+    "dbName": "agenda",
     "serverName": "127.0.0.1"
+  },
+  "MailServerOptions": {
+    "mailServerName": "127.0.0.1"
   }
 }

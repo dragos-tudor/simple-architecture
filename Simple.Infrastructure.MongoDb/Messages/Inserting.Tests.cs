@@ -20,8 +20,8 @@ partial class MongoDbTests
   public async Task new_discriminated_messages__insert_messages__discriminated_messages_stored()
   {
     var messages = GetMessageCollection(MongoDatabase);
-    var message1 = CreateTestMessage<int>();
-    var message2 = CreateTestMessage<bool>();
+    var message1 = CreateTestMessage(0);
+    var message2 = CreateTestMessage(true);
 
     BsonClassMap.RegisterClassMap<Message<int>>(MapMessageClassType);
     BsonClassMap.RegisterClassMap<Message<bool>>(MapMessageClassType);

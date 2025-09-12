@@ -9,6 +9,7 @@ partial class JobsFuncs
     AgendaContextFactory dbContextFactory,
     byte maxErrors,
     MessageJobOptions jobOptions,
+    MailServerOptions mailServerOptions,
     TimeProvider timeProvider,
     ILogger logger,
     CancellationToken cancellationToken = default)
@@ -21,14 +22,16 @@ partial class JobsFuncs
       },
       async (message, cancellationToken) =>
       {
-        // process messages here
+
         using var dbContext = CreateAgendaContext(dbContextFactory);
-        await FinalizeMessageSqlAsync(message, dbContext, cancellationToken);
+        if (message is Message<ContactCreatedEvent>)
+          await HandleContactCreatedSqlAsync((Message<ContactCreatedEvent>)message, dbContext, mailServerOptions, timeProvider.GetUtcNow().DateTime, cancellationToken);
+        await FinalizeMessageSqlAsync(dbContext, message, cancellationToken);
       },
       (message, exception, cancellationToken) =>
       {
         using var dbContext = CreateAgendaContext(dbContextFactory);
-        return HandleMessageErrorSqlAsync(message!, exception, maxErrors, dbContext, cancellationToken);
+        return HandleMessageErrorSqlAsync(dbContext, message!, exception, maxErrors, cancellationToken);
       },
       jobOptions,
       timeProvider,

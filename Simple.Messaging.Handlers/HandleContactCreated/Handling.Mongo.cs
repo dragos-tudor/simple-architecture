@@ -6,7 +6,7 @@ namespace Simple.Messaging.Handlers;
 
 partial class HandlersFuncs
 {
-  public static async Task<string?> HandleContactCreatedSqlAsync(
+  public static Task<NotificationSentEvent?> HandleContactCreatedMongoAsync(
     Message<ContactCreatedEvent> message,
     IMongoDatabase mongoDatabase,
     MailServerOptions mailServerOptions,
@@ -15,7 +15,7 @@ partial class HandlersFuncs
   {
     var messageColl = GetMessageCollection(mongoDatabase);
 
-    await HandleContactCreatedAsync(
+    return HandleContactCreatedAsync(
       message,
       "dragos.tudor@gmail.com",
       currentDate,
@@ -24,7 +24,5 @@ partial class HandlersFuncs
       (message, cancellationToken) => InsertMessageAsync(messageColl, message, cancellationToken),
       cancellationToken
     );
-
-    return default;
   }
 }

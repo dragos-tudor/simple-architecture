@@ -9,9 +9,8 @@ partial class WorkerTests
   public async Task run_mongo_message_job()
   {
     var contact = CreateTestContact();
-    var message = CreateTestMessage(
-      messagePayload: CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail),
-      messageDate: DateTime.UtcNow.AddHours(-1));
+    var messagePayload = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
+    var message = CreateTestMessage(messagePayload, messageDate: DateTime.UtcNow.AddHours(-1));
     var messageColl = GetMessageCollection(MongoDatabase);
     await InsertMessageAsync(messageColl, message);
 

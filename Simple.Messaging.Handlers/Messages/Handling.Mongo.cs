@@ -5,15 +5,14 @@ namespace Simple.Messaging.Handlers;
 
 partial class HandlersFuncs
 {
-  public static async Task<Message> HandleMessageErrorMongoAsync(Message message, Exception exception, byte maxErrors, IMongoDatabase mongoDatabase, CancellationToken cancellationToken = default)
+  public static async Task<Message> HandleMessageErrorMongoAsync(IMongoDatabase mongoDatabase, Message message, Exception exception, byte maxErrors, CancellationToken cancellationToken = default)
   {
     var messages = GetMessageCollection(mongoDatabase);
-    var isPending = ShouldRetryProcessMessage(message, maxErrors);
     var errorCounter = GetMessageErrorCounter(message) + 1;
 
     SetMessageErrorMessage(message, exception.ToString());
     SetMessageErrorCounter(message, (byte)errorCounter);
-    SetMessageIsPending(message, isPending);
+    SetMessageIsPending(message, ShouldRetryProcessMessage(message, maxErrors));
 
     await UpdateMessageErrorAsync(messages, message, cancellationToken);
     return message;

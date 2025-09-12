@@ -1,7 +1,7 @@
 
-namespace Simple.Worker;
+namespace Simple.Testing.Models;
 
-partial class WorkerTests
+partial class ModelsFuncs
 {
   public static async Task WaitWhileAsync(Func<Task<bool>> wait, TimeSpan retryAfter, CancellationToken cancellationToken = default)
   {

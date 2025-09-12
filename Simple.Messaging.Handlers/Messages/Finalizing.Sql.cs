@@ -3,7 +3,7 @@ namespace Simple.Messaging.Handlers;
 
 partial class HandlersFuncs
 {
-  public static async Task<Message> FinalizeMessageSqlAsync(Message message, AgendaContext dbContext, CancellationToken cancellationToken = default)
+  public static async Task<Message> FinalizeMessageSqlAsync(AgendaContext dbContext, Message message, CancellationToken cancellationToken = default)
   {
     SetMessageIsPending(message, false);
     UpdateMessage(dbContext, message);

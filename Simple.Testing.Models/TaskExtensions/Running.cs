@@ -1,9 +1,9 @@
 
-namespace Simple.Worker;
+namespace Simple.Testing.Models;
 
-partial class WorkerTests
+partial class ModelsFuncs
 {
-  static T RunSynchronously<T>(Func<Task<T>> func)
+  public static T RunSynchronously<T>(Func<Task<T>> func)
   {
     var taskCompletionSource = new TaskCompletionSource<T>();
     var task = taskCompletionSource.Task;
@@ -17,7 +17,7 @@ partial class WorkerTests
     return task.GetAwaiter().GetResult();
   }
 
-  static bool RunSynchronously(Func<Task> func)
+  public static bool RunSynchronously(Func<Task> func)
   {
     var taskCompletionSource = new TaskCompletionSource<bool>();
     var task = taskCompletionSource.Task;

@@ -6,17 +6,16 @@ namespace Simple.Messaging.Handlers;
 
 partial class HandlersFuncs
 {
-  public static async Task<string?> HandleContactCreatedSqlAsync(
+  public static Task<NotificationSentEvent?> HandleContactCreatedSqlAsync(
     Message<ContactCreatedEvent> message,
-    AgendaContextFactory dbContextFactory,
+    AgendaContext dbContext,
     MailServerOptions mailServerOptions,
     DateTime currentDate,
     CancellationToken cancellationToken = default)
   {
-    using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
     var messages = dbContext.Messages;
 
-    await HandleContactCreatedAsync(
+    return HandleContactCreatedAsync(
       message,
       "dragos.tudor@gmail.com",
       currentDate,
@@ -25,7 +24,5 @@ partial class HandlersFuncs
       (message, cancellationToken) => InsertMessageAsync(dbContext, message, cancellationToken),
       cancellationToken
     );
-
-    return default;
   }
 }

@@ -8,9 +8,9 @@ namespace Simple.Infrastructure.SqlServer;
 [TestClass]
 public partial class SqlServerTests
 {
-  static readonly string SqlConnectionString = CreateSqlConnectionString("agenda-tests", "dbuser", "dbuser.P@ssw0rd!", "127.0.0.1");
+  static readonly string SqlConnectionString = CreateSqlConnectionString("agenda-sql", "dbuser", "dbuser.P@ssw0rd!", "127.0.0.1");
 
   [AssemblyInitialize]
   public static void InitializeTests(TestContext _) =>
-    InitializeSqlDatabase("agenda-tests", "sa", "P@ssw0rd!", "dbuser", "dbuser.P@ssw0rd!", "127.0.0.1");
+    InitializeSqlDatabase("agenda-sql", "sa", "P@ssw0rd!", "dbuser", "dbuser.P@ssw0rd!", "127.0.0.1");
 }

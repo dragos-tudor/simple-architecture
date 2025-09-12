@@ -24,8 +24,8 @@ partial class ModelsFuncs
     };
 
   public static Message<TPayload> CreateTestMessage<TPayload>(
+    TPayload messagePayload,
     Guid? messageId = default,
-    TPayload messagePayload = default!,
     DateTime? messageDate = default,
     Guid? parentId = default,
     string? correlationId = default,
@@ -34,8 +34,9 @@ partial class ModelsFuncs
     new()
     {
       MessageId = messageId ?? GetRandomGuid(),
-      MessageType = messagePayload?.GetType().Name ?? GetRandomString(MessageContraints.MessageTypeMaxLength),
-      MessageContent = messagePayload!.ToString() ?? GetRandomString(50),
+      MessageType = messagePayload!.GetType().Name,
+      MessageContent = messagePayload.ToString()!,
+      MessagePayload = messagePayload,
       MessageDate = messageDate ?? GetRandomDate(),
       ParentId = parentId ?? GetRandomGuid(),
       CorrelationId = correlationId ?? GetRandomString(MessageContraints.CorrelationIdMaxLength),

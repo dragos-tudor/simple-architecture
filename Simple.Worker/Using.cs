@@ -6,6 +6,7 @@ global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Scheduling.JobScheduler;
+global using Simple.Infrastructure.MailServer;
 global using Simple.Infrastructure.JobScheduler;
 global using Simple.Infrastructure.MongoDb;
 global using Simple.Infrastructure.SqlServer;

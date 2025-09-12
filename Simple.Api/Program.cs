@@ -13,6 +13,8 @@ partial class ApiFuncs
     var configuration = BuildConfiguration(settingsFile);
     var app = BuildApplication(args, configuration, configBuilder);
     var logger = GetRequiredService<ILogger>(app.Services);
+    var timeProvider = GetRequiredService<TimeProvider>(app.Services);
+    var mailServerOptions = GetConfigurationOptions<MailServerOptions>(configuration);
 
     var sqlServerOptions = GetConfigurationOptions<SqlServerOptions>(configuration);
     var sqlConnectionString = CreateSqlConnectionString(sqlServerOptions);
@@ -21,7 +23,7 @@ partial class ApiFuncs
 
     var sqlMessageQueue = CreateMessageQueue<Message>(1000);
     MapSqlEndpoints(app, dbContextFactory, sqlMessageQueue);
-    ProcessMessageSqlAsync(sqlMessageQueue, dbContextFactory, 10, logger, cancellationToken);
+    ProcessMessageSqlAsync(sqlMessageQueue, dbContextFactory, 10, mailServerOptions, timeProvider, logger, cancellationToken);
 
     var mongoOptions = GetConfigurationOptions<MongoOptions>(configuration);
     var mongoDatabase = GetMongoDatabase(mongoOptions);
@@ -29,7 +31,7 @@ partial class ApiFuncs
 
     var mongoMessageQueue = CreateMessageQueue<Message>(1000);
     MapMongoEndpoints(app, mongoDatabase, mongoMessageQueue);
-    ProcessMessageMongoAsync(mongoMessageQueue, mongoDatabase, 10, logger, cancellationToken);
+    ProcessMessageMongoAsync(mongoMessageQueue, mongoDatabase, 10, mailServerOptions, timeProvider, logger, cancellationToken);
 
     await app.StartAsync(cancellationToken);
     return app;

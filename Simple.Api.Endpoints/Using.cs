@@ -12,6 +12,7 @@ global using FluentValidation;
 global using FluentValidation.Results;
 global using Simple.Shared.Models;
 global using Simple.Shared.Events;
+global using Simple.Infrastructure.MailServer;
 global using static Simple.Domain.Models.ModelsFuncs;
 global using static Simple.Domain.Queries.QueriesFuncs;
 global using static Simple.Domain.Services.ServicesFuncs;

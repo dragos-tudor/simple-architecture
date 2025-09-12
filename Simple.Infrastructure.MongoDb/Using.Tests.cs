@@ -8,7 +8,7 @@ namespace Simple.Infrastructure.MongoDb;
 [TestClass]
 public partial class MongoDbTests
 {
-  static readonly IMongoDatabase MongoDatabase = GetMongoDatabase("127.0.0.1", 27017, "agenda-tests");
+  static readonly IMongoDatabase MongoDatabase = GetMongoDatabase("127.0.0.1", 27017, "agenda-mongo");
 
   [AssemblyInitialize]
   public static void InitializeTests(TestContext _) =>

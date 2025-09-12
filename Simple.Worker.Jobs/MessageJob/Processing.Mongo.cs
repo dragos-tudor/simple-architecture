@@ -9,6 +9,7 @@ partial class JobsFuncs
     IMongoDatabase mongoDatabase,
     byte maxErrors,
     MessageJobOptions jobOptions,
+    MailServerOptions mailServerOptions,
     TimeProvider timeProvider,
     ILogger logger,
     CancellationToken cancellationToken = default)
@@ -21,11 +22,12 @@ partial class JobsFuncs
       },
       async (message, cancellationToken) =>
       {
-        // process messages here
-        await FinalizeMessageMongoAsync(message, mongoDatabase, cancellationToken);
+        if (message is Message<ContactCreatedEvent>)
+          await HandleContactCreatedMongoAsync((Message<ContactCreatedEvent>)message, mongoDatabase, mailServerOptions, timeProvider.GetUtcNow().DateTime, cancellationToken);
+        await FinalizeMessageMongoAsync(mongoDatabase, message, cancellationToken);
       },
       (message, exception, cancellationToken) =>
-        HandleMessageErrorMongoAsync(message!, exception, maxErrors, mongoDatabase, cancellationToken),
+        HandleMessageErrorMongoAsync(mongoDatabase, message!, exception, maxErrors, cancellationToken),
       jobOptions,
       timeProvider,
       logger,

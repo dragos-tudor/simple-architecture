@@ -8,6 +8,7 @@ global using Microsoft.Extensions.DependencyInjection;
 global using Simple.Shared.Models;
 global using Simple.Infrastructure.MongoDb;
 global using Simple.Infrastructure.SqlServer;
+global using Simple.Infrastructure.MailServer;
 global using static Storing.SqlServer.SqlServerFuncs;
 global using static Simple.Infrastructure.MessageQueue.MessageQueueFuncs;
 global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
