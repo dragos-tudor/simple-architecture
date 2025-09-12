@@ -3,7 +3,7 @@ namespace Simple.Worker;
 
 partial class WorkerFuncs
 {
-  public static async Task<IHost> StartHostAsync(
+  public static IHost InitializeHost(
     string[] args,
     string settingsFile,
     Action<HostApplicationBuilder> configBuilder,
@@ -12,7 +12,7 @@ partial class WorkerFuncs
     var configuration = BuildConfiguration(settingsFile);
     var host = BuildHost(args, configuration, configBuilder);
 
-    var logger = GetRequiredService<ILogger>(host.Services);
+    var logger = GetRequiredService<ILoggerFactory>(host.Services).CreateLogger(nameof(WorkerFuncs));
     var timeProvider = GetRequiredService<TimeProvider>(host.Services);
     var jobSchedulerOptions = GetConfigurationOptions<JobSchedulerOptions>(configuration);
     var mailServerOptions = GetConfigurationOptions<MailServerOptions>(configuration);
@@ -24,8 +24,7 @@ partial class WorkerFuncs
 
     var sqlMessageJob = messageJob with
     {
-      JobAction = () =>
-        ProcessMessageSqlAsync(dbContextFactory, 10, messageJob.MessagesJobOptions, mailServerOptions, timeProvider, logger, cancellationToken)
+      JobAction = () => ProcessMessageSqlAsync(dbContextFactory, 10, messageJob.MessagesJobOptions, mailServerOptions, timeProvider, logger, cancellationToken)
     };
     RunJobs([sqlMessageJob], jobSchedulerOptions, timeProvider, logger);
 
@@ -35,18 +34,16 @@ partial class WorkerFuncs
 
     var mongoMessageJob = messageJob with
     {
-      JobAction = () =>
-        ProcessMessageMongoAsync(mongoDatabase, 10, messageJob.MessagesJobOptions, mailServerOptions, timeProvider, logger, cancellationToken)
+      JobAction = () => ProcessMessageMongoAsync(mongoDatabase, 10, messageJob.MessagesJobOptions, mailServerOptions, timeProvider, logger, cancellationToken)
     };
     RunJobs([mongoMessageJob], jobSchedulerOptions, timeProvider, logger);
 
-    await host.StartAsync(cancellationToken);
     return host;
   }
 
   public static async Task Main(string[] args)
   {
-    var host = await StartHostAsync(args, "settings.json", (_) => { }, CancellationToken.None);
+    var host = InitializeHost(args, "settings.json", (_) => { }, CancellationToken.None);
     await host.RunAsync();
   }
 }

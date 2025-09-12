@@ -17,13 +17,13 @@
   },
   "SqlServerOptions": {
     "adminName": "sa",
-    "adminPassword": "P@ssw0rd",
+    "adminPassword": "P@ssw0rd!",
     "userName": "dbuser",
-    "userPassword": "dbuser.P@ssw0rd",
+    "userPassword": "dbuser.P@ssw0rd!",
     "dbName": "agenda-worker-tests",
     "serverName": "127.0.0.1"
   },
-  "MongoDbOptions": {
+  "MongoOptions": {
     "dbName": "agenda-worker-tests",
     "serverName": "127.0.0.1"
   },

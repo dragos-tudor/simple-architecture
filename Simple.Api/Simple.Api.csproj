@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../Simple.Api.Endpoints/Simple.Api.Endpoints.csproj" />
+    <None Include="settings.json" CopyToOutputDirectory="PreserveNewest"/>
   </ItemGroup>
 
 </Project>

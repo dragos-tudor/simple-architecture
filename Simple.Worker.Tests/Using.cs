@@ -26,9 +26,11 @@ public partial class WorkerTests
   static readonly IMongoDatabase MongoDatabase = GetMongoDatabase(GetConfigurationOptions<MongoOptions>(Configuration));
 
   [AssemblyInitialize]
-  public static void InitializeTests(TestContext _) =>
-    Host = RunSynchronously(() =>
-      StartHostAsync([], "settings.json", (_) => { }));
+  public static void InitializeTests(TestContext _)
+  {
+    Host = InitializeHost([], "settings.json", (_) => { });
+    RunSynchronously(() => Host.RunAsync());
+  }
 
   [AssemblyCleanup]
   public static void CleanupTests() =>

@@ -3,5 +3,5 @@ namespace Simple.Messaging.Handlers;
 
 partial class HandlersFuncs
 {
-  static bool ShouldRetryProcessMessage(Message message, byte maxErrors) => GetMessageErrorCounter(message) < maxErrors;
+  static bool ShouldRetryProcessMessage(byte errorCounter, byte maxErrors) => errorCounter < maxErrors;
 }

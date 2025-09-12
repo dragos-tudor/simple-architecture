@@ -17,9 +17,11 @@ public partial class ApiTests
   static WebApplication ApiServer = default!;
 
   [AssemblyInitialize]
-  public static void InitializeTests(TestContext _) =>
-    ApiServer = RunSynchronously(() =>
-      StartAppAsync([], "settings.json", (builder) => builder.WebHost.UseTestServer()));
+  public static void InitializeTests(TestContext _)
+  {
+    ApiServer = InitializeApp([], "settings.json", (builder) => builder.WebHost.UseTestServer());
+    RunSynchronously(() => ApiServer.StartAsync());
+  }
 
   [AssemblyCleanup]
   public static void CleanupTests() =>

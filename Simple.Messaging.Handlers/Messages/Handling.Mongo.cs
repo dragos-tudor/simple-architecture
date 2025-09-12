@@ -9,10 +9,11 @@ partial class HandlersFuncs
   {
     var messages = GetMessageCollection(mongoDatabase);
     var errorCounter = GetMessageErrorCounter(message) + 1;
+    var isPending = ShouldRetryProcessMessage((byte)errorCounter, maxErrors);
 
     SetMessageErrorMessage(message, exception.ToString());
     SetMessageErrorCounter(message, (byte)errorCounter);
-    SetMessageIsPending(message, ShouldRetryProcessMessage(message, maxErrors));
+    SetMessageIsPending(message, isPending);
 
     await UpdateMessageErrorAsync(messages, message, cancellationToken);
     return message;

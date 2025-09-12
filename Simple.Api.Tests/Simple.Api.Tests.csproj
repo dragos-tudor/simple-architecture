@@ -3,9 +3,10 @@
   <Import Project="../Directory.Testing.props" />
 
   <ItemGroup>
-    <ProjectReference Include="../Simple.Api/Simple.Api.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" />
+    <ProjectReference Include="../Simple.Api/Simple.Api.csproj" />
     <ProjectReference Include="../Simple.Testing.Http/Simple.Testing.Http.csproj" />
+    <None Include="settings.json" CopyToOutputDirectory="PreserveNewest"/>
   </ItemGroup>
 
 </Project>

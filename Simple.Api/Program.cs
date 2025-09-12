@@ -1,10 +1,9 @@
-#pragma warning disable CS4014
 
 namespace Simple.Api;
 
 partial class ApiFuncs
 {
-  public static async Task<WebApplication> StartAppAsync(
+  public static WebApplication InitializeApp(
     string[] args,
     string settingsFile,
     Action<WebApplicationBuilder> configBuilder,
@@ -12,7 +11,7 @@ partial class ApiFuncs
   {
     var configuration = BuildConfiguration(settingsFile);
     var app = BuildApplication(args, configuration, configBuilder);
-    var logger = GetRequiredService<ILogger>(app.Services);
+    var logger = GetRequiredService<ILoggerFactory>(app.Services).CreateLogger(nameof(ApiFuncs));
     var timeProvider = GetRequiredService<TimeProvider>(app.Services);
     var mailServerOptions = GetConfigurationOptions<MailServerOptions>(configuration);
 
@@ -33,13 +32,12 @@ partial class ApiFuncs
     MapMongoEndpoints(app, mongoDatabase, mongoMessageQueue);
     ProcessMessageMongoAsync(mongoMessageQueue, mongoDatabase, 10, mailServerOptions, timeProvider, logger, cancellationToken);
 
-    await app.StartAsync(cancellationToken);
     return app;
   }
 
   public static async Task Main(string[] args)
   {
-    var app = await StartAppAsync(args, "settings.json", (_) => { }, CancellationToken.None);
+    var app = InitializeApp(args, "settings.json", (_) => { }, CancellationToken.None);
     await app.RunAsync();
   }
 }
