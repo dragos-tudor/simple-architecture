@@ -13,7 +13,6 @@ namespace Simple.Api.Endpoints;
 public partial class EndpointsTests
 {
   static readonly string SqlConnectionString = CreateSqlConnectionString("agenda-api-endpoints", "dbuser", "dbuser.P@ssw0rd!", "127.0.0.1");
-  static readonly AgendaContextFactory SqlContextFactory = CreateAgendaContextFactory(SqlConnectionString);
   static readonly IMongoDatabase MongoDatabase = GetMongoDatabase("127.0.0.1", 27017, "agenda-api-tests");
 
   [AssemblyInitialize]

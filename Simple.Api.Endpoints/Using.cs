@@ -20,7 +20,6 @@ global using static Simple.Messaging.Handlers.HandlersFuncs;
 global using static Simple.Infrastructure.MessageQueue.MessageQueueFuncs;
 global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
-global using AgendaContextFactory = Microsoft.EntityFrameworkCore.Infrastructure.PooledDbContextFactory<Simple.Infrastructure.SqlServer.AgendaContext>;
 
 namespace Simple.Api.Endpoints;
 

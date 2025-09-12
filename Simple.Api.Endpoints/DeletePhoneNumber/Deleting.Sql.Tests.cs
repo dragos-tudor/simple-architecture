@@ -16,7 +16,7 @@ partial class EndpointsTests
     await InsertPhoneNumberSqlAsync(dbContext, contact, phoneNumber);
     ClearChangeTracker(dbContext);
 
-    await DeletePhoneNumberSqlAsync(contact.ContactId, phoneNumber.CountryCode, phoneNumber.Number, SqlContextFactory, CancellationToken.None);
+    await DeletePhoneNumberSqlAsync(contact.ContactId, phoneNumber.CountryCode, phoneNumber.Number, SqlConnectionString, CancellationToken.None);
 
     var actual = await FindContactById(dbContext.Contacts.Include(c => c.PhoneNumbers).AsQueryable(), contact.ContactId).FirstOrDefaultAsync();
     Console.WriteLine("delete sql phone numbers " + actual!.PhoneNumbers.Count());

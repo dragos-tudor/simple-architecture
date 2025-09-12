@@ -7,7 +7,6 @@ global using Microsoft.EntityFrameworkCore;
 global using Simple.Shared.Models;
 global using static Storing.SqlServer.SqlServerFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
-global using AgendaContextFactory = Microsoft.EntityFrameworkCore.Infrastructure.PooledDbContextFactory<Simple.Infrastructure.SqlServer.AgendaContext>;
 
 namespace Simple.Infrastructure.SqlServer;
 

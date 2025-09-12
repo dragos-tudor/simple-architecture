@@ -9,10 +9,10 @@ partial class EndpointsFuncs
     Guid contactId,
     short countryCode,
     long number,
-    AgendaContextFactory dbContextFactory,
+    string sqlConnectionString,
     CancellationToken cancellationToken = default)
   {
-    using var dbContext = CreateAgendaContext(dbContextFactory);
+    using var dbContext = CreateAgendaContext(sqlConnectionString);
 
     var (_, error) = await DeletePhoneNumberAsync(
       contactId,

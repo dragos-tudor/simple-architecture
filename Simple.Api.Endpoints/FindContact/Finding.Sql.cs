@@ -5,9 +5,9 @@ namespace Simple.Api.Endpoints;
 
 partial class EndpointsFuncs
 {
-  public static async Task<Results<Ok<Contact>, NotFound>> FindContactSqlAsync(Guid contactId, AgendaContextFactory dbContextFactory, CancellationToken cancellationToken = default)
+  public static async Task<Results<Ok<Contact>, NotFound>> FindContactSqlAsync(Guid contactId, string sqlConnectionString, CancellationToken cancellationToken = default)
   {
-    using var dbContext = CreateAgendaContext(dbContextFactory);
+    using var dbContext = CreateAgendaContext(sqlConnectionString);
     var contactQuery = dbContext.Contacts.AsQueryable();
     var contact = await FindContactById(contactQuery, contactId).Include(c => c.PhoneNumbers).FirstOrDefaultAsync(cancellationToken);
 

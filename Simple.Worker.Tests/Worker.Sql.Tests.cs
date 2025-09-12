@@ -10,8 +10,8 @@ partial class WorkerTests
   {
     var contact = CreateTestContact();
     var messagePayload = CreateContactCreatedEvent(contact.ContactId, contact.ContactEmail);
-    var message = CreateTestMessage(messagePayload, messageDate: DateTime.UtcNow.AddHours(-1));
-    using var dbContext = CreateAgendaContext(DbContextFactory);
+    var message = CreateTestMessage(messagePayload, messageDate: DateTime.UtcNow.AddHours(-1), isPending: true);
+    using var dbContext = CreateAgendaContext(SqlConnectionString);
     await InsertMessageAsync(dbContext, message);
 
     using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));

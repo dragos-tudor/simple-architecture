@@ -24,6 +24,7 @@ partial class JobsFuncs
       {
         if (message is Message<ContactCreatedEvent>)
           await HandleContactCreatedMongoAsync((Message<ContactCreatedEvent>)message, mongoDatabase, mailServerOptions, timeProvider.GetUtcNow().DateTime, cancellationToken);
+
         await FinalizeMessageMongoAsync(mongoDatabase, message, cancellationToken);
       },
       (message, exception, cancellationToken) =>

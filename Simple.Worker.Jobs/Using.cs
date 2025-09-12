@@ -12,7 +12,6 @@ global using static Simple.Messaging.Handlers.HandlersFuncs;
 global using static Simple.Infrastructure.JobScheduler.JobSchedulerFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
 global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
-global using AgendaContextFactory = Microsoft.EntityFrameworkCore.Infrastructure.PooledDbContextFactory<Simple.Infrastructure.SqlServer.AgendaContext>;
 
 namespace Simple.Worker.Jobs;
 

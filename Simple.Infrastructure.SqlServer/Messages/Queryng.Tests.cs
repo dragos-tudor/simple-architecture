@@ -46,17 +46,21 @@ partial class SqlServerTests
   }
 
   [TestMethod]
-  public void messages__query_pending_messages_between_dates__pending_messages()
+  public async Task messages__query_pending_messages_between_dates__pending_messages()
   {
+    using var dbContext = CreateAgendaContext(SqlConnectionString);
     var currentDate = DateTime.UtcNow;
+    var correlationId = GetRandomString(16);
     Message[] messages = [
-      CreateTestMessage(messageDate: currentDate, isPending: true),
-      CreateTestMessage(messageDate: currentDate, isPending: true),
-      CreateTestMessage(messageDate: currentDate.AddSeconds(1), isPending: true),
-      CreateTestMessage(messageDate: currentDate.AddSeconds(2), isPending: true)
+      CreateTestMessage(messageDate: currentDate, correlationId: correlationId, isPending: true),
+      CreateTestMessage(messageDate: currentDate, correlationId: correlationId, isPending: true),
+      CreateTestMessage(messageDate: currentDate.AddSeconds(1), correlationId: correlationId, isPending: true),
+      CreateTestMessage(messageDate: currentDate.AddSeconds(2), correlationId: correlationId, isPending: true)
     ];
+    foreach (var message in messages)
+      await InsertMessageAsync(dbContext, message);
 
-    var actual = QueryPendingMessages(messages.AsQueryable(), currentDate, currentDate.AddSeconds(2));
+    var actual = QueryPendingMessages(dbContext.Messages.AsQueryable().Where(message => message.CorrelationId == correlationId), currentDate, currentDate.AddSeconds(2));
     AreEqual(actual, [messages[2], messages[3]]);
   }
 

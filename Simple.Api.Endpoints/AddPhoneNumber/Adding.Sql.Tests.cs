@@ -15,7 +15,7 @@ partial class EndpointsTests
     await InsertContactSqlAsync(dbContext, contact);
     ClearChangeTracker(dbContext);
 
-    var response = await AddPhoneNumberSqlAsync(contact.ContactId, request, SqlContextFactory, CancellationToken.None);
+    var response = await AddPhoneNumberSqlAsync(contact.ContactId, request, SqlConnectionString, CancellationToken.None);
     ClearChangeTracker(dbContext);
 
     var actual = await FindContactById(dbContext.Contacts.Include(c => c.PhoneNumbers).AsQueryable(), contact.ContactId).FirstOrDefaultAsync();

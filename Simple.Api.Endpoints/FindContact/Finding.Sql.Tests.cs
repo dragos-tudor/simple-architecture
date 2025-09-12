@@ -12,7 +12,7 @@ partial class EndpointsTests
     await InsertContactSqlAsync(dbContext, contact);
     ClearChangeTracker(dbContext);
 
-    var result = await FindContactSqlAsync(contact.ContactId, SqlContextFactory, CancellationToken.None);
+    var result = await FindContactSqlAsync(contact.ContactId, SqlConnectionString, CancellationToken.None);
 
     var httpContext = await ExecuteHttpResultAsync(result, CreateHttpContext());
     Assert.AreEqual(contact, await ReadHttpResponseJsonAsync<Contact>(httpContext.Response));

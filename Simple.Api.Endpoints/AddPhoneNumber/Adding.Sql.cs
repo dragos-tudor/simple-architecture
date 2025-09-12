@@ -8,13 +8,13 @@ partial class EndpointsFuncs
   public static async Task<Results<Created, ProblemHttpResult>> AddPhoneNumberSqlAsync(
     Guid contactId,
     AddPhoneNumberRequest request,
-    AgendaContextFactory dbContextFactory,
+    string sqlConnectionString,
     CancellationToken cancellationToken = default)
   {
     var valErrors = ValidateAddPhoneNumberRequest(request);
     if (ExistErrors(valErrors)) return TypedResults.Problem(JoinErrors(valErrors));
 
-    var dbContext = CreateAgendaContext(dbContextFactory);
+    var dbContext = CreateAgendaContext(sqlConnectionString);
     var phoneNumber = CreatePhoneNumber(request.CountryCode, request.Number, request.Extension, request.NumberType);
 
     var (_, error) = await AddPhoneNumberAsync(

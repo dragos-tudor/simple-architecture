@@ -19,24 +19,24 @@ partial class WorkerFuncs
     var messageJob = GetConfigurationOptions<MessageJob>(configuration);
 
     var sqlServerOptions = GetConfigurationOptions<SqlServerOptions>(configuration);
-    var dbContextFactory = CreateAgendaContextFactory(sqlServerOptions);
+    var sqlConnectionString = CreateSqlConnectionString(sqlServerOptions);
     InitializeSqlDatabase(sqlServerOptions);
-
-    var sqlMessageJob = messageJob with
-    {
-      JobAction = () => ProcessMessageSqlAsync(dbContextFactory, 10, messageJob.MessagesJobOptions, mailServerOptions, timeProvider, logger, cancellationToken)
-    };
-    RunJobs([sqlMessageJob], jobSchedulerOptions, timeProvider, logger);
 
     var mongoOptions = GetConfigurationOptions<MongoOptions>(configuration);
     var mongoDatabase = GetMongoDatabase(mongoOptions);
     InitializeMongoDatabase();
 
+    var sqlMessageJob = messageJob with
+    {
+      JobName = "SqlMessageJob",
+      JobAction = () => ProcessMessageSqlAsync(sqlConnectionString, 10, messageJob.MessagesJobOptions, mailServerOptions, timeProvider, logger, cancellationToken)
+    };
     var mongoMessageJob = messageJob with
     {
+      JobName = "MongoMessageJob",
       JobAction = () => ProcessMessageMongoAsync(mongoDatabase, 10, messageJob.MessagesJobOptions, mailServerOptions, timeProvider, logger, cancellationToken)
     };
-    RunJobs([mongoMessageJob], jobSchedulerOptions, timeProvider, logger);
+    RunJobs([sqlMessageJob, mongoMessageJob], jobSchedulerOptions, timeProvider, logger);
 
     return host;
   }

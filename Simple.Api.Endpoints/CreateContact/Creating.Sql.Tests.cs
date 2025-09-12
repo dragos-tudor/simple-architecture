@@ -12,7 +12,7 @@ partial class EndpointsTests
     var request = CreateTestCreateContactRequest();
     var messageQueue = CreateMessageQueue<Message>();
 
-    var response = await CreateContactSqlAsync(request, SqlContextFactory, messageQueue, "", CancellationToken.None);
+    var response = await CreateContactSqlAsync(request, SqlConnectionString, messageQueue, "", CancellationToken.None);
 
     var contact = await FindContactByName(dbContext.Contacts.AsQueryable(), request.ContactName).FirstOrDefaultAsync();
     Assert.IsNotNull(contact);
@@ -26,7 +26,7 @@ partial class EndpointsTests
     var request = CreateTestCreateContactRequest();
     var messageQueue = CreateMessageQueue<Message>();
 
-    await CreateContactSqlAsync(request, SqlContextFactory, messageQueue, "", CancellationToken.None);
+    await CreateContactSqlAsync(request, SqlConnectionString, messageQueue, "", CancellationToken.None);
 
     var message = await DequeueMessage(messageQueue);
     Assert.AreEqual(message.MessageType, nameof(ContactCreatedEvent));

@@ -17,12 +17,11 @@ partial class ApiFuncs
 
     var sqlServerOptions = GetConfigurationOptions<SqlServerOptions>(configuration);
     var sqlConnectionString = CreateSqlConnectionString(sqlServerOptions);
-    var dbContextFactory = CreateAgendaContextFactory(sqlConnectionString);
     InitializeSqlDatabase(sqlServerOptions);
 
     var sqlMessageQueue = CreateMessageQueue<Message>(1000);
-    MapSqlEndpoints(app, dbContextFactory, sqlMessageQueue);
-    ProcessMessageSqlAsync(sqlMessageQueue, dbContextFactory, 10, mailServerOptions, timeProvider, logger, cancellationToken);
+    MapSqlEndpoints(app, sqlConnectionString, sqlMessageQueue);
+    ProcessMessageSqlAsync(sqlMessageQueue, sqlConnectionString, 10, mailServerOptions, timeProvider, logger, cancellationToken);
 
     var mongoOptions = GetConfigurationOptions<MongoOptions>(configuration);
     var mongoDatabase = GetMongoDatabase(mongoOptions);

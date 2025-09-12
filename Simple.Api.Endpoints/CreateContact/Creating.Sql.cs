@@ -7,7 +7,7 @@ partial class EndpointsFuncs
 {
   public static async Task<Results<Created, ProblemHttpResult>> CreateContactSqlAsync(
     CreateContactRequest request,
-    AgendaContextFactory dbContextFactory,
+    string sqlConnectionString,
     Channel<Message> messageQueue,
     string traceIdentifier,
     CancellationToken cancellationToken = default)
@@ -15,7 +15,7 @@ partial class EndpointsFuncs
     var valErrors = ValidateCreateContactRequest(request);
     if (ExistErrors(valErrors)) return TypedResults.Problem(JoinErrors(valErrors));
 
-    var dbContext = CreateAgendaContext(dbContextFactory);
+    var dbContext = CreateAgendaContext(sqlConnectionString);
     var contact = CreateContact(GenerateSequentialGuid(), request.ContactName, request.ContactEmail);
 
     var (@event, error) = await CreateContactAsync(

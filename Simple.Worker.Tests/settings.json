@@ -12,8 +12,8 @@
     }
   },
   "JobSchedulerOptions": {
-    "TimerDelay": "00:00:05.000",
-    "TimerPeriod": "00:01:00.000"
+    "TimerDelay": "00:00:00.000",
+    "TimerPeriod": "00:00:05.000"
   },
   "SqlServerOptions": {
     "adminName": "sa",
