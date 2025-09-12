@@ -8,7 +8,7 @@ Build independent [*low-level*] modules and integrate them on top [*high-level*]
 - *high-level modules* *integrate* all *low-level modules* and *mid-level modules*: domain integrations [here](/Simple.Domain.Integrations/ContactEndpoints/Creating.Sql.cs), [here](/Simple.Domain.Integrations/ContactEndpoints/Creating.Mongo.cs) and infrastructure integrations [here](/Simple.Infrastructure.Integrations/Integrations/Integrating.cs).
 - *middle-level modules* *relies* on *low-level modules* having lower complexity than *high-level modules*.
 - *low-level modules* *completely independent* ["parallel" modules].
-- *low-level modules* *could share* some modules [ex. *simple.domain.models*].
+- *low-level modules* *could share* some modules [ex. *simple.shared.models*].
 - *low-level modules* should be *most of* all modules [pyramid base].
 - *low-level modules* should be seen as *lego pieces* and *high-level modules* as *lego structures*.
 - *fractal design* could be applied at any level:
@@ -19,8 +19,8 @@ Build independent [*low-level*] modules and integrate them on top [*high-level*]
 - *simple architecture* aka *pyramid architecture*.
 
 ### Simple architecture implementation
-- *high-level modules*: simple.api.endpoints, simple.worker.services.
-- *low-level modules*: simple.domain.models, simple.domain.queries, simple.domain.services, simple.infrastructure.mailserver, simple.infrastructure.jobscheduler, simple.infrastructure.messagequeue, simple.infrastructure.mongodb, simple.infrastructure.sqlserver, simple.shared.models [shared].
+- *high-level modules*: simple.api.endpoints, simple.worker.jobs [sharing simple.messaging.handlers].
+- *low-level modules*: simple.domain.models, simple.domain.queries, simple.domain.services, simple.infrastructure.mailserver, simple.infrastructure.jobscheduler, simple.infrastructure.messagequeue, simple.infrastructure.mongodb, simple.infrastructure.sqlserver, [sharing simple.shared.models, simple.shared.events].
 
 ### Simple vs clean architecture parallels
 - *the dependency rule* != no dependencies [even callback funcs could be seen as a form of dependency].
@@ -44,8 +44,8 @@ Build independent [*low-level*] modules and integrate them on top [*high-level*]
   - *infrastructure* project depends on *application* project [?!].
   - *web* project depends on *infrastructure* project [ok].
 - [simple-architecture implementation](/):
-  - *simple.domain.services*, *simple.infrastructure.** completely independent projects [share *simple.domain.models* project].
-  - *simple.domain.integrations* and *simple.infrastructure.integrations* projects independent of each other, depend on all above projects.
+  - *simple.domain.\**, *simple.infrastructure.\** completely independent projects [sharing *simple.shared.models*, *simple.shared.events* projects].
+  - *simple.api.endpoints*, *simple.worker.jobs* projects independent of each other, depend on all above projects [sharing *simple.messaging.handlers*].
 
 ### Remarks
 - similar architecture already exists [how else :)] [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
