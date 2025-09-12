@@ -1,12 +1,11 @@
 
-using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 
 namespace Simple.Worker.Jobs;
 
 partial class JobsFuncs
 {
-  internal static Task ProcessMessageMongoAsync(
+  public static Task ProcessMessageMongoAsync(
     IMongoDatabase mongoDatabase,
     byte maxErrors,
     MessageJobOptions jobOptions,
@@ -15,6 +14,11 @@ partial class JobsFuncs
     CancellationToken cancellationToken = default)
   =>
     ProcessMessagesAsync(
+      (minDate, maxDate, batchSize, cancellationToken) =>
+      {
+        var messageColl = GetMessageCollection(mongoDatabase);
+        return QueryPendingMessages(messageColl.AsQueryable(), minDate, maxDate, batchSize).ToListAsync(cancellationToken);
+      },
       async (message, cancellationToken) =>
       {
         // process messages here
@@ -22,11 +26,6 @@ partial class JobsFuncs
       },
       (message, exception, cancellationToken) =>
         HandleMessageErrorMongoAsync(message!, exception, maxErrors, mongoDatabase, cancellationToken),
-      (minDate, maxDate, batchSize, cancellationToken) =>
-      {
-        var messageColl = GetMessageCollection(mongoDatabase);
-        return QueryPendingMessages(messageColl.AsQueryable(), minDate, maxDate, batchSize).ToListAsync(cancellationToken);
-      },
       jobOptions,
       timeProvider,
       logger,

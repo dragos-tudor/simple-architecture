@@ -1,5 +1,5 @@
 {
-  "ResumeMessagesJob": {
+  "MessageJob": {
     "RunOptions": {
       "RunInterval": "00:05:00.000"
     }
@@ -10,29 +10,14 @@
   },
   "SqlServerOptions": {
     "adminName": "sa",
-    "adminPassword": "admin.P@ssw0rd",
-    "userName": "sqluser",
-    "userPassword": "sqluser.P@ssw0rd",
-    "dbName": "agenda"
+    "adminPassword": "P@ssw0rd",
+    "userName": "dbuser",
+    "userPassword": "dbuser.P@ssw0rd",
+    "dbName": "agenda-api",
+    "serverName": "127.0.0.1"
   },
-  "MongoReplicaSetOptions": {
-    "containerNames": ["architecture-mongo1", "architecture-mongo2", "architecture-mongo3"],
-    "collNames": ["contacts", "messages"],
-    "dbName": "agenda"
-  },
-  "Serilog": {
-    "Using":  [ "Serilog.Sinks.Console", "Serilog.Sinks.File" ],
-    "MinimumLevel": {
-      "Default": "Debug",
-      "Override": {
-        "Microsoft.Hosting.Lifetime": "Information",
-        "Microsoft.AspNetCore.Hosting.Diagnostics": "Information",
-        "Simple": "Information"
-      }
-    },
-    "WriteTo": [
-      { "Name": "Console" },
-      { "Name": "File", "Args": { "path": "log.txt" } }
-    ]
+  "MongoDbOptions": {
+    "dbName": "agenda-api",
+    "serverName": "127.0.0.1"
   }
 }

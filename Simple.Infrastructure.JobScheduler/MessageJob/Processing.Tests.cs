@@ -26,7 +26,7 @@ partial class JobSchedulerTests
     HandleMessageError<Message> handleMessageError = (_, __, ___) => Task.CompletedTask;
     QueryMessages<Message> findMessages = (minDate, maxDate, batchSize, _) => Task.FromResult(QueryPendingMessages(messages.AsQueryable(), minDate, maxDate, batchSize).ToList());
 
-    ProcessMessagesAsync(processMessage, handleMessageError, findMessages, jobOptions, timeProvider, Logger, CancellationToken.None);
+    ProcessMessagesAsync(findMessages, processMessage, handleMessageError, jobOptions, timeProvider, Logger, CancellationToken.None);
 
     using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
     counter.Wait(cancellationTokenSource.Token);

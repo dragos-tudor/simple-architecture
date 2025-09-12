@@ -3,7 +3,7 @@ namespace Simple.Api.Endpoints;
 
 partial class EndpointsFuncs
 {
-  internal static Task ProcessMessageSqlAsync(Channel<Message> messageQueue, AgendaContextFactory sqlContextFactory, byte maxErrors, ILogger logger, CancellationToken cancellationToken = default) =>
+  public static Task ProcessMessageSqlAsync(Channel<Message> messageQueue, AgendaContextFactory sqlContextFactory, byte maxErrors, ILogger logger, CancellationToken cancellationToken = default) =>
       ProcessMessagesAsync(
         messageQueue,
         async (message, cancellationToken) =>

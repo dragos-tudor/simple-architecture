@@ -4,7 +4,6 @@ namespace Simple.Domain.CodeGenerator;
 class RestoreMessageSyntaxReceiver : ISyntaxReceiver
 {
   public ICollection<string> EventClassesNames { get; } = [];
-  public ICollection<string> NotificationClassesNames { get; } = [];
 
   public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
   {
@@ -12,6 +11,5 @@ class RestoreMessageSyntaxReceiver : ISyntaxReceiver
     if (recordDeclarationSyntax.BaseList is not BaseListSyntax baseListSyntax) return;
 
     if (IsImplementingIEventInterface(baseListSyntax)) EventClassesNames.Add(GetRecordDeclarationSyntaxName(recordDeclarationSyntax));
-    if (IsImplementingINotificationInterface(baseListSyntax)) NotificationClassesNames.Add(GetRecordDeclarationSyntaxName(recordDeclarationSyntax));
   }
 }

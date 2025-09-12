@@ -7,15 +7,13 @@ partial class MailServerFuncs
 {
   static Task<string> SendMailMessageAsync(SmtpClient client, MimeMessage message, CancellationToken cancellationToken = default) => client.SendAsync(message, cancellationToken);
 
-  public static async Task SendMailMessageAsync(SmtpClient client, MimeMessage message, string serverName, int smtpPort, CancellationToken cancellationToken = default)
+  public static async Task SendMailMessageAsync(SmtpClient client, MimeMessage message, MailServerOptions options, CancellationToken cancellationToken = default)
   {
     if (!client.IsConnected)
-      await ConnectSmtpClientAsync(client, serverName, smtpPort, cancellationToken);
+      await ConnectSmtpClientAsync(client, options.MailServerName, options.SmtpPort, cancellationToken);
     await AuthenticateSmtpClientAsync(client, GetMessageFromName(message), GetMessageFromName(message), cancellationToken);
 
     await SendMailMessageAsync(client, message, cancellationToken);
-    message.Dispose();
-
     await DisconnectSmtpClientAsync(client, cancellationToken);
   }
 }

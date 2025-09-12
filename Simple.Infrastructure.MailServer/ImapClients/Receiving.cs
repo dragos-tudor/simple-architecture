@@ -6,10 +6,10 @@ namespace Simple.Infrastructure.MailServer;
 
 partial class MailServerFuncs
 {
-  public static async Task<IEnumerable<MimeMessage>> ReceiveMailMessagesAsync(ImapClient client, string userName, string password, string serverName, int imapPort, CancellationToken cancellationToken = default)
+  public static async Task<IEnumerable<MimeMessage>> ReceiveMailMessagesAsync(ImapClient client, string userName, string password, MailServerOptions options, CancellationToken cancellationToken = default)
   {
     if (!client.IsConnected)
-      await ConnectImapClientAsync(client, serverName, imapPort, cancellationToken);
+      await ConnectImapClientAsync(client, options.MailServerName, options.ImapPort, cancellationToken);
     await AuthenticateImapClientAsync(client, userName, password, cancellationToken);
 
     var inbox = await OpenInboxAsync(client, cancellationToken);

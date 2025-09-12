@@ -5,6 +5,7 @@
   <ItemGroup>
     <ProjectReference Include="../Simple.Shared.Models/Simple.Shared.Models.csproj" />
     <PackageReference Include="Scheduling.JobScheduler" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'!='Release'">

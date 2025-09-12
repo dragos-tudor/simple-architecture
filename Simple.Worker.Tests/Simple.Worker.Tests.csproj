@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../Directory.Testing.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="../Simple.Worker/Simple.Worker.csproj" />
+    <None Include="settings.json" CopyToOutputDirectory="PreserveNewest"/>
+  </ItemGroup>
+
+</Project>

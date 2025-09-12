@@ -1,4 +1,4 @@
 
-podman start architecture-sql
-podman start architecture-mongo
-podman start architecture-mail
+rm -rf /run/libpod/alive
+podman restart -a
+podman restart -a

@@ -3,6 +3,9 @@ namespace Simple.Infrastructure.SqlServer;
 
 partial class SqlServerFuncs
 {
+  public static void InitializeSqlDatabase(SqlServerOptions options) =>
+    InitializeSqlDatabase(options.DbName, options.AdminName, options.AdminPassword, options.UserName, options.UserPassword, options.ServerName);
+
   public static void InitializeSqlDatabase(
     string dbName,
     string adminName,
@@ -11,7 +14,7 @@ partial class SqlServerFuncs
     string userPassword,
     string serverName)
   {
-    string connString = CreateSqlConnectionString(dbName, adminName, adminPassword, serverName);
+    string connString = Storing.SqlServer.SqlServerFuncs.CreateSqlConnectionString(dbName, adminName, adminPassword, serverName);
     using var dbContext = CreateAgendaContext(connString);
 
     dbContext.Database.EnsureDeleted();

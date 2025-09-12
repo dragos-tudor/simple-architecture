@@ -1,9 +1,10 @@
+#pragma warning disable CS4014
 
 namespace Simple.Api;
 
 partial class ApiFuncs
 {
-  internal static async Task<WebApplication> StartAppAsync(
+  public static async Task<WebApplication> StartAppAsync(
     string[] args,
     string settingsFile,
     Action<WebApplicationBuilder> configBuilder,
@@ -11,23 +12,30 @@ partial class ApiFuncs
   {
     var configuration = BuildConfiguration(settingsFile);
     var app = BuildApplication(args, configuration, configBuilder);
+    var logger = GetRequiredService<ILogger>(app.Services);
 
     var sqlServerOptions = GetConfigurationOptions<SqlServerOptions>(configuration);
-    var sqlConnectionString = CreateSqlConnectionString(sqlServerOptions.DbName, sqlServerOptions.UserName, sqlServerOptions.UserPassword, sqlServerOptions.ServerName);
+    var sqlConnectionString = CreateSqlConnectionString(sqlServerOptions);
     var dbContextFactory = CreateAgendaContextFactory(sqlConnectionString);
-    InitializeSqlDatabase(sqlServerOptions.DbName, sqlServerOptions.AdminName, sqlServerOptions.AdminPassword, sqlServerOptions.UserName, sqlServerOptions.UserPassword, sqlServerOptions.ServerName);
-    MapSqlEndpoints(app, dbContextFactory, CreateMessageQueue<Message>(1000));
+    InitializeSqlDatabase(sqlServerOptions);
+
+    var sqlMessageQueue = CreateMessageQueue<Message>(1000);
+    MapSqlEndpoints(app, dbContextFactory, sqlMessageQueue);
+    ProcessMessageSqlAsync(sqlMessageQueue, dbContextFactory, 10, logger, cancellationToken);
 
     var mongoOptions = GetConfigurationOptions<MongoOptions>(configuration);
-    var mongoDatabase = GetMongoDatabase(mongoOptions.ServerName, mongoOptions.ServerPort, mongoOptions.DbName);
+    var mongoDatabase = GetMongoDatabase(mongoOptions);
     InitializeMongoDatabase();
-    MapMongoEndpoints(app, mongoDatabase, CreateMessageQueue<Message>(1000));
+
+    var mongoMessageQueue = CreateMessageQueue<Message>(1000);
+    MapMongoEndpoints(app, mongoDatabase, mongoMessageQueue);
+    ProcessMessageMongoAsync(mongoMessageQueue, mongoDatabase, 10, logger, cancellationToken);
 
     await app.StartAsync(cancellationToken);
     return app;
   }
 
-  public static async Task MainAsync(string[] args)
+  public static async Task Main(string[] args)
   {
     var app = await StartAppAsync(args, "settings.json", (_) => { }, CancellationToken.None);
     await app.RunAsync();

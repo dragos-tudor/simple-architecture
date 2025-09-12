@@ -1,12 +1,11 @@
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace Simple.Worker.Jobs;
 
 partial class JobsFuncs
 {
-  internal static Task ProcessMessageSqlAsync(
+  public static Task ProcessMessageSqlAsync(
     AgendaContextFactory dbContextFactory,
     byte maxErrors,
     MessageJobOptions jobOptions,
@@ -15,6 +14,11 @@ partial class JobsFuncs
     CancellationToken cancellationToken = default)
   =>
     ProcessMessagesAsync(
+      (minDate, maxDate, batchSize, cancellationToken) =>
+      {
+        using var dbContext = CreateAgendaContext(dbContextFactory);
+        return QueryPendingMessages(dbContext.Messages, minDate, maxDate, batchSize).ToListAsync(cancellationToken);
+      },
       async (message, cancellationToken) =>
       {
         // process messages here
@@ -25,11 +29,6 @@ partial class JobsFuncs
       {
         using var dbContext = CreateAgendaContext(dbContextFactory);
         return HandleMessageErrorSqlAsync(message!, exception, maxErrors, dbContext, cancellationToken);
-      },
-      (minDate, maxDate, batchSize, cancellationToken) =>
-      {
-        using var dbContext = CreateAgendaContext(dbContextFactory);
-        return QueryPendingMessages(dbContext.Messages, minDate, maxDate, batchSize).ToListAsync(cancellationToken);
       },
       jobOptions,
       timeProvider,

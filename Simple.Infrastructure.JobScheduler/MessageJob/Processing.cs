@@ -41,9 +41,9 @@ partial class JobSchedulerFuncs
   }
 
   public static async Task ProcessMessagesAsync(
+    QueryMessages<Message> queryMessages,
     ProcessMessage<Message> processMessage,
     HandleMessageError<Message> handleMessageError,
-    QueryMessages<Message> queryMessages,
     MessageJobOptions jobOptions,
     TimeProvider timeProvider,
     ILogger logger,

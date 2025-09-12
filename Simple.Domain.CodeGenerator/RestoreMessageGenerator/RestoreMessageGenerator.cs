@@ -14,7 +14,7 @@ public partial class RestoreMessageGenerator : ISourceGenerator
   public void Execute(GeneratorExecutionContext context)
   {
     var syntaxReceiver = (RestoreMessageSyntaxReceiver)context.SyntaxReceiver!;
-    var classNames = syntaxReceiver.EventClassesNames.Concat(syntaxReceiver.NotificationClassesNames);
+    var classNames = syntaxReceiver.EventClassesNames;
 
     var matchMessageTypeBranches = GenerateMatchMessageTypeBranches(classNames);
     var restoreMessageFunction = GenerateRestoreMessageFunction(matchMessageTypeBranches);

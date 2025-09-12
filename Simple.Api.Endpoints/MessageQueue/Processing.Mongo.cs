@@ -5,7 +5,7 @@ namespace Simple.Api.Endpoints;
 
 partial class EndpointsFuncs
 {
-  internal static Task ProcessMessageMongoAsync(Channel<Message> messageQueue, IMongoDatabase mongoDatabase, byte maxErrors, ILogger logger, CancellationToken cancellationToken = default) =>
+  public static Task ProcessMessageMongoAsync(Channel<Message> messageQueue, IMongoDatabase mongoDatabase, byte maxErrors, ILogger logger, CancellationToken cancellationToken = default) =>
     ProcessMessagesAsync(
       messageQueue,
       async (message, cancellationToken) =>
