@@ -17,8 +17,10 @@ partial class ApiFuncs
       async (message, cancellationToken) =>
       {
         using var dbContext = CreateAgendaContext(sqlConnectionString);
+
         if (message is Message<ContactCreatedEvent>)
           await HandleContactCreatedSqlAsync((Message<ContactCreatedEvent>)message, dbContext, mailServerOptions, timeProvider.GetUtcNow().DateTime, cancellationToken);
+
         await FinalizeMessageSqlAsync(dbContext, message, cancellationToken);
       },
       async (message, exception, cancellationToken) =>

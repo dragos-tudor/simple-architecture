@@ -15,7 +15,7 @@ partial class ModelsFuncs
   }};
 }}";
 
-  internal static string GenerateMatchMessageTypeBranch(string className) => $"nameof({className}) => RestoreMessage(message, DeserializePayload<{className}>(message.MessageContent)!),";
+  internal static string GenerateMatchMessageTypeBranch(string className) => $"\"Simple.Domain.Models.{className}\" => RestoreMessage(message, DeserializePayload<{className}>(message.MessageContent)!),";
 
   internal static IEnumerable<string> GenerateMatchMessageTypeBranches(IEnumerable<string> classNames) => classNames.Select(GenerateMatchMessageTypeBranch);
 }

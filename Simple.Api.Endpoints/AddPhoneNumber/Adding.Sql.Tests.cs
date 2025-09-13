@@ -21,7 +21,6 @@ partial class EndpointsTests
     var actual = await FindContactById(dbContext.Contacts.Include(c => c.PhoneNumbers).AsQueryable(), contact.ContactId).FirstOrDefaultAsync();
     var phoneNumber = CreatePhoneNumber(request.CountryCode, request.Number, request.Extension, request.NumberType);
 
-    Console.WriteLine("add sqp phone numbers " + actual!.PhoneNumbers.Count());
     AreEqual(actual!.PhoneNumbers, [phoneNumber]);
     Assert.IsInstanceOfType(response.Result, typeof(Created));
   }

@@ -1,6 +1,7 @@
 
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace Simple.Worker;
 
@@ -17,8 +18,8 @@ partial class WorkerTests
     await InsertMessageAsync(messageColl, message);
 
     await WaitUntilAsync(
-      async () => !(await FindMessageById(messageColl.AsQueryable(), message.MessageId).FirstAsync()).IsPending,
-      TimeSpan.FromMilliseconds(200),
+      async () => await FindMessagesByCorrelationId(messageColl.AsQueryable(), message.CorrelationId!).CountAsync() == 2,
+      TimeSpan.FromMilliseconds(500),
       TimeSpan.FromSeconds(10)
     );
   }

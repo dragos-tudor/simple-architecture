@@ -1,7 +1,6 @@
 
 using MongoDB.Driver;
 
-
 namespace Simple.Messaging.Handlers;
 
 partial class HandlersFuncs

@@ -15,6 +15,28 @@ partial class MongoDbTests
   }
 
   [TestMethod]
+  public async Task messages__find_message_by_correlation_id__message_with_correlation_id()
+  {
+    var messages = GetMessageCollection(MongoDatabase);
+    var message = CreateTestMessage();
+
+    await InsertMessageAsync(messages, message);
+
+    Assert.IsNotNull(await FindMessagesByCorrelationId(messages.AsQueryable(), message.CorrelationId!).FirstOrDefaultAsync());
+  }
+
+  [TestMethod]
+  public async Task messages__find_message_by_parent_id__message_with_parent_id()
+  {
+    var messages = GetMessageCollection(MongoDatabase);
+    var message = CreateTestMessage();
+
+    await InsertMessageAsync(messages, message);
+
+    Assert.IsNotNull(await FindMessagesByParentId(messages.AsQueryable(), message.ParentId!.Value).FirstOrDefaultAsync());
+  }
+
+  [TestMethod]
   public async Task parent_message_and_message__find_message_duplication__duplicated_message()
   {
     var messages = GetMessageCollection(MongoDatabase);

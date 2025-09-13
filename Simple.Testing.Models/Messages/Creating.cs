@@ -1,4 +1,6 @@
 
+using System.Text.Json;
+
 namespace Simple.Testing.Models;
 
 partial class ModelsFuncs
@@ -34,8 +36,8 @@ partial class ModelsFuncs
     new()
     {
       MessageId = messageId ?? GetRandomGuid(),
-      MessageType = messagePayload!.GetType().Name,
-      MessageContent = messagePayload.ToString()!,
+      MessageType = messagePayload!.GetType().FullName!,
+      MessageContent = messagePayload.GetType().IsClass ? JsonSerializer.Serialize(messagePayload) : messagePayload.ToString()!,
       MessagePayload = messagePayload,
       MessageDate = messageDate ?? GetRandomDate(),
       ParentId = parentId ?? GetRandomGuid(),

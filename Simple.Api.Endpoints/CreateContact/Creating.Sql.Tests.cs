@@ -29,6 +29,6 @@ partial class EndpointsTests
     await CreateContactSqlAsync(request, SqlConnectionString, messageQueue, "", CancellationToken.None);
 
     var message = await DequeueMessage(messageQueue);
-    Assert.AreEqual(message.MessageType, nameof(ContactCreatedEvent));
+    Assert.AreEqual(message.MessageType, typeof(ContactCreatedEvent).FullName);
   }
 }

@@ -18,6 +18,34 @@ partial class SqlServerTests
   }
 
   [TestMethod]
+  public async Task messages__find_message_by_correlation_id__message_with_correlation_id()
+  {
+    using var dbContext = CreateAgendaContext(SqlConnectionString);
+    var message = CreateTestMessage();
+
+    AddMessage(dbContext, message);
+    await SaveChangesAsync(dbContext);
+    ClearChangeTracker(dbContext);
+
+    var actual = await FindMessagesByCorrelationId(dbContext.Messages.AsQueryable(), message.CorrelationId!).FirstOrDefaultAsync();
+    Assert.AreEqual(actual, message);
+  }
+
+  [TestMethod]
+  public async Task messages__find_message_by_parent_id__message_with_parent_id()
+  {
+    using var dbContext = CreateAgendaContext(SqlConnectionString);
+    var message = CreateTestMessage();
+
+    AddMessage(dbContext, message);
+    await SaveChangesAsync(dbContext);
+    ClearChangeTracker(dbContext);
+
+    var actual = await FindMessagesByParentId(dbContext.Messages.AsQueryable(), message.ParentId!.Value).FirstOrDefaultAsync();
+    Assert.AreEqual(actual, message);
+  }
+
+  [TestMethod]
   public async Task parent_message_and_message__find_message_duplication__duplicated_message()
   {
     using var dbContext = CreateAgendaContext(SqlConnectionString);

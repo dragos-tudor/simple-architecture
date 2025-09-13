@@ -14,8 +14,8 @@ partial class WorkerTests
     await InsertMessageAsync(dbContext, message);
 
     await WaitUntilAsync(
-      async () => !(await FindMessageById(dbContext.Messages.AsQueryable(), message.MessageId).FirstAsync()).IsPending,
-      TimeSpan.FromMilliseconds(100),
+      async () => await FindMessagesByCorrelationId(dbContext.Messages.AsQueryable(), message.CorrelationId!).CountAsync() == 2,
+      TimeSpan.FromMilliseconds(500),
       TimeSpan.FromSeconds(10)
     );
   }

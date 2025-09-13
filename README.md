@@ -20,7 +20,7 @@ Build independent [*low-level*] modules and integrate them on top [*high-level*]
 
 ### Simple architecture implementation
 - *high-level modules*: simple.api.endpoints, simple.worker.jobs [sharing simple.messaging.handlers].
-- *low-level modules*: simple.domain.models, simple.domain.queries, simple.domain.services, simple.infrastructure.mailserver, simple.infrastructure.jobscheduler, simple.infrastructure.messagequeue, simple.infrastructure.mongodb, simple.infrastructure.sqlserver, [sharing simple.shared.models, simple.shared.events].
+- *low-level modules*: simple.domain.models, simple.domain.queries, simple.domain.services, simple.infrastructure.mailserver, simple.infrastructure.jobscheduler, simple.infrastructure.messagequeue, simple.infrastructure.mongodb, simple.infrastructure.sqlserver, [sharing simple.shared.models].
 
 ### Simple vs clean architecture parallels
 - *the dependency rule* != no dependencies [even callback funcs could be seen as a form of dependency].
@@ -44,7 +44,7 @@ Build independent [*low-level*] modules and integrate them on top [*high-level*]
   - *infrastructure* project depends on *application* project [?!].
   - *web* project depends on *infrastructure* project [ok].
 - [simple-architecture implementation](/):
-  - *simple.domain.\**, *simple.infrastructure.\** completely independent projects [sharing *simple.shared.models*, *simple.shared.events* projects].
+  - *simple.domain.\**, *simple.infrastructure.\** completely independent projects [sharing *simple.shared.models* project].
   - *simple.api.endpoints*, *simple.worker.jobs* projects independent of each other, depend on all above projects [sharing *simple.messaging.handlers*].
 
 ### Remarks

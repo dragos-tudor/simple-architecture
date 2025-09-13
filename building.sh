@@ -12,13 +12,14 @@ PROJECTS=(
   "Simple.Infrastructure.MessageQueue"
   "Simple.Infrastructure.MongoDb"
   "Simple.Infrastructure.SqlServer"
-  "Simple.Domain.CodeGenerator"
   "Simple.Domain.Models"
   "Simple.Domain.Services"
+  "Simple.Messaging.Handlers"
   "Simple.Api.Endpoints"
-  # "Simple.Api"
-  # "Simple.Worker.Jobs"
-  # "Simple.Worker"
+  "Simple.Api"
+  "Simple.Worker"
+  "Simple.Api.Tests"
+  "Simple.Worker.Tests"
 )
 
 dotnet restore

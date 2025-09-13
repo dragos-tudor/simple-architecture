@@ -13,8 +13,8 @@ partial class HandlersTests
     var message = CreateTestMessage(CreateContactCreatedEvent(Guid.NewGuid(), GetRandomEmail(10)));
     await HandleContactCreatedMongoAsync(message, MongoDatabase, MailServerOptions, DateTime.UtcNow);
 
-    var continuationMessage = await FindMessageByParentId(messageColl.AsQueryable(), message.MessageId).FirstAsync();
-    Assert.AreEqual(continuationMessage.MessageType, nameof(NotificationSentEvent));
+    var continuationMessage = await FindMessagesByParentId(messageColl.AsQueryable(), message.MessageId).FirstAsync();
+    Assert.AreEqual(continuationMessage.MessageType, typeof(NotificationSentEvent).FullName);
     Assert.IsFalse(continuationMessage.IsPending);
   }
 

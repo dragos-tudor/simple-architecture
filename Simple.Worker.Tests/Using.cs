@@ -1,14 +1,13 @@
 global using System;
-global using System.Threading;
 global using System.Threading.Tasks;
 global using Microsoft.Extensions.Hosting;
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
-global using Simple.Shared.Events;
+global using Simple.Domain.Models;
 global using Simple.Shared.Models;
+global using static Simple.Domain.Models.ModelsFuncs;
 global using static Simple.Domain.Queries.QueriesFuncs;
 global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;
-global using static Simple.Shared.Events.EventsFuncs;
 global using static Simple.Testing.Models.ModelsFuncs;
 global using static Simple.Worker.WorkerFuncs;
 using Microsoft.Extensions.Configuration;

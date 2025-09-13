@@ -23,8 +23,10 @@ partial class WorkerFuncs
       async (message, cancellationToken) =>
       {
         using var dbContext = CreateAgendaContext(sqlConnectionString);
-        if (message is Message<ContactCreatedEvent>)
-          await HandleContactCreatedSqlAsync((Message<ContactCreatedEvent>)message, dbContext, mailServerOptions, timeProvider.GetUtcNow().DateTime, cancellationToken);
+
+        var restoredMessage = RestoreMessage(message);
+        if (restoredMessage is Message<ContactCreatedEvent>)
+          await HandleContactCreatedSqlAsync((Message<ContactCreatedEvent>)restoredMessage, dbContext, mailServerOptions, timeProvider.GetUtcNow().DateTime, cancellationToken);
 
         await FinalizeMessageSqlAsync(dbContext, message, cancellationToken);
       },
