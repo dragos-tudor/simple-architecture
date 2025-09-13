@@ -1,18 +1,15 @@
 
-### About tests
-- MSTest v2 runner should be used to run tests [even v1 version is supported].
-
 ### Running projects tests
 ```shell
 cd <project_path>
 dotnet restore
 dotnet build --no-restore
-dotnet run --no-build --no-restore-- --config-file ../.testconfig.json --no-progress
+dotnet run --no-build --no-restore-- --config-file ../.testconfig.json --no-progress // mstest v2
 ```
 
-### Known issues
+### Observations
 - greenmail server sometimes fail to start smtp service. greemail server container needs to be restarted.
-- .NET Install Tool settings `dotnetAcquisitionExtension.sharedExistingDotnetPath: "/usr/bin/dotnet"` will use installed .Net Runtime (and skip loading other .Net Runtime version).
-- start containers error "current system boot ID differs from cached boot ID". solutions:
-  - delete `/run/libpod` and `/run/containers/storage` folder and re-run podman.
-  - if journal logs would were available the current system boot id [`journalctl --list -boots`] would replaced the old system boot id from `/run/libpod/alive`.
+- start containers error "current system boot ID differs from cached boot ID".
+  - delete `/run/libpod/alive` old system boot id and restart containers `podman restart -a` twice.
+  - logs unavailable to get current system boot id [`journalctl --list -boots`] and to replace the old one `/run/libpod/alive`.
+- set `dotnetAcquisitionExtension.sharedExistingDotnetPath: "/usr/bin/dotnet"` .NET Install Tool settings to use installed .Net Runtime (and skip loading other .Net Runtime version). usefull on offline scenarios.
