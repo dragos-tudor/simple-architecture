@@ -20,5 +20,11 @@
   },
   "MailServerOptions": {
     "mailServerName": "127.0.0.1"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
   }
 }

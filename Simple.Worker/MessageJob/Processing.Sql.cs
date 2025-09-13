@@ -1,9 +1,9 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Simple.Worker.Jobs;
+namespace Simple.Worker;
 
-partial class JobsFuncs
+partial class WorkerFuncs
 {
   public static Task ProcessMessageSqlAsync(
     string sqlConnectionString,
@@ -15,10 +15,10 @@ partial class JobsFuncs
     CancellationToken cancellationToken = default)
   =>
     ProcessMessagesAsync(
-      (minDate, maxDate, batchSize, cancellationToken) =>
+      async (minDate, maxDate, batchSize, cancellationToken) =>
       {
         using var dbContext = CreateAgendaContext(sqlConnectionString);
-        return QueryPendingMessages(dbContext.Messages.AsQueryable(), minDate, maxDate, batchSize).ToListAsync(cancellationToken);
+        return await FindPendingMessages(dbContext.Messages.AsQueryable(), minDate, maxDate, batchSize).ToListAsync(cancellationToken);
       },
       async (message, cancellationToken) =>
       {

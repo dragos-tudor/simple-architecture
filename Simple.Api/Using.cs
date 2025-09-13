@@ -1,15 +1,18 @@
 global using System;
 global using System.Threading;
 global using System.Threading.Tasks;
+global using System.Threading.Channels;
 global using Microsoft.AspNetCore.Builder;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Simple.Shared.Models;
+global using Simple.Shared.Events;
 global using Simple.Infrastructure.MongoDb;
 global using Simple.Infrastructure.SqlServer;
 global using Simple.Infrastructure.MailServer;
 global using static Storing.SqlServer.SqlServerFuncs;
+global using static Simple.Messaging.Handlers.HandlersFuncs;
 global using static Simple.Infrastructure.MessageQueue.MessageQueueFuncs;
 global using static Simple.Infrastructure.MongoDb.MongoDbFuncs;
 global using static Simple.Infrastructure.SqlServer.SqlServerFuncs;

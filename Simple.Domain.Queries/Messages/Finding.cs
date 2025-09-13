@@ -14,4 +14,11 @@ partial class QueriesFuncs
 
   public static TQueryable FindMessagesPage<TQueryable>(TQueryable query, int? pageIndex, int? pageSize) where TQueryable : IQueryable<Message> =>
     (TQueryable)query.Skip(pageIndex ?? (0 * pageSize) ?? DefaultPageSize).Take(pageSize ?? DefaultPageSize);
+
+  public static TQueryable FindPendingMessages<TQueryable>(TQueryable query, DateTime exclusiveMinDate, DateTime inclusiveMaxDate, int batchSize = 20) where TQueryable : IQueryable<Message> =>
+    (TQueryable)query
+      .Where(message => message.IsPending)
+      .Where(message => exclusiveMinDate < message.MessageDate && message.MessageDate <= inclusiveMaxDate)
+      .OrderBy(message => message.MessageDate)
+      .Take(batchSize);
 }

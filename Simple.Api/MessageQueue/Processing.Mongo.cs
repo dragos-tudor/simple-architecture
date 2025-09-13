@@ -1,9 +1,9 @@
 
 using MongoDB.Driver;
 
-namespace Simple.Api.Endpoints;
+namespace Simple.Api;
 
-partial class EndpointsFuncs
+partial class ApiFuncs
 {
   public static Task ProcessMessageMongoAsync(
     Channel<Message> messageQueue,

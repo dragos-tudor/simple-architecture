@@ -24,7 +24,7 @@ partial class JobSchedulerTests
 
     ProcessMessage<Message> processMessage = (message, _) => { message.IsPending = false; return Task.FromResult(counter.Signal()); };
     HandleMessageError<Message> handleMessageError = (_, __, ___) => Task.CompletedTask;
-    QueryMessages<Message> findMessages = (minDate, maxDate, batchSize, _) => Task.FromResult(QueryPendingMessages(messages.AsQueryable(), minDate, maxDate, batchSize).ToList());
+    FindMessages<Message> findMessages = (minDate, maxDate, batchSize, _) => Task.FromResult(FindPendingMessages(messages.AsQueryable(), minDate, maxDate, batchSize).ToList());
 
     ProcessMessagesAsync(findMessages, processMessage, handleMessageError, jobOptions, timeProvider, Logger, CancellationToken.None);
 

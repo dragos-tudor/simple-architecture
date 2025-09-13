@@ -41,7 +41,7 @@ partial class MongoDbTests
   }
 
   [TestMethod]
-  public async Task messages__query_pending_messages_between_dates__pending_messages()
+  public async Task messages__find_pending_messages_between_dates__pending_messages()
   {
     var messageColl = GetMessageCollection(MongoDatabase);
     var currentDate = DateTime.UtcNow;
@@ -55,7 +55,7 @@ partial class MongoDbTests
     foreach (var message in messages)
       await InsertMessageAsync(messageColl, message);
 
-    var actual = QueryPendingMessages(messageColl.AsQueryable().Where(message => message.CorrelationId == correlationId), currentDate, currentDate.AddSeconds(2));
+    var actual = FindPendingMessages(messageColl.AsQueryable().Where(message => message.CorrelationId == correlationId), currentDate, currentDate.AddSeconds(2));
     AreEqual(actual.Select(m => m.MessageId), [messages[2].MessageId, messages[3].MessageId]);
   }
 

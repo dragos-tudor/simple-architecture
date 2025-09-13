@@ -8,12 +8,12 @@
   },
    "MessageJob": {
     "RunOptions": {
-      "RunInterval": "00:00:03.000"
+      "RunInterval": "00:01:00.000"
     }
   },
   "JobSchedulerOptions": {
-    "TimerDelay": "00:00:00.000",
-    "TimerPeriod": "00:00:05.000"
+    "TimerDelay": "00:00:03.000",
+    "TimerPeriod": "00:01:00.000"
   },
   "SqlServerOptions": {
     "adminName": "sa",
@@ -29,5 +29,11 @@
   },
   "MailServerOptions": {
     "mailServerName": "127.0.0.1"
+  },
+   "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning"
+    }
   }
 }

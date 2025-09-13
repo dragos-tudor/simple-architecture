@@ -46,7 +46,7 @@ partial class SqlServerTests
   }
 
   [TestMethod]
-  public async Task messages__query_pending_messages_between_dates__pending_messages()
+  public async Task messages__find_pending_messages_between_dates__pending_messages()
   {
     using var dbContext = CreateAgendaContext(SqlConnectionString);
     var currentDate = DateTime.UtcNow;
@@ -60,7 +60,7 @@ partial class SqlServerTests
     foreach (var message in messages)
       await InsertMessageAsync(dbContext, message);
 
-    var actual = QueryPendingMessages(dbContext.Messages.AsQueryable().Where(message => message.CorrelationId == correlationId), currentDate, currentDate.AddSeconds(2));
+    var actual = FindPendingMessages(dbContext.Messages.AsQueryable().Where(message => message.CorrelationId == correlationId), currentDate, currentDate.AddSeconds(2));
     AreEqual(actual, [messages[2], messages[3]]);
   }
 

@@ -1,7 +1,7 @@
 
-namespace Simple.Api.Endpoints;
+namespace Simple.Api;
 
-partial class EndpointsFuncs
+partial class ApiFuncs
 {
   public static Task ProcessMessageSqlAsync(
     Channel<Message> messageQueue,

@@ -41,7 +41,7 @@ partial class JobSchedulerFuncs
   }
 
   public static async Task ProcessMessagesAsync(
-    QueryMessages<Message> queryMessages,
+    FindMessages<Message> findMessages,
     ProcessMessage<Message> processMessage,
     HandleMessageError<Message> handleMessageError,
     MessageJobOptions jobOptions,
@@ -62,7 +62,7 @@ partial class JobSchedulerFuncs
       IEnumerable<Message> messages = [];
       try
       {
-        messages = await queryMessages(lastMessageDate, inclusiveMaxDate, batchSize, cancellationToken);
+        messages = await findMessages(lastMessageDate, inclusiveMaxDate, batchSize, cancellationToken);
       }
       catch (OperationCanceledException) { break; }
       catch (Exception exception)

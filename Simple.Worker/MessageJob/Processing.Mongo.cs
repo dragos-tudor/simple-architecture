@@ -1,9 +1,9 @@
 
 using MongoDB.Driver;
 
-namespace Simple.Worker.Jobs;
+namespace Simple.Worker;
 
-partial class JobsFuncs
+partial class WorkerFuncs
 {
   public static Task ProcessMessageMongoAsync(
     IMongoDatabase mongoDatabase,
@@ -15,10 +15,10 @@ partial class JobsFuncs
     CancellationToken cancellationToken = default)
   =>
     ProcessMessagesAsync(
-      (minDate, maxDate, batchSize, cancellationToken) =>
+      async (minDate, maxDate, batchSize, cancellationToken) =>
       {
         var messageColl = GetMessageCollection(mongoDatabase);
-        return QueryPendingMessages(messageColl.AsQueryable(), minDate, maxDate, batchSize).ToListAsync(cancellationToken);
+        return await FindPendingMessages(messageColl.AsQueryable(), minDate, maxDate, batchSize).ToListAsync(cancellationToken);
       },
       async (message, cancellationToken) =>
       {

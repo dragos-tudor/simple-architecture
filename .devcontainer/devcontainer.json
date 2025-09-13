@@ -24,9 +24,5 @@
 		"mongo": "podman pull docker.io/library/mongo:4.4-focal;  podman run -d --name architecture-mongo mongo:4.4-focal;",
 		"mail-server": "podman pull docker.io/greenmail/standalone:2.1.5; podman run -d --name architecture-mail greenmail/standalone:2.1.5"
 	},
-  "postStartCommand": {
-		"sql-server": "podman stop architecture-sql; podman start architecture-sql",
-		"mongo": "podman stop architecture-mongo; podman start architecture-mongo",
-		"mail-server": "podman stop architecture-mail; podman start architecture-mail"
-	}
+  "postStartCommand": "rm -rf /run/libpod/alive; podman restart -a; podman restart -a"
 }

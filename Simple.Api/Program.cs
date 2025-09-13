@@ -11,7 +11,7 @@ partial class ApiFuncs
   {
     var configuration = BuildConfiguration(settingsFile);
     var app = BuildApplication(args, configuration, configBuilder);
-    var logger = GetRequiredService<ILoggerFactory>(app.Services).CreateLogger(nameof(ApiFuncs));
+    var logger = GetRequiredService<ILoggerFactory>(app.Services).CreateLogger(typeof(ApiFuncs).FullName!);
     var timeProvider = GetRequiredService<TimeProvider>(app.Services);
     var mailServerOptions = GetConfigurationOptions<MailServerOptions>(configuration);
 

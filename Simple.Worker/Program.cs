@@ -12,7 +12,7 @@ partial class WorkerFuncs
     var configuration = BuildConfiguration(settingsFile);
     var host = BuildHost(args, configuration, configBuilder);
 
-    var logger = GetRequiredService<ILoggerFactory>(host.Services).CreateLogger(nameof(WorkerFuncs));
+    var logger = GetRequiredService<ILoggerFactory>(host.Services).CreateLogger(typeof(WorkerFuncs).FullName!);
     var timeProvider = GetRequiredService<TimeProvider>(host.Services);
     var jobSchedulerOptions = GetConfigurationOptions<JobSchedulerOptions>(configuration);
     var mailServerOptions = GetConfigurationOptions<MailServerOptions>(configuration);
@@ -29,12 +29,12 @@ partial class WorkerFuncs
     var sqlMessageJob = messageJob with
     {
       JobName = "SqlMessageJob",
-      JobAction = () => ProcessMessageSqlAsync(sqlConnectionString, 10, messageJob.MessagesJobOptions, mailServerOptions, timeProvider, logger, cancellationToken)
+      JobAction = async () => await ProcessMessageSqlAsync(sqlConnectionString, 10, messageJob.MessagesJobOptions, mailServerOptions, timeProvider, logger, cancellationToken)
     };
     var mongoMessageJob = messageJob with
     {
       JobName = "MongoMessageJob",
-      JobAction = () => ProcessMessageMongoAsync(mongoDatabase, 10, messageJob.MessagesJobOptions, mailServerOptions, timeProvider, logger, cancellationToken)
+      JobAction = async () => await ProcessMessageMongoAsync(mongoDatabase, 10, messageJob.MessagesJobOptions, mailServerOptions, timeProvider, logger, cancellationToken)
     };
     RunJobs([sqlMessageJob, mongoMessageJob], jobSchedulerOptions, timeProvider, logger);
 
