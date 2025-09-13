@@ -4,13 +4,12 @@ Build independent [*low-level*] modules and integrate them on top [*high-level*]
 
 ### Simple architecture design
 - *simple architecture*: an alternative to [clean-architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
-- modules dependencies: *high-level modules* --> *middle-level modules* [optional] --> *low-level modules* [modules pyramid].
-- *high-level modules* *integrate* all *low-level modules* and *mid-level modules*: domain integrations [here](/Simple.Domain.Integrations/ContactEndpoints/Creating.Sql.cs), [here](/Simple.Domain.Integrations/ContactEndpoints/Creating.Mongo.cs) and infrastructure integrations [here](/Simple.Infrastructure.Integrations/Integrations/Integrating.cs).
-- *middle-level modules* *relies* on *low-level modules* having lower complexity than *high-level modules*.
+- modules dependencies: *high-level modules* --> *low-level modules* [modules pyramid].
 - *low-level modules* *completely independent* ["parallel" modules].
 - *low-level modules* *could share* some modules [ex. *simple.shared.models*].
 - *low-level modules* should be *most of* all modules [pyramid base].
 - *low-level modules* should be seen as *lego pieces* and *high-level modules* as *lego structures*.
+- *high-level modules* *integrate* all *low-level modules*.
 - *fractal design* could be applied at any level:
   - server projects [simple projects](/).
   - front-end modules [react-like library](https://github.com/dragos-tudor/frontend-rendering).
@@ -45,7 +44,7 @@ Build independent [*low-level*] modules and integrate them on top [*high-level*]
   - *web* project depends on *infrastructure* project [ok].
 - [simple-architecture implementation](/):
   - *simple.domain.\**, *simple.infrastructure.\** completely independent projects [sharing *simple.shared.models* project].
-  - *simple.api.endpoints*, *simple.worker.jobs* projects independent of each other, depend on all above projects [sharing *simple.messaging.handlers*].
+  - *simple.api*, *simple.worker* projects independent of each other, depend on all above projects [sharing *simple.messaging.handlers*].
 
 ### Remarks
 - similar architecture already exists [how else :)] [IODA architecture](https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/).
