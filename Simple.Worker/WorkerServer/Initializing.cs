@@ -3,14 +3,14 @@ namespace Simple.Worker;
 
 partial class WorkerFuncs
 {
-  public static IHost InitializeHostServer(
+  public static IHost InitializeWorkerServer(
     string[] args,
     string settingsFile,
     Action<HostApplicationBuilder> configBuilder,
     CancellationToken cancellationToken = default)
   {
     var configuration = BuildConfiguration(settingsFile);
-    var host = BuildHostServer(args, configuration, configBuilder);
+    var host = BuildWorkerServer(args, configuration, configBuilder);
 
     var logger = GetRequiredService<ILoggerFactory>(host.Services).CreateLogger(typeof(WorkerFuncs).FullName!);
     var timeProvider = GetRequiredService<TimeProvider>(host.Services);

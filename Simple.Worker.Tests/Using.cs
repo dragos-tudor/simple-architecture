@@ -21,7 +21,7 @@ namespace Simple.Worker;
 [TestClass]
 public partial class WorkerTests
 {
-  static IHost HostServer = default!;
+  static IHost WorkerServer = default!;
   static readonly IConfiguration Configuration = BuildConfiguration("settings.json");
   static readonly string SqlConnectionString = CreateSqlConnectionString(GetConfigurationOptions<SqlServerOptions>(Configuration));
   static readonly IMongoDatabase MongoDatabase = GetMongoDatabase(GetConfigurationOptions<MongoOptions>(Configuration));
@@ -30,14 +30,14 @@ public partial class WorkerTests
   [AssemblyInitialize]
   public static void InitializeTests(TestContext _)
   {
-    HostServer = InitializeHostServer([], "settings.json", (_) => { }, CancellationTokenSource.Token);
-    RunSynchronously(() => HostServer.StartAsync());
+    WorkerServer = InitializeWorkerServer([], "settings.json", (_) => { }, CancellationTokenSource.Token);
+    RunSynchronously(() => WorkerServer.StartAsync());
   }
 
   [AssemblyCleanup]
   public static void CleanupTests()
   {
-    RunSynchronously(() => HostServer.StopAsync());
+    RunSynchronously(() => WorkerServer.StopAsync());
     CancellationTokenSource.Cancel();
   }
 }

@@ -8,7 +8,7 @@ namespace Simple.Worker;
 partial class WorkerTests
 {
   [TestMethod]
-  public async Task run_mongo_message_job()
+  public async Task process_pending_mongo_messages()
   {
     var messagePayload = CreateContactCreatedEvent(GetRandomGuid(), GetRandomEmail(24));
     var message = CreateTestMessage(messagePayload, messageDate: DateTime.UtcNow.AddHours(-1), isPending: true);
