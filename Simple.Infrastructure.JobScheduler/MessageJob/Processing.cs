@@ -67,7 +67,7 @@ partial class JobSchedulerFuncs
       catch (OperationCanceledException) { break; }
       catch (Exception exception)
       {
-        LogQueryMessagesError(logger, exception.Message, exception.StackTrace);
+        LogFinfMessagesError(logger, exception.Message, exception.StackTrace);
         break;
       }
 

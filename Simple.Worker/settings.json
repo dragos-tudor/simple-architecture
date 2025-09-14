@@ -1,5 +1,12 @@
 {
-  "MessageJob": {
+  "MongoMessageJob": {
+    "JobName": "MongoMessageJob",
+    "RunOptions": {
+      "RunInterval": "00:00:05.000"
+    }
+  },
+  "SqlMessageJob": {
+    "JobName": "SqlMessageJob",
     "RunOptions": {
       "RunInterval": "00:00:05.000"
     }

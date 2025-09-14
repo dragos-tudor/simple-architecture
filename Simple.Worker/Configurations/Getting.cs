@@ -3,5 +3,6 @@ namespace Simple.Worker;
 
 partial class WorkerFuncs
 {
-  internal static TOptions GetConfigurationOptions<TOptions>(IConfiguration configuration) where TOptions : new() => configuration.GetSection(typeof(TOptions).Name).Get<TOptions>() ?? new();
+  internal static TOptions GetConfigurationOptions<TOptions>(IConfiguration configuration, string? configName = default) where TOptions : new() =>
+    configuration.GetSection(configName ?? typeof(TOptions).Name).Get<TOptions>() ?? new();
 }
