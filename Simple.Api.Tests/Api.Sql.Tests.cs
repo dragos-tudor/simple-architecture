@@ -1,12 +1,10 @@
 
-using System.Net.Http;
-
 namespace Simple.Api;
 
 partial class ApiTests
 {
   [TestMethod]
-  public async Task contact_api_sql_tests()
+  public async Task api_sql_tests()
   {
     using var apiClient = ApiServer.GetTestClient();
     var contact = CreateTestContact();
@@ -23,18 +21,19 @@ partial class ApiTests
     ]);
 
     var contactCreatedResponse = await apiClient.PostAsync("/sql/contacts", contactForm);
-    await EnsureHttpResponseMessageSuccessAsync(contactCreatedResponse);
+    await EnsureHttpResponseStatusCodeAsync(contactCreatedResponse, HttpStatusCode.Created);
 
     var phoneNumberCreatedResponse = await apiClient.PostAsync(GetHttpResponseMessageLocation(contactCreatedResponse) + "/phoneNumbers", phoneNumberForm);
-    await EnsureHttpResponseMessageSuccessAsync(phoneNumberCreatedResponse);
+    await EnsureHttpResponseStatusCodeAsync(phoneNumberCreatedResponse, HttpStatusCode.Created);
 
     var phoneNumberDeletedResponse = await apiClient.DeleteAsync(GetHttpResponseMessageLocation(phoneNumberCreatedResponse));
-    await EnsureHttpResponseMessageSuccessAsync(phoneNumberDeletedResponse);
+    await EnsureHttpResponseSuccessAsync(phoneNumberDeletedResponse);
 
     var contactResponse = await apiClient.GetAsync(GetHttpResponseMessageLocation(contactCreatedResponse));
-    await EnsureHttpResponseMessageSuccessAsync(contactResponse);
+    await EnsureHttpResponseSuccessAsync(contactResponse);
 
     var actual = await ReadHttpResponseMessageJsonAsync<Contact>(contactResponse);
     Assert.AreEqual(actual!.ContactName, contact.ContactName);
+    AreEqual(actual.PhoneNumbers, []);
   }
 }

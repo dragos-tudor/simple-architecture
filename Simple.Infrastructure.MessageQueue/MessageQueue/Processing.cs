@@ -19,7 +19,7 @@ partial class MessageQueueFuncs
       await processMessage(message, cancellationToken);
       return default;
     }
-    catch (OperationCanceledException exception) { return exception; }
+    catch (OperationCanceledException) { throw; }
     catch (Exception exception)
     {
       var messageId = GetMessageId(message);
@@ -49,11 +49,15 @@ partial class MessageQueueFuncs
   {
     LogStartProcessMessages(logger);
 
-    while (!cancellationToken.IsCancellationRequested)
+    while (true)
     {
-      var message = await DequeueMessage(queue, cancellationToken);
-      var result = await ProcessMessageAsync(message, processMessage, handleMessageError, logger, cancellationToken);
-      if (result is OperationCanceledException) break;
+      if (cancellationToken.IsCancellationRequested) break;
+      try
+      {
+        var message = await DequeueMessage(queue, cancellationToken);
+        var result = await ProcessMessageAsync(message, processMessage, handleMessageError, logger, cancellationToken);
+      }
+      catch (OperationCanceledException) { break; }
     }
 
     LogEndProcessMessages(logger);

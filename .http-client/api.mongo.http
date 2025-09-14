@@ -38,3 +38,10 @@ content-type: application/json
 }
 
 ###
+
+###
+
+# @name get_sql_contact
+GET {{pathBase}}{{mongo_contact_location}} HTTP/1.1
+
+###

@@ -32,3 +32,8 @@ countryCode=123
 &number=123456789
 
 ###
+
+# @name get_sql_contact
+GET {{pathBase}}{{sql_contact_location}} HTTP/1.1
+
+###
